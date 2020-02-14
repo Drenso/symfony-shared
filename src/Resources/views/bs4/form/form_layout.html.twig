@@ -1,0 +1,129 @@
+{% extends 'bootstrap_4_horizontal_layout.html.twig' %}
+
+{% block form_label_class -%}
+  {%- if (hide_label is not defined or hide_label|default(false) == false) or label is same as(false) -%}
+    col-md-3 col-lg-2
+  {%- endif -%}
+{%- endblock %}
+
+{% block form_group_class -%}
+  {%- if (hide_label is defined and hide_label == true) or label is same as(false) -%}
+    col-sm-12
+  {%- else -%}
+    col-md-9 col-lg-10
+  {%- endif -%}
+{%- endblock form_group_class %}
+
+{% block submit_widget -%}
+  {%- set attr = attr|merge({class: (attr.class|default('btn-success'))|trim}) -%}
+  {{- parent() -}}
+{%- endblock %}
+
+{% block form_row -%}
+  {{- block("form_header") -}}
+
+  <div class="form-group row{% if (not compound or force_error|default(false)) and not valid %} is-invalid{% endif %}">
+    {{- form_label(form) -}}
+    <div class="{{ block('form_group_class') }}">
+      {{- form_widget(form) -}}
+      {{- form_errors(form) -}}
+      {{- form_help(form) -}}
+    </div>
+  </div>
+{% endblock %}
+
+{% block fieldset_form_row -%}
+  {{ block('form_row') }}
+{%- endblock fieldset_form_row %}
+
+{% block checkbox_row -%}
+  {{- block("form_header") -}}
+  {{- parent() -}}
+{% endblock %}
+
+{% block submit_row -%}
+  {{- block("form_header") -}}
+  {{- parent() -}}
+{%- endblock submit_row %}
+
+{% block reset_row -%}
+  {{- block("form_header") -}}
+  {{- parent() -}}
+{%- endblock reset_row %}
+
+{% block file_row %}
+  {{- block("form_header") -}}
+  {{ block("form_row") }}
+{% endblock %}
+
+{% block form_label -%}
+  {%- if hide_label is defined and hide_label == true -%}
+  {%- else -%}
+    {{ parent() }}
+  {%- endif -%}
+{% endblock %}
+
+{% block form_label_errors %}
+{% endblock %}
+
+{% block checkbox_widget %}
+  {%- set label_attr = label_attr|merge({class: label_attr.class|default('checkbox-custom')|trim}) -%}
+  {{ parent() }}
+{% endblock %}
+
+{% block checkbox_label %}
+  {%- set label_attr = label_attr|merge({class: label_attr.class|default('checkbox-custom')|trim}) -%}
+  {{ parent() }}
+{% endblock %}
+
+{% block radio_widget %}
+  {%- set label_attr = label_attr|merge({class: label_attr.class|default('radio-custom')|trim}) -%}
+  {{ parent() }}
+{% endblock %}
+
+{% block radio_label %}
+  {%- set label_attr = label_attr|merge({class: label_attr.class|default('radio-custom')|trim}) -%}
+  {{ parent() }}
+{% endblock %}
+
+{% block form_errors -%}
+  {%- if errors|length > 0 -%}
+    <div class="{% if form is not rootform %}invalid-feedback{% else %}alert alert-danger{% endif %}">
+      <ul class="list-unstyled mb-0">
+        {%- for error in errors -%}
+          <li><i class="fas fa-exclamation-triangle"></i> {{ error.message }}</li>
+        {%- endfor -%}
+      </ul>
+    </div>
+  {%- endif %}
+{%- endblock form_errors %}
+
+{# Define block which enables form_header option #}
+{% block form_header -%}
+  {%- if form_header is defined and form_header != false -%}
+    <h2>{{ form_header|trans }}</h2>
+  {%- endif -%}
+{%- endblock %}
+
+{%- block choice_widget_collapsed -%}
+  {% set select2_placeholder = placeholder %}
+  {% set placeholder = placeholder is not none ? '' : placeholder %}
+  {{- parent() -}}
+  {%- apply spaceless -%}
+    {% if select2 %}
+      <script type="text/javascript">
+        $(function () {
+          $('#{{ id }}').select2({
+            width: '100%',
+            theme: 'bootstrap',
+            {% if select2_placeholder is not none %}placeholder: '{{ translation_domain is same as(false) ? select2_placeholder : select2_placeholder|trans({}, translation_domain) }}',{% endif %}
+          });
+        });
+      </script>
+    {% endif %}
+  {%- endapply -%}
+{%- endblock -%}
+
+{% use '@DrensoShared/bs4/form/_button_layout.html.twig' %}
+{% use '@DrensoShared/bs4/form/_hidden.html.twig' %}
+{% use '@DrensoShared/bs4/form/_submit.html.twig' %}
