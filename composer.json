@@ -29,7 +29,11 @@
     "symfony/http-kernel": "~4.0|~5.0"
   },
   "require-dev": {
-    "drenso/phan-extensions": "~2.5"
+    "drenso/phan-extensions": "~2.5",
+    "symfony/doctrine-bridge": "~4.0|~5.0"
+  },
+  "suggest": {
+    "symfony/doctrine-bridge": "Needed to use the HiddenEntityType"
   },
   "config": {
     "preferred-install": "dist",
