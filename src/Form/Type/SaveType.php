@@ -32,7 +32,7 @@ class SaveType extends AbstractType
           'label' => $options['save_label'],
           'icon'  => $options['save_icon'],
           'attr'  => array(
-              'class' => 'btn btn-outline-success',
+              'class' => $options['save_btn_class'],
           ),
       ));
     }
@@ -43,7 +43,20 @@ class SaveType extends AbstractType
           'label' => $options['save_and_list_label'],
           'icon'  => $options['save_and_list_icon'],
           'attr'  => array(
-              'class' => 'btn btn-outline-info',
+              'class' => $options['save_and_list_btn_class'],
+          ),
+      ));
+    }
+
+    // Add the list button if required
+    if ($options['enable_list']) {
+      $builder->add('_list', ButtonUrlType::class, array(
+          'label'        => $options['list_label'],
+          'icon'         => $options['list_icon'],
+          'route'        => $options['list_route'],
+          'route_params' => $options['list_route_params'],
+          'attr'         => array(
+              'class' => $options['list_btn_class'],
           ),
       ));
     }
@@ -51,11 +64,11 @@ class SaveType extends AbstractType
     if ($options['enable_cancel']) {
       $builder->add('_cancel', ButtonUrlType::class, array(
           'label'        => $options['cancel_label'],
+          'icon'         => $options['cancel_icon'],
           'route'        => $options['cancel_route'],
           'route_params' => $options['cancel_route_params'],
-          'icon'         => $options['cancel_icon'],
           'attr'         => array(
-              'class' => 'btn btn-outline-danger',
+              'class' => $options['cancel_btn_class'],
           ),
       ));
     }
@@ -89,31 +102,64 @@ class SaveType extends AbstractType
   {
 
     $resolver->setDefaults(array(
-        'mapped'               => false,
-        'save_label'           => 'form.save',
-        'save_icon'            => 'fa-check',
-        'save_and_list_label'  => 'form.save-and-list',
-        'save_and_list_icon'   => 'fa-check',
-        'list_label'           => 'form.list',
-        'list_icon'            => 'fa-list',
-        'cancel_label'         => 'form.cancel',
-        'cancel_icon'          => 'fa-times',
-        'enable_save'          => true,
-        'enable_save_and_list' => true,
-        'enable_cancel'        => false,
-        'cancel_route'         => NULL,
-        'cancel_route_params'  => array(),
+        'mapped' => false,
+
+        'enable_save'    => true,
+        'save_label'     => 'form.save',
+        'save_icon'      => 'fa-check',
+        'save_btn_class' => 'btn-outline-success',
+
+        'enable_save_and_list'    => true,
+        'save_and_list_label'     => 'form.save-and-list',
+        'save_and_list_icon'      => 'fa-check',
+        'save_and_list_btn_class' => 'btn-outline-info',
+
+        'enable_list'       => false,
+        'list_label'        => 'form.list',
+        'list_icon'         => 'fa-list',
+        'list_route'        => NULL,
+        'list_route_params' => array(),
+        'list_btn_class'    => 'btn-outline-info',
+
+        'enable_cancel'       => false,
+        'cancel_label'        => 'form.cancel',
+        'cancel_icon'         => 'fa-times',
+        'cancel_route'        => NULL,
+        'cancel_route_params' => array(),
+        'cancel_btn_class'    => 'btn-outline-danger',
     ));
 
-    $resolver->setAllowedTypes('save_label', 'string');
-    $resolver->setAllowedTypes('save_and_list_label', 'string');
-    $resolver->setAllowedTypes('list_label', 'string');
     $resolver->setAllowedTypes('enable_save', 'bool');
+    $resolver->setAllowedTypes('save_label', 'string');
+    $resolver->setAllowedTypes('save_icon', 'string');
+    $resolver->setAllowedTypes('save_btn_class', 'string');
+
     $resolver->setAllowedTypes('enable_save_and_list', 'bool');
+    $resolver->setAllowedTypes('save_and_list_label', 'string');
+    $resolver->setAllowedTypes('save_and_list_icon', 'string');
+    $resolver->setAllowedTypes('save_and_list_btn_class', 'string');
+
+    $resolver->setAllowedTypes('enable_list', 'bool');
+    $resolver->setAllowedTypes('list_label', 'string');
+    $resolver->setAllowedTypes('list_icon', 'string');
+    $resolver->setAllowedTypes('list_route', array('null', 'string'));
+    $resolver->setAllowedTypes('list_route_params', 'array');
+    $resolver->setAllowedTypes('list_btn_class', 'string');
+
     $resolver->setAllowedTypes('enable_cancel', 'bool');
+    $resolver->setAllowedTypes('cancel_label', 'string');
+    $resolver->setAllowedTypes('cancel_icon', 'string');
     $resolver->setAllowedTypes('cancel_route', array('null', 'string'));
     $resolver->setAllowedTypes('cancel_route_params', 'array');
+    $resolver->setAllowedTypes('cancel_btn_class', 'string');
 
+    $resolver->setNormalizer('list_route', function (Options $options, $value) {
+      if ($options['enable_list'] === true && $value === NULL) {
+        throw new MissingOptionsException('The option "list_route" is not set, while the list button is enabled.');
+      }
+
+      return $value;
+    });
     $resolver->setNormalizer('cancel_route', function (Options $options, $value) {
       if ($options['enable_cancel'] === true && $value === NULL) {
         throw new MissingOptionsException('The option "cancel_route" is not set, while the cancel button is enabled.');

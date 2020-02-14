@@ -21,21 +21,21 @@ class RemoveType extends AbstractType
   public function buildForm(FormBuilderInterface $builder, array $options)
   {
     $builder
+        ->add('_remove', SubmitType::class, array(
+            'label' => $options['remove_label'],
+            'icon'  => $options['remove_icon'],
+            'attr'  => array(
+                'class' => $options['remove_btn_class'],
+            ),
+        ))
         ->add('_cancel', ButtonUrlType::class, array(
             'label'        => $options['cancel_label'],
-            'icon'         => 'fa-times',
+            'icon'         => $options['cancel_icon'],
             'route'        => $options['cancel_route'],
             'route_params' => $options['cancel_route_params'],
             'attr'         => [
-                'class' => 'btn-outline-dark',
+                'class' => $options['cancel_btn_class'],
             ],
-        ))
-        ->add('_remove', SubmitType::class, array(
-            'label' => $options['remove_label'],
-            'icon'  => 'fa-check',
-            'attr'  => array(
-                'class' => 'btn-outline-danger float-right',
-            ),
         ));
   }
 
@@ -68,17 +68,26 @@ class RemoveType extends AbstractType
   {
 
     $resolver->setDefaults(array(
-        'mapped'              => false,
-        'remove_label'        => 'form.confirm-remove',
+        'mapped' => false,
+
+        'remove_label'     => 'form.confirm-remove',
+        'remove_icon'      => 'fa-check',
+        'remove_btn_class' => 'btn-outline-danger',
+
         'cancel_label'        => 'form.cancel',
+        'cancel_icon'         => 'fa-times',
         'cancel_route_params' => array(),
+        'cancel_btn_class'    => 'btn-outline-dark',
     ));
 
     $resolver->setRequired('cancel_route');
 
     $resolver->setAllowedTypes('remove_label', 'string');
+    $resolver->setAllowedTypes('remove_icon', 'string');
+    $resolver->setAllowedTypes('remove_btn_class', 'string');
     $resolver->setAllowedTypes('cancel_label', 'string');
     $resolver->setAllowedTypes('cancel_route', 'string');
     $resolver->setAllowedTypes('cancel_route_params', 'array');
+    $resolver->setAllowedTypes('cancel_btn_class', 'string');
   }
 }
