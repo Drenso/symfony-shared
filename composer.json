@@ -35,7 +35,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Drenso\\Shared": "src/"
+      "Drenso\\Shared\\": "src/"
     }
   }
 }
