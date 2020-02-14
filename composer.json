@@ -1,0 +1,41 @@
+{
+  "name": "drenso/symfony-shared",
+  "description": "This bundle contains commonly shared extensions between our projects.",
+  "keywords": [
+    "symfony",
+    "shared",
+    "drenso"
+  ],
+  "type": "symfony-bundle",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Bob van de Vijver",
+      "email": "bob@drenso.nl"
+    },
+    {
+      "name": "Tobias Feijten",
+      "email": "tobias@drenso.nl"
+    }
+  ],
+  "minimum-stability": "dev",
+  "require": {
+    "php": "^7.3",
+    "ext-ctype": "*",
+    "ext-iconv": "*",
+    "symfony/config": "~4.0|~5.0",
+    "symfony/form": "~4.0|~5.0",
+    "symfony/http-kernel": "~4.0|~5.0"
+  },
+  "require-dev": {
+  },
+  "config": {
+    "preferred-install": "dist",
+    "sort-packages": true
+  },
+  "autoload": {
+    "psr-4": {
+      "Drenso\\Shared": "src/"
+    }
+  }
+}
