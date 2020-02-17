@@ -1,2 +1,9 @@
+button:
+  add: 'Toevoegen'
+  delete: 'Verwijderen'
+  edit: 'Bewerken'
+  list: 'Lijst'
+  view: 'Tonen'
+
 general:
   close: 'Sluit'

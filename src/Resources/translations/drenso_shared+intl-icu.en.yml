@@ -1,2 +1,9 @@
+button:
+  add: 'Add'
+  delete: 'Delete'
+  edit: 'Edit'
+  list: 'List'
+  view: 'View'
+
 general:
   close: 'Close'
