@@ -5,5 +5,12 @@ button:
   list: 'Lijst'
   view: 'Tonen'
 
+form:
+  cancel: 'Annuleren'
+  confirm-delete: 'Ja, ik wil dit verwijderen'
+  list: 'Lijst'
+  save: 'Opslaan'
+  save-and-list: 'Opslaan en naar lijst'
+
 general:
   close: 'Sluit'

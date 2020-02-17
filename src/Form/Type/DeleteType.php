@@ -11,29 +11,31 @@ use Symfony\Component\Form\SubmitButton;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class RemoveType
+ * Class DeleteType
  *
  * @author BobV
  */
-class RemoveType extends AbstractType
+class DeleteType extends AbstractType
 {
 
   public function buildForm(FormBuilderInterface $builder, array $options)
   {
     $builder
         ->add('_remove', SubmitType::class, array(
-            'label' => $options['remove_label'],
-            'icon'  => $options['remove_icon'],
-            'attr'  => array(
-                'class' => $options['remove_btn_class'],
+            'label'              => $options['delete_label'],
+            'translation_domain' => $options['delete_translation_domain'],
+            'icon'               => $options['delete_icon'],
+            'attr'               => array(
+                'class' => $options['delete_btn_class'],
             ),
         ))
         ->add('_cancel', ButtonUrlType::class, array(
-            'label'        => $options['cancel_label'],
-            'icon'         => $options['cancel_icon'],
-            'route'        => $options['cancel_route'],
-            'route_params' => $options['cancel_route_params'],
-            'attr'         => [
+            'label'              => $options['cancel_label'],
+            'translation_domain' => $options['cancel_translation_domain'],
+            'icon'               => $options['cancel_icon'],
+            'route'              => $options['cancel_route'],
+            'route_params'       => $options['cancel_route_params'],
+            'attr'               => [
                 'class' => $options['cancel_btn_class'],
             ],
         ));
@@ -70,22 +72,26 @@ class RemoveType extends AbstractType
     $resolver->setDefaults(array(
         'mapped' => false,
 
-        'remove_label'     => 'form.confirm-remove',
-        'remove_icon'      => 'fa-check',
-        'remove_btn_class' => 'btn-outline-danger',
+        'delete_label'              => 'form.confirm-delete',
+        'delete_translation_domain' => 'drenso_shared',
+        'delete_icon'               => 'fa-check',
+        'delete_btn_class'          => 'btn-outline-danger',
 
-        'cancel_label'        => 'form.cancel',
-        'cancel_icon'         => 'fa-times',
-        'cancel_route_params' => array(),
-        'cancel_btn_class'    => 'btn-outline-dark',
+        'cancel_label'              => 'form.cancel',
+        'cancel_translation_domain' => 'drenso_shared',
+        'cancel_icon'               => 'fa-times',
+        'cancel_route_params'       => array(),
+        'cancel_btn_class'          => 'btn-outline-dark',
     ));
 
     $resolver->setRequired('cancel_route');
 
-    $resolver->setAllowedTypes('remove_label', 'string');
-    $resolver->setAllowedTypes('remove_icon', 'string');
-    $resolver->setAllowedTypes('remove_btn_class', 'string');
+    $resolver->setAllowedTypes('delete_label', 'string');
+    $resolver->setAllowedTypes('delete_translation_domain', 'string');
+    $resolver->setAllowedTypes('delete_icon', 'string');
+    $resolver->setAllowedTypes('delete_btn_class', 'string');
     $resolver->setAllowedTypes('cancel_label', 'string');
+    $resolver->setAllowedTypes('cancel_translation_domain', 'string');
     $resolver->setAllowedTypes('cancel_route', 'string');
     $resolver->setAllowedTypes('cancel_route_params', 'array');
     $resolver->setAllowedTypes('cancel_btn_class', 'string');

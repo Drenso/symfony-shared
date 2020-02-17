@@ -5,5 +5,12 @@ button:
   list: 'List'
   view: 'View'
 
+form:
+  cancel: 'Cancel'
+  confirm-delete: 'Yes, I want to delete this'
+  list: 'List'
+  save: 'Save'
+  save-and-list: 'Save and list'
+
 general:
   close: 'Close'
