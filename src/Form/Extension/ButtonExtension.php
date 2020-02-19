@@ -40,4 +40,9 @@ class ButtonExtension extends AbstractTypeExtension
   {
     return [ButtonType::class];
   }
+
+  public function getExtendedType()
+  {
+    return self::getExtendedTypes()[0];
+  }
 }
