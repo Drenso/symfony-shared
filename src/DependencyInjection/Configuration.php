@@ -11,7 +11,13 @@ class Configuration implements ConfigurationInterface
   public function getConfigTreeBuilder()
   {
     $treeBuilder = new TreeBuilder('drenso_shared');
-    $rootNode    = $treeBuilder->getRootNode();
+    if (\method_exists($treeBuilder, 'getRootNode')) {
+      $rootNode = $treeBuilder->getRootNode();
+    } else {
+      // BC layer for symfony/config 4.1 and older
+      // @phan-suppress-next-line PhanUndeclaredMethod
+      $rootNode = $treeBuilder->root('drenso_shared');
+    }
 
     // Configure our extensions
     $this->configureGravatar($rootNode);
