@@ -17,6 +17,8 @@ install-dependencies:
     - find vendor/ -name .git -type d -exec rm -rf {} \+
   tags:
     - docker
+  except:
+    - tags
 
 php-analysis:
   stage: lint
@@ -31,6 +33,7 @@ php-analysis:
     - docker
   except:
     - schedules
+    - tags
     - master
     - production
 
@@ -44,5 +47,6 @@ yaml-analysis:
     - docker
   except:
     - schedules
+    - tags
     - master
     - production
