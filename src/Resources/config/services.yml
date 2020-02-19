@@ -9,3 +9,7 @@ services:
   Drenso\Shared\:
     resource: '../../*'
     exclude: '../../{DependencyInjection,DrensoSharedBundle.php}'
+
+  Drenso\Shared\Database\SoftDeletableSubscriber:
+    tags:
+      - { name: doctrine.event_subscriber, connection: default }
