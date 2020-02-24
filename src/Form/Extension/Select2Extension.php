@@ -27,6 +27,7 @@ class Select2Extension extends AbstractTypeExtension
   public function buildView(FormView $view, FormInterface $form, array $options)
   {
     $view->vars['select2'] = $options['select2'];
+    $view->vars['allowClear'] = !$options['required'];
   }
 
   public function configureOptions(OptionsResolver $resolver)
