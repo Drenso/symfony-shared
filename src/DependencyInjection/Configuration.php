@@ -21,6 +21,7 @@ class Configuration implements ConfigurationInterface
 
     // Configure our extensions
     $this->configureGravatar($rootNode);
+    $this->configureDatabase($rootNode);
 
     return $treeBuilder;
   }
@@ -44,5 +45,25 @@ class Configuration implements ConfigurationInterface
             ->end() // gravatar children
           ->end() // gravatar
         ->end();
+  }
+
+  /**
+   * Setup configuration for the database extensions
+   *
+   * @param ArrayNodeDefinition $node
+   */
+  private function configureDatabase(ArrayNodeDefinition $node) {
+    $node
+        ->children()
+          ->arrayNode('database')
+            ->addDefaultsIfNotSet()
+            ->children()
+              ->booleanNode('softdelete_enabled')
+                ->defaultFalse()
+              ->end() // softdelete_enabled
+            ->end() // database children
+          ->end() // database
+        ->end();
+
   }
 }
