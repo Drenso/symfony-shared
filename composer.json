@@ -33,6 +33,7 @@
     "doctrine/orm": "^2.7",
     "drenso/phan-extensions": "~2.5",
     "jms/serializer-bundle": "^3.3",
+    "php-decimal/php-decimal": "^1.1",
     "sensio/framework-extra-bundle": "^5.2",
     "stof/doctrine-extensions-bundle": "^1.3",
     "symfony/console": "~3.4|~4.0|~5.0",
@@ -43,7 +44,8 @@
   },
   "suggest": {
     "doctrine/orm": "Needed to use the Database traits",
-    "jms/serializer-bundle": "Needed to use the Database traits",
+    "jms/serializer-bundle": "Needed to use the Database traits and the Decimal serialization handler",
+    "php-decimal/php-decimal": "Needed to use the Decimal serialization handler and the form transformer",
     "stof/doctrine-extensions-bundle": "Needed to use the Blameable trait",
     "symfony/console": "Needed to use the action security command",
     "symfony/doctrine-bridge": "Needed to use the HiddenEntityType, the Database traits and the action security command",
