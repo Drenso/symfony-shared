@@ -1,5 +1,7 @@
 drenso_shared:
-  gravatar:
-    fallback_style: 'mp' # Define a fallback style for accounts without a gravatar, see https://en.gravatar.com/site/implement/images/#default-image
   database:
     softdelete_enabled: false # Enable the softdelete subscriber for injection
+  gravatar:
+    fallback_style: 'mp' # Define a fallback style for accounts without a gravatar, see https://en.gravatar.com/site/implement/images/#default-image
+  services:
+    spreadsheethelper_enabled: false # Enable the SpreadsheetHelper for injection

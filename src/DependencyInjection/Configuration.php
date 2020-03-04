@@ -22,6 +22,7 @@ class Configuration implements ConfigurationInterface
     // Configure our extensions
     $this->configureGravatar($rootNode);
     $this->configureDatabase($rootNode);
+    $this->configureServices($rootNode);
 
     return $treeBuilder;
   }
@@ -64,6 +65,24 @@ class Configuration implements ConfigurationInterface
             ->end() // database children
           ->end() // database
         ->end();
+  }
 
+  /**
+   * Setup configuration for the services in the bundle
+   *
+   * @param ArrayNodeDefinition $node
+   */
+  private function configureServices(ArrayNodeDefinition $node) {
+    $node
+        ->children()
+          ->arrayNode('services')
+            ->addDefaultsIfNotSet()
+            ->children()
+              ->booleanNode('spreadsheethelper_enabled')
+                ->defaultFalse()
+              ->end() // spreadsheethelper_enabled
+            ->end() // services children
+          ->end() // services
+        ->end();
   }
 }

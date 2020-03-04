@@ -2,6 +2,7 @@
 
 namespace Drenso\Shared\DependencyInjection;
 
+use App\Helper\SpreadsheetHelper;
 use Drenso\Shared\Database\SoftDeletableSubscriber;
 use Drenso\Shared\Twig\GravatarExtension;
 use Exception;
@@ -30,6 +31,7 @@ class DrensoSharedExtension extends Extension
     // Configure the services with retrieved configuration values
     $this->configureGravatar($container, $config);
     $this->configureDatabase($container, $config);
+    $this->configureServices($container, $config);
   }
 
   /**
@@ -56,6 +58,19 @@ class DrensoSharedExtension extends Extension
       $container->autowire(SoftDeletableSubscriber::class)->addTag('doctrine.event_subscriber', [
           'connection' => 'default',
       ]);
+    }
+  }
+
+  /**
+   * Configure the services in the bundle
+   *
+   * @param ContainerBuilder $container
+   * @param array            $config
+   */
+  private function configureServices(ContainerBuilder $container, array $config): void
+  {
+    if ($config['services']['spreadsheethelper_enabled']) {
+      $container->autowire(SpreadsheetHelper::class);
     }
   }
 }

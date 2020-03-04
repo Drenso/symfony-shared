@@ -5,6 +5,11 @@ button:
   list: 'List'
   view: 'View'
 
+excel:
+  boolean:
+    yes: 'Yes'
+    no: 'No'
+
 form:
   cancel: 'Cancel'
   confirm-delete: 'Yes, I want to delete this'
