@@ -38,7 +38,8 @@
     "symfony/console": "~3.4|~4.0|~5.0",
     "symfony/doctrine-bridge": "~3.4|~4.0|~5.0",
     "symfony/routing": "~3.4|~4.0|~5.0",
-    "symfony/security-core": "~3.4|~4.0|~5.0"
+    "symfony/security-core": "~3.4|~4.0|~5.0",
+    "symfony/validator": "~3.4|~4.0|~5.0"
   },
   "suggest": {
     "doctrine/orm": "Needed to use the Database traits",
@@ -46,7 +47,8 @@
     "stof/doctrine-extensions-bundle": "Needed to use the Blameable trait",
     "symfony/console": "Needed to use the action security command",
     "symfony/doctrine-bridge": "Needed to use the HiddenEntityType, the Database traits and the action security command",
-    "symfony/security-core": "Needed to use the Blameable subscriber"
+    "symfony/security-core": "Needed to use the Blameable subscriber",
+    "symfony/validator": "Use EntityValidationFailedException for nice exception messages when validation failed"
   },
   "config": {
     "preferred-install": "dist",
