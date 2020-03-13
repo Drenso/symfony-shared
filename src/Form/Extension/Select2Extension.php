@@ -26,17 +26,20 @@ class Select2Extension extends AbstractTypeExtension
 
   public function buildView(FormView $view, FormInterface $form, array $options)
   {
-    $view->vars['select2'] = $options['select2'];
+    $view->vars['select2']    = $options['select2'];
+    $view->vars['theme']      = $options['select2_theme'];
     $view->vars['allowClear'] = !$options['required'];
   }
 
   public function configureOptions(OptionsResolver $resolver)
   {
     $resolver->setDefaults([
-        'select2' => false,
+        'select2'       => false,
+        'select2_theme' => 'bootstrap',
     ]);
 
     $resolver->setAllowedTypes('select2', ['bool']);
+    $resolver->setAllowedTypes('select2_theme', ['string']);
   }
 
   public static function getExtendedTypes(): iterable
