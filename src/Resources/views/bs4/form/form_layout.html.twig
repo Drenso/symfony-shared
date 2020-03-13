@@ -116,7 +116,7 @@
           $('#{{ id }}').select2({
             width: '100%',
             theme: '{{ theme }}',
-            allowClear: {{ allowClear }},
+            allowClear: {{ allowClear ? 'true' : 'false' }},
             {% if select2_placeholder is not none %}placeholder: '{{ translation_domain is same as(false) ? select2_placeholder : select2_placeholder|trans({}, translation_domain) }}',{% endif %}
           });
         });
