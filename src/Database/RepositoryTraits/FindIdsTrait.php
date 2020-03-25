@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repository\Traits;
+namespace Drenso\Shared\Repository\Traits;
 
 use Doctrine\ORM\QueryBuilder;
 

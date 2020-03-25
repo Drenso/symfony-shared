@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Form\Type;
+namespace Drenso\Shared\Form\Type;
 
 
 use Decimal\Decimal;

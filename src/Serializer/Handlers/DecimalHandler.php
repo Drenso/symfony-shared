@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Serializer\Handlers;
+namespace Drenso\Shared\Serializer\Handlers;
 
 use Decimal\Decimal;
 use JMS\Serializer\GraphNavigatorInterface;

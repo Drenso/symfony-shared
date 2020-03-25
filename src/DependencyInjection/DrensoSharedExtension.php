@@ -2,7 +2,7 @@
 
 namespace Drenso\Shared\DependencyInjection;
 
-use App\Helper\SpreadsheetHelper;
+use Drenso\Shared\Helper\SpreadsheetHelper;
 use Drenso\Shared\Database\SoftDeletableSubscriber;
 use Drenso\Shared\Twig\GravatarExtension;
 use Exception;

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Entity\Traits;
+namespace Drenso\Shared\Entity\Traits;
 
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;

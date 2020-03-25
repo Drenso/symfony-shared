@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Helper;
+namespace Drenso\Shared\Helper;
 
 use DateTime;
 

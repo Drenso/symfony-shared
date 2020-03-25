@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Exception;
+namespace Drenso\Shared\Exception;
 
 use Exception;
 
