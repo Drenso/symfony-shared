@@ -1,6 +1,6 @@
 <?php
 
-namespace Drenos\Shared\Exception;
+namespace Drenso\Shared\Exception;
 
 use Exception;
 use Symfony\Component\Validator\ConstraintViolationInterface;
