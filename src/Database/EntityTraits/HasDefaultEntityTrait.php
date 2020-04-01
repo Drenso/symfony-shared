@@ -1,6 +1,6 @@
 <?php
 
-namespace Drenso\Shared\Entity\Traits;
+namespace Drenso\Shared\Database\EntityTraits;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Drenso\Shared\Repository\Traits;
+namespace Drenso\Shared\Database\RepositoryTraits;
 
 use DateTimeInterface;
 use Doctrine\ORM\QueryBuilder;

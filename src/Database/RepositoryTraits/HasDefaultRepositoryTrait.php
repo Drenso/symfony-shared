@@ -1,6 +1,6 @@
 <?php
 
-namespace Drenso\Shared\Repository\Traits;
+namespace Drenso\Shared\Database\RepositoryTraits;
 
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
