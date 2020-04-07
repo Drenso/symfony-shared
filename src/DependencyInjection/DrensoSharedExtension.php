@@ -4,8 +4,10 @@ namespace Drenso\Shared\DependencyInjection;
 
 use Drenso\Shared\Helper\SpreadsheetHelper;
 use Drenso\Shared\Database\SoftDeletableSubscriber;
+use Drenso\Shared\Email\EmailService;
 use Drenso\Shared\Twig\GravatarExtension;
 use Exception;
+use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader;
@@ -31,6 +33,7 @@ class DrensoSharedExtension extends Extension
     // Configure the services with retrieved configuration values
     $this->configureGravatar($container, $config);
     $this->configureDatabase($container, $config);
+    $this->configureEmailService($container, $config);
     $this->configureServices($container, $config);
   }
 
@@ -58,6 +61,36 @@ class DrensoSharedExtension extends Extension
       $container->autowire(SoftDeletableSubscriber::class)->addTag('doctrine.event_subscriber', [
           'connection' => 'default',
       ]);
+    }
+  }
+
+  /**
+   * Configure the e-mail service
+   *
+   * @param ContainerBuilder $container
+   * @param array            $config
+   */
+  private function configureEmailService(ContainerBuilder $container, array $config): void
+  {
+    $config = $config['email_service'];
+
+    if ($config['enabled']) {
+      if (!class_exists('Symfony\Component\Mailer\Mailer')) {
+        throw new InvalidConfigurationException('In order to use the EmailService, the Symfony Mailer component needs to be installed. Try running `composer req symfony/mailer`.');
+      }
+
+      if (!$config['sender_email']){
+        throw new InvalidConfigurationException('When using the EmaiLService, you need to configure the default sender email (sender_email).');
+      }
+
+      $definition = $container->autowire(EmailService::class)
+          ->setLazy(true)
+          ->setArgument('$senderEmail', $config['sender_email'])
+          ->setArgument('$senderName', $config['sender_name']);
+
+      if (!$config['translate_sender_name']) {
+        $definition->setArgument('$translator', NULL);
+      }
     }
   }
 

@@ -22,6 +22,7 @@ class Configuration implements ConfigurationInterface
     // Configure our extensions
     $this->configureGravatar($rootNode);
     $this->configureDatabase($rootNode);
+    $this->configureEmailService($rootNode);
     $this->configureServices($rootNode);
 
     return $treeBuilder;
@@ -62,6 +63,31 @@ class Configuration implements ConfigurationInterface
               ->booleanNode('softdelete_enabled')
                 ->defaultFalse()
               ->end() // softdelete_enabled
+            ->end() // database children
+          ->end() // database
+        ->end();
+  }
+
+  /**
+   * Setup configuration for the mailer extension
+   *
+   * @param ArrayNodeDefinition $node
+   */
+  private function configureEmailService(ArrayNodeDefinition $node) {
+    $node
+        ->children()
+          ->arrayNode('email_service')
+            ->canBeEnabled()
+            ->children()
+              ->scalarNode('sender_email')
+                ->defaultNull()
+              ->end() // sender_email
+              ->scalarNode('sender_name')
+                ->defaultNull()
+              ->end() // sender_name
+              ->booleanNode('translate_sender_name')
+                ->defaultTrue()
+              ->end() // translate_sender_name
             ->end() // database children
           ->end() // database
         ->end();

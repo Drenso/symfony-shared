@@ -3,5 +3,10 @@ drenso_shared:
     softdelete_enabled: false # Enable the softdelete subscriber for injection
   gravatar:
     fallback_style: 'mp' # Define a fallback style for accounts without a gravatar, see https://en.gravatar.com/site/implement/images/#default-image
+  email_service:
+    enabled: false
+    sender_email: ~
+    sender_name: ~
+    translate_sender_name: true
   services:
     spreadsheethelper_enabled: false # Enable the SpreadsheetHelper for injection
