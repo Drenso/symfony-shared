@@ -2,7 +2,7 @@
 
 namespace Drenso\Shared\Helper;
 
-use DateTime;
+use DateTimeImmutable;
 
 /**
  * Class DateTimeProvider
@@ -10,11 +10,11 @@ use DateTime;
 class DateTimeProvider
 {
   /**
-   * @return DateTime
+   * @return DateTimeImmutable
    * @noinspection PhpDocMissingThrowsInspection
    */
-  public function now(): DateTime
+  public function now(): DateTimeImmutable
   {
-    return new DateTime();
+    return new DateTimeImmutable();
   }
 }
