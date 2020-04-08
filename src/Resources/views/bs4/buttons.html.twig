@@ -11,33 +11,37 @@
           {% if blank|default(false) %} target=" _blank" {% endif %}
       >
         <i class="{{ icon_prefix|default('fas fa-fw') }} {{ icon }}"></i>
-        {{ label|trans }}
+        {{ label }}
       </a>
     </div>
   {% endapply %}
 {% endmacro %}
 
-{% macro list_button(url, tooltip, blank, disabled) %}
-  {% from _self import button %}
-  {{ button('button.list'|trans({}, 'drenso_shared'), url, 'fa-list', 'outline-secondary', tooltip, blank, disabled) }}
+{% macro add_outline(variant, outline) %}
+  {{- ((outline ?? true) ? 'outline-' : '') ~ variant -}}
 {% endmacro %}
 
-{% macro add_button(url, tooltip, blank, disabled) %}
-  {% from _self import button %}
-  {{ button('button.add'|trans({}, 'drenso_shared'), url, 'fa-plus', 'outline-success', tooltip, blank, disabled) }}
+{% macro list_button(url, tooltip, blank, disabled, outline) %}
+  {% from _self import button, add_outline %}
+  {{ button('button.list'|trans({}, 'drenso_shared'), url, 'fa-list', add_outline('secondary', outline), tooltip, blank, disabled) }}
 {% endmacro %}
 
-{% macro edit_button(url, tooltip, blank, disabled) %}
-  {% from _self import button %}
-  {{ button('button.edit'|trans({}, 'drenso_shared'), url, 'fa-edit', 'outline-primary', tooltip, blank, disabled) }}
+{% macro add_button(url, tooltip, blank, disabled, outline) %}
+  {% from _self import button, add_outline %}
+  {{ button('button.add'|trans({}, 'drenso_shared'), url, 'fa-plus', add_outline('success', outline), tooltip, blank, disabled) }}
 {% endmacro %}
 
-{% macro delete_button(url, tooltip, blank, disabled) %}
-  {% from _self import button %}
-  {{ button('button.delete'|trans({}, 'drenso_shared'), url, 'fa-trash', 'outline-danger', tooltip, blank, disabled) }}
+{% macro edit_button(url, tooltip, blank, disabled, outline) %}
+  {% from _self import button, add_outline %}
+  {{ button('button.edit'|trans({}, 'drenso_shared'), url, 'fa-edit', add_outline('primary', outline), tooltip, blank, disabled) }}
 {% endmacro %}
 
-{% macro view_button(url, tooltip, blank, disabled) %}
-  {% from _self import button %}
-  {{ button('button.view'|trans({}, 'drenso_shared'), url, 'fa-eye', 'outline-secondary', tooltip, blank, disabled) }}
+{% macro delete_button(url, tooltip, blank, disabled, outline) %}
+  {% from _self import button, add_outline %}
+  {{ button('button.delete'|trans({}, 'drenso_shared'), url, 'fa-trash', add_outline('danger', outline), tooltip, blank, disabled) }}
+{% endmacro %}
+
+{% macro view_button(url, tooltip, blank, disabled, outline) %}
+  {% from _self import button, add_outline %}
+  {{ button('button.view'|trans({}, 'drenso_shared'), url, 'fa-eye', add_outline('secondary', outline), tooltip, blank, disabled) }}
 {% endmacro %}
