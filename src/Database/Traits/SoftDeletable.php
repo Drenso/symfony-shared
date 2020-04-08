@@ -2,7 +2,8 @@
 
 namespace Drenso\Shared\Database\Traits;
 
-use DateTime;
+use DateTimeImmutable;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 
@@ -10,15 +11,15 @@ trait SoftDeletable
 {
 
   /**
-   * @var DateTime
-   * @ORM\Column(name="deleted_at", type="datetime", nullable=true)
+   * @var DateTimeImmutable|null
+   * @ORM\Column(name="deleted_at", type="datetime_immutable", nullable=true)
    *
    * @Serializer\Exclude()
    */
   protected $deletedAt;
 
   /**
-   * @var string
+   * @var string|null
    * @ORM\Column(name="deleted_by", type="string", length=255, nullable=true)
    *
    * @Serializer\Exclude()
@@ -28,11 +29,11 @@ trait SoftDeletable
   /**
    * Sets deletedAt.
    *
-   * @param Datetime|null $deletedAt
+   * @param DateTimeImmutable|null $deletedAt
    *
    * @return $this
    */
-  public function setDeletedAt(DateTime $deletedAt = NULL)
+  public function setDeletedAt(?DateTimeImmutable $deletedAt = NULL): self
   {
     $this->deletedAt = $deletedAt;
 
@@ -42,9 +43,9 @@ trait SoftDeletable
   /**
    * Returns deletedAt.
    *
-   * @return DateTime
+   * @return DateTimeInterface|null
    */
-  public function getDeletedAt()
+  public function getDeletedAt(): ?DateTimeInterface
   {
     return $this->deletedAt;
   }
@@ -52,11 +53,11 @@ trait SoftDeletable
   /**
    * Set deletedBy
    *
-   * @param string $deletedBy
+   * @param string|null $deletedBy
    *
    * @return $this
    */
-  public function setDeletedBy($deletedBy)
+  public function setDeletedBy(?string $deletedBy): self
   {
     $this->deletedBy = $deletedBy;
 
@@ -66,9 +67,9 @@ trait SoftDeletable
   /**
    * Get deletedBy
    *
-   * @return string
+   * @return string|null
    */
-  public function getDeletedBy()
+  public function getDeletedBy(): ?string
   {
     return $this->deletedBy;
   }
@@ -78,7 +79,7 @@ trait SoftDeletable
    *
    * @return bool
    */
-  public function isDeleted()
+  public function isDeleted(): bool
   {
     return NULL !== $this->deletedAt;
   }

@@ -2,7 +2,8 @@
 
 namespace Drenso\Shared\Database\Traits;
 
-use DateTime;
+use DateTimeImmutable;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation as Serializer;
@@ -10,17 +11,17 @@ use JMS\Serializer\Annotation as Serializer;
 trait Blameable
 {
   /**
-   * @var DateTime $created
+   * @var DateTimeImmutable $created
    *
    * @Gedmo\Timestampable(on="create")
-   * @ORM\Column(name="created_at", type="datetime", nullable=false)
+   * @ORM\Column(name="created_at", type="datetime_immutable", nullable=false)
    *
    * @Serializer\Exclude()
    */
   private $createdAt;
 
   /**
-   * @var string $createdBy
+   * @var string|null $createdBy
    *
    * @Gedmo\Blameable(on="create")
    * @ORM\Column(name="created_by", type="string", length=255, nullable=true)
@@ -30,17 +31,17 @@ trait Blameable
   private $createdBy;
 
   /**
-   * @var DateTime $updatedAt
+   * @var DateTimeImmutable|null $updatedAt
    *
    * @Gedmo\Timestampable(on="update")
-   * @ORM\Column(name="updated_at", type="datetime", nullable=true)
+   * @ORM\Column(name="updated_at", type="datetime_immutable", nullable=true)
    *
    * @Serializer\Exclude()
    */
   private $updatedAt;
 
   /**
-   * @var string $updatedBy
+   * @var string|null $updatedBy
    *
    * @Gedmo\Blameable(on="update")
    * @ORM\Column(name="updated_by", type="string", length=255, nullable=true)
@@ -52,7 +53,7 @@ trait Blameable
   /**
    * Get the last update time, which is either creation time or update time
    */
-  public function getLastUpdated()
+  public function getLastUpdated(): DateTimeInterface
   {
     return $this->getUpdatedAt() !== NULL ? $this->getUpdatedAt() : $this->getCreatedAt();
   }
@@ -60,7 +61,7 @@ trait Blameable
   /**
    * Get the last updated by, which is either creation by or update by
    */
-  public function getLastUpdatedBy()
+  public function getLastUpdatedBy(): ?string
   {
     return $this->getUpdatedBy() !== NULL ? $this->getUpdatedBy() : $this->getCreatedBy();
   }
@@ -68,11 +69,11 @@ trait Blameable
   /**
    * Set createdAt
    *
-   * @param DateTime $createdAt
+   * @param DateTimeImmutable $createdAt
    *
    * @return $this
    */
-  public function setCreatedAt($createdAt)
+  public function setCreatedAt(DateTimeImmutable $createdAt): self
   {
     $this->createdAt = $createdAt;
 
@@ -82,9 +83,9 @@ trait Blameable
   /**
    * Get createdAt
    *
-   * @return DateTime
+   * @return DateTimeInterface|null
    */
-  public function getCreatedAt()
+  public function getCreatedAt(): ?DateTimeInterface
   {
     return $this->createdAt;
   }
@@ -92,11 +93,11 @@ trait Blameable
   /**
    * Set createdBy
    *
-   * @param string $createdBy
+   * @param string|null $createdBy
    *
    * @return $this
    */
-  public function setCreatedBy($createdBy)
+  public function setCreatedBy(?string $createdBy): self
   {
     $this->createdBy = $createdBy;
 
@@ -106,9 +107,9 @@ trait Blameable
   /**
    * Get createdBy
    *
-   * @return string
+   * @return string|null
    */
-  public function getCreatedBy()
+  public function getCreatedBy(): ?string
   {
     return $this->createdBy;
   }
@@ -116,11 +117,11 @@ trait Blameable
   /**
    * Set updatedAt
    *
-   * @param DateTime $updatedAt
+   * @param DateTimeImmutable|null $updatedAt
    *
    * @return $this
    */
-  public function setUpdatedAt($updatedAt)
+  public function setUpdatedAt(?DateTimeImmutable $updatedAt): self
   {
     $this->updatedAt = $updatedAt;
 
@@ -130,9 +131,9 @@ trait Blameable
   /**
    * Get updatedAt
    *
-   * @return DateTime
+   * @return DateTimeInterface|null
    */
-  public function getUpdatedAt()
+  public function getUpdatedAt(): ?DateTimeInterface
   {
     return $this->updatedAt;
   }
@@ -140,11 +141,11 @@ trait Blameable
   /**
    * Set updatedBy
    *
-   * @param string $updatedBy
+   * @param string|null $updatedBy
    *
    * @return $this
    */
-  public function setUpdatedBy($updatedBy)
+  public function setUpdatedBy(?string $updatedBy): self
   {
     $this->updatedBy = $updatedBy;
 
@@ -154,9 +155,9 @@ trait Blameable
   /**
    * Get updatedBy
    *
-   * @return string
+   * @return string|null
    */
-  public function getUpdatedBy()
+  public function getUpdatedBy(): ?string
   {
     return $this->updatedBy;
   }

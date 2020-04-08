@@ -3,6 +3,7 @@
 
 namespace Drenso\Shared\Database\EntityTraits;
 
+use DateTimeImmutable;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
@@ -12,9 +13,9 @@ trait TimestampTrait
 {
 
   /**
-   * @var DateTimeInterface
+   * @var DateTimeImmutable
    *
-   * @ORM\Column(type="datetime")
+   * @ORM\Column(type="datetime_immutable")
    * @Assert\NotNull()
    *
    * @Serializer\Expose()
@@ -30,11 +31,11 @@ trait TimestampTrait
   }
 
   /**
-   * @param DateTimeInterface $timestamp
+   * @param DateTimeImmutable $timestamp
    *
    * @return TimestampTrait
    */
-  public function setTimestamp(DateTimeInterface $timestamp): self
+  public function setTimestamp(DateTimeImmutable $timestamp): self
   {
     $this->timestamp = $timestamp;
 
