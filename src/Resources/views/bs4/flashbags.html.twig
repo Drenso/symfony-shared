@@ -15,7 +15,7 @@
         {% if raw|default(false) %}
           {{ message|raw }}
         {% else %}
-          {{ message }}
+          {{ message|nl2br }}
         {% endif %}
       </div>
     </div>
