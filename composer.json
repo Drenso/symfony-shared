@@ -43,7 +43,7 @@
     "symfony/routing": "~3.4|~4.0|~5.0",
     "symfony/security-core": "~3.4|~4.0|~5.0",
     "symfony/translation-contracts": "~1.1|~2.0",
-    "symfony/twig-bundle": "~3.4|~4.0|~5.0",
+    "symfony/twig-bridge": "~3.4|~4.0|~5.0",
     "symfony/validator": "~3.4|~4.0|~5.0"
   },
   "suggest": {
@@ -58,7 +58,9 @@
     "symfony/security-core": "Needed to use the Blameable subscriber",
     "symfony/translation": "Needed to use the SpreadsheetHelper",
     "symfony/twig-bundle": "Needed to use the MailService",
-    "symfony/validator": "Use EntityValidationFailedException for nice exception messages when validation failed"
+    "symfony/validator": "Use EntityValidationFailedException for nice exception messages when validation failed",
+    "twig/extra-bundle": "Needed to use the MailService when inlining CSS styles",
+    "twig/cssinliner-extra": "Needed to use the MailService when inlining CSS styles"
   },
   "config": {
     "preferred-install": "dist",

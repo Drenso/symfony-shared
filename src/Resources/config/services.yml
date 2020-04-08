@@ -8,4 +8,4 @@ services:
   # this creates a service per class whose id is the fully-qualified class name
   Drenso\Shared\:
     resource: '../../*'
-    exclude: '../../{Database,DependencyInjection,Helper/SpreadsheetHelper.php,Mail,DrensoSharedBundle.php}'
+    exclude: '../../{Database,DependencyInjection,Helper/SpreadsheetHelper.php,Email,DrensoSharedBundle.php}'
