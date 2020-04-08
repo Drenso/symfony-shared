@@ -10,10 +10,11 @@ interface EmailableUserInterface
 {
   /**
    * Should return the e-mail address to be used for the e-mail recipient
+   * Null will throw an error when trying to send an email
    *
-   * @return string
+   * @return string|null
    */
-  function getEmailAddress(): string;
+  function getEmailAddress(): ?string;
 
   /**
    * Should return the full name to be used for the e-mail recipient

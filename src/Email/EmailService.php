@@ -139,6 +139,6 @@ class EmailService
    */
   private function getAddress(EmailableUserInterface $user, ?string $emailAddress = NULL): Address
   {
-    return new Address($emailAddress ? $emailAddress : $user->getEmailAddress(), $user->getEmailName());
+    return new Address(($emailAddress ?: $user->getEmailAddress()) ?? '', $user->getEmailName());
   }
 }
