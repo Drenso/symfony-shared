@@ -2,6 +2,7 @@
 
 namespace Drenso\Shared\DependencyInjection;
 
+use Drenso\Shared\Exception\Handler\EntityValidationFailedExceptionHandler;
 use Drenso\Shared\Helper\SpreadsheetHelper;
 use Drenso\Shared\Database\SoftDeletableSubscriber;
 use Drenso\Shared\Email\EmailService;
@@ -31,22 +32,29 @@ class DrensoSharedExtension extends Extension
     $config        = $this->processConfiguration($configuration, $configs);
 
     // Configure the services with retrieved configuration values
-    $this->configureGravatar($container, $config);
+    $this->configureApiServices($container, $config);
     $this->configureDatabase($container, $config);
     $this->configureEmailService($container, $config);
+    $this->configureGravatar($container, $config);
     $this->configureServices($container, $config);
   }
 
   /**
-   * Configure the Gravatar extension
+   * Configure the API services
    *
    * @param ContainerBuilder $container
    * @param array            $config
    */
-  private function configureGravatar(ContainerBuilder $container, array $config): void
+  private function configureApiServices(ContainerBuilder $container, array $config): void
   {
-    $definition = $container->getDefinition(GravatarExtension::class);
-    $definition->setArgument(0, $config['gravatar']['fallback_style']);
+    $config = $config['api'];
+
+    if ($config['convert_entity_validation_exception']['enabled']) {
+      $container
+          ->autowire(EntityValidationFailedExceptionHandler::class)
+          ->setAutoconfigured(true)
+          ->setArgument('$controllerPrefix', $config['convert_entity_validation_exception']['controller_prefix']);
+    }
   }
 
   /**
@@ -79,7 +87,7 @@ class DrensoSharedExtension extends Extension
         throw new InvalidConfigurationException('In order to use the EmailService, the Symfony Mailer component needs to be installed. Try running `composer req symfony/mailer`.');
       }
 
-      if (!$config['sender_email']){
+      if (!$config['sender_email']) {
         throw new InvalidConfigurationException('When using the EmaiLService, you need to configure the default sender email (sender_email).');
       }
 
@@ -92,6 +100,18 @@ class DrensoSharedExtension extends Extension
         $definition->setArgument('$translator', NULL);
       }
     }
+  }
+
+  /**
+   * Configure the Gravatar extension
+   *
+   * @param ContainerBuilder $container
+   * @param array            $config
+   */
+  private function configureGravatar(ContainerBuilder $container, array $config): void
+  {
+    $definition = $container->getDefinition(GravatarExtension::class);
+    $definition->setArgument(0, $config['gravatar']['fallback_style']);
   }
 
   /**

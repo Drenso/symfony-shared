@@ -20,32 +20,32 @@ class Configuration implements ConfigurationInterface
     }
 
     // Configure our extensions
-    $this->configureGravatar($rootNode);
+    $this->configureApiServices($rootNode);
     $this->configureDatabase($rootNode);
     $this->configureEmailService($rootNode);
+    $this->configureGravatar($rootNode);
     $this->configureServices($rootNode);
 
     return $treeBuilder;
   }
 
-  /**
-   * Setup configuration for the gravatar extension
-   *
-   * @param ArrayNodeDefinition $node
-   */
-  private function configureGravatar(ArrayNodeDefinition $node)
+  private function configureApiServices(ArrayNodeDefinition $node)
   {
     $node
         ->children()
-          ->arrayNode('gravatar')
+          ->arrayNode('api')
             ->addDefaultsIfNotSet()
             ->children()
-              ->scalarNode('fallback_style')
-                ->cannotBeEmpty()
-                ->defaultValue('mp')
-              ->end() // fallback_style
-            ->end() // gravatar children
-          ->end() // gravatar
+              ->arrayNode('convert_entity_validation_exception')
+                ->canBeEnabled()
+                ->children()
+                  ->scalarNode('controller_prefix')
+                    ->defaultValue('App\\Controller\\Api\\')
+                  ->end() // sender_email
+                ->end() // convert_entity_validation_exception children
+              ->end() // convert_entity_validation_exception
+            ->end() // api children
+          ->end() // api
         ->end();
   }
 
@@ -77,6 +77,7 @@ class Configuration implements ConfigurationInterface
     $node
         ->children()
           ->arrayNode('email_service')
+            ->addDefaultsIfNotSet()
             ->canBeEnabled()
             ->children()
               ->scalarNode('sender_email')
@@ -90,6 +91,26 @@ class Configuration implements ConfigurationInterface
               ->end() // translate_sender_name
             ->end() // database children
           ->end() // database
+        ->end();
+  }
+
+  /**
+   * Setup configuration for the gravatar extension
+   *
+   * @param ArrayNodeDefinition $node
+   */
+  private function configureGravatar(ArrayNodeDefinition $node) {
+    $node
+        ->children()
+          ->arrayNode('gravatar')
+            ->addDefaultsIfNotSet()
+            ->children()
+              ->scalarNode('fallback_style')
+                ->cannotBeEmpty()
+                ->defaultValue('mp')
+              ->end() // fallback_style
+            ->end() // gravatar children
+          ->end() // gravatar
         ->end();
   }
 
