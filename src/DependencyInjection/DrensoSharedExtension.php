@@ -7,6 +7,7 @@ use Drenso\Shared\Helper\SpreadsheetHelper;
 use Drenso\Shared\Database\SoftDeletableSubscriber;
 use Drenso\Shared\Email\EmailService;
 use Drenso\Shared\Serializer\Handlers\DecimalHandler;
+use Drenso\Shared\Serializer\StaticSerializer;
 use Drenso\Shared\Twig\GravatarExtension;
 use Exception;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
@@ -115,10 +116,17 @@ class DrensoSharedExtension extends Extension
   private function configureSerializer(ContainerBuilder $container, array $config): void
   {
     $serializer = $config['serializer'];
+    $handlers = $serializer['handlers'];
 
-    if ($serializer['decimal_handler']['enabled']) {
+    if ($handlers['decimal']['enabled']) {
       $container
           ->autowire(DecimalHandler::class)
+          ->setAutoconfigured(true);
+    }
+
+    if ($serializer['static_serializer']['enabled']) {
+      $container
+          ->autowire(StaticSerializer::class)
           ->setAutoconfigured(true);
     }
   }

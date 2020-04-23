@@ -109,7 +109,15 @@ class Configuration implements ConfigurationInterface
           ->arrayNode('serializer')
             ->addDefaultsIfNotSet()
             ->children()
-              ->arrayNode('decimal_handler')
+              ->arrayNode('handlers')
+                ->addDefaultsIfNotSet()
+                ->children()
+                  ->arrayNode('decimal')
+                    ->canBeEnabled()
+                  ->end() // decimal
+                ->end() // handlers children
+              ->end() // handlers
+              ->arrayNode('static_serializer')
                 ->canBeEnabled()
               ->end() // decimal_handler
             ->end() // serializer children
