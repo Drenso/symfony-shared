@@ -23,7 +23,7 @@ class Configuration implements ConfigurationInterface
     $this->configureApiServices($rootNode);
     $this->configureDatabase($rootNode);
     $this->configureEmailService($rootNode);
-    $this->configureGravatar($rootNode);
+    $this->configureSerializer($rootNode);
     $this->configureServices($rootNode);
 
     return $treeBuilder;
@@ -60,8 +60,8 @@ class Configuration implements ConfigurationInterface
           ->arrayNode('database')
             ->addDefaultsIfNotSet()
             ->children()
-              ->booleanNode('softdelete_enabled')
-                ->defaultFalse()
+              ->arrayNode('softdeleteable')
+                ->canBeEnabled()
               ->end() // softdelete_enabled
             ->end() // database children
           ->end() // database
@@ -76,41 +76,44 @@ class Configuration implements ConfigurationInterface
   private function configureEmailService(ArrayNodeDefinition $node) {
     $node
         ->children()
-          ->arrayNode('email_service')
+          ->arrayNode('email')
             ->addDefaultsIfNotSet()
-            ->canBeEnabled()
             ->children()
-              ->scalarNode('sender_email')
-                ->defaultNull()
-              ->end() // sender_email
-              ->scalarNode('sender_name')
-                ->defaultNull()
-              ->end() // sender_name
-              ->booleanNode('translate_sender_name')
-                ->defaultTrue()
-              ->end() // translate_sender_name
-            ->end() // database children
-          ->end() // database
+              ->arrayNode('mailer')
+                ->canBeEnabled()
+                ->children()
+                  ->scalarNode('sender_email')
+                    ->defaultNull()
+                  ->end() // sender_email
+                  ->scalarNode('sender_name')
+                    ->defaultNull()
+                  ->end() // sender_name
+                  ->booleanNode('translate_sender_name')
+                    ->defaultTrue()
+                  ->end() // translate_sender_name
+                ->end() // mailer children
+              ->end() // mailer
+            ->end() // email children
+          ->end() // email
         ->end();
   }
 
   /**
-   * Setup configuration for the gravatar extension
+   * Setup configuration for the services in the bundle
    *
    * @param ArrayNodeDefinition $node
    */
-  private function configureGravatar(ArrayNodeDefinition $node) {
+  private function configureSerializer(ArrayNodeDefinition $node) {
     $node
         ->children()
-          ->arrayNode('gravatar')
+          ->arrayNode('serializer')
             ->addDefaultsIfNotSet()
             ->children()
-              ->scalarNode('fallback_style')
-                ->cannotBeEmpty()
-                ->defaultValue('mp')
-              ->end() // fallback_style
-            ->end() // gravatar children
-          ->end() // gravatar
+              ->arrayNode('decimal_handler')
+                ->canBeEnabled()
+              ->end() // decimal_handler
+            ->end() // serializer children
+          ->end() // services
         ->end();
   }
 
@@ -125,8 +128,17 @@ class Configuration implements ConfigurationInterface
           ->arrayNode('services')
             ->addDefaultsIfNotSet()
             ->children()
-              ->booleanNode('spreadsheethelper_enabled')
-                ->defaultFalse()
+              ->arrayNode('gravatar')
+                ->canBeEnabled()
+                ->children()
+                  ->scalarNode('fallback_style')
+                    ->cannotBeEmpty()
+                    ->defaultValue('mp')
+                  ->end() // fallback_style
+                ->end() // gravatar children
+              ->end() // gravatar
+              ->arrayNode('spreadsheethelper')
+                ->canBeEnabled()
               ->end() // spreadsheethelper_enabled
             ->end() // services children
           ->end() // services

@@ -4,13 +4,17 @@ drenso_shared:
       enabled: false # When enabled, the exception will be converted to a JSON response
       controller_prefix: 'App\\Controller\\Api\\' # The controller prefix to convert the exception for.
   database:
-    softdelete_enabled: false # Enable the softdelete subscriber for injection
-  email_service:
-    enabled: false # Enable the e-mail service
-    sender_email: ~ # The default sender email address: required when the e-mail service is enabled
-    sender_name: ~ # The default sender name, can be empty
-    translate_sender_name: true # When set, the configured sender_name will be translated in the 'messages' domain
-  gravatar:
-    fallback_style: 'mp' # Define a fallback style for accounts without a gravatar, see https://en.gravatar.com/site/implement/images/#default-image
+    softdeleteable: false # Enable the softdelete subscriber for injection
+  email:
+    mailer:
+      enabled: false # Enable the e-mail service (automatically true when you specify any of the options below and omit this line)
+      sender_email: ~ # The default sender email address: required when the e-mail service is enabled
+      sender_name: ~ # The default sender name, can be empty
+      translate_sender_name: true # When set, the configured sender_name will be translated in the 'messages' domain
+  serializer:
+    decimal_handler: false # Enable the decimal handler
   services:
-    spreadsheethelper_enabled: false # Enable the SpreadsheetHelper for injection
+    gravatar:
+      enabled: true # Enable the SpreadsheetHelper for injection (automatically true when you specify any of the options below and omit this line)
+      fallback_style: 'mp' # Define a fallback style for accounts without a gravatar, see https://en.gravatar.com/site/implement/images/#default-image
+    spreadsheethelper: false # Enable the SpreadsheetHelper for injection

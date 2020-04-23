@@ -6,6 +6,7 @@ use Drenso\Shared\Exception\Handler\EntityValidationFailedExceptionHandler;
 use Drenso\Shared\Helper\SpreadsheetHelper;
 use Drenso\Shared\Database\SoftDeletableSubscriber;
 use Drenso\Shared\Email\EmailService;
+use Drenso\Shared\Serializer\Handlers\DecimalHandler;
 use Drenso\Shared\Twig\GravatarExtension;
 use Exception;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
@@ -35,7 +36,7 @@ class DrensoSharedExtension extends Extension
     $this->configureApiServices($container, $config);
     $this->configureDatabase($container, $config);
     $this->configureEmailService($container, $config);
-    $this->configureGravatar($container, $config);
+    $this->configureSerializer($container, $config);
     $this->configureServices($container, $config);
   }
 
@@ -65,10 +66,13 @@ class DrensoSharedExtension extends Extension
    */
   private function configureDatabase(ContainerBuilder $container, array $config): void
   {
-    if ($config['database']['softdelete_enabled']) {
-      $container->autowire(SoftDeletableSubscriber::class)->addTag('doctrine.event_subscriber', [
-          'connection' => 'default',
-      ]);
+    $database = $config['database'];
+    if ($database['softdeleteable']['enabled']) {
+      $container
+          ->autowire(SoftDeletableSubscriber::class)
+          ->addTag('doctrine.event_subscriber', [
+              'connection' => 'default',
+          ]);
     }
   }
 
@@ -80,38 +84,43 @@ class DrensoSharedExtension extends Extension
    */
   private function configureEmailService(ContainerBuilder $container, array $config): void
   {
-    $config = $config['email_service'];
+    $mailer = $config['email']['mailer'];
 
-    if ($config['enabled']) {
+    if ($mailer['enabled']) {
       if (!class_exists('Symfony\Component\Mailer\Mailer')) {
         throw new InvalidConfigurationException('In order to use the EmailService, the Symfony Mailer component needs to be installed. Try running `composer req symfony/mailer`.');
       }
 
-      if (!$config['sender_email']) {
+      if (!$mailer['sender_email']) {
         throw new InvalidConfigurationException('When using the EmaiLService, you need to configure the default sender email (sender_email).');
       }
 
       $definition = $container->autowire(EmailService::class)
           ->setLazy(true)
-          ->setArgument('$senderEmail', $config['sender_email'])
-          ->setArgument('$senderName', $config['sender_name']);
+          ->setArgument('$senderEmail', $mailer['sender_email'])
+          ->setArgument('$senderName', $mailer['sender_name']);
 
-      if (!$config['translate_sender_name']) {
+      if (!$mailer['translate_sender_name']) {
         $definition->setArgument('$translator', NULL);
       }
     }
   }
 
   /**
-   * Configure the Gravatar extension
+   * Configure the services in the bundle
    *
    * @param ContainerBuilder $container
    * @param array            $config
    */
-  private function configureGravatar(ContainerBuilder $container, array $config): void
+  private function configureSerializer(ContainerBuilder $container, array $config): void
   {
-    $definition = $container->getDefinition(GravatarExtension::class);
-    $definition->setArgument(0, $config['gravatar']['fallback_style']);
+    $serializer = $config['serializer'];
+
+    if ($serializer['decimal_handler']['enabled']) {
+      $container
+          ->autowire(DecimalHandler::class)
+          ->setAutoconfigured(true);
+    }
   }
 
   /**
@@ -122,7 +131,16 @@ class DrensoSharedExtension extends Extension
    */
   private function configureServices(ContainerBuilder $container, array $config): void
   {
-    if ($config['services']['spreadsheethelper_enabled']) {
+    $services = $config['services'];
+
+    if ($services['gravatar']['enabled']) {
+      $container
+          ->autowire(GravatarExtension::class)
+          ->setAutoconfigured(true)
+          ->setArgument('$fallbackStyle', $services['gravatar']['fallback_style']);
+    }
+
+    if ($services['spreadsheethelper']['enabled']) {
       $container->autowire(SpreadsheetHelper::class);
     }
   }

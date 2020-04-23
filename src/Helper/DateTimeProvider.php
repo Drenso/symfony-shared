@@ -12,7 +12,6 @@ class DateTimeProvider
 {
   /**
    * @return DateTimeImmutable
-   * @noinspection PhpDocMissingThrowsInspection
    */
   public function now(): DateTimeImmutable
   {
@@ -21,7 +20,6 @@ class DateTimeProvider
 
   /**
    * @return DateTime
-   * @noinspection PhpDocMissingThrowsInspection
    */
   public function nowMutable(): DateTime
   {
