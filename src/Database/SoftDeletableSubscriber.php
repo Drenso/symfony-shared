@@ -4,6 +4,7 @@ namespace Drenso\Shared\Database;
 
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
+use Gedmo\SoftDeleteable\SoftDeleteableListener;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class SoftDeletableSubscriber implements EventSubscriber
@@ -36,10 +37,9 @@ class SoftDeletableSubscriber implements EventSubscriber
    */
   public function getSubscribedEvents()
   {
-    if(!class_exists('\Gedmo\SoftDeleteable\SoftDeleteableListener')) {
-      return [];
-    }
-    return array(\Gedmo\SoftDeleteable\SoftDeleteableListener::PRE_SOFT_DELETE);
+    return [
+        SoftDeleteableListener::PRE_SOFT_DELETE,
+    ];
   }
 
   /**

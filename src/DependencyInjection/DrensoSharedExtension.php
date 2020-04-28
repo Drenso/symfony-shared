@@ -2,6 +2,7 @@
 
 namespace Drenso\Shared\DependencyInjection;
 
+use Drenso\Shared\Database\SoftDeletableSymfonySubscriber;
 use Drenso\Shared\Exception\Handler\EntityValidationFailedExceptionHandler;
 use Drenso\Shared\Helper\SpreadsheetHelper;
 use Drenso\Shared\Database\SoftDeletableSubscriber;
@@ -69,11 +70,18 @@ class DrensoSharedExtension extends Extension
   {
     $database = $config['database'];
     if ($database['softdeleteable']['enabled']) {
+      if (!class_exists('\Gedmo\SoftDeleteable\SoftDeleteableListener')) {
+        throw new InvalidConfigurationException('In order to use softdeleteable, DoctrineExtensions must be installed. Try running `composer req stof/doctrine-extensions-bundle`.');
+      }
+
       $container
           ->autowire(SoftDeletableSubscriber::class)
           ->addTag('doctrine.event_subscriber', [
               'connection' => 'default',
           ]);
+      $container
+          ->autowire(SoftDeletableSymfonySubscriber::class)
+          ->setAutoconfigured(true);
     }
   }
 
@@ -116,7 +124,7 @@ class DrensoSharedExtension extends Extension
   private function configureSerializer(ContainerBuilder $container, array $config): void
   {
     $serializer = $config['serializer'];
-    $handlers = $serializer['handlers'];
+    $handlers   = $serializer['handlers'];
 
     if ($handlers['decimal']['enabled']) {
       $container

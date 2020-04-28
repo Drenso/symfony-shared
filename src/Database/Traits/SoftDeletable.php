@@ -12,7 +12,7 @@ trait SoftDeletable
 
   /**
    * @var DateTimeImmutable|null
-   * @ORM\Column(name="deleted_at", type="datetime_immutable", nullable=true)
+   * @ORM\Column(name="deleted_at", type="datetime_immutable_with_conversion", nullable=true)
    *
    * @Serializer\Exclude()
    */

@@ -2,6 +2,7 @@
 
 namespace Drenso\Shared\Database\Types;
 
+use DateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
@@ -25,11 +26,26 @@ class UTCDateTimeImmutableType extends DateTimeImmutableType
    */
   public function convertToDatabaseValue($value, AbstractPlatform $platform)
   {
+    if ($this->shouldConvertToImmutable() && $value instanceof DateTime) {
+      $value = DateTimeImmutable::createFromMutable($value);
+    }
+
     if ($value instanceof DateTimeImmutable) {
       $value = $value->setTimezone(UtcHelper::getUtc());
     }
 
     return parent::convertToDatabaseValue($value, $platform);
+  }
+
+  /**
+   * Whether to convert the application value to an immutable.
+   * This method should be overridden when needed.
+   *
+   * @return bool
+   */
+  protected function shouldConvertToImmutable(): bool
+  {
+    return false;
   }
 
   /**
