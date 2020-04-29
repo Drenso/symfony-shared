@@ -62,6 +62,16 @@ class Configuration implements ConfigurationInterface
             ->children()
               ->arrayNode('softdeleteable')
                 ->canBeEnabled()
+                ->children()
+                  ->arrayNode('use_gedmo_workaround')
+                    ->canBeDisabled()
+                    ->children()
+                      ->booleanNode('use_utc')
+                        ->defaultTrue()
+                      ->end() // use_utc
+                    ->end() // use_gedmo_workaround children
+                  ->end() // use_gedmo_workaround
+                ->end() // softdelete_enabled children
               ->end() // softdelete_enabled
             ->end() // database children
           ->end() // database

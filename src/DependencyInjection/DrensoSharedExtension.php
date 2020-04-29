@@ -2,10 +2,11 @@
 
 namespace Drenso\Shared\DependencyInjection;
 
-use Drenso\Shared\Database\SoftDeletableSymfonySubscriber;
+use Drenso\Shared\Database\SoftDeleteableSymfonyCacheWarmer;
+use Drenso\Shared\Database\SoftDeleteableSymfonySubscriber;
 use Drenso\Shared\Exception\Handler\EntityValidationFailedExceptionHandler;
 use Drenso\Shared\Helper\SpreadsheetHelper;
-use Drenso\Shared\Database\SoftDeletableSubscriber;
+use Drenso\Shared\Database\SoftDeleteableSubscriber;
 use Drenso\Shared\Email\EmailService;
 use Drenso\Shared\Serializer\Handlers\DecimalHandler;
 use Drenso\Shared\Serializer\StaticSerializer;
@@ -75,13 +76,24 @@ class DrensoSharedExtension extends Extension
       }
 
       $container
-          ->autowire(SoftDeletableSubscriber::class)
+          ->autowire(SoftDeleteableSubscriber::class)
           ->addTag('doctrine.event_subscriber', [
               'connection' => 'default',
           ]);
-      $container
-          ->autowire(SoftDeletableSymfonySubscriber::class)
-          ->setAutoconfigured(true);
+
+      // Compatibility layer for softdeleteable immutable problems
+      if ($database['softdeleteable']['use_gedmo_workaround']['enabled']) {
+        $useUtc = $database['softdeleteable']['use_gedmo_workaround']['use_utc'];
+
+        $container
+            ->autowire(SoftDeleteableSymfonySubscriber::class)
+            ->setAutoconfigured(true)
+            ->setArgument('$useUtc', $useUtc);
+        $container
+            ->autowire(SoftDeleteableSymfonyCacheWarmer::class)
+            ->addTag('kernel.cache_warmer', ['priority' => 255])
+            ->setArgument('$useUtc', $useUtc);
+      }
     }
   }
 

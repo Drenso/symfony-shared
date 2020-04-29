@@ -7,7 +7,7 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
 use Gedmo\SoftDeleteable\SoftDeleteableListener;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
-class SoftDeletableSubscriber implements EventSubscriber
+class SoftDeleteableSubscriber implements EventSubscriber
 {
 
   /**

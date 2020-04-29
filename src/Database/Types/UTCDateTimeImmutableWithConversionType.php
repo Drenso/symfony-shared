@@ -7,7 +7,8 @@ namespace Drenso\Shared\Database\Types;
  */
 class UTCDateTimeImmutableWithConversionType extends UTCDateTimeImmutableType
 {
-  public const DATETIME_IMMUTABLE_WITH_CONVERSION = 'datetime_immutable_with_conversion';
+  public const DATETIME_IMMUTABLE_WITH_CONVERSION
+      = DateTimeImmutableWithConversionType::DATETIME_IMMUTABLE_WITH_CONVERSION;
 
   protected function shouldConvertToImmutable(): bool
   {
