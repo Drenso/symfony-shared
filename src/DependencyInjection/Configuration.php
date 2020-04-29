@@ -60,7 +60,7 @@ class Configuration implements ConfigurationInterface
           ->arrayNode('database')
             ->addDefaultsIfNotSet()
             ->children()
-              ->arrayNode('softdeleteable')
+              ->arrayNode('softdeletable')
                 ->canBeEnabled()
                 ->children()
                   ->arrayNode('use_gedmo_workaround')

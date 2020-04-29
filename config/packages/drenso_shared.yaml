@@ -4,8 +4,8 @@ drenso_shared:
       enabled: false # When enabled, the exception will be converted to a JSON response
       controller_prefix: 'App\\Controller\\Api\\' # The controller prefix to convert the exception for.
   database:
-    softdeleteable:
-      enabled: false # Enable the softdeleteable subscriber for injection (automatically true when you specify any of the options below and omit this line)
+    softdeletable:
+      enabled: false # Enable the softdeletable subscriber for injection (automatically true when you specify any of the options below and omit this line)
       use_gedmo_workaround:
         enabled: true # Whether to use the gedmo workaround (automatically true when you specify any of the options below and omit this line)
         use_utc: true # Whether to use UTC conversion

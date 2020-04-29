@@ -4,7 +4,7 @@ namespace Drenso\Shared\Database;
 
 use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface;
 
-class SoftDeleteableSymfonyCacheWarmer implements CacheWarmerInterface
+class SoftDeletableSymfonyCacheWarmer implements CacheWarmerInterface
 {
   /**
    * @var bool
@@ -30,7 +30,7 @@ class SoftDeleteableSymfonyCacheWarmer implements CacheWarmerInterface
    */
   public function warmUp($cacheDir)
   {
-    (new SoftDeleteableSymfonySubscriber($this->useUtc))->registerConversionType();
+    (new SoftDeletableSymfonySubscriber($this->useUtc))->registerConversionType();
 
     return [];
   }

@@ -14,7 +14,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
  * Request subscriber to register our custom datetime_immutable type as valid for the
  * doctrine extensions soft deletable implementation, and as type for doctrine.
  */
-class SoftDeleteableSymfonySubscriber implements EventSubscriberInterface
+class SoftDeletableSymfonySubscriber implements EventSubscriberInterface
 {
 
   /**

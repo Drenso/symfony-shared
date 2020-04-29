@@ -2,11 +2,11 @@
 
 namespace Drenso\Shared\DependencyInjection;
 
-use Drenso\Shared\Database\SoftDeleteableSymfonyCacheWarmer;
-use Drenso\Shared\Database\SoftDeleteableSymfonySubscriber;
+use Drenso\Shared\Database\SoftDeletableSymfonyCacheWarmer;
+use Drenso\Shared\Database\SoftDeletableSymfonySubscriber;
 use Drenso\Shared\Exception\Handler\EntityValidationFailedExceptionHandler;
 use Drenso\Shared\Helper\SpreadsheetHelper;
-use Drenso\Shared\Database\SoftDeleteableSubscriber;
+use Drenso\Shared\Database\SoftDeletableSubscriber;
 use Drenso\Shared\Email\EmailService;
 use Drenso\Shared\Serializer\Handlers\DecimalHandler;
 use Drenso\Shared\Serializer\StaticSerializer;
@@ -70,27 +70,27 @@ class DrensoSharedExtension extends Extension
   private function configureDatabase(ContainerBuilder $container, array $config): void
   {
     $database = $config['database'];
-    if ($database['softdeleteable']['enabled']) {
+    if ($database['softdeletable']['enabled']) {
       if (!class_exists('\Gedmo\SoftDeleteable\SoftDeleteableListener')) {
-        throw new InvalidConfigurationException('In order to use softdeleteable, DoctrineExtensions must be installed. Try running `composer req stof/doctrine-extensions-bundle`.');
+        throw new InvalidConfigurationException('In order to use softdeletable, DoctrineExtensions must be installed. Try running `composer req stof/doctrine-extensions-bundle`.');
       }
 
       $container
-          ->autowire(SoftDeleteableSubscriber::class)
+          ->autowire(SoftDeletableSubscriber::class)
           ->addTag('doctrine.event_subscriber', [
               'connection' => 'default',
           ]);
 
-      // Compatibility layer for softdeleteable immutable problems
-      if ($database['softdeleteable']['use_gedmo_workaround']['enabled']) {
-        $useUtc = $database['softdeleteable']['use_gedmo_workaround']['use_utc'];
+      // Compatibility layer for softdeletable immutable problems
+      if ($database['softdeletable']['use_gedmo_workaround']['enabled']) {
+        $useUtc = $database['softdeletable']['use_gedmo_workaround']['use_utc'];
 
         $container
-            ->autowire(SoftDeleteableSymfonySubscriber::class)
+            ->autowire(SoftDeletableSymfonySubscriber::class)
             ->setAutoconfigured(true)
             ->setArgument('$useUtc', $useUtc);
         $container
-            ->autowire(SoftDeleteableSymfonyCacheWarmer::class)
+            ->autowire(SoftDeletableSymfonyCacheWarmer::class)
             ->addTag('kernel.cache_warmer', ['priority' => 255])
             ->setArgument('$useUtc', $useUtc);
       }
