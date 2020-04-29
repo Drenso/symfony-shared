@@ -5,8 +5,8 @@ namespace Drenso\Shared\Database;
 use Doctrine\DBAL\Types\Type;
 use Drenso\Shared\Database\Types\UTCDateTimeImmutableWithConversionType;
 use Gedmo\SoftDeleteable\Mapping\Validator;
+use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 /**
@@ -19,13 +19,16 @@ class SoftDeletableSymfonySubscriber implements EventSubscriberInterface
   public static function getSubscribedEvents()
   {
     return [
-        KernelEvents::REQUEST => [
+        ConsoleEvents::COMMAND => [
+            ['registerConversionType', 200],
+        ],
+        KernelEvents::REQUEST  => [
             ['registerConversionType', 200],
         ],
     ];
   }
 
-  public function registerConversionType(RequestEvent $event)
+  public function registerConversionType()
   {
     $type = UTCDateTimeImmutableWithConversionType::DATETIME_IMMUTABLE_WITH_CONVERSION;
 
