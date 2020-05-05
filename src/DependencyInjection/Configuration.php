@@ -130,6 +130,9 @@ class Configuration implements ConfigurationInterface
               ->arrayNode('static_serializer')
                 ->canBeEnabled()
               ->end() // decimal_handler
+              ->arrayNode('twig_integration')
+                ->canBeEnabled()
+              ->end() // twig_integration
             ->end() // serializer children
           ->end() // services
         ->end();

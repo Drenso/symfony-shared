@@ -11,6 +11,7 @@ use Drenso\Shared\Email\EmailService;
 use Drenso\Shared\Serializer\Handlers\DecimalHandler;
 use Drenso\Shared\Serializer\StaticSerializer;
 use Drenso\Shared\Twig\GravatarExtension;
+use Drenso\Shared\Twig\JmsSerializerExtension;
 use Exception;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Config\FileLocator;
@@ -147,6 +148,12 @@ class DrensoSharedExtension extends Extension
     if ($serializer['static_serializer']['enabled']) {
       $container
           ->autowire(StaticSerializer::class)
+          ->setAutoconfigured(true);
+    }
+
+    if ($serializer['twig_integration']['enabled']) {
+      $container
+          ->autowire(JmsSerializerExtension::class)
           ->setAutoconfigured(true);
     }
   }
