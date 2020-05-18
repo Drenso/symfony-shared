@@ -70,9 +70,9 @@ abstract class AbstractObjectSerializer
    *
    * @param SerializationVisitorInterface $visitor
    * @param string                        $prop
-   * @param string                        $value
+   * @param string|null                   $value
    */
-  protected function addStringProperty(SerializationVisitorInterface $visitor, string $prop, string $value): void
+  protected function addStringProperty(SerializationVisitorInterface $visitor, string $prop, ?string $value): void
   {
     $visitor->visitProperty(new StaticPropertyMetadata('string', '_' . $prop, NULL), $value);
   }
@@ -82,9 +82,9 @@ abstract class AbstractObjectSerializer
    *
    * @param SerializationVisitorInterface $visitor
    * @param string                        $prop
-   * @param bool                          $value
+   * @param bool|null                     $value
    */
-  protected function addBoolProperty(SerializationVisitorInterface $visitor, string $prop, bool $value): void
+  protected function addBoolProperty(SerializationVisitorInterface $visitor, string $prop, ?bool $value): void
   {
     $visitor->visitProperty(new StaticPropertyMetadata('boolean', '_' . $prop, NULL), $value);
   }
