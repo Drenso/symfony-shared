@@ -2,12 +2,13 @@
 
 namespace Drenso\Shared\DependencyInjection;
 
+use Drenso\Shared\Database\SoftDeletableSubscriber;
 use Drenso\Shared\Database\SoftDeletableSymfonyCacheWarmer;
 use Drenso\Shared\Database\SoftDeletableSymfonySubscriber;
+use Drenso\Shared\Email\EmailService;
 use Drenso\Shared\Exception\Handler\EntityValidationFailedExceptionHandler;
 use Drenso\Shared\Helper\SpreadsheetHelper;
-use Drenso\Shared\Database\SoftDeletableSubscriber;
-use Drenso\Shared\Email\EmailService;
+use Drenso\Shared\Ical\IcalProvider;
 use Drenso\Shared\Serializer\Handlers\DecimalHandler;
 use Drenso\Shared\Serializer\StaticSerializer;
 use Drenso\Shared\Twig\GravatarExtension;
@@ -17,6 +18,7 @@ use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader;
+use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 class DrensoSharedExtension extends Extension
@@ -173,6 +175,16 @@ class DrensoSharedExtension extends Extension
           ->autowire(GravatarExtension::class)
           ->setAutoconfigured(true)
           ->setArgument('$fallbackStyle', $services['gravatar']['fallback_style']);
+    }
+
+    if ($services['ical_provider']['enabled']) {
+      if (!class_exists('BOMO\IcalBundle\Provider\IcsProvider')) {
+        throw new InvalidConfigurationException('In order to use the IcalProvidor, the iCal bundle needs to be installed. Try running `composer req bomo/ical-bundle`.');
+      }
+
+      $container
+          ->autowire(IcalProvider::class)
+          ->setArgument('$provider', new Reference('bomo_ical.ics_provider'));
     }
 
     if ($services['spreadsheethelper']['enabled']) {

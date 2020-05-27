@@ -158,9 +158,12 @@ class Configuration implements ConfigurationInterface
                   ->end() // fallback_style
                 ->end() // gravatar children
               ->end() // gravatar
+              ->arrayNode('ical_provider')
+                ->canBeEnabled()
+              ->end() // ical_provider
               ->arrayNode('spreadsheethelper')
                 ->canBeEnabled()
-              ->end() // spreadsheethelper_enabled
+              ->end() // spreadsheethelper
             ->end() // services children
           ->end() // services
         ->end();

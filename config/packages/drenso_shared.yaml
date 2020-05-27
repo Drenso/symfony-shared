@@ -25,4 +25,5 @@ drenso_shared:
     gravatar:
       enabled: true # Enable the SpreadsheetHelper for injection (automatically true when you specify any of the options below and omit this line)
       fallback_style: 'mp' # Define a fallback style for accounts without a gravatar, see https://en.gravatar.com/site/implement/images/#default-image
+    ical_provider: false # Enable the IcalProvider for injection
     spreadsheethelper: false # Enable the SpreadsheetHelper for injection
