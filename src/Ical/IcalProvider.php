@@ -6,7 +6,7 @@ use BOMO\IcalBundle\Model\Calendar;
 use BOMO\IcalBundle\Model\Event;
 use BOMO\IcalBundle\Model\Timezone;
 use BOMO\IcalBundle\Provider\IcsProvider;
-use DateTime;
+use DateTimeInterface;
 
 /**
  * Class IcalProvider
@@ -87,14 +87,14 @@ class IcalProvider
    *
    * @note You will still need to add it to the Calendar with attachEvent($event).
    *
-   * @param string   $name        Name of the event
-   * @param string   $description Description for the event
-   * @param DateTime $start       Start of the event
-   * @param DateTime $end         End of the event
+   * @param string            $name        Name of the event
+   * @param string            $description Description for the event
+   * @param DateTimeInterface $start       Start of the event
+   * @param DateTimeInterface $end         End of the event
    *
    * @return Event
    */
-  public function createEvent(string $name, string $description, DateTime $start, DateTime $end): Event
+  public function createEvent(string $name, string $description, DateTimeInterface $start, DateTimeInterface $end): Event
   {
     $event = $this->provider->createEvent();
     $event->getEvent()->setDtstart($start->format('Y'), $start->format('m'), $start->format('d'), $start->format('H'), $start->format('i'), 0, 'Europe/Amsterdam');
