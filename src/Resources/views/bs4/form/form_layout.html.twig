@@ -114,22 +114,12 @@
   {% set select2_placeholder = placeholder %}
   {% set placeholder = placeholder is not none ? '' : placeholder %}
   {{- parent() -}}
-  {%- apply spaceless -%}
-    {% if select2 %}
-      <script type="text/javascript">
-        $(function () {
-          $('#{{ id }}').select2({
-            width: '100%',
-            theme: '{{ theme }}',
-            allowClear: {{ allowClear ? 'true' : 'false' }},
-            {% if select2_placeholder is not none %}placeholder: '{{ translation_domain is same as(false) ? select2_placeholder : select2_placeholder|trans({}, translation_domain) }}',{% endif %}
-          });
-        });
-      </script>
-    {% endif %}
-  {%- endapply -%}
+  {%- if select2 -%}
+    <script type="text/javascript">$(function(){$('#{{ id }}').select2(JSON.parse('{{ select2_options|json_encode|raw }}'));});</script>
+  {%- endif -%}
 {%- endblock -%}
 
 {% use '@DrensoShared/bs4/form/_button_layout.html.twig' %}
 {% use '@DrensoShared/bs4/form/_hidden.html.twig' %}
 {% use '@DrensoShared/bs4/form/_submit.html.twig' %}
+{% use '@DrensoShared/bs4/form/_select2_entity_search.html.twig' %}

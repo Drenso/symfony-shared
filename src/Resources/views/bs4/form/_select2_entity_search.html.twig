@@ -1,0 +1,17 @@
+{%- block select2_entity_search_widget -%}
+  {%- if required and placeholder is none and not placeholder_in_choices and not multiple and (attr.size is not defined or attr.size <= 1) -%}
+    {% set required = false %}
+  {%- endif -%}
+  <select {{ block('widget_attributes') }}{% if multiple %} multiple="multiple"{% endif %}>
+    {%- if value is not empty -%}
+      {%- if multiple -%}
+        {%- for item in value -%}
+          <option value="{{ item.value }}" selected>{{ item.label }}</option>
+        {%- endfor -%}
+      {%- else -%}
+        <option value="{{ value.value }}" selected>{{ value.label }}</option>
+      {%- endif -%}
+    {%- endif -%}
+  </select>
+  <script type="text/javascript">$(function(){$('#{{ id }}').select2(JSON.parse('{{ select2_options|json_encode|raw }}'));});</script>
+{%- endblock -%}
