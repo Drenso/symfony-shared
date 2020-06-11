@@ -41,43 +41,43 @@ class Select2EntitySearchType extends AbstractType
     $repository = $this->registry->getRepository($options['class']);
 
     $builder
-        ->addModelTransformer(new CallbackTransformer(
-            function ($modelData) use ($options) {
-              if (NULL === $modelData) {
-                return NULL;
+        ->addViewTransformer(new CallbackTransformer(
+            function ($normData) use ($options) {
+              if (NULL === $normData) {
+                return $options['multiple'] ? [] : NULL;
               }
 
-              if ($modelData instanceof Collection) {
-                $modelData = $modelData->toArray();
-              } else if (!is_iterable($modelData)) {
-                $modelData = [$modelData];
+              if ($normData instanceof Collection) {
+                $normData = $normData->toArray();
+              } else if (!is_iterable($normData)) {
+                $normData = [$normData];
               }
 
-              $modelData = array_map(function ($item) use ($options) {
+              $normData = array_map(function ($item) use ($options) {
                 return [
                     'value' => $this->propertyAccessor->getValue($item, 'id'),
                     'label' => $this->propertyAccessor->getValue($item, $options['choice_label']),
                 ];
-              }, $modelData);
+              }, $normData);
 
               if (!$options['multiple']) {
-                return $modelData[0];
+                return $normData[0];
               }
 
-              return $modelData;
+              return $normData;
             },
-            function ($normData) use ($repository, $options) {
-              if (!$normData) {
-                return NULL;
+            function ($viewData) use ($repository, $options) {
+              if (!$viewData) {
+                return $options['multiple'] ? [] : NULL;
               }
 
               if ($options['multiple']) {
-                if (!is_array($normData)) {
+                if (!is_array($viewData)) {
                   throw new TransformationFailedException('Array data is required for multiple option');
                 }
 
                 $result = [];
-                foreach ($normData as $itemId) {
+                foreach ($viewData as $itemId) {
                   if (!$item = $repository->find($itemId)) {
                     throw new TransformationFailedException('Could not convert data into entity');
                   }
@@ -88,7 +88,7 @@ class Select2EntitySearchType extends AbstractType
                 return $result;
               }
 
-              if (!$item = $repository->find($normData)) {
+              if (!$item = $repository->find($viewData)) {
                 throw new TransformationFailedException('Could not convert data into entity');
               }
 
