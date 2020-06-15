@@ -3,6 +3,9 @@ stages:
   - lint
   - deploy
 
+variables:
+  COMPOSER_MEMORY_LIMIT: -1
+    
 include:
   - project: 'intern/runner-templates'
     file: '/symfony/install-dependencies.yml'
