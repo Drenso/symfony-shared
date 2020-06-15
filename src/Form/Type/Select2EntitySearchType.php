@@ -136,10 +136,6 @@ class Select2EntitySearchType extends AbstractType
           // Force the use of select 2
           return true;
         })
-        ->addNormalizer('compound', function () {
-          // Force non-compound
-          return false;
-        })
         ->addNormalizer('select2_options', function (Options $options, $value) {
           if (!array_key_exists('ajax', $value)) {
             $value['ajax'] = [];
