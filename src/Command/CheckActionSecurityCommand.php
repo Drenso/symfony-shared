@@ -2,8 +2,8 @@
 
 namespace Drenso\Shared\Command;
 
-use Doctrine\Common\Annotations\AnnotationException;
 use Doctrine\Common\Annotations\AnnotationReader;
+use ReflectionException;
 use ReflectionMethod;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -25,16 +25,25 @@ class CheckActionSecurityCommand extends Command
    */
   protected static $defaultName = 'drenso:check:action-security';
 
+  /**
+   * @var ContainerInterface
+   */
   private $container;
+  /**
+   * @var string[]
+   */
+  private $excludedControllers;
 
   /**
    * CheckActionSecurityCommand constructor.
    *
    * @param ContainerInterface $container
+   * @param string[]           $excludedControllers
    */
-  public function __construct(ContainerInterface $container)
+  public function __construct(ContainerInterface $container, array $excludedControllers)
   {
-    $this->container = $container;
+    $this->container           = $container;
+    $this->excludedControllers = $excludedControllers;
 
     parent::__construct(NULL);
   }
@@ -50,8 +59,7 @@ class CheckActionSecurityCommand extends Command
 
   /**
    * {@inheritdoc}
-   * @throws \ReflectionException
-   * @throws AnnotationException
+   * @throws ReflectionException
    */
   protected function execute(InputInterface $input, OutputInterface $output)
   {
@@ -66,6 +74,11 @@ class CheckActionSecurityCommand extends Command
     foreach ($routes as $route => $param) {
       // Get controller string
       $controller = $param->getDefault('_controller');
+
+      // Skip controller if excluded
+      if (in_array($controller, $this->excludedControllers)) {
+        continue;
+      }
 
       if ($controller !== NULL) {
         // Only check own controllers

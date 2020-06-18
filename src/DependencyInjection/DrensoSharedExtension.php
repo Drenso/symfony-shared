@@ -2,6 +2,7 @@
 
 namespace Drenso\Shared\DependencyInjection;
 
+use Drenso\Shared\Command\CheckActionSecurityCommand;
 use Drenso\Shared\Database\SoftDeletableSubscriber;
 use Drenso\Shared\Database\SoftDeletableSymfonyCacheWarmer;
 use Drenso\Shared\Database\SoftDeletableSymfonySubscriber;
@@ -40,6 +41,7 @@ class DrensoSharedExtension extends Extension
 
     // Configure the services with retrieved configuration values
     $this->configureApiServices($container, $config);
+    $this->configureCommands($container, $config);
     $this->configureDatabase($container, $config);
     $this->configureEmailService($container, $config);
     $this->configureSerializer($container, $config);
@@ -61,6 +63,19 @@ class DrensoSharedExtension extends Extension
           ->autowire(EntityValidationFailedExceptionHandler::class)
           ->setAutoconfigured(true)
           ->setArgument('$controllerPrefix', $config['convert_entity_validation_exception']['controller_prefix']);
+    }
+  }
+
+  private function configureCommands(ContainerBuilder $container, array $config): void
+  {
+    $config = $config['commands'];
+
+    if ($config['check_action_security']['enabled']) {
+      $container
+          ->register(CheckActionSecurityCommand::class)
+          ->setAutoconfigured(true)
+          ->setArgument('$container', new Reference('service_container'))
+          ->setArgument('$excludedControllers', $config['check_action_security']['excluded_controllers']);
     }
   }
 

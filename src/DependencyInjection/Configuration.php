@@ -21,6 +21,7 @@ class Configuration implements ConfigurationInterface
 
     // Configure our extensions
     $this->configureApiServices($rootNode);
+    $this->configureCommands($rootNode);
     $this->configureDatabase($rootNode);
     $this->configureEmailService($rootNode);
     $this->configureSerializer($rootNode);
@@ -29,6 +30,11 @@ class Configuration implements ConfigurationInterface
     return $treeBuilder;
   }
 
+  /**
+   * Setup configuration for the API services in the bundle
+   *
+   * @param ArrayNodeDefinition $node
+   */
   private function configureApiServices(ArrayNodeDefinition $node)
   {
     $node
@@ -46,6 +52,30 @@ class Configuration implements ConfigurationInterface
               ->end() // convert_entity_validation_exception
             ->end() // api children
           ->end() // api
+        ->end();
+  }
+
+  /**
+   * Setup configuration for the commands in the bundle
+   *
+   * @param ArrayNodeDefinition $node
+   */
+  private function configureCommands(ArrayNodeDefinition $node){
+    $node
+        ->children()
+          ->arrayNode('commands')
+            ->addDefaultsIfNotSet()
+            ->children()
+              ->arrayNode('check_action_security')
+                ->canBeDisabled()
+                ->children()
+                  ->arrayNode('excluded_controllers')
+                    ->scalarPrototype()->end()
+                  ->end() // excluded_methods
+                ->end() // check_action_security children
+              ->end() // check_action_security
+            ->end() // commands children
+          ->end() // commands
         ->end();
   }
 
