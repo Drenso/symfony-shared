@@ -5,27 +5,23 @@ namespace Drenso\Shared\Database\Types;
 use DateTime;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
-use Doctrine\DBAL\Types\DateTimeType;
+use Doctrine\DBAL\Types\DateType;
 use Drenso\Shared\Helper\UtcHelper;
+use Exception;
 
-/**
- * Class UTCDateTimeType
- * Store all datetime types as UTC in the database
- * Source: https://www.doctrine-project.org/projects/doctrine-orm/en/2.7/cookbook/working-with-datetime.html
- */
-class UTCDateTimeType extends DateTimeType
+class UTCDateType extends DateType
 {
   /**
    * @param mixed            $value
    * @param AbstractPlatform $platform
    *
    * @return mixed|string|null
-   * @throws ConversionException
+   * @throws Exception
    */
   public function convertToDatabaseValue($value, AbstractPlatform $platform)
   {
-    if ($value instanceof DateTime) {
-      $value->setTimezone(UtcHelper::getUtc());
+    if ($value instanceof DateTime && $value->getTimezone() !== UtcHelper::getUtc()) {
+      $value = new DateTime($value->format('Y-m-d'), UtcHelper::getUtc());
     }
 
     return parent::convertToDatabaseValue($value, $platform);
@@ -36,7 +32,7 @@ class UTCDateTimeType extends DateTimeType
    * @param AbstractPlatform $platform
    *
    * @return DateTime|null
-   * @throws ConversionException
+   * @throws Exception
    */
   public function convertToPHPValue($value, AbstractPlatform $platform)
   {
@@ -45,7 +41,7 @@ class UTCDateTimeType extends DateTimeType
     }
 
     $converted = DateTime::createFromFormat(
-        $platform->getDateTimeFormatString(),
+        '!' . $platform->getDateFormatString(),
         $value,
         UtcHelper::getUtc()
     );
