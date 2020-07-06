@@ -10,22 +10,33 @@ use DateTimeImmutable;
  */
 class DateTimeProvider
 {
+  private $now;
+
+  public function __construct(string $now = 'now')
+  {
+    $this->now = $now;
+  }
+
   /**
    * The current time, based on the configured server timezone
    * Immutable
+   *
+   * @noinspection PhpUnhandledExceptionInspection
    */
   public function now(): DateTimeImmutable
   {
-    return new DateTimeImmutable();
+    return new DateTimeImmutable($this->now);
   }
 
   /**
    * The current time, based on the configured timezone
    * Mutable.
+   *
+   * @noinspection PhpUnhandledExceptionInspection
    */
   public function nowMutable(): DateTime
   {
-    return new DateTime();
+    return new DateTime($this->now);
   }
 
   /**
@@ -36,7 +47,7 @@ class DateTimeProvider
    */
   public function utcNow(): DateTimeImmutable
   {
-    return new DateTimeImmutable('now', UtcHelper::getUtc());
+    return new DateTimeImmutable($this->now, UtcHelper::getUtc());
   }
 
   /**
@@ -47,6 +58,6 @@ class DateTimeProvider
    */
   public function utcNowMutable(): DateTime
   {
-    return new DateTime('now', UtcHelper::getUtc());
+    return new DateTime($this->now, UtcHelper::getUtc());
   }
 }

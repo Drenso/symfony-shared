@@ -8,6 +8,7 @@ use Drenso\Shared\Database\SoftDeletableSymfonyCacheWarmer;
 use Drenso\Shared\Database\SoftDeletableSymfonySubscriber;
 use Drenso\Shared\Email\EmailService;
 use Drenso\Shared\Exception\Handler\EntityValidationFailedExceptionHandler;
+use Drenso\Shared\Helper\DateTimeProvider;
 use Drenso\Shared\Helper\SpreadsheetHelper;
 use Drenso\Shared\Ical\IcalProvider;
 use Drenso\Shared\Serializer\Handlers\DecimalHandler;
@@ -39,22 +40,18 @@ class DrensoSharedExtension extends Extension
     $configuration = new Configuration();
     $config        = $this->processConfiguration($configuration, $configs);
 
+    $publicServices = $config['public_services'];
+
     // Configure the services with retrieved configuration values
-    $this->configureApiServices($container, $config);
-    $this->configureCommands($container, $config);
-    $this->configureDatabase($container, $config);
-    $this->configureEmailService($container, $config);
-    $this->configureSerializer($container, $config);
-    $this->configureServices($container, $config);
+    $this->configureApiServices($container, $config, $publicServices);
+    $this->configureCommands($container, $config, $publicServices);
+    $this->configureDatabase($container, $config, $publicServices);
+    $this->configureEmailService($container, $config, $publicServices);
+    $this->configureSerializer($container, $config, $publicServices);
+    $this->configureServices($container, $config, $publicServices);
   }
 
-  /**
-   * Configure the API services
-   *
-   * @param ContainerBuilder $container
-   * @param array            $config
-   */
-  private function configureApiServices(ContainerBuilder $container, array $config): void
+  private function configureApiServices(ContainerBuilder $container, array $config, bool $public): void
   {
     $config = $config['api'];
 
@@ -62,11 +59,12 @@ class DrensoSharedExtension extends Extension
       $container
           ->autowire(EntityValidationFailedExceptionHandler::class)
           ->setAutoconfigured(true)
+          ->setPublic($public)
           ->setArgument('$controllerPrefix', $config['convert_entity_validation_exception']['controller_prefix']);
     }
   }
 
-  private function configureCommands(ContainerBuilder $container, array $config): void
+  private function configureCommands(ContainerBuilder $container, array $config, bool $public): void
   {
     $config = $config['commands'];
 
@@ -74,18 +72,13 @@ class DrensoSharedExtension extends Extension
       $container
           ->register(CheckActionSecurityCommand::class)
           ->setAutoconfigured(true)
+          ->setPublic($public)
           ->setArgument('$container', new Reference('service_container'))
           ->setArgument('$excludedControllers', $config['check_action_security']['excluded_controllers']);
     }
   }
 
-  /**
-   * Configure the Database extension
-   *
-   * @param ContainerBuilder $container
-   * @param array            $config
-   */
-  private function configureDatabase(ContainerBuilder $container, array $config): void
+  private function configureDatabase(ContainerBuilder $container, array $config, bool $public): void
   {
     $database = $config['database'];
     if ($database['softdeletable']['enabled']) {
@@ -95,6 +88,7 @@ class DrensoSharedExtension extends Extension
 
       $container
           ->autowire(SoftDeletableSubscriber::class)
+          ->setPublic($public)
           ->addTag('doctrine.event_subscriber', [
               'connection' => 'default',
           ]);
@@ -106,22 +100,18 @@ class DrensoSharedExtension extends Extension
         $container
             ->autowire(SoftDeletableSymfonySubscriber::class)
             ->setAutoconfigured(true)
+            ->setPublic($public)
             ->setArgument('$useUtc', $useUtc);
         $container
             ->autowire(SoftDeletableSymfonyCacheWarmer::class)
+            ->setPublic($public)
             ->addTag('kernel.cache_warmer', ['priority' => 255])
             ->setArgument('$useUtc', $useUtc);
       }
     }
   }
 
-  /**
-   * Configure the e-mail service
-   *
-   * @param ContainerBuilder $container
-   * @param array            $config
-   */
-  private function configureEmailService(ContainerBuilder $container, array $config): void
+  private function configureEmailService(ContainerBuilder $container, array $config, bool $public): void
   {
     $mailer = $config['email']['mailer'];
 
@@ -135,6 +125,7 @@ class DrensoSharedExtension extends Extension
       }
 
       $definition = $container->autowire(EmailService::class)
+          ->setPublic($public)
           ->setLazy(true)
           ->setArgument('$senderEmail', $mailer['sender_email'])
           ->setArgument('$senderName', $mailer['sender_name']);
@@ -145,13 +136,7 @@ class DrensoSharedExtension extends Extension
     }
   }
 
-  /**
-   * Configure the services in the bundle
-   *
-   * @param ContainerBuilder $container
-   * @param array            $config
-   */
-  private function configureSerializer(ContainerBuilder $container, array $config): void
+  private function configureSerializer(ContainerBuilder $container, array $config, bool $public): void
   {
     $serializer = $config['serializer'];
     $handlers   = $serializer['handlers'];
@@ -159,29 +144,26 @@ class DrensoSharedExtension extends Extension
     if ($handlers['decimal']['enabled']) {
       $container
           ->autowire(DecimalHandler::class)
-          ->setAutoconfigured(true);
+          ->setAutoconfigured(true)
+          ->setPublic($public);
     }
 
     if ($serializer['static_serializer']['enabled']) {
       $container
           ->autowire(StaticSerializer::class)
-          ->setAutoconfigured(true);
+          ->setAutoconfigured(true)
+          ->setPublic($public);
     }
 
     if ($serializer['twig_integration']['enabled']) {
       $container
           ->autowire(JmsSerializerExtension::class)
-          ->setAutoconfigured(true);
+          ->setAutoconfigured(true)
+          ->setPublic($public);
     }
   }
 
-  /**
-   * Configure the services in the bundle
-   *
-   * @param ContainerBuilder $container
-   * @param array            $config
-   */
-  private function configureServices(ContainerBuilder $container, array $config): void
+  private function configureServices(ContainerBuilder $container, array $config, bool $public): void
   {
     $services = $config['services'];
 
@@ -189,6 +171,7 @@ class DrensoSharedExtension extends Extension
       $container
           ->autowire(GravatarExtension::class)
           ->setAutoconfigured(true)
+          ->setPublic($public)
           ->setArgument('$fallbackStyle', $services['gravatar']['fallback_style']);
     }
 
@@ -199,11 +182,17 @@ class DrensoSharedExtension extends Extension
 
       $container
           ->autowire(IcalProvider::class)
+          ->setPublic($public)
           ->setArgument('$provider', new Reference('bomo_ical.ics_provider'));
     }
 
     if ($services['spreadsheethelper']['enabled']) {
-      $container->autowire(SpreadsheetHelper::class);
+      $container
+          ->autowire(SpreadsheetHelper::class)
+          ->setPublic($public);
     }
+
+    // DateTime provider
+    $container->autowire(DateTimeProvider::class)->setPublic($public);
   }
 }

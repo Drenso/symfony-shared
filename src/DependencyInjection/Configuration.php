@@ -19,6 +19,9 @@ class Configuration implements ConfigurationInterface
       $rootNode = $treeBuilder->root('drenso_shared');
     }
 
+    // Configure global options
+    $rootNode->children()->booleanNode('public_services')->defaultFalse();
+
     // Configure our extensions
     $this->configureApiServices($rootNode);
     $this->configureCommands($rootNode);

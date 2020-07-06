@@ -8,7 +8,3 @@ services:
   # this creates a service per class whose id is the fully-qualified class name
   Drenso\Shared\Form\:
     resource: '../../Form/*'
-
-  Drenso\Shared\Helper\:
-    resource: '../../Helper/*'
-    exclude: '../../Helper/{SpreadsheetHelper.php}'

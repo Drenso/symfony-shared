@@ -1,4 +1,5 @@
 drenso_shared:
+  public_services: false # Set whether all services must be public
   api:
     convert_entity_validation_exception:
       enabled: false # When enabled, the exception will be converted to a JSON response
