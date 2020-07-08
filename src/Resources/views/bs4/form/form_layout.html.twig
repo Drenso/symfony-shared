@@ -68,7 +68,14 @@
 
 {% block checkbox_widget %}
   {%- set label_attr = label_attr|merge({class: label_attr.class|default('checkbox-custom')|trim}) -%}
-  {{ parent() }}
+  <div class="d-flex">
+    <div>
+      {{ parent() }}
+    </div>
+    {%- if required -%} {# Add div for rendering of required interface elements such as asterisks #}
+      <div class="checkbox-required required"></div>
+    {%- endif -%}
+  </div>
 {% endblock %}
 
 {% block checkbox_label %}
