@@ -53,14 +53,16 @@ class DrensoSharedExtension extends Extension
 
   private function configureApiServices(ContainerBuilder $container, array $config, bool $public): void
   {
-    $config = $config['api'];
+    $config        = $config['api'];
+    $convertConfig = $config['convert_entity_validation_exception'];
 
-    if ($config['convert_entity_validation_exception']['enabled']) {
+    if ($convertConfig['enabled']) {
       $container
           ->autowire(EntityValidationFailedExceptionHandler::class)
           ->setAutoconfigured(true)
           ->setPublic($public)
-          ->setArgument('$controllerPrefix', $config['convert_entity_validation_exception']['controller_prefix']);
+          ->setArgument('$controllerPrefix', $convertConfig['controller_prefix'])
+          ->setArgument('$dataField', $convertConfig['data_field']);
     }
   }
 

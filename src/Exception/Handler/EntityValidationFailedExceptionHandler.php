@@ -17,16 +17,21 @@ class EntityValidationFailedExceptionHandler implements EventSubscriberInterface
    * @var string
    */
   private $controllerPrefix;
+  /**
+   * @var string
+   */
+  private $dataField;
 
   /**
    * @var SerializerInterface
    */
   private $serializer;
 
-  public function __construct(SerializerInterface $serializer, string $controllerPrefix)
+  public function __construct(SerializerInterface $serializer, string $controllerPrefix, string $dataField)
   {
     $this->serializer       = $serializer;
     $this->controllerPrefix = $controllerPrefix;
+    $this->dataField        = $dataField;
   }
 
   public static function getSubscribedEvents()
@@ -46,7 +51,7 @@ class EntityValidationFailedExceptionHandler implements EventSubscriberInterface
       return;
     }
 
-    $controller          = $event->getRequest()->get('_controller');
+    $controller = $event->getRequest()->get('_controller');
 
     if (0 !== strncmp($controller, $this->controllerPrefix, strlen($this->controllerPrefix))) {
       return;
@@ -54,8 +59,8 @@ class EntityValidationFailedExceptionHandler implements EventSubscriberInterface
 
     // Create a JSON response with a serialized representation of the validation exception
     $json = $this->serializer->serialize([
-        'reason'  => 'Field validation failed',
-        'payload' => $exception->getViolationList(),
+        'reason'         => 'validation.failed',
+        $this->dataField => $exception->getViolationList(),
     ], 'json');
     $event->setResponse(new JsonResponse($json, Response::HTTP_BAD_REQUEST, [], true));
 

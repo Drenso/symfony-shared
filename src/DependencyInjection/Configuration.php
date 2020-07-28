@@ -50,7 +50,14 @@ class Configuration implements ConfigurationInterface
                 ->children()
                   ->scalarNode('controller_prefix')
                     ->defaultValue('App\\Controller\\Api\\')
-                  ->end() // sender_email
+                  ->end() // controller_prefix
+                  ->scalarNode('data_field')
+                    ->defaultValue('payload')
+                    ->cannotBeEmpty()
+                    ->validate()
+                      ->ifInArray(['reason'])->thenInvalid('Invalid data field name %s')
+                    ->end() // data_field validator
+                  ->end() // data_field
                 ->end() // convert_entity_validation_exception children
               ->end() // convert_entity_validation_exception
             ->end() // api children
