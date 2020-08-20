@@ -12,21 +12,32 @@ use Doctrine\ORM\QueryBuilder;
 trait FindIdsTrait
 {
   /**
-   * Retrieve entities by the given ids
+   * Get the query builder to retrieve entities by the given ids
    *
    * @param array       $ids
    * @param string|null $alias
    *
-   * @return array
+   * @return QueryBuilder
    */
-  public function findByIds(array $ids, ?string $alias = NULL): array
+  public function findByIdsQb(array $ids, ?string $alias = NULL): QueryBuilder
   {
     $alias = $alias ?: 'e';
     $qb    = $this->createQueryBuilder($alias);
 
     return $qb
         ->where($qb->expr()->in(sprintf('%s.id', $alias), ':ids'))
-        ->setParameter('ids', $ids)
-        ->getQuery()->getResult();
+        ->setParameter('ids', $ids);
+  }
+
+  /**
+   * Retrieve entities by the given ids
+   *
+   * @param array       $ids
+   *
+   * @return array
+   */
+  public function findByIds(array $ids): array
+  {
+    return $this->findByIdsQb($ids)->getQuery()->getResult();
   }
 }
