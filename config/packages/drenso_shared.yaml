@@ -28,6 +28,10 @@ drenso_shared:
     twig_integration:
       enabled: false # Enable the JMS twig integration (automatically true when you specify any of the options below and omit this line)
   services:
+    feature_flags:
+      enabled: true # Enable the feature flags service and annotations (automatically true when you specify any of the options below and omit this line)
+      configuration_file: '' # The JSON file location where your flags are configured, for example '%env(resolve:FEATURES_FILE)%'
+      configuration_local_file: '' # Not required, but can be used to override flags in the main configuration file outside of version control
     gravatar:
       enabled: true # Enable the SpreadsheetHelper for injection (automatically true when you specify any of the options below and omit this line)
       fallback_style: 'mp' # Define a fallback style for accounts without a gravatar, see https://en.gravatar.com/site/implement/images/#default-image

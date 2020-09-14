@@ -15,6 +15,7 @@ class Configuration implements ConfigurationInterface
       $rootNode = $treeBuilder->getRootNode();
     } else {
       // BC layer for symfony/config 4.1 and older
+      /** @noinspection PhpUndefinedMethodInspection */
       // @phan-suppress-next-line PhanUndeclaredMethod
       $rootNode = $treeBuilder->root('drenso_shared');
     }
@@ -189,6 +190,18 @@ class Configuration implements ConfigurationInterface
           ->arrayNode('services')
             ->addDefaultsIfNotSet()
             ->children()
+              ->arrayNode('feature_flags')
+                ->canBeEnabled()
+                ->children()
+                  ->scalarNode('configuration_file')
+                    ->isRequired()
+                    ->cannotBeEmpty()
+                  ->end() // configuration_file
+                  ->scalarNode('configuration_local_file')
+                    ->cannotBeEmpty()
+                  ->end() // configuration_local_file
+                ->end() // feature_flags children
+              ->end() // feature_flags
               ->arrayNode('gravatar')
                 ->canBeEnabled()
                 ->children()

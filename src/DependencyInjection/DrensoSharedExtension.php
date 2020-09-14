@@ -8,6 +8,8 @@ use Drenso\Shared\Database\SoftDeletableSymfonyCacheWarmer;
 use Drenso\Shared\Database\SoftDeletableSymfonySubscriber;
 use Drenso\Shared\Email\EmailService;
 use Drenso\Shared\Exception\Handler\EntityValidationFailedExceptionHandler;
+use Drenso\Shared\FeatureFlags\FeatureFlags;
+use Drenso\Shared\FeatureFlags\RequireFeatureListener;
 use Drenso\Shared\Helper\DateTimeProvider;
 use Drenso\Shared\Helper\SpreadsheetHelper;
 use Drenso\Shared\Ical\IcalProvider;
@@ -168,6 +170,20 @@ class DrensoSharedExtension extends Extension
   private function configureServices(ContainerBuilder $container, array $config, bool $public): void
   {
     $services = $config['services'];
+
+    if ($services['feature_flags']['enabled']) {
+      $container
+          ->autowire(FeatureFlags::class)
+          ->setAutoconfigured(true)
+          ->setArgument('$configuration', $services['feature_flags']['configuration_file'])
+          ->setArgument('$configurationOverride', $services['feature_flags']['configuration_local_file'] ?? '')
+          ->setPublic($public);
+
+      $container
+          ->autowire(RequireFeatureListener::class)
+          ->setAutoconfigured(true)
+          ->setPublic($public);
+    }
 
     if ($services['gravatar']['enabled']) {
       $container
