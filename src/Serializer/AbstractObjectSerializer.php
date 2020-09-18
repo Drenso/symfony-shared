@@ -71,10 +71,15 @@ abstract class AbstractObjectSerializer
    * @param SerializationVisitorInterface $visitor
    * @param string                        $prop
    * @param string|null                   $value
+   * @param bool                          $insertUnderscore
    */
-  protected function addStringProperty(SerializationVisitorInterface $visitor, string $prop, ?string $value): void
+  protected function addStringProperty(
+      SerializationVisitorInterface $visitor, string $prop, ?string $value, bool $insertUnderscore = true): void
   {
-    $visitor->visitProperty(new StaticPropertyMetadata('string', '_' . $prop, NULL), $value);
+    $visitor->visitProperty(
+        new StaticPropertyMetadata('string', $this->propertyName($prop, $insertUnderscore), NULL),
+        $value
+    );
   }
 
   /**
@@ -83,10 +88,15 @@ abstract class AbstractObjectSerializer
    * @param SerializationVisitorInterface $visitor
    * @param string                        $prop
    * @param bool|null                     $value
+   * @param bool                          $insertUnderscore
    */
-  protected function addBoolProperty(SerializationVisitorInterface $visitor, string $prop, ?bool $value): void
+  protected function addBoolProperty(
+      SerializationVisitorInterface $visitor, string $prop, ?bool $value, bool $insertUnderscore = true): void
   {
-    $visitor->visitProperty(new StaticPropertyMetadata('boolean', '_' . $prop, NULL), $value);
+    $visitor->visitProperty(
+        new StaticPropertyMetadata('boolean', $this->propertyName($prop, $insertUnderscore), NULL),
+        $value
+    );
   }
 
   /**
@@ -95,4 +105,9 @@ abstract class AbstractObjectSerializer
    * @param                               $object
    */
   protected abstract function doSerialize(SerializationVisitorInterface $visitor, array $groups, $object): void;
+
+  private function propertyName(string $prop, bool $insertUnderscore)
+  {
+    return ($insertUnderscore ? '_' : '') . $prop;
+  }
 }
