@@ -16,6 +16,7 @@ form:
   list: 'List'
   save: 'Save'
   save-and-list: 'Save and list'
+  select2-placeholder: 'None'
 
 general:
   close: 'Close'

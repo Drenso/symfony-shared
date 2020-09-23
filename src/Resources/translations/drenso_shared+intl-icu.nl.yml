@@ -16,6 +16,7 @@ form:
   list: 'Lijst'
   save: 'Opslaan'
   save-and-list: 'Opslaan en naar lijst'
+  select2-placeholder: 'Geen'
 
 general:
   close: 'Sluit'

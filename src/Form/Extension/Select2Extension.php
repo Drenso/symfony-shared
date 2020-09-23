@@ -54,6 +54,11 @@ class Select2Extension extends AbstractTypeExtension
         $select2Options['placeholder'] = $options['translation_domain'] === false || !$this->translator
             ? $options['placeholder']
             : $this->translator->trans($options['placeholder'], [], $options['translation_domain']);
+      } else if (!$options['required']) {
+        // Add default placeholder
+        $select2Options['placeholder'] = !$this->translator
+            ? 'None'
+            : $this->translator->trans('form.select2-placeholder', [], 'drenso_shared');
       }
 
       // Merge explicit options, which override everything else
