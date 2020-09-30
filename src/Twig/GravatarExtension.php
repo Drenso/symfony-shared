@@ -2,6 +2,7 @@
 
 namespace Drenso\Shared\Twig;
 
+use Drenso\Shared\Helper\GravatarHelper;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
@@ -13,15 +14,13 @@ use Twig\TwigFilter;
 class GravatarExtension extends AbstractExtension
 {
   /**
-   * The fallback style of gravatar to use in case there is not gravatar available
-   *
-   * @var string
+   * @var GravatarHelper
    */
-  private $fallbackStyle;
+  private $gravatarHelper;
 
-  public function __construct(string $fallbackStyle)
+  public function __construct(GravatarHelper $gravatarHelper)
   {
-    $this->fallbackStyle = $fallbackStyle;
+    $this->gravatarHelper = $gravatarHelper;
   }
 
   /**
@@ -30,23 +29,7 @@ class GravatarExtension extends AbstractExtension
   public function getFilters(): array
   {
     return array(
-        new TwigFilter('gravatarImage', array($this, 'gravatarImage')),
+        new TwigFilter('gravatarImage', [$this->gravatarHelper, 'gravatarImage']),
     );
-  }
-
-  /**
-   * @param string      $emailAddress
-   * @param string|null $size
-   *
-   * @param string|null $fallbackStyle
-   *
-   * @return string
-   */
-  public function gravatarImage(string $emailAddress, ?string $size = NULL, ?string $fallbackStyle = NULL): string
-  {
-    return sprintf("https://www.gravatar.com/avatar/%s?d=%s%s",
-        md5(strtolower(trim($emailAddress))),
-        $fallbackStyle ?? $this->fallbackStyle,
-        $size ? sprintf("&s=%d", $size) : "");
   }
 }

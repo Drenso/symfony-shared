@@ -11,6 +11,7 @@ use Drenso\Shared\Exception\Handler\EntityValidationFailedExceptionHandler;
 use Drenso\Shared\FeatureFlags\FeatureFlags;
 use Drenso\Shared\FeatureFlags\RequireFeatureListener;
 use Drenso\Shared\Helper\DateTimeProvider;
+use Drenso\Shared\Helper\GravatarHelper;
 use Drenso\Shared\Helper\SpreadsheetHelper;
 use Drenso\Shared\Ical\IcalProvider;
 use Drenso\Shared\Serializer\Handlers\DecimalHandler;
@@ -187,10 +188,17 @@ class DrensoSharedExtension extends Extension
 
     if ($services['gravatar']['enabled']) {
       $container
-          ->autowire(GravatarExtension::class)
+          ->autowire(GravatarHelper::class)
           ->setAutoconfigured(true)
           ->setPublic($public)
           ->setArgument('$fallbackStyle', $services['gravatar']['fallback_style']);
+
+      if ($services['gravatar']['twig_integration']){
+        $container
+            ->autowire(GravatarExtension::class)
+            ->setAutoconfigured(true)
+            ->setPublic($public);
+      }
     }
 
     if ($services['ical_provider']['enabled']) {

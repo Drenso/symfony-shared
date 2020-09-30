@@ -209,6 +209,9 @@ class Configuration implements ConfigurationInterface
                     ->cannotBeEmpty()
                     ->defaultValue('mp')
                   ->end() // fallback_style
+                  ->arrayNode('twig_integration')
+                    ->canBeDisabled()
+                  ->end() // twig_integration
                 ->end() // gravatar children
               ->end() // gravatar
               ->arrayNode('ical_provider')
