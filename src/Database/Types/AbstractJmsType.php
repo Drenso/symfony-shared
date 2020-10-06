@@ -24,7 +24,12 @@ abstract class AbstractJmsType extends JsonType
     }
 
     try {
-      return StaticSerializer::getSerializer()->serialize($value, 'json');
+      if (null !== $groups = $this->getSerializationGroups()){
+        $context = StaticSerializer::getSerializationContextFactory()->createSerializationContext();
+        $context->setGroups($groups);
+      }
+
+      return StaticSerializer::getSerializer()->serialize($value, 'json', $context ?? null);
     } catch (Exception $e) {
       throw ConversionException::conversionFailedSerialization($value, 'json', $e->getMessage());
     }
@@ -50,6 +55,16 @@ abstract class AbstractJmsType extends JsonType
     } catch (Exception $e) {
       throw ConversionException::conversionFailed($value, $this->getName());
     }
+  }
+
+  /**
+   * Overwrite this to enable serialization group support
+   *
+   * @return array|null
+   */
+  protected function getSerializationGroups(): ?array
+  {
+    return NULL;
   }
 
   abstract protected function getJmsType(): string;

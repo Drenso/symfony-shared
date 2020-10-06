@@ -2,6 +2,7 @@
 
 namespace Drenso\Shared\Serializer;
 
+use JMS\Serializer\ContextFactory\SerializationContextFactoryInterface;
 use JMS\Serializer\SerializerInterface;
 use RuntimeException;
 use Symfony\Component\Console\ConsoleEvents;
@@ -15,6 +16,8 @@ class StaticSerializer implements EventSubscriberInterface
 
   /** @var SerializerInterface|null */
   private static $serializer = NULL;
+  /** @var SerializationContextFactoryInterface|null */
+  private static $serializationContextFactory = NULL;
 
   /**
    * EntitySnapshotter constructor.
@@ -24,11 +27,14 @@ class StaticSerializer implements EventSubscriberInterface
    * This also makes sure we share the configuration as configured with our the parameters, so we can leverage
    * automatic doctrine mapping and any custom handlers registered by us or other (for example, PhoneNumber)
    *
-   * @param SerializerInterface $serializer
+   * @param SerializerInterface                  $serializer
+   * @param SerializationContextFactoryInterface $serializationContextFactory
    */
-  public function __construct(SerializerInterface $serializer)
+  public function __construct(
+      SerializerInterface $serializer, SerializationContextFactoryInterface $serializationContextFactory)
   {
-    self::$serializer = $serializer;
+    self::$serializer                  = $serializer;
+    self::$serializationContextFactory = $serializationContextFactory;
   }
 
   /**
@@ -74,6 +80,15 @@ class StaticSerializer implements EventSubscriberInterface
     }
 
     return self::$serializer;
+  }
+
+  public static function getSerializationContextFactory(): SerializationContextFactoryInterface
+  {
+    if (!self::$serializationContextFactory) {
+      throw new RuntimeException('Serialization context factory not available!');
+    }
+
+    return self::$serializationContextFactory;
   }
 
 }
