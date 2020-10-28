@@ -2,6 +2,8 @@
 
 namespace Drenso\Shared\Helper;
 
+use DateTime;
+use DateTimeImmutable;
 use DateTimeInterface;
 use PhpOffice\PhpSpreadsheet\Cell\DataType;
 use PhpOffice\PhpSpreadsheet\Exception;
@@ -12,6 +14,7 @@ use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PhpOffice\PhpSpreadsheet\Writer\Csv;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use RuntimeException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -201,6 +204,23 @@ class SpreadsheetHelper
   {
     $this->setCellValue($sheet, $column, $row, $value, $bold);
     $sheet->getStyleByColumnAndRow($column, $row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_ACCOUNTING_EUR);
+  }
+
+  public static function convertToLocalTimezone(DateTimeInterface $dateTime): DateTimeInterface
+  {
+    $timezone = (new DateTime())->getTimezone();
+
+    if (PHP_MAJOR_VERSION >= 8) {
+      /** @noinspection PhpElementIsNotAvailableInCurrentPhpVersionInspection */
+      /** @phan-suppress-next-line PhanUndeclaredStaticMethod */
+      return DateTime::createFromInterface($dateTime)->setTimezone($timezone);
+    } else if ($dateTime instanceof DateTime) {
+      return (clone $dateTime)->setTimezone($timezone);
+    } else if ($dateTime instanceof DateTimeImmutable) {
+      return $dateTime->setTimezone($timezone);
+    }
+
+    throw new RuntimeException('Local timezone could not be set');
   }
 
   /**
