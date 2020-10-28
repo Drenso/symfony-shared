@@ -173,6 +173,24 @@ class SpreadsheetHelper
   }
 
   /**
+   * @param Worksheet         $sheet
+   * @param int               $column
+   * @param int               $row
+   * @param DateTimeInterface $dateTime
+   * @param bool              $leftAligned
+   * @param bool              $bold
+   */
+  public function setCellDate(Worksheet &$sheet, int $column, int $row, DateTimeInterface $dateTime, bool $leftAligned = false, bool $bold = false)
+  {
+    $this->setCellValue($sheet, $column, $row, Date::PHPToExcel($dateTime), $bold);
+    $sheet->getStyleByColumnAndRow($column, $row)->getNumberFormat()->setFormatCode('dd/mm/yyyy');
+
+    if ($leftAligned) {
+      $sheet->getStyleByColumnAndRow($column, $row)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+    }
+  }
+
+  /**
    * @param Worksheet $sheet
    * @param int       $column
    * @param int       $row
