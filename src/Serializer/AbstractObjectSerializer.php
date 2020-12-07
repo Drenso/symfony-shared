@@ -62,7 +62,7 @@ abstract class AbstractObjectSerializer
       $groups = $groups[$path];
     }
 
-    $this->doSerialize($visitor, $groups, $event->getObject());
+    $this->doSerialize($visitor, $groups, $event->getObject(), $event);
   }
 
   /**
@@ -103,8 +103,10 @@ abstract class AbstractObjectSerializer
    * @param SerializationVisitorInterface $visitor
    * @param array                         $groups
    * @param                               $object
+   * @param ObjectEvent                   $event
    */
-  protected abstract function doSerialize(SerializationVisitorInterface $visitor, array $groups, $object): void;
+  protected abstract function doSerialize(
+      SerializationVisitorInterface $visitor, array $groups, $object, ObjectEvent $event): void;
 
   private function propertyName(string $prop, bool $insertUnderscore)
   {
