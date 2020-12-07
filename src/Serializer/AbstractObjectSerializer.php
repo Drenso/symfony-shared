@@ -4,8 +4,10 @@ namespace Drenso\Shared\Serializer;
 
 use JMS\Serializer\EventDispatcher\Events;
 use JMS\Serializer\EventDispatcher\ObjectEvent;
+use JMS\Serializer\Metadata\PropertyMetadata;
 use JMS\Serializer\Metadata\StaticPropertyMetadata;
 use JMS\Serializer\Visitor\SerializationVisitorInterface;
+use RuntimeException;
 
 /**
  * Abstract base class for serializing objects with JMS, which resolves the groups
@@ -97,6 +99,34 @@ abstract class AbstractObjectSerializer
         new StaticPropertyMetadata('boolean', $this->propertyName($prop, $insertUnderscore), NULL),
         $value
     );
+  }
+
+  /**
+   * Add a property as defined in the class metadata.
+   * Allows to overwrite the serialized name.
+   *
+   * @param SerializationVisitorInterface $visitor
+   * @param ObjectEvent                   $event
+   * @param string                        $objectClass
+   * @param string                        $objectProperty
+   * @param mixed                         $value
+   * @param string|null                   $prop
+   * @param bool                          $insertUnderscore
+   */
+  protected function addProperty(
+      SerializationVisitorInterface $visitor, ObjectEvent $event, string $objectClass, string $objectProperty, $value,
+      ?string $prop = NULL, bool $insertUnderscore = true): void
+  {
+    $metadata = $event->getContext()->getMetadataFactory()->getMetadataForClass($objectClass)->propertyMetadata[$objectProperty];
+    if (!$metadata instanceof PropertyMetadata) {
+      throw new RuntimeException('Invalid property metadata!');
+    }
+
+    if ($prop) {
+      $metadata->serializedName = $this->propertyName($prop, $insertUnderscore);
+    }
+
+    $visitor->visitProperty($metadata, $value);
   }
 
   /**
