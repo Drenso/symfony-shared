@@ -5,16 +5,28 @@ stages:
 
 variables:
   COMPOSER_MEMORY_LIMIT: -1
+  YAMLLINT_DIRECTORIES: src/Resources/config
     
 include:
   - project: 'intern/runner-templates'
     file: '/symfony/install-dependencies.yml'
+    ref: "3.5"
   - project: 'intern/runner-templates'
     file: '/php/phan.yml'
+    ref: "3.5"
+# The require checker breaks for unknown on this project...
+#  - project: 'intern/runner-templates'
+#    file: '/php/composer-require-checker.yml'
+#    ref: "3.5"
+  - project: 'intern/runner-templates'
+    file: '/php/composer-unused.yml'
+    ref: "3.5"
   - project: 'intern/runner-templates'
     file: '/yaml/yamllint.yml'
+    ref: "3.5"
   - project: 'intern/runner-templates'
     file: '/deploy/deploy.yml'
+    ref: "3.5"
 
 install-dependencies:
   before_script:
@@ -29,8 +41,6 @@ php-analysis:
     - master
 
 yaml-analysis:
-  script:
-    - yamllint -c tests/yamllint/config src/Resources/config
   except:
     - schedules
     - tags
