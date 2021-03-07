@@ -21,7 +21,6 @@
   "minimum-stability": "dev",
   "require": {
     "php": "^7.3",
-    "ext-ctype": "*",
     "ext-iconv": "*",
     "ext-json": "*",
     "symfony/config": "~3.4 || ~4.0 || ~5.0",
