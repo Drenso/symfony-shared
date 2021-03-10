@@ -46,6 +46,12 @@ yaml-analysis:
     - tags
     - master
 
+composer-unused:
+  except:
+    - schedules
+    - tags
+    - master
+
 deploy-staging:
   only:
     - master
