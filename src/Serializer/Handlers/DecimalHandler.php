@@ -51,6 +51,6 @@ class DecimalHandler implements SubscribingHandlerInterface
       return new Decimal(0);
     }
 
-    return new Decimal($decimalAsString);
+    return new Decimal((string) $decimalAsString);
   }
 }
