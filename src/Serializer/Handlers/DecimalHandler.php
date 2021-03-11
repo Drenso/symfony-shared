@@ -5,9 +5,9 @@ namespace Drenso\Shared\Serializer\Handlers;
 use Decimal\Decimal;
 use JMS\Serializer\GraphNavigatorInterface;
 use JMS\Serializer\Handler\SubscribingHandlerInterface;
-use JMS\Serializer\JsonDeserializationVisitor;
-use JMS\Serializer\JsonSerializationVisitor;
 use JMS\Serializer\Context;
+use JMS\Serializer\Visitor\DeserializationVisitorInterface;
+use JMS\Serializer\Visitor\SerializationVisitorInterface;
 
 
 /**
@@ -39,12 +39,12 @@ class DecimalHandler implements SubscribingHandlerInterface
     ];
   }
 
-  public function serializeJson(JsonSerializationVisitor $visitor, Decimal $decimal, array $type, Context $context)
+  public function serializeJson(SerializationVisitorInterface $visitor, Decimal $decimal, array $type, Context $context)
   {
     return $visitor->visitString($decimal->toString(), $type);
   }
 
-  public function deserializeJson(JsonDeserializationVisitor $visitor, $decimalAsString, array $type, Context $context)
+  public function deserializeJson(DeserializationVisitorInterface $visitor, $decimalAsString, array $type, Context $context)
   {
     // Parse empty strings as zero
     if ($decimalAsString === ""){
