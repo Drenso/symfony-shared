@@ -110,7 +110,8 @@ class DrensoSharedExtension extends Extension
         $container
             ->autowire(SoftDeletableSymfonyCacheWarmer::class)
             ->setPublic($public)
-            ->addTag('kernel.cache_warmer', ['priority' => 255])
+            // This need to be run before any other Doctrine warmer!
+            ->addTag('kernel.cache_warmer', ['priority' => 10000])
             ->setArgument('$useUtc', $useUtc);
       }
     }
