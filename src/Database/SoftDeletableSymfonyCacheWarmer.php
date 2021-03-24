@@ -38,7 +38,7 @@ class SoftDeletableSymfonyCacheWarmer implements CacheWarmerInterface
   public function warmUp($cacheDir)
   {
     self::registerGedmoType();
-    (new SoftDeletableSymfonySubscriber($this->useUtc))->registerConversionType();
+    SoftDeletableSymfonySubscriber::registerConversionTypeStatic($this->useUtc);
 
     return [];
   }

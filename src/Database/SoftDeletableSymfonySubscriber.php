@@ -40,11 +40,15 @@ class SoftDeletableSymfonySubscriber implements EventSubscriberInterface
 
   public function registerConversionType()
   {
+    self::registerConversionTypeStatic($this->useUtc);
+  }
+
+  public static function registerConversionTypeStatic(bool $useUtc): void {
     $type = DateTimeImmutableWithConversionType::DATETIME_IMMUTABLE_WITH_CONVERSION;
 
     // Register the type with doctrine
     if (!Type::hasType($type)) {
-      Type::addType($type, $this->useUtc
+      Type::addType($type, $useUtc
           ? UTCDateTimeImmutableWithConversionType::class
           : DateTimeImmutableWithConversionType::class);
     }
