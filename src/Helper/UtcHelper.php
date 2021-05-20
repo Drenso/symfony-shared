@@ -29,7 +29,6 @@ class UtcHelper
     $timezone = (new DateTime())->getTimezone();
 
     if (PHP_MAJOR_VERSION >= 8) {
-      /** @noinspection PhpElementIsNotAvailableInCurrentPhpVersionInspection */
       /** @phan-suppress-next-line PhanUndeclaredStaticMethod */
       return DateTime::createFromInterface($dateTime)->setTimezone($timezone);
     } else if ($dateTime instanceof DateTime) {
