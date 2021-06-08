@@ -62,7 +62,7 @@ class SoftDeletableSubscriber implements EventSubscriber
     // Update the value
     $token = $this->tokenStorage->getToken();
     $user  = $token
-      // @phan-suppress-next-line PhanUndeclaredMethod
+      // @phan-suppress-next-line PhanUndeclaredMethod,PhanDeprecatedFunction
         ? (method_exists($token, 'getUserIdentifier') ? $token->getUserIdentifier() : $token->getUsername())
         : 'anon.';
     $reflProp->setValue($object, $user);
