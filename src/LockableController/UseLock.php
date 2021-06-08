@@ -1,42 +1,43 @@
 <?php
 
-namespace Drenso\Shared\FeatureFlags;
+namespace Drenso\Shared\LockableController;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ConfigurationAnnotation;
 
 /**
  * @Annotation
  */
-class RequireFeature extends ConfigurationAnnotation
+class UseLock extends ConfigurationAnnotation
 {
   /**
    * @var string
    * @Required
    */
-  private $flag;
+  private $lockName;
 
-  public function setFlag($flag)
+  public function setLockName($lockName)
   {
-    $this->flag = $flag;
+    $this->lockName = $lockName;
   }
 
-  public function getFlag()
+  public function getLockName()
   {
-    return $this->flag;
+    return $this->lockName;
   }
 
   public function setValue($value)
   {
-    $this->setFlag($value);
+    $this->setLockName($value);
   }
 
   public function getAliasName()
   {
-    return 'drenso_require_feature';
+    return 'drenso_use_lock';
   }
 
   public function allowArray()
   {
     return true;
   }
+
 }
