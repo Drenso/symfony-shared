@@ -17,6 +17,11 @@ class UtcHelper
   private static $utc;
 
   /**
+   * @var DateTimeZone
+   */
+  private static $local;
+
+  /**
    * @return DateTimeZone
    */
   public static function getUtc(): DateTimeZone
@@ -26,7 +31,7 @@ class UtcHelper
 
   public static function convertToLocalTimezone(DateTimeInterface $dateTime): DateTimeInterface
   {
-    $timezone = (new DateTime())->getTimezone();
+    $timezone = self::$local ?: self::$local = new DateTimeZone(date_default_timezone_get());
 
     if (PHP_MAJOR_VERSION >= 8) {
       /** @phan-suppress-next-line PhanUndeclaredStaticMethod */
