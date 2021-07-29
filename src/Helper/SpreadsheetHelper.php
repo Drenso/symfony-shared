@@ -155,16 +155,18 @@ class SpreadsheetHelper
   }
 
   /**
-   * @param Worksheet         $sheet
-   * @param int               $column
-   * @param int               $row
-   * @param DateTimeInterface $dateTime
-   * @param bool              $leftAligned
-   * @param bool              $bold
+   * @param Worksheet              $sheet
+   * @param int                    $column
+   * @param int                    $row
+   * @param DateTimeInterface|null $dateTime
+   * @param bool                   $leftAligned
+   * @param bool                   $bold
    */
-  public function setCellDateTime(Worksheet &$sheet, int $column, int $row, DateTimeInterface $dateTime, bool $leftAligned = false, bool $bold = false)
+  public function setCellDateTime(Worksheet &$sheet, int $column, int $row, ?DateTimeInterface $dateTime, bool $leftAligned = false, bool $bold = false)
   {
-    $this->setCellValue($sheet, $column, $row, Date::PHPToExcel($dateTime), $bold);
+    if ($dateTime !== NULL) {
+      $this->setCellValue($sheet, $column, $row, Date::PHPToExcel($dateTime), $bold);
+    }
     $sheet->getStyleByColumnAndRow($column, $row)->getNumberFormat()->setFormatCode('dd/mm/yyyy hh:mm');
 
     if ($leftAligned) {
@@ -173,16 +175,18 @@ class SpreadsheetHelper
   }
 
   /**
-   * @param Worksheet         $sheet
-   * @param int               $column
-   * @param int               $row
-   * @param DateTimeInterface $dateTime
-   * @param bool              $leftAligned
-   * @param bool              $bold
+   * @param Worksheet              $sheet
+   * @param int                    $column
+   * @param int                    $row
+   * @param DateTimeInterface|null $dateTime
+   * @param bool                   $leftAligned
+   * @param bool                   $bold
    */
-  public function setCellDate(Worksheet &$sheet, int $column, int $row, DateTimeInterface $dateTime, bool $leftAligned = false, bool $bold = false)
+  public function setCellDate(Worksheet &$sheet, int $column, int $row, ?DateTimeInterface $dateTime, bool $leftAligned = false, bool $bold = false)
   {
-    $this->setCellValue($sheet, $column, $row, Date::PHPToExcel($dateTime), $bold);
+    if ($dateTime !== NULL) {
+      $this->setCellValue($sheet, $column, $row, Date::PHPToExcel($dateTime), $bold);
+    }
     $sheet->getStyleByColumnAndRow($column, $row)->getNumberFormat()->setFormatCode('dd/mm/yyyy');
 
     if ($leftAligned) {
