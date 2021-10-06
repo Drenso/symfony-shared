@@ -10,23 +10,23 @@ variables:
 include:
   - project: 'intern/runner-templates'
     file: '/symfony/install-dependencies.yml'
-    ref: "3.5"
+    ref: "3.11"
   - project: 'intern/runner-templates'
     file: '/php/phan.yml'
-    ref: "3.5"
+    ref: "3.11"
 # The require checker breaks for unknown on this project...
 #  - project: 'intern/runner-templates'
 #    file: '/php/composer-require-checker.yml'
 #    ref: "3.5"
   - project: 'intern/runner-templates'
     file: '/php/composer-unused.yml'
-    ref: "3.5"
+    ref: "3.11"
   - project: 'intern/runner-templates'
     file: '/yaml/yamllint.yml'
-    ref: "3.5"
+    ref: "3.11"
   - project: 'intern/runner-templates'
     file: '/deploy/deploy.yml'
-    ref: "3.5"
+    ref: "3.11"
 
 install-dependencies:
   before_script:
