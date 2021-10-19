@@ -3,12 +3,14 @@
 namespace Drenso\Shared\Command;
 
 use Doctrine\Common\Annotations\AnnotationReader;
+use ReflectionClass;
 use ReflectionException;
 use ReflectionMethod;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -54,7 +56,10 @@ class CheckActionSecurityCommand extends Command
   protected function configure()
   {
     $this
-        ->setDescription('Check if all actions in the app namespace either have a Security or a IsGranted annotation.');
+        ->setDescription('Check if all actions in the app namespace either have a Security or an IsGranted annotation.');
+
+    $this->addOption('allow-class-annotations', NULL, InputOption::VALUE_NONE,
+        'When given, a global class IsGranted annotation is also allowed');
   }
 
   /**
@@ -68,6 +73,7 @@ class CheckActionSecurityCommand extends Command
     $noSecurity         = [];
     $checkedControllers = [];
     $annotationReader   = new AnnotationReader();
+    $allowClass         = $input->getOption('allow-class-annotations') ?? false;
     // Find all routes
     $routes = $this->container->get('router')->getRouteCollection()->all();
 
@@ -103,7 +109,8 @@ class CheckActionSecurityCommand extends Command
         if ($annotationReader->getMethodAnnotation($reflectedMethod, Route::class)) {
           // Check if Security or IsGranted annotation exists, if not raise error
           if (!$annotationReader->getMethodAnnotation($reflectedMethod, Security::class) &&
-              !$annotationReader->getMethodAnnotation($reflectedMethod, IsGranted::class)) {
+              !$annotationReader->getMethodAnnotation($reflectedMethod, IsGranted::class) &&
+              (!$allowClass || !$annotationReader->getClassAnnotation(new ReflectionClass($controllerObject), IsGranted::class))) {
             $noSecurity[] = '- ' . $controller;
           }
 
