@@ -8,6 +8,10 @@
   ],
   "type": "symfony-bundle",
   "license": "MIT",
+  "repositories": [{
+    "type": "git",
+    "url": "https://github.com/tobias-93/IcalBundle.git"
+  }],
   "authors": [
     {
       "name": "Bob van de Vijver",
@@ -30,10 +34,11 @@
     "twig/twig": "~2.0 || ~3.0"
   },
   "require-dev": {
-    "bomo/ical-bundle": "^1.1",
+    "bomo/ical-bundle": "dev-fix-timezone-usage",
     "doctrine/orm": "^2.7",
     "drenso/phan-extensions": "~2.5 || ~3.0",
     "jms/serializer-bundle": "^3.3",
+    "kigkonsult/icalcreator": "^2.39",
     "php-decimal/php-decimal": "^1.1",
     "phpoffice/phpspreadsheet": "^1.10",
     "sebastian/comparator": "^3.0 || ^4.0",
@@ -48,6 +53,9 @@
     "symfony/translation-contracts": "~1.1 || ~2.0",
     "symfony/twig-bridge": "~3.4 || ~4.0 || ~5.0",
     "symfony/validator": "~3.4 || ~4.0 || ~5.0"
+  },
+  "conflict": {
+    "kigkonsult/icalcreator": "<2.39"
   },
   "suggest": {
     "bomo/ical-bundle": "Needed for the IcalProvider",
