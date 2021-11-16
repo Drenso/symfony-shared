@@ -4,6 +4,7 @@ namespace Drenso\Shared\IdMap;
 
 use ArrayIterator;
 use Countable;
+use Drenso\Shared\Interfaces\IdInterface;
 use InvalidArgumentException;
 use IteratorAggregate;
 use Traversable;
@@ -22,6 +23,10 @@ class IdMap implements Countable, IteratorAggregate
   {
     $this->elements = [];
     foreach ($objects as $object) {
+      if (!$object instanceof IdInterface) {
+        throw new InvalidArgumentException(sprintf('All array items must implement %s', IdInterface::class));
+      }
+
       if (!$id = $object->getId()) {
         throw new InvalidArgumentException('Cannot map object with a non-empty id');
       }

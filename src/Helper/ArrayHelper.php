@@ -2,6 +2,7 @@
 
 namespace Drenso\Shared\Helper;
 
+use Drenso\Shared\Interfaces\IdInterface;
 use InvalidArgumentException;
 
 class ArrayHelper
@@ -132,7 +133,7 @@ class ArrayHelper
   /**
    * Map an array of object to an array of ids
    *
-   * @param object[] $objects
+   * @param IdInterface[] $objects
    *
    * @return int[]
    */
