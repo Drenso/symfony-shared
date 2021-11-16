@@ -129,4 +129,37 @@ class ArrayHelper
     }
   }
 
+  /**
+   * Map an array of object to an array of ids
+   *
+   * @param object[] $objects
+   *
+   * @return int[]
+   */
+  public static function mapToId(array $objects): array
+  {
+    return array_values(array_map(
+        function ($object) {
+          return $object->getId();
+        },
+        $objects
+    ));
+  }
+
+  /**
+   * Filter null values from array
+   *
+   * @template T
+   *
+   * @param array<T|null> $data
+   *
+   * @return array<T>
+   */
+  public static function filterNullValuesFromArray(array $data): array
+  {
+    return array_values(array_filter($data, function ($item) {
+      return $item !== NULL;
+    }));
+  }
+
 }
