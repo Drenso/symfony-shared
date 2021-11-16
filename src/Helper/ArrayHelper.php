@@ -131,6 +131,26 @@ class ArrayHelper
   }
 
   /**
+   * Create an indexed (by id) array from the array input.
+   * Note that the IdMap object is recommended when the data is being serialized to JSON
+   *
+   * @template T of IdInterface
+   *
+   * @param T[] $objects
+   *
+   * @return array<int, T>
+   */
+  public static function mapById(array $objects): array
+  {
+    $result = [];
+    foreach ($objects as $object) {
+      $result[$object->getId()] = $object;
+    }
+
+    return $result;
+  }
+
+  /**
    * Map an array of object to an array of ids
    *
    * @param IdInterface[] $objects
