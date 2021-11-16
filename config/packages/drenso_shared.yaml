@@ -24,6 +24,7 @@ drenso_shared:
   serializer:
     handlers:
       decimal: false # Enable the decimal handler
+      id_map: false # Enable the id map handler
     static_serializer: false # Static serializer
     twig_integration:
       enabled: false # Enable the JMS twig integration (automatically true when you specify any of the options below and omit this line)

@@ -166,6 +166,9 @@ class Configuration implements ConfigurationInterface
                   ->arrayNode('decimal')
                     ->canBeEnabled()
                   ->end() // decimal
+                  ->arrayNode('id_map')
+                    ->canBeEnabled()
+                  ->end() // id_map
                 ->end() // handlers children
               ->end() // handlers
               ->arrayNode('static_serializer')

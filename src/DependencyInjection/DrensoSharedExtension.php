@@ -15,6 +15,7 @@ use Drenso\Shared\Helper\GravatarHelper;
 use Drenso\Shared\Helper\SpreadsheetHelper;
 use Drenso\Shared\Ical\IcalProvider;
 use Drenso\Shared\Serializer\Handlers\DecimalHandler;
+use Drenso\Shared\Serializer\Handlers\IdMapHandler;
 use Drenso\Shared\Serializer\StaticSerializer;
 use Drenso\Shared\Twig\GravatarExtension;
 use Drenso\Shared\Twig\JmsSerializerExtension;
@@ -154,6 +155,13 @@ class DrensoSharedExtension extends Extension
           ->setPublic($public);
     }
 
+    if ($handlers['id_map']['enabled']) {
+      $container
+          ->autowire(IdMapHandler::class)
+          ->setAutoconfigured(true)
+          ->setPublic($public);
+    }
+
     if ($serializer['static_serializer']['enabled']) {
       $container
           ->autowire(StaticSerializer::class)
@@ -194,7 +202,7 @@ class DrensoSharedExtension extends Extension
           ->setPublic($public)
           ->setArgument('$fallbackStyle', $services['gravatar']['fallback_style']);
 
-      if ($services['gravatar']['twig_integration']){
+      if ($services['gravatar']['twig_integration']) {
         $container
             ->autowire(GravatarExtension::class)
             ->setAutoconfigured(true)
