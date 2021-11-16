@@ -31,6 +31,7 @@ class IdMap implements Countable, IteratorAggregate
         throw new InvalidArgumentException('Cannot map object with a non-empty id');
       }
 
+      /** @phan-suppress-next-line PhanTypeMismatchProperty */
       $this->elements[$id] = $object;
     }
   }

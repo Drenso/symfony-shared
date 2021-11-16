@@ -34,7 +34,6 @@ class UtcHelper
     $timezone = self::$local ?: self::$local = new DateTimeZone(date_default_timezone_get());
 
     if (PHP_MAJOR_VERSION >= 8) {
-      /** @phan-suppress-next-line PhanUndeclaredStaticMethod */
       return DateTime::createFromInterface($dateTime)->setTimezone($timezone);
     } else if ($dateTime instanceof DateTime) {
       return (clone $dateTime)->setTimezone($timezone);
