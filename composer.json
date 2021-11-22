@@ -47,7 +47,7 @@
     "symfony/mailer": "~4.4 || ~5.0",
     "symfony/routing": "~3.4 || ~4.0 || ~5.0",
     "symfony/security-core": "~3.4 || ~4.0 || ~5.0",
-    "symfony/translation-contracts": "~1.1 || ~2.0",
+    "symfony/translation-contracts": "~1.1 || ~2.0 || ~3.0",
     "symfony/twig-bridge": "~3.4 || ~4.0 || ~5.0",
     "symfony/validator": "~3.4 || ~4.0 || ~5.0"
   },
