@@ -34,7 +34,7 @@ class ButtonUrlType extends AbstractType
   {
     $resolver->setRequired('route');
 
-    $resolver->setDefault('route_params', array());
+    $resolver->setDefault('route_params', []);
 
     $resolver->setAllowedTypes('route', 'string');
     $resolver->setAllowedTypes('route_params', 'array');

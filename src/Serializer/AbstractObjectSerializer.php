@@ -76,7 +76,10 @@ abstract class AbstractObjectSerializer
    * @param bool                          $insertUnderscore
    */
   protected function addStringProperty(
-      SerializationVisitorInterface $visitor, string $prop, ?string $value, bool $insertUnderscore = true): void
+      SerializationVisitorInterface $visitor,
+      string                        $prop,
+      ?string                       $value,
+      bool                          $insertUnderscore = true): void
   {
     $visitor->visitProperty(
         new StaticPropertyMetadata('string', $this->propertyName($prop, $insertUnderscore), NULL),
@@ -93,7 +96,10 @@ abstract class AbstractObjectSerializer
    * @param bool                          $insertUnderscore
    */
   protected function addBoolProperty(
-      SerializationVisitorInterface $visitor, string $prop, ?bool $value, bool $insertUnderscore = true): void
+      SerializationVisitorInterface $visitor,
+      string                        $prop,
+      ?bool                         $value,
+      bool                          $insertUnderscore = true): void
   {
     $visitor->visitProperty(
         new StaticPropertyMetadata('boolean', $this->propertyName($prop, $insertUnderscore), NULL),
@@ -114,8 +120,13 @@ abstract class AbstractObjectSerializer
    * @param bool                          $insertUnderscore
    */
   protected function addProperty(
-      SerializationVisitorInterface $visitor, ObjectEvent $event, string $objectClass, string $objectProperty, $value,
-      ?string $prop = NULL, bool $insertUnderscore = true): void
+      SerializationVisitorInterface $visitor,
+      ObjectEvent                   $event,
+      string                        $objectClass,
+      string                        $objectProperty,
+                                    $value,
+      ?string                       $prop = NULL,
+      bool                          $insertUnderscore = true): void
   {
     $metadata = $event->getContext()->getMetadataFactory()->getMetadataForClass($objectClass)->propertyMetadata[$objectProperty];
     if (!$metadata instanceof PropertyMetadata) {
@@ -136,7 +147,10 @@ abstract class AbstractObjectSerializer
    * @param ObjectEvent                   $event
    */
   protected abstract function doSerialize(
-      SerializationVisitorInterface $visitor, array $groups, $object, ObjectEvent $event): void;
+      SerializationVisitorInterface $visitor,
+      array                         $groups,
+                                    $object,
+      ObjectEvent                   $event): void;
 
   private function propertyName(string $prop, bool $insertUnderscore)
   {

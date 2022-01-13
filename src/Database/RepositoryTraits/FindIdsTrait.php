@@ -32,7 +32,7 @@ trait FindIdsTrait
   /**
    * Retrieve entities by the given ids
    *
-   * @param array       $ids
+   * @param array $ids
    *
    * @return array
    */

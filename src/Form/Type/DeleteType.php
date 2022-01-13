@@ -21,15 +21,15 @@ class DeleteType extends AbstractType
   public function buildForm(FormBuilderInterface $builder, array $options)
   {
     $builder
-        ->add('_remove', SubmitType::class, array(
+        ->add('_remove', SubmitType::class, [
             'label'              => $options['delete_label'],
             'translation_domain' => $options['delete_translation_domain'],
             'icon'               => $options['delete_icon'],
-            'attr'               => array(
+            'attr'               => [
                 'class' => $options['delete_btn_class'],
-            ),
-        ))
-        ->add('_cancel', ButtonUrlType::class, array(
+            ],
+        ])
+        ->add('_cancel', ButtonUrlType::class, [
             'label'              => $options['cancel_label'],
             'translation_domain' => $options['cancel_translation_domain'],
             'icon'               => $options['cancel_icon'],
@@ -38,7 +38,7 @@ class DeleteType extends AbstractType
             'attr'               => [
                 'class' => $options['cancel_btn_class'],
             ],
-        ));
+        ]);
   }
 
   /**
@@ -69,7 +69,7 @@ class DeleteType extends AbstractType
   public function configureOptions(OptionsResolver $resolver)
   {
 
-    $resolver->setDefaults(array(
+    $resolver->setDefaults([
         'mapped' => false,
 
         'delete_label'              => 'form.confirm-delete',
@@ -80,9 +80,9 @@ class DeleteType extends AbstractType
         'cancel_label'              => 'form.cancel',
         'cancel_translation_domain' => 'drenso_shared',
         'cancel_icon'               => 'fa-times',
-        'cancel_route_params'       => array(),
+        'cancel_route_params'       => [],
         'cancel_btn_class'          => 'btn-outline-dark',
-    ));
+    ]);
 
     $resolver->setRequired('cancel_route');
 

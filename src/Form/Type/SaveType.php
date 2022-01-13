@@ -28,53 +28,53 @@ class SaveType extends AbstractType
 
     // Add the save button if required
     if ($options['enable_save']) {
-      $builder->add('_save', SubmitType::class, array(
+      $builder->add('_save', SubmitType::class, [
           'label'              => $options['save_label'],
           'translation_domain' => $options['save_translation_domain'],
           'icon'               => $options['save_icon'],
-          'attr'               => array(
+          'attr'               => [
               'class' => $options['save_btn_class'],
-          ),
-      ));
+          ],
+      ]);
     }
 
     // Add the save and list button if required
     if ($options['enable_save_and_list']) {
-      $builder->add('_save_and_list', SubmitType::class, array(
+      $builder->add('_save_and_list', SubmitType::class, [
           'label'              => $options['save_and_list_label'],
           'translation_domain' => $options['save_and_list_translation_domain'],
           'icon'               => $options['save_and_list_icon'],
-          'attr'               => array(
+          'attr'               => [
               'class' => $options['save_and_list_btn_class'],
-          ),
-      ));
+          ],
+      ]);
     }
 
     // Add the list button if required
     if ($options['enable_list']) {
-      $builder->add('_list', ButtonUrlType::class, array(
+      $builder->add('_list', ButtonUrlType::class, [
           'label'              => $options['list_label'],
           'translation_domain' => $options['list_translation_domain'],
           'icon'               => $options['list_icon'],
           'route'              => $options['list_route'],
           'route_params'       => $options['list_route_params'],
-          'attr'               => array(
+          'attr'               => [
               'class' => $options['list_btn_class'],
-          ),
-      ));
+          ],
+      ]);
     }
 
     if ($options['enable_cancel']) {
-      $builder->add('_cancel', ButtonUrlType::class, array(
+      $builder->add('_cancel', ButtonUrlType::class, [
           'label'              => $options['cancel_label'],
           'translation_domain' => $options['cancel_translation_domain'],
           'icon'               => $options['cancel_icon'],
           'route'              => $options['cancel_route'],
           'route_params'       => $options['cancel_route_params'],
-          'attr'               => array(
+          'attr'               => [
               'class' => $options['cancel_btn_class'],
-          ),
-      ));
+          ],
+      ]);
     }
   }
 
@@ -105,7 +105,7 @@ class SaveType extends AbstractType
   public function configureOptions(OptionsResolver $resolver)
   {
 
-    $resolver->setDefaults(array(
+    $resolver->setDefaults([
         'mapped' => false,
 
         'enable_save'             => true,
@@ -125,7 +125,7 @@ class SaveType extends AbstractType
         'list_translation_domain' => 'drenso_shared',
         'list_icon'               => 'fa-list',
         'list_route'              => NULL,
-        'list_route_params'       => array(),
+        'list_route_params'       => [],
         'list_btn_class'          => 'btn-outline-secondary',
 
         'enable_cancel'             => false,
@@ -133,9 +133,9 @@ class SaveType extends AbstractType
         'cancel_translation_domain' => 'drenso_shared',
         'cancel_icon'               => 'fa-times',
         'cancel_route'              => NULL,
-        'cancel_route_params'       => array(),
+        'cancel_route_params'       => [],
         'cancel_btn_class'          => 'btn-outline-danger',
-    ));
+    ]);
 
     $resolver->setAllowedTypes('enable_save', 'bool');
     $resolver->setAllowedTypes('save_label', 'string');
@@ -153,7 +153,7 @@ class SaveType extends AbstractType
     $resolver->setAllowedTypes('list_label', 'string');
     $resolver->setAllowedTypes('list_translation_domain', 'string');
     $resolver->setAllowedTypes('list_icon', 'string');
-    $resolver->setAllowedTypes('list_route', array('null', 'string'));
+    $resolver->setAllowedTypes('list_route', ['null', 'string']);
     $resolver->setAllowedTypes('list_route_params', 'array');
     $resolver->setAllowedTypes('list_btn_class', 'string');
 
@@ -161,7 +161,7 @@ class SaveType extends AbstractType
     $resolver->setAllowedTypes('cancel_label', 'string');
     $resolver->setAllowedTypes('cancel_translation_domain', 'string');
     $resolver->setAllowedTypes('cancel_icon', 'string');
-    $resolver->setAllowedTypes('cancel_route', array('null', 'string'));
+    $resolver->setAllowedTypes('cancel_route', ['null', 'string']);
     $resolver->setAllowedTypes('cancel_route_params', 'array');
     $resolver->setAllowedTypes('cancel_btn_class', 'string');
 

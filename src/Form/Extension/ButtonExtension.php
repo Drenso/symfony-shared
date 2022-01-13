@@ -27,10 +27,10 @@ class ButtonExtension extends AbstractTypeExtension
    */
   public function configureOptions(OptionsResolver $resolver)
   {
-    $resolver->setDefaults(array(
+    $resolver->setDefaults([
         'icon'        => NULL,
         'icon_prefix' => 'fas fa-fw',
-    ));
+    ]);
 
     $resolver->setAllowedTypes('icon', ['string', 'null']);
     $resolver->setAllowedTypes('icon_prefix', ['string']);

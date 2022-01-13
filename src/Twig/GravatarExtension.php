@@ -28,8 +28,8 @@ class GravatarExtension extends AbstractExtension
    */
   public function getFilters(): array
   {
-    return array(
+    return [
         new TwigFilter('gravatarImage', [$this->gravatarHelper, 'gravatarImage']),
-    );
+    ];
   }
 }

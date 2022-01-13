@@ -119,7 +119,13 @@ class SpreadsheetHelper
    * @param bool      $bold
    * @param string    $translationDomain
    */
-  public function setCellTranslatedValue(Worksheet &$sheet, int $column, int $row, string $value, bool $bold = false, string $translationDomain = 'messages')
+  public function setCellTranslatedValue(
+      Worksheet &$sheet,
+      int       $column,
+      int       $row,
+      string    $value,
+      bool      $bold = false,
+      string    $translationDomain = 'messages')
   {
     $this->setCellValue($sheet, $column, $row, $this->translator->trans($value, [], $translationDomain), $bold);
   }
@@ -162,7 +168,13 @@ class SpreadsheetHelper
    * @param bool                   $leftAligned
    * @param bool                   $bold
    */
-  public function setCellDateTime(Worksheet &$sheet, int $column, int $row, ?DateTimeInterface $dateTime, bool $leftAligned = false, bool $bold = false)
+  public function setCellDateTime(
+      Worksheet          &$sheet,
+      int                $column,
+      int                $row,
+      ?DateTimeInterface $dateTime,
+      bool               $leftAligned = false,
+      bool               $bold = false)
   {
     if ($dateTime !== NULL) {
       $this->setCellValue($sheet, $column, $row, Date::PHPToExcel($dateTime), $bold);
@@ -182,7 +194,13 @@ class SpreadsheetHelper
    * @param bool                   $leftAligned
    * @param bool                   $bold
    */
-  public function setCellDate(Worksheet &$sheet, int $column, int $row, ?DateTimeInterface $dateTime, bool $leftAligned = false, bool $bold = false)
+  public function setCellDate(
+      Worksheet          &$sheet,
+      int                $column,
+      int                $row,
+      ?DateTimeInterface $dateTime,
+      bool               $leftAligned = false,
+      bool               $bold = false)
   {
     if ($dateTime !== NULL) {
       $this->setCellValue($sheet, $column, $row, Date::PHPToExcel($dateTime), $bold);

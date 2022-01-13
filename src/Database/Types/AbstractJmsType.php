@@ -2,10 +2,10 @@
 
 namespace Drenso\Shared\Database\Types;
 
-use Drenso\Shared\Serializer\StaticSerializer;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\JsonType;
+use Drenso\Shared\Serializer\StaticSerializer;
 use JMS\Serializer\Exception\Exception;
 
 abstract class AbstractJmsType extends JsonType
@@ -24,12 +24,12 @@ abstract class AbstractJmsType extends JsonType
     }
 
     try {
-      if (null !== $groups = $this->getSerializationGroups()){
+      if (NULL !== $groups = $this->getSerializationGroups()) {
         $context = StaticSerializer::getSerializationContextFactory()->createSerializationContext();
         $context->setGroups($groups);
       }
 
-      return StaticSerializer::getSerializer()->serialize($value, 'json', $context ?? null);
+      return StaticSerializer::getSerializer()->serialize($value, 'json', $context ?? NULL);
     } catch (Exception $e) {
       throw ConversionException::conversionFailedSerialization($value, 'json', $e->getMessage());
     }

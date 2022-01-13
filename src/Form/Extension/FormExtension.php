@@ -47,10 +47,10 @@ class FormExtension extends AbstractTypeExtension
    */
   public function configureOptions(OptionsResolver $resolver)
   {
-    $resolver->setDefaults(array(
+    $resolver->setDefaults([
         'hide_label'  => false,
         'form_header' => NULL,
-    ));
+    ]);
     $resolver->setAllowedTypes('hide_label', ['bool']);
     $resolver->setAllowedTypes('form_header', ['null', 'string']);
   }

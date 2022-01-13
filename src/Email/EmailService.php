@@ -48,8 +48,11 @@ class EmailService
    * @param TransportInterface       $transport
    */
   public function __construct(
-      MailerInterface $mailer, string $senderEmail, ?string $senderName,
-      ?TranslatorInterface $translator, TransportInterface $transport)
+      MailerInterface      $mailer,
+      string               $senderEmail,
+      ?string              $senderName,
+      ?TranslatorInterface $translator,
+      TransportInterface   $transport)
   {
     $this->mailer      = $mailer;
     $this->senderEmail = $senderEmail;

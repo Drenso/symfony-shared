@@ -31,7 +31,8 @@ class StaticSerializer implements EventSubscriberInterface
    * @param SerializationContextFactoryInterface $serializationContextFactory
    */
   public function __construct(
-      SerializerInterface $serializer, SerializationContextFactoryInterface $serializationContextFactory)
+      SerializerInterface                  $serializer,
+      SerializationContextFactoryInterface $serializationContextFactory)
   {
     self::$serializer                  = $serializer;
     self::$serializationContextFactory = $serializationContextFactory;

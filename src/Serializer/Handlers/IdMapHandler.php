@@ -34,7 +34,11 @@ class IdMapHandler implements SubscribingHandlerInterface
     ];
   }
 
-  public function serializeJson(SerializationVisitorInterface $visitor, IdMap $data, array $type, SerializationContext $context)
+  public function serializeJson(
+      SerializationVisitorInterface $visitor,
+      IdMap                         $data,
+      array                         $type,
+      SerializationContext          $context)
   {
     // We change the base type, and pass through possible parameters.
     $type['name'] = 'array';
@@ -45,10 +49,14 @@ class IdMapHandler implements SubscribingHandlerInterface
     $context->startVisiting($data);
 
     // Cast as object to enforce object serialization
-    return (object) $result;
+    return (object)$result;
   }
 
-  public function deserializeJson(DeserializationVisitorInterface $visitor, $data, array $type, DeserializationContext $context)
+  public function deserializeJson(
+      DeserializationVisitorInterface $visitor,
+                                      $data,
+      array                           $type,
+      DeserializationContext          $context)
   {
     $type['name'] = 'array';
 

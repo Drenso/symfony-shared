@@ -28,7 +28,7 @@ class DecimalType extends AbstractType
             return $value;
           }
 
-          return new Decimal((string) $value);
+          return new Decimal((string)$value);
         }
     ));
   }

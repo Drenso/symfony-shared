@@ -9,7 +9,7 @@ class DrensoSharedBundle extends Bundle
 {
   public function boot()
   {
-    if (class_exists('\Gedmo\SoftDeleteable\Mapping\Validator')){
+    if (class_exists('\Gedmo\SoftDeleteable\Mapping\Validator')) {
       // Make sure Gedmo allows our specific type
       SoftDeletableSymfonyCacheWarmer::registerGedmoType();
     }

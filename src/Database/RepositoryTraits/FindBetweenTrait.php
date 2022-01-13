@@ -26,8 +26,11 @@ trait FindBetweenTrait
    * @return array
    */
   public function findBetween(
-      ?DateTimeInterface $start, ?DateTimeInterface $end, ?string $alias = NULL,
-      bool $startInclusive = true, bool $endInclusive = true): array
+      ?DateTimeInterface $start,
+      ?DateTimeInterface $end,
+      ?string            $alias = NULL,
+      bool               $startInclusive = true,
+      bool               $endInclusive = true): array
   {
     return $this
         ->findBetweenQb($start, $end, $alias, $startInclusive, $endInclusive)
@@ -47,8 +50,11 @@ trait FindBetweenTrait
    * @return QueryBuilder
    */
   public function findBetweenQb(
-      ?DateTimeInterface $start, ?DateTimeInterface $end, ?string $alias = NULL,
-      bool $startInclusive = true, bool $endInclusive = true): QueryBuilder
+      ?DateTimeInterface $start,
+      ?DateTimeInterface $end,
+      ?string            $alias = NULL,
+      bool               $startInclusive = true,
+      bool               $endInclusive = true): QueryBuilder
   {
     $alias = $alias ?: 'e';
     $qb    = $this->createQueryBuilder($alias);
