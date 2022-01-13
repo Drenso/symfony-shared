@@ -13,7 +13,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
       ]);
 
   // Define what rule sets will be applied
-  // $containerConfigurator->import(LevelSetList::UP_TO_PHP_81);
+  $containerConfigurator->import(\Rector\Doctrine\Set\DoctrineSetList::ANNOTATIONS_TO_ATTRIBUTES);
+  $containerConfigurator->import(\Rector\Symfony\Set\SymfonySetList::ANNOTATIONS_TO_ATTRIBUTES);
 
   // Register single rules
 //  $containerConfigurator->services()

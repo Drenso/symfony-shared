@@ -12,13 +12,13 @@ trait HasDefaultEntityTrait
   /**
    * @var boolean
    *
-   * @ORM\Column(type="boolean")
    *
-   * @Assert\NotNull()
-   * @Assert\Type("bool")
    *
    * @Serializer\Exclude()
    */
+  #[ORM\Column(type: 'boolean')]
+  #[Assert\NotNull]
+  #[Assert\Type(type: 'bool')]
   private $isDefault = false;
 
   /**
