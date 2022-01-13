@@ -10,9 +10,13 @@ return static function (ContainerConfigurator $containerConfigurator): void {
   $containerConfigurator
       ->parameters()
       ->set(Option::PATHS, [__DIR__ . '/src',])
-      ->set(Option::AUTO_IMPORT_NAMES, true);
+      ->set(Option::AUTO_IMPORT_NAMES, true)
+      ->set(Option::SKIP, [
+          \Rector\Php81\Rector\Property\ReadOnlyPropertyRector::class,
+      ]);
 
   // Define what rule sets will be applied
+  $containerConfigurator->import(\Rector\Set\ValueObject\LevelSetList::UP_TO_PHP_81);
   $containerConfigurator->import(\Rector\Doctrine\Set\DoctrineSetList::ANNOTATIONS_TO_ATTRIBUTES);
   $containerConfigurator->import(\Rector\Symfony\Set\SymfonySetList::ANNOTATIONS_TO_ATTRIBUTES);
 

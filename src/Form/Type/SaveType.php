@@ -19,10 +19,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class SaveType extends AbstractType
 {
-  /**
-   * @param FormBuilderInterface $builder
-   * @param array                $options
-   */
   public function buildForm(FormBuilderInterface $builder, array $options)
   {
 
@@ -81,7 +77,6 @@ class SaveType extends AbstractType
   /**
    * Check whether the "save and list" button is clicked
    *
-   * @param FormInterface $form
    *
    * @return bool
    */
@@ -99,9 +94,6 @@ class SaveType extends AbstractType
     return false;
   }
 
-  /**
-   * @param OptionsResolver $resolver
-   */
   public function configureOptions(OptionsResolver $resolver)
   {
 

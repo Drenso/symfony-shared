@@ -13,14 +13,6 @@ class GravatarHelper
   {
   }
 
-  /**
-   * @param string      $emailAddress
-   * @param int|null    $size
-   *
-   * @param string|null $fallbackStyle
-   *
-   * @return string
-   */
   public function gravatarImage(string $emailAddress, ?int $size = NULL, ?string $fallbackStyle = NULL): string
   {
     return sprintf("https://www.gravatar.com/avatar/%s?d=%s%s",

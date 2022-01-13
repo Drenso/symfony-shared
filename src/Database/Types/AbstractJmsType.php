@@ -11,8 +11,7 @@ use JMS\Serializer\Exception\Exception;
 abstract class AbstractJmsType extends JsonType
 {
   /**
-   * @param mixed            $value
-   * @param AbstractPlatform $platform
+   * @param mixed $value
    *
    * @return false|mixed|string|null
    * @throws ConversionException
@@ -36,8 +35,7 @@ abstract class AbstractJmsType extends JsonType
   }
 
   /**
-   * @param mixed            $value
-   * @param AbstractPlatform $platform
+   * @param mixed $value
    *
    * @return mixed|null
    * @throws ConversionException
@@ -52,15 +50,13 @@ abstract class AbstractJmsType extends JsonType
 
     try {
       return StaticSerializer::getSerializer()->deserialize($value, $this->getJmsType(), 'json');
-    } catch (Exception $e) {
+    } catch (Exception) {
       throw ConversionException::conversionFailed($value, $this->getName());
     }
   }
 
   /**
    * Overwrite this to enable serialization group support
-   *
-   * @return array|null
    */
   protected function getSerializationGroups(): ?array
   {

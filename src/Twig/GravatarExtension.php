@@ -17,9 +17,6 @@ class GravatarExtension extends AbstractExtension
   {
   }
 
-  /**
-   * @return array
-   */
   public function getFilters(): array
   {
     return [

@@ -42,12 +42,10 @@ class Select2EntitySearchType extends AbstractType
                 $normData = [$normData];
               }
 
-              $normData = array_map(function ($item) use ($options) {
-                return [
-                    'value' => $this->propertyAccessor->getValue($item, 'id'),
-                    'label' => $this->propertyAccessor->getValue($item, $options['choice_label']),
-                ];
-              }, $normData);
+              $normData = array_map(fn($item) => [
+                  'value' => $this->propertyAccessor->getValue($item, 'id'),
+                  'label' => $this->propertyAccessor->getValue($item, $options['choice_label']),
+              ], $normData);
 
               if (!$options['multiple']) {
                 return $normData[0];
@@ -117,14 +115,8 @@ class Select2EntitySearchType extends AbstractType
         ])
         ->setAllowedTypes('class', 'string')
         ->setAllowedTypes('search_url', 'string')
-        ->addNormalizer('compound', function () {
-          // Force non-compound
-          return false;
-        })
-        ->addNormalizer('select2', function () {
-          // Force the use of select 2
-          return true;
-        })
+        ->addNormalizer('compound', fn() => false) // Force non-compound
+        ->addNormalizer('select2', fn() => true) // Force the use of select 2
         ->addNormalizer('select2_options', function (Options $options, $value) {
           if (!array_key_exists('ajax', $value)) {
             $value['ajax'] = [];

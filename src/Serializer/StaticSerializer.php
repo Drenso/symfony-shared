@@ -69,8 +69,6 @@ class StaticSerializer implements EventSubscriberInterface
 
   /**
    * Retrieve the serializer used for the change serialization
-   *
-   * @return SerializerInterface
    */
   public static function getSerializer(): SerializerInterface
   {

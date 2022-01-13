@@ -25,8 +25,6 @@ trait FindLastTrait
   }
 
   /**
-   * @param int $amount
-   *
    * @return mixed
    */
   public function findLastX(int $amount)
@@ -35,12 +33,6 @@ trait FindLastTrait
         ->getQuery()->getResult();
   }
 
-  /**
-   * @param int    $amount
-   * @param string $alias
-   *
-   * @return QueryBuilder
-   */
   public function findLastQb(int $amount = 1, string $alias = 'e'): QueryBuilder
   {
     return $this->createQueryBuilder($alias)

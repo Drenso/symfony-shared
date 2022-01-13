@@ -7,13 +7,14 @@ use Countable;
 use Drenso\Shared\Interfaces\IdInterface;
 use InvalidArgumentException;
 use IteratorAggregate;
+use Stringable;
 use Traversable;
 
 /**
  * @template T of IdInterface
  * @template-implements IteratorAggregate<int, T>
  */
-class IdMap implements Countable, IteratorAggregate
+class IdMap implements Countable, IteratorAggregate, Stringable
 {
   /** @var array<int, T> */
   private array $elements;
@@ -80,7 +81,7 @@ class IdMap implements Countable, IteratorAggregate
     return new ArrayIterator($this->elements);
   }
 
-  public function __toString()
+  public function __toString(): string
   {
     return self::class . '@' . spl_object_hash($this);
   }

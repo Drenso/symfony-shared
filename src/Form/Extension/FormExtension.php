@@ -21,30 +21,18 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class FormExtension extends AbstractTypeExtension
 {
 
-  /**
-   * @param FormBuilderInterface $builder
-   * @param array                $options
-   */
   public function buildForm(FormBuilderInterface $builder, array $options)
   {
     $builder->setAttribute('hide_label', $options['hide_label']);
     $builder->setAttribute('form_header', $options['form_header']);
   }
 
-  /**
-   * @param FormView      $view
-   * @param FormInterface $form
-   * @param array         $options
-   */
   public function buildView(FormView $view, FormInterface $form, array $options)
   {
     $view->vars['hide_label']  = $options['hide_label'];
     $view->vars['form_header'] = $options['form_header'];
   }
 
-  /**
-   * @param OptionsResolver $resolver
-   */
   public function configureOptions(OptionsResolver $resolver)
   {
     $resolver->setDefaults([

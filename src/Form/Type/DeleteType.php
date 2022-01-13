@@ -44,7 +44,6 @@ class DeleteType extends AbstractType
   /**
    * Check whether the "remove" button is clicked
    *
-   * @param FormInterface $form
    *
    * @return bool
    */
@@ -63,9 +62,6 @@ class DeleteType extends AbstractType
     return false;
   }
 
-  /**
-   * @param OptionsResolver $resolver
-   */
   public function configureOptions(OptionsResolver $resolver)
   {
 

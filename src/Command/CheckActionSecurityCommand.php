@@ -74,7 +74,7 @@ class CheckActionSecurityCommand extends Command
         if (!str_contains(strtolower($controller), 'app')) continue;
 
         // Find actions. Possible formats: <service>:<action> and <namespace>:<bundle>:<action>. These need to be checked separately.
-        $controllerArray = explode(':', $controller);
+        $controllerArray = explode(':', (string)$controller);
         try {
           // Resolve service
           $controllerObject = $this->container->get($controllerArray[0]);
@@ -111,7 +111,7 @@ class CheckActionSecurityCommand extends Command
       $error = [];
       // Concatenate non-pre-authorized methods
       $error[] = 'The following methods do not contain a Security or IsGranted annotation:';
-      $error   = array_merge($error, $noSecurity);
+      $error   = [...$error, ...$noSecurity];
 
       // Feedback error
       $io->error(implode("\n", $error));

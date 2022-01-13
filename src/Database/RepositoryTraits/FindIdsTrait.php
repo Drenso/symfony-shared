@@ -14,10 +14,7 @@ trait FindIdsTrait
   /**
    * Get the query builder to retrieve entities by the given ids
    *
-   * @param array       $ids
-   * @param string|null $alias
    *
-   * @return QueryBuilder
    */
   public function findByIdsQb(array $ids, ?string $alias = NULL): QueryBuilder
   {
@@ -32,9 +29,7 @@ trait FindIdsTrait
   /**
    * Retrieve entities by the given ids
    *
-   * @param array $ids
    *
-   * @return array
    */
   public function findByIds(array $ids): array
   {

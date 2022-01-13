@@ -22,19 +22,11 @@ trait TimestampTrait
   #[Serializer\Expose]
   private $timestamp;
 
-  /**
-   * @return DateTimeInterface|null
-   */
   public function getTimestamp(): ?DateTimeInterface
   {
     return $this->timestamp;
   }
 
-  /**
-   * @param DateTimeImmutable $timestamp
-   *
-   * @return TimestampTrait
-   */
   public function setTimestamp(DateTimeImmutable $timestamp): self
   {
     $this->timestamp = $timestamp;

@@ -21,17 +21,12 @@ trait HasDefaultEntityTrait
   #[Serializer\Exclude]
   private $isDefault = false;
 
-  /**
-   * @return bool
-   */
   public function isDefault(): bool
   {
     return $this->isDefault;
   }
 
   /**
-   * @param bool $isDefault
-   *
    * @return $this
    */
   public function setIsDefault(bool $isDefault): self

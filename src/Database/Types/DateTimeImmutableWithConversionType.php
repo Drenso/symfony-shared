@@ -13,11 +13,10 @@ use Doctrine\DBAL\Types\DateTimeImmutableType;
  */
 class DateTimeImmutableWithConversionType extends DateTimeImmutableType
 {
-  public const DATETIME_IMMUTABLE_WITH_CONVERSION = 'datetime_immutable_with_conversion';
+  public final const DATETIME_IMMUTABLE_WITH_CONVERSION = 'datetime_immutable_with_conversion';
 
   /**
-   * @param mixed            $value
-   * @param AbstractPlatform $platform
+   * @param mixed $value
    *
    * @return mixed|string|null
    * @throws ConversionException

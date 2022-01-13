@@ -22,8 +22,6 @@ class SpreadsheetHelper
 
   /**
    * SpreadsheetHelper constructor.
-   *
-   * @param TranslatorInterface $translator
    */
   public function __construct(private TranslatorInterface $translator)
   {
@@ -32,8 +30,6 @@ class SpreadsheetHelper
   /**
    * Create an Excel response from a spreadsheet
    *
-   * @param Spreadsheet $spreadsheet
-   * @param string      $filename
    *
    * @return StreamedResponse
    */
@@ -55,8 +51,6 @@ class SpreadsheetHelper
   /**
    * Create a CSV response from a spreadsheet
    *
-   * @param Spreadsheet $spreadsheet
-   * @param string      $filename
    *
    * @return StreamedResponse
    */
@@ -80,10 +74,7 @@ class SpreadsheetHelper
   /**
    * Creates a new sheet with the specified name
    *
-   * @param Spreadsheet $spreadsheet
-   * @param string      $name
    *
-   * @return Worksheet
    *
    * @throws Exception
    */
@@ -95,26 +86,11 @@ class SpreadsheetHelper
     return $sheet;
   }
 
-  /**
-   * @param Worksheet $sheet
-   * @param int       $column
-   * @param int       $row
-   * @param bool      $value
-   * @param bool      $bold
-   */
   public function setCellBooleanValue(Worksheet &$sheet, int $column, int $row, bool $value, bool $bold = false)
   {
     $this->setCellTranslatedValue($sheet, $column, $row, $value ? 'excel.boolean.yes' : 'excel.boolean.no', $bold, 'drenso_shared');
   }
 
-  /**
-   * @param Worksheet $sheet
-   * @param int       $column
-   * @param int       $row
-   * @param string    $value
-   * @param bool      $bold
-   * @param string    $translationDomain
-   */
   public function setCellTranslatedValue(
       Worksheet &$sheet,
       int       $column,
@@ -127,11 +103,7 @@ class SpreadsheetHelper
   }
 
   /**
-   * @param Worksheet $sheet
-   * @param int       $column
-   * @param int       $row
-   * @param mixed     $value
-   * @param bool      $bold
+   * @param mixed $value
    */
   public function setCellValue(Worksheet &$sheet, int $column, int $row, $value, bool $bold = false)
   {
@@ -143,10 +115,6 @@ class SpreadsheetHelper
   }
 
   /**
-   * @param Worksheet $sheet
-   * @param int       $column
-   * @param int       $row
-   * @param string    $value
    *
    * @throws Exception
    */
@@ -156,14 +124,6 @@ class SpreadsheetHelper
     $cell->setValueExplicit($value, DataType::TYPE_STRING);
   }
 
-  /**
-   * @param Worksheet              $sheet
-   * @param int                    $column
-   * @param int                    $row
-   * @param DateTimeInterface|null $dateTime
-   * @param bool                   $leftAligned
-   * @param bool                   $bold
-   */
   public function setCellDateTime(
       Worksheet          &$sheet,
       int                $column,
@@ -182,14 +142,6 @@ class SpreadsheetHelper
     }
   }
 
-  /**
-   * @param Worksheet              $sheet
-   * @param int                    $column
-   * @param int                    $row
-   * @param DateTimeInterface|null $dateTime
-   * @param bool                   $leftAligned
-   * @param bool                   $bold
-   */
   public function setCellDate(
       Worksheet          &$sheet,
       int                $column,
@@ -209,11 +161,7 @@ class SpreadsheetHelper
   }
 
   /**
-   * @param Worksheet $sheet
-   * @param int       $column
-   * @param int       $row
    * @param           $value
-   * @param bool      $bold
    */
   public function setCellCurrency(Worksheet &$sheet, int $column, int $row, $value, bool $bold = false)
   {
@@ -223,9 +171,6 @@ class SpreadsheetHelper
 
   /**
    * Create a correct content disposition
-   *
-   * @param Response $response
-   * @param string   $filename
    */
   public static function contentDisposition(Response $response, string $filename): void
   {
@@ -238,8 +183,6 @@ class SpreadsheetHelper
   }
 
   /**
-   * @param string $filename
-   *
    * @return false|mixed|string|string[]|null
    */
   private static function sanitizeFilename(string $filename)

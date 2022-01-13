@@ -10,9 +10,6 @@ class ArrayHelper
 
   /**
    * Verify that all array elements are of the supplied type
-   *
-   * @param array  $variables
-   * @param string $type
    */
   public static function assertType(array $variables, string $type)
   {
@@ -41,8 +38,6 @@ class ArrayHelper
 
   /**
    * Verify that all array elements are integers
-   *
-   * @param array $variables
    */
   public static function assertInt(array $variables)
   {
@@ -56,8 +51,6 @@ class ArrayHelper
 
   /**
    * Verify that all array elements are strings
-   *
-   * @param array $variables
    */
   public static function assertString(array $variables)
   {
@@ -71,8 +64,6 @@ class ArrayHelper
 
   /**
    * Verify that all array elements are floats
-   *
-   * @param array $variables
    */
   public static function assertFloat(array $variables)
   {
@@ -86,8 +77,6 @@ class ArrayHelper
 
   /**
    * Verify that all array elements are booleans
-   *
-   * @param array $variables
    */
   public static function assertBool(array $variables)
   {
@@ -101,8 +90,6 @@ class ArrayHelper
 
   /**
    * Verify that all array elements are arrays
-   *
-   * @param array $variables
    */
   public static function assertArray(array $variables)
   {
@@ -116,16 +103,13 @@ class ArrayHelper
 
   /**
    * Verify that all array elements are objects of the supplied class
-   *
-   * @param array  $objects
-   * @param string $class
    */
   public static function assertClass(array $objects, string $class)
   {
     foreach ($objects as $object) {
       if (!($isObject = is_object($object)) || !$object instanceof $class) {
         throw new InvalidArgumentException(
-            sprintf('Expected object to be of type "%s", but found %s of type "%s"', $class, $isObject ? 'object' : 'variable', $isObject ? get_class($object) : gettype($object)));
+            sprintf('Expected object to be of type "%s", but found %s of type "%s"', $class, $isObject ? 'object' : 'variable', $isObject ? $object::class : gettype($object)));
       }
     }
   }
@@ -160,9 +144,7 @@ class ArrayHelper
   public static function mapToId(array $objects): array
   {
     return array_values(array_map(
-        function ($object) {
-          return $object->getId();
-        },
+        fn($object) => $object->getId(),
         $objects
     ));
   }
@@ -178,9 +160,7 @@ class ArrayHelper
    */
   public static function filterNullValuesFromArray(array $data): array
   {
-    return array_values(array_filter($data, function ($item) {
-      return $item !== NULL;
-    }));
+    return array_values(array_filter($data, fn($item) => $item !== NULL));
   }
 
 }

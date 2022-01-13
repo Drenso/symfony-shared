@@ -29,7 +29,6 @@ trait SoftDeletable
   /**
    * Sets deletedAt.
    *
-   * @param DateTimeImmutable|null $deletedAt
    *
    * @return $this
    */
@@ -42,8 +41,6 @@ trait SoftDeletable
 
   /**
    * Returns deletedAt.
-   *
-   * @return DateTimeInterface|null
    */
   public function getDeletedAt(): ?DateTimeInterface
   {
@@ -53,7 +50,6 @@ trait SoftDeletable
   /**
    * Set deletedBy
    *
-   * @param string|null $deletedBy
    *
    * @return $this
    */
@@ -66,8 +62,6 @@ trait SoftDeletable
 
   /**
    * Get deletedBy
-   *
-   * @return string|null
    */
   public function getDeletedBy(): ?string
   {
@@ -76,8 +70,6 @@ trait SoftDeletable
 
   /**
    * Is deleted?
-   *
-   * @return bool
    */
   public function isDeleted(): bool
   {

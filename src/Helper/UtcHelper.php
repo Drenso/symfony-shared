@@ -15,9 +15,6 @@ class UtcHelper
 
   private static \DateTimeZone $local;
 
-  /**
-   * @return DateTimeZone
-   */
   public static function getUtc(): DateTimeZone
   {
     return self::$utc ?: self::$utc = new DateTimeZone('UTC');

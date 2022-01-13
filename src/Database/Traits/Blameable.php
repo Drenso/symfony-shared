@@ -55,7 +55,7 @@ trait Blameable
    */
   public function getLastUpdated(): DateTimeInterface
   {
-    return $this->getUpdatedAt() !== NULL ? $this->getUpdatedAt() : $this->getCreatedAt();
+    return $this->getUpdatedAt() ?? $this->getCreatedAt();
   }
 
   /**
@@ -63,13 +63,12 @@ trait Blameable
    */
   public function getLastUpdatedBy(): ?string
   {
-    return $this->getUpdatedBy() !== NULL ? $this->getUpdatedBy() : $this->getCreatedBy();
+    return $this->getUpdatedBy() ?? $this->getCreatedBy();
   }
 
   /**
    * Set createdAt
    *
-   * @param DateTimeImmutable $createdAt
    *
    * @return $this
    */
@@ -82,8 +81,6 @@ trait Blameable
 
   /**
    * Get createdAt
-   *
-   * @return DateTimeInterface|null
    */
   public function getCreatedAt(): ?DateTimeInterface
   {
@@ -93,7 +90,6 @@ trait Blameable
   /**
    * Set createdBy
    *
-   * @param string|null $createdBy
    *
    * @return $this
    */
@@ -106,8 +102,6 @@ trait Blameable
 
   /**
    * Get createdBy
-   *
-   * @return string|null
    */
   public function getCreatedBy(): ?string
   {
@@ -117,7 +111,6 @@ trait Blameable
   /**
    * Set updatedAt
    *
-   * @param DateTimeImmutable|null $updatedAt
    *
    * @return $this
    */
@@ -130,8 +123,6 @@ trait Blameable
 
   /**
    * Get updatedAt
-   *
-   * @return DateTimeInterface|null
    */
   public function getUpdatedAt(): ?DateTimeInterface
   {
@@ -141,7 +132,6 @@ trait Blameable
   /**
    * Set updatedBy
    *
-   * @param string|null $updatedBy
    *
    * @return $this
    */
@@ -154,8 +144,6 @@ trait Blameable
 
   /**
    * Get updatedBy
-   *
-   * @return string|null
    */
   public function getUpdatedBy(): ?string
   {

@@ -19,12 +19,6 @@ class EmailService
 {
   /**
    * EmailService constructor.
-   *
-   * @param MailerInterface          $mailer
-   * @param string                   $senderEmail
-   * @param string|null              $senderName
-   * @param TranslatorInterface|null $translator
-   * @param TransportInterface       $transport
    */
   public function __construct(
       private MailerInterface      $mailer,
@@ -38,10 +32,8 @@ class EmailService
   /**
    * Queues the e-mail by placing it on the message bus
    *
-   * @param RawMessage $message
    *
    * @throws TransportExceptionInterface
-   *
    * @suppress PhanTypeInvalidThrowsIsInterface
    */
   public function send(RawMessage $message): void
@@ -52,10 +44,8 @@ class EmailService
   /**
    * Send the e-mail directly, skipping the message bus
    *
-   * @param RawMessage $message
    *
    * @throws TransportExceptionInterface
-   *
    * @suppress PhanTypeInvalidThrowsIsInterface
    */
   public function sendDirectly(RawMessage $message): void
@@ -66,10 +56,8 @@ class EmailService
   /**
    * Create an e-mail object for a specific user
    *
-   * @param EmailableUserInterface $user
-   * @param string|null            $emailAddress Overwrites the e-mail address
+   * @param string|null $emailAddress Overwrites the e-mail address
    *
-   * @return TemplatedEmail
    */
   public function emailForUser(EmailableUserInterface $user, ?string $emailAddress = NULL): TemplatedEmail
   {
@@ -81,9 +69,7 @@ class EmailService
    * Create an e-mail object for the given e- address.
    * Note that the `emailForUser` is preferred.
    *
-   * @param string $emailAddress
    *
-   * @return TemplatedEmail
    */
   public function emailForEmailAddress(string $emailAddress): TemplatedEmail
   {
@@ -93,8 +79,6 @@ class EmailService
 
   /**
    * Sets sane defaults for out e-mails
-   *
-   * @return TemplatedEmail
    */
   private function emailDefaults(): TemplatedEmail
   {
@@ -109,10 +93,7 @@ class EmailService
   /**
    * Retrieve address object for an user
    *
-   * @param EmailableUserInterface $user
-   * @param string|null            $emailAddress
    *
-   * @return Address
    */
   private function getAddress(EmailableUserInterface $user, ?string $emailAddress = NULL): Address
   {

@@ -49,8 +49,8 @@ class FeatureFlags
 
     $configuration               = file_get_contents($this->configuration) ?? '{}';
     $this->resolvedConfiguration = array_merge(
-        json_decode($configuration, true),
-        json_decode($configurationOverride, true),
+        json_decode($configuration, true, flags: JSON_THROW_ON_ERROR),
+        json_decode($configurationOverride, true, flags: JSON_THROW_ON_ERROR),
     );
   }
 }

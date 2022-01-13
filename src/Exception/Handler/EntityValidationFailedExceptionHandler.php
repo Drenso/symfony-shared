@@ -39,7 +39,7 @@ class EntityValidationFailedExceptionHandler implements EventSubscriberInterface
 
     $controller = $event->getRequest()->attributes->get('_controller');
 
-    if (0 !== strncmp($controller, $this->controllerPrefix, strlen($this->controllerPrefix))) {
+    if (!str_starts_with($controller, $this->controllerPrefix)) {
       return;
     }
 

@@ -2,6 +2,9 @@
 
 namespace Drenso\Shared\DependencyInjection;
 
+use Gedmo\SoftDeleteable\SoftDeleteableListener;
+use Symfony\Component\Mailer\Mailer;
+use BOMO\IcalBundle\Provider\IcsProvider;
 use Drenso\Shared\Command\CheckActionSecurityCommand;
 use Drenso\Shared\Database\SoftDeletableSubscriber;
 use Drenso\Shared\Database\SoftDeletableSymfonyCacheWarmer;
@@ -88,7 +91,7 @@ class DrensoSharedExtension extends Extension
   {
     $database = $config['database'];
     if ($database['softdeletable']['enabled']) {
-      if (!class_exists('\Gedmo\SoftDeleteable\SoftDeleteableListener')) {
+      if (!class_exists(SoftDeleteableListener::class)) {
         throw new InvalidConfigurationException('In order to use softdeletable, DoctrineExtensions must be installed. Try running `composer req stof/doctrine-extensions-bundle`.');
       }
 
@@ -123,7 +126,7 @@ class DrensoSharedExtension extends Extension
     $mailer = $config['email']['mailer'];
 
     if ($mailer['enabled']) {
-      if (!class_exists('Symfony\Component\Mailer\Mailer')) {
+      if (!class_exists(Mailer::class)) {
         throw new InvalidConfigurationException('In order to use the EmailService, the Symfony Mailer component needs to be installed. Try running `composer req symfony/mailer`.');
       }
 
@@ -211,7 +214,7 @@ class DrensoSharedExtension extends Extension
     }
 
     if ($services['ical_provider']['enabled']) {
-      if (!class_exists('BOMO\IcalBundle\Provider\IcsProvider')) {
+      if (!class_exists(IcsProvider::class)) {
         throw new InvalidConfigurationException('In order to use the IcalProvidor, the iCal bundle needs to be installed. Try running `composer req bomo/ical-bundle`.');
       }
 

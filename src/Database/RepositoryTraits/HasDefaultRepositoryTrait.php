@@ -29,9 +29,7 @@ trait HasDefaultRepositoryTrait
           ->setMaxResults(1)
           ->getQuery()
           ->getSingleResult();
-    } catch (NoResultException $e) {
-      return NULL;
-    } catch (NonUniqueResultException $e) {
+    } catch (NoResultException|NonUniqueResultException) {
       return NULL;
     }
   }

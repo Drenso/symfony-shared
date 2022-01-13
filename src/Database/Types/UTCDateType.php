@@ -12,8 +12,7 @@ use Exception;
 class UTCDateType extends DateType
 {
   /**
-   * @param mixed            $value
-   * @param AbstractPlatform $platform
+   * @param mixed $value
    *
    * @return mixed|string|null
    * @throws Exception
@@ -28,8 +27,7 @@ class UTCDateType extends DateType
   }
 
   /**
-   * @param mixed            $value
-   * @param AbstractPlatform $platform
+   * @param mixed $value
    *
    * @return DateTime|null
    * @throws Exception

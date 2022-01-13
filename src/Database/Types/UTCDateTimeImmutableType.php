@@ -17,8 +17,7 @@ use Drenso\Shared\Helper\UtcHelper;
 class UTCDateTimeImmutableType extends DateTimeImmutableType
 {
   /**
-   * @param mixed            $value
-   * @param AbstractPlatform $platform
+   * @param mixed $value
    *
    * @return mixed|string|null
    * @throws ConversionException
@@ -39,8 +38,6 @@ class UTCDateTimeImmutableType extends DateTimeImmutableType
   /**
    * Whether to convert the application value to an immutable.
    * This method should be overridden when needed.
-   *
-   * @return bool
    */
   protected function shouldConvertToImmutable(): bool
   {
@@ -48,8 +45,7 @@ class UTCDateTimeImmutableType extends DateTimeImmutableType
   }
 
   /**
-   * @param mixed            $value
-   * @param AbstractPlatform $platform
+   * @param mixed $value
    *
    * @return DateTimeImmutable|null
    * @throws ConversionException

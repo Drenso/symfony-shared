@@ -16,8 +16,7 @@ use Drenso\Shared\Helper\UtcHelper;
 class UTCDateTimeType extends DateTimeType
 {
   /**
-   * @param mixed            $value
-   * @param AbstractPlatform $platform
+   * @param mixed $value
    *
    * @return mixed|string|null
    * @throws ConversionException
@@ -32,8 +31,7 @@ class UTCDateTimeType extends DateTimeType
   }
 
   /**
-   * @param mixed            $value
-   * @param AbstractPlatform $platform
+   * @param mixed $value
    *
    * @return DateTime|null
    * @throws ConversionException

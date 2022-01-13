@@ -11,7 +11,6 @@ class ObjectTypeNotFoundException extends Exception
    * ObjectTypeNotFoundException constructor.
    *
    * @param            $type
-   * @param array|null $types
    */
   public function __construct($type, ?array $types = NULL)
   {

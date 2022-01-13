@@ -36,8 +36,6 @@ class Configuration implements ConfigurationInterface
 
   /**
    * Setup configuration for the API services in the bundle
-   *
-   * @param ArrayNodeDefinition $node
    */
   private function configureApiServices(ArrayNodeDefinition $node)
   {
@@ -68,8 +66,6 @@ class Configuration implements ConfigurationInterface
 
   /**
    * Setup configuration for the commands in the bundle
-   *
-   * @param ArrayNodeDefinition $node
    */
   private function configureCommands(ArrayNodeDefinition $node){
     $node
@@ -92,8 +88,6 @@ class Configuration implements ConfigurationInterface
 
   /**
    * Setup configuration for the database extensions
-   *
-   * @param ArrayNodeDefinition $node
    */
   private function configureDatabase(ArrayNodeDefinition $node) {
     $node
@@ -121,8 +115,6 @@ class Configuration implements ConfigurationInterface
 
   /**
    * Setup configuration for the mailer extension
-   *
-   * @param ArrayNodeDefinition $node
    */
   private function configureEmailService(ArrayNodeDefinition $node) {
     $node
@@ -151,8 +143,6 @@ class Configuration implements ConfigurationInterface
 
   /**
    * Setup configuration for the services in the bundle
-   *
-   * @param ArrayNodeDefinition $node
    */
   private function configureSerializer(ArrayNodeDefinition $node) {
     $node
@@ -184,8 +174,6 @@ class Configuration implements ConfigurationInterface
 
   /**
    * Setup configuration for the services in the bundle
-   *
-   * @param ArrayNodeDefinition $node
    */
   private function configureServices(ArrayNodeDefinition $node) {
     $node

@@ -11,20 +11,12 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class ButtonExtension extends AbstractTypeExtension
 {
 
-  /**
-   * @param FormView      $view
-   * @param FormInterface $form
-   * @param array         $options
-   */
   public function buildView(FormView $view, FormInterface $form, array $options)
   {
     $view->vars['icon'] = $options['icon'] === NULL ? NULL
         : sprintf('%s %s', $options['icon_prefix'], $options['icon']);
   }
 
-  /**
-   * @param OptionsResolver $resolver
-   */
   public function configureOptions(OptionsResolver $resolver)
   {
     $resolver->setDefaults([

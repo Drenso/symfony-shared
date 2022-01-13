@@ -23,9 +23,6 @@ class EntityValidationFailedException extends Exception
     }
   }
 
-  /**
-   * @return ConstraintViolationListInterface|null
-   */
   public function getViolationList(): ?ConstraintViolationListInterface
   {
     return $this->violationList;

@@ -13,8 +13,6 @@ trait RowCountTrait
 {
   /**
    * Get the full table row count
-   *
-   * @return int
    */
   public function getRowCount(): int
   {
@@ -24,10 +22,7 @@ trait RowCountTrait
   /**
    * Retrieve the row count for the given builder and column
    *
-   * @param QueryBuilder $queryBuilder
-   * @param string       $column
    *
-   * @return int
    *
    * @noinspection PhpUnhandledExceptionInspection
    * @noinspection PhpDocMissingThrowsInspection

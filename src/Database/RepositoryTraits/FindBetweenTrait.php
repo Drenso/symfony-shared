@@ -17,13 +17,10 @@ trait FindBetweenTrait
    * Find all entities between two given datetime instances.
    * If any is empty, it will not be used in the constraint
    *
-   * @param DateTimeInterface|null $start
-   * @param DateTimeInterface|null $end
-   * @param string|null            $alias          If not given, 'e' will be used
-   * @param bool                   $startInclusive If false, the compare will be exclusive
-   * @param bool                   $endInclusive   If false, the compare will be exclusive
+   * @param string|null $alias          If not given, 'e' will be used
+   * @param bool        $startInclusive If false, the compare will be exclusive
+   * @param bool        $endInclusive   If false, the compare will be exclusive
    *
-   * @return array
    */
   public function findBetween(
       ?DateTimeInterface $start,
@@ -41,13 +38,10 @@ trait FindBetweenTrait
    * Creates an query builder that will find all entities between two given datetime instances.
    * If any is empty, it will not be used in the constraint
    *
-   * @param DateTimeInterface|null $start
-   * @param DateTimeInterface|null $end
-   * @param string|null            $alias          If not given, 'e' will be used
-   * @param bool                   $startInclusive If false, the compare will be exclusive
-   * @param bool                   $endInclusive   If false, the compare will be exclusive
+   * @param string|null $alias          If not given, 'e' will be used
+   * @param bool        $startInclusive If false, the compare will be exclusive
+   * @param bool        $endInclusive   If false, the compare will be exclusive
    *
-   * @return QueryBuilder
    */
   public function findBetweenQb(
       ?DateTimeInterface $start,

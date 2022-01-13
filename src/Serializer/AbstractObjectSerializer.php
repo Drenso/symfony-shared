@@ -18,7 +18,6 @@ abstract class AbstractObjectSerializer
   /**
    * Create the default subscriber
    *
-   * @param string $clazz
    *
    * @return array[]
    */
@@ -36,8 +35,6 @@ abstract class AbstractObjectSerializer
 
   /**
    * The actual serialization handler, which call the abstract doSerialize method
-   *
-   * @param ObjectEvent $event
    */
   public function onPostSerialize(ObjectEvent $event): void
   {
@@ -69,11 +66,6 @@ abstract class AbstractObjectSerializer
 
   /**
    * Add a string property to the serialized object
-   *
-   * @param SerializationVisitorInterface $visitor
-   * @param string                        $prop
-   * @param string|null                   $value
-   * @param bool                          $insertUnderscore
    */
   protected function addStringProperty(
       SerializationVisitorInterface $visitor,
@@ -89,11 +81,6 @@ abstract class AbstractObjectSerializer
 
   /**
    * Add a boolean property to the serialized object
-   *
-   * @param SerializationVisitorInterface $visitor
-   * @param string                        $prop
-   * @param bool|null                     $value
-   * @param bool                          $insertUnderscore
    */
   protected function addBoolProperty(
       SerializationVisitorInterface $visitor,
@@ -111,13 +98,7 @@ abstract class AbstractObjectSerializer
    * Add a property as defined in the class metadata.
    * Allows to overwrite the serialized name.
    *
-   * @param SerializationVisitorInterface $visitor
-   * @param ObjectEvent                   $event
-   * @param string                        $objectClass
-   * @param string                        $objectProperty
-   * @param mixed                         $value
-   * @param string|null                   $prop
-   * @param bool                          $insertUnderscore
+   * @param mixed $value
    */
   protected function addProperty(
       SerializationVisitorInterface $visitor,
@@ -141,10 +122,7 @@ abstract class AbstractObjectSerializer
   }
 
   /**
-   * @param SerializationVisitorInterface $visitor
-   * @param array                         $groups
    * @param                               $object
-   * @param ObjectEvent                   $event
    */
   protected abstract function doSerialize(
       SerializationVisitorInterface $visitor,
