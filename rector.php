@@ -20,8 +20,11 @@ return static function (ContainerConfigurator $containerConfigurator): void {
   $containerConfigurator
       ->services()
       ->set(\Rector\Php80\Rector\Class_\AnnotationToAttributeRector::class)->configure([
-          new \Rector\Php80\ValueObject\AnnotationToAttribute(\JMS\Serializer\Annotation\Expose::class),
+          new \Rector\Php80\ValueObject\AnnotationToAttribute(Gedmo\Mapping\Annotation\Timestampable::class),
+          new \Rector\Php80\ValueObject\AnnotationToAttribute(Gedmo\Mapping\Annotation\Blameable::class),
           new \Rector\Php80\ValueObject\AnnotationToAttribute(\JMS\Serializer\Annotation\Exclude::class),
-      ]);
-//      ->set(\Rector\Php74\Rector\Property\TypedPropertyRector::class);
+          new \Rector\Php80\ValueObject\AnnotationToAttribute(\JMS\Serializer\Annotation\Expose::class),
+      ])
+      ->set(\Rector\Php74\Rector\Property\TypedPropertyRector::class)
+      ->set(\Rector\Php80\Rector\Class_\ClassPropertyAssignToConstructorPromotionRector::class);
 };

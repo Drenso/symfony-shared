@@ -13,41 +13,41 @@ trait Blameable
   /**
    * @var DateTimeImmutable $created
    *
-   * @Gedmo\Timestampable(on="create")
    *
    */
   #[ORM\Column(name: 'created_at', type: 'datetime_immutable', nullable: false)]
   #[Serializer\Exclude]
+  #[Gedmo\Timestampable(on: 'create')]
   private $createdAt;
 
   /**
    * @var string|null $createdBy
    *
-   * @Gedmo\Blameable(on="create")
    *
    */
   #[ORM\Column(name: 'created_by', type: 'string', length: 255, nullable: true)]
   #[Serializer\Exclude]
+  #[Gedmo\Blameable(on: 'create')]
   private $createdBy;
 
   /**
    * @var DateTimeImmutable|null $updatedAt
    *
-   * @Gedmo\Timestampable(on="update")
    *
    */
   #[ORM\Column(name: 'updated_at', type: 'datetime_immutable', nullable: true)]
   #[Serializer\Exclude]
+  #[Gedmo\Timestampable(on: 'update')]
   private $updatedAt;
 
   /**
    * @var string|null $updatedBy
    *
-   * @Gedmo\Blameable(on="update")
    *
    */
   #[ORM\Column(name: 'updated_by', type: 'string', length: 255, nullable: true)]
   #[Serializer\Exclude]
+  #[Gedmo\Blameable(on: 'update')]
   private $updatedBy;
 
   /**
