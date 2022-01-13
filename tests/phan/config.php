@@ -75,7 +75,6 @@ return [
 
   // A list of plugin files to execute
     'plugins'                         => [
-        'vendor/drenso/phan-extensions/Plugin/Annotation/SymfonyAnnotationPlugin.php',
         'vendor/drenso/phan-extensions/Plugin/DocComment/ThrowsPlugin.php',
         'vendor/drenso/phan-extensions/Plugin/DocComment/InlineVarPlugin.php',
     ],
