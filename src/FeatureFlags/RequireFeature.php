@@ -2,40 +2,23 @@
 
 namespace Drenso\Shared\FeatureFlags;
 
+use Attribute;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ConfigurationAnnotation;
 
-/**
- * @Annotation
- */
+#[Attribute(Attribute::IS_REPEATABLE | Attribute::TARGET_CLASS | Attribute::TARGET_METHOD)]
 class RequireFeature extends ConfigurationAnnotation
 {
-  /**
-   * @var string
-   * @Required
-   */
-  private $flag;
-
-  public function setFlag($flag)
+  public function __construct(public readonly string $flag)
   {
-    $this->flag = $flag;
+    parent::__construct([]);
   }
 
-  public function getFlag()
-  {
-    return $this->flag;
-  }
-
-  public function setValue($value)
-  {
-    $this->setFlag($value);
-  }
-
-  public function getAliasName()
+  public function getAliasName(): string
   {
     return 'drenso_require_feature';
   }
 
-  public function allowArray()
+  public function allowArray(): bool
   {
     return true;
   }

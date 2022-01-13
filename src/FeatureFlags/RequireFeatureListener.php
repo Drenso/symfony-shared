@@ -8,18 +8,12 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 /**
- * Handles the RequireFeature annotation on controllers.
+ * Handles the RequireFeature attribute on controllers.
  */
 class RequireFeatureListener implements EventSubscriberInterface
 {
-  /**
-   * @var FeatureFlags
-   */
-  private $featureFlags;
-
-  public function __construct(FeatureFlags $featureFlags)
+  public function __construct(private FeatureFlags $featureFlags)
   {
-    $this->featureFlags = $featureFlags;
   }
 
   public function onKernelControllerArguments(ControllerArgumentsEvent $event)
@@ -32,17 +26,13 @@ class RequireFeatureListener implements EventSubscriberInterface
     }
 
     foreach ($annotations as $annotation) {
-      $flag = $annotation->getFlag();
-      if (!$this->featureFlags->getFlagValue($flag)) {
-        throw new NotFoundHttpException(sprintf('Feature disabled (%s)', $flag));
+      if (!$this->featureFlags->getFlagValue($annotation->flag)) {
+        throw new NotFoundHttpException(sprintf('Feature disabled (%s)', $annotation->flag));
       }
     }
   }
 
-  /**
-   * {@inheritdoc}
-   */
-  public static function getSubscribedEvents()
+  public static function getSubscribedEvents(): array
   {
     return [KernelEvents::CONTROLLER_ARGUMENTS => 'onKernelControllerArguments'];
   }

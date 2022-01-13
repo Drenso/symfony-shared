@@ -6,29 +6,12 @@ use Symfony\Component\DependencyInjection\Exception\EnvNotFoundException;
 
 class FeatureFlags
 {
-  /**
-   * @var string
-   */
-  private $configuration;
-  /**
-   * @var string
-   */
-  private $configurationOverride;
+  private ?array $resolvedConfiguration = NULL;
 
-  /** @var array|null */
-  private $resolvedConfiguration = NULL;
-
-  public function __construct(string $configuration, string $configurationOverride)
+  public function __construct(private string $configuration, private string $configurationOverride)
   {
-    $this->configuration         = $configuration;
-    $this->configurationOverride = $configurationOverride;
   }
 
-  /**
-   * @param string $flag
-   *
-   * @return bool
-   */
   public function getFlagValue(string $flag): bool
   {
     // Lazy resolving, only resolve when requested
