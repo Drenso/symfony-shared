@@ -9,16 +9,8 @@ namespace Drenso\Shared\Helper;
  */
 class GravatarHelper
 {
-  /**
-   * The fallback style of gravatar to use in case there is not gravatar available
-   *
-   * @var string
-   */
-  private $fallbackStyle;
-
-  public function __construct(string $fallbackStyle)
+  public function __construct(private string $fallbackStyle)
   {
-    $this->fallbackStyle = $fallbackStyle;
   }
 
   /**

@@ -8,15 +8,8 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
 
 class EntityValidationFailedException extends Exception
 {
-  /**
-   * @var ConstraintViolationListInterface|null
-   */
-  private $violationList;
-
-  public function __construct(?ConstraintViolationListInterface $violationList = NULL, ?string $message = NULL)
+  public function __construct(private ?ConstraintViolationListInterface $violationList = NULL, ?string $message = NULL)
   {
-    $this->violationList = $violationList;
-
     if ($violationList !== NULL) {
       $messages = [];
       foreach ($violationList as $violation) {

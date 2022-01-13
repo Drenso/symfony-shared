@@ -16,7 +16,7 @@ use Traversable;
 class IdMap implements Countable, IteratorAggregate
 {
   /** @var array<int, T> */
-  private $elements;
+  private array $elements;
 
   /** @param T[] $objects */
   public function __construct(array $objects = [])

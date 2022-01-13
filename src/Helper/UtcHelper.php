@@ -11,15 +11,9 @@ use RuntimeException;
 class UtcHelper
 {
 
-  /**
-   * @var DateTimeZone
-   */
-  private static $utc;
+  private static \DateTimeZone $utc;
 
-  /**
-   * @var DateTimeZone
-   */
-  private static $local;
+  private static \DateTimeZone $local;
 
   /**
    * @return DateTimeZone

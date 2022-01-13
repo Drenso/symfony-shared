@@ -15,15 +15,11 @@ use Kigkonsult\Icalcreator\IcalInterface;
 class IcalProvider
 {
 
-  /** @var IcsProvider */
-  protected $provider;
-
   /**
    * IcalProvider constructor.
    */
-  public function __construct(IcsProvider $provider)
+  public function __construct(protected IcsProvider $provider)
   {
-    $this->provider = $provider;
   }
 
   /**

@@ -13,14 +13,8 @@ use Twig\TwigFilter;
  */
 class GravatarExtension extends AbstractExtension
 {
-  /**
-   * @var GravatarHelper
-   */
-  private $gravatarHelper;
-
-  public function __construct(GravatarHelper $gravatarHelper)
+  public function __construct(private GravatarHelper $gravatarHelper)
   {
-    $this->gravatarHelper = $gravatarHelper;
   }
 
   /**

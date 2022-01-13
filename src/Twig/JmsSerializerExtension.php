@@ -9,19 +9,10 @@ use Twig\TwigFilter;
 
 class JmsSerializerExtension extends AbstractExtension
 {
-  /**
-   * @var SerializationContextFactoryInterface
-   */
-  private $contextFactory;
-  /**
-   * @var SerializerInterface
-   */
-  private $serializer;
-
-  public function __construct(SerializerInterface $serializer, SerializationContextFactoryInterface $contextFactory)
+  public function __construct(
+      private SerializerInterface                  $serializer,
+      private SerializationContextFactoryInterface $contextFactory)
   {
-    $this->serializer     = $serializer;
-    $this->contextFactory = $contextFactory;
   }
 
   public function getFilters()

@@ -16,18 +16,12 @@ class SoftDeletableSubscriber implements EventSubscriber
   const FIELD_NAME = 'deletedBy';
 
   /**
-   * @var TokenStorageInterface
-   */
-  private $tokenStorage;
-
-  /**
    * SoftDeletableSubscriber constructor.
    *
    * @param TokenStorageInterface $tokenStorage
    */
-  public function __construct(TokenStorageInterface $tokenStorage)
+  public function __construct(private TokenStorageInterface $tokenStorage)
   {
-    $this->tokenStorage = $tokenStorage;
   }
 
   /**

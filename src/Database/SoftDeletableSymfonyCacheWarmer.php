@@ -8,14 +8,8 @@ use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface;
 
 class SoftDeletableSymfonyCacheWarmer implements CacheWarmerInterface
 {
-  /**
-   * @var bool
-   */
-  private $useUtc;
-
-  public function __construct(bool $useUtc)
+  public function __construct(private bool $useUtc)
   {
-    $this->useUtc = $useUtc;
   }
 
   public static function registerGedmoType(): void

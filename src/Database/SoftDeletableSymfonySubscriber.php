@@ -16,14 +16,8 @@ use Symfony\Component\HttpKernel\KernelEvents;
 class SoftDeletableSymfonySubscriber implements EventSubscriberInterface
 {
 
-  /**
-   * @var bool
-   */
-  private $useUtc;
-
-  public function __construct(bool $useUtc)
+  public function __construct(private bool $useUtc)
   {
-    $this->useUtc = $useUtc;
   }
 
   public static function getSubscribedEvents()

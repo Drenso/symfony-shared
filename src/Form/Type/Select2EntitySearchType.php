@@ -21,19 +21,8 @@ use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
  */
 class Select2EntitySearchType extends AbstractType
 {
-  /**
-   * @var PropertyAccessorInterface
-   */
-  private $propertyAccessor;
-  /**
-   * @var ManagerRegistry
-   */
-  private $registry;
-
-  public function __construct(ManagerRegistry $registry, PropertyAccessorInterface $propertyAccessor)
+  public function __construct(private ManagerRegistry $registry, private PropertyAccessorInterface $propertyAccessor)
   {
-    $this->registry         = $registry;
-    $this->propertyAccessor = $propertyAccessor;
   }
 
   public function buildForm(FormBuilderInterface $builder, array $options)

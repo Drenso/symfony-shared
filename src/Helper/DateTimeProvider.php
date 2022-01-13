@@ -10,11 +10,8 @@ use DateTimeImmutable;
  */
 class DateTimeProvider
 {
-  private $now;
-
-  public function __construct(string $now = 'now')
+  public function __construct(private string $now = 'now')
   {
-    $this->now = $now;
   }
 
   /**

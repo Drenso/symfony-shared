@@ -18,27 +18,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class EmailService
 {
   /**
-   * @var MailerInterface
-   */
-  private $mailer;
-  /**
-   * @var string
-   */
-  private $senderEmail;
-  /**
-   * @var string|null
-   */
-  private $senderName;
-  /**
-   * @var TranslatorInterface|null
-   */
-  private $translator;
-  /**
-   * @var TransportInterface
-   */
-  private $transport;
-
-  /**
    * EmailService constructor.
    *
    * @param MailerInterface          $mailer
@@ -48,17 +27,12 @@ class EmailService
    * @param TransportInterface       $transport
    */
   public function __construct(
-      MailerInterface      $mailer,
-      string               $senderEmail,
-      ?string              $senderName,
-      ?TranslatorInterface $translator,
-      TransportInterface   $transport)
+      private MailerInterface      $mailer,
+      private string               $senderEmail,
+      private ?string              $senderName,
+      private ?TranslatorInterface $translator,
+      private TransportInterface   $transport)
   {
-    $this->mailer      = $mailer;
-    $this->senderEmail = $senderEmail;
-    $this->senderName  = $senderName;
-    $this->translator  = $translator;
-    $this->transport   = $transport;
   }
 
   /**

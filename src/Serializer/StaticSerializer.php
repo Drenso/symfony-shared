@@ -14,10 +14,8 @@ use Symfony\Component\HttpKernel\KernelEvents;
 class StaticSerializer implements EventSubscriberInterface
 {
 
-  /** @var SerializerInterface|null */
-  private static $serializer = NULL;
-  /** @var SerializationContextFactoryInterface|null */
-  private static $serializationContextFactory = NULL;
+  private static ?SerializerInterface $serializer = NULL;
+  private static ?SerializationContextFactoryInterface $serializationContextFactory = NULL;
 
   /**
    * EntitySnapshotter constructor.
