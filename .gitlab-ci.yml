@@ -10,22 +10,22 @@ variables:
 include:
   - project: 'intern/runner-templates'
     file: '/symfony/install-dependencies.yml'
-    ref: "4.0"
+    ref: "5.0"
   - project: 'intern/runner-templates'
     file: '/php/phan.yml'
-    ref: "4.0"
+    ref: "5.0"
   - project: 'intern/runner-templates'
     file: '/php/composer-require-checker.yml'
-    ref: "4.0"
+    ref: "5.0"
   - project: 'intern/runner-templates'
     file: '/php/composer-unused.yml'
-    ref: "4.0"
+    ref: "5.0"
   - project: 'intern/runner-templates'
     file: '/yaml/yamllint.yml'
-    ref: "4.0"
+    ref: "5.0"
   - project: 'intern/runner-templates'
     file: '/deploy/deploy.yml'
-    ref: "4.0"
+    ref: "5.0"
 
 install-dependencies:
   before_script:

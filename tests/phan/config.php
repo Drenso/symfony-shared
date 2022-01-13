@@ -48,11 +48,12 @@ $disabled_analysis = array_merge(
     [
         'vendor',
     ],
-    rglob('src/*Trait*')
 );
 
 
 return [
+    "minimum_target_php_version"      => '8.1',
+
   // If true, missing properties will be created when they are first seen. If false, we'll report an error message.
     "allow_missing_properties"        => false,
 
@@ -100,9 +101,7 @@ return [
 
   // This is useful for excluding hopelessly unanalyzable
   // files that can't be removed for whatever reason.
-
-  // Added are the show/actions/excel controllers that are not used.
-  // They are however required to generate some of the routes that are used
+    'exclude_file_regex'              => '@vendor\/rector\/*@',
     'exclude_file_list'               => [
         'vendor/symfony/symfony/src/Symfony/Component/Intl/Resources/stubs/IntlDateFormatter.php',
     ],

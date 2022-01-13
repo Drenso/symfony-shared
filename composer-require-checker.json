@@ -2,7 +2,7 @@
   "symbol-whitelist" : [
     "null", "true", "false",
     "static", "self", "parent",
-    "array", "string", "int", "float", "bool", "iterable", "callable", "void", "object",
+    "array", "string", "int", "float", "bool", "iterable", "callable", "void", "object", "mixed",
     "BOMO\\IcalBundle\\Model\\Calendar",
     "BOMO\\IcalBundle\\Model\\Event",
     "BOMO\\IcalBundle\\Model\\Timezone",
@@ -68,6 +68,7 @@
     "Symfony\\Component\\HttpFoundation\\ResponseHeaderBag",
     "Symfony\\Component\\HttpFoundation\\StreamedResponse",
     "Symfony\\Component\\Lock\\LockFactory",
+    "Symfony\\Component\\Mailer\\Mailer",
     "Symfony\\Component\\Mailer\\MailerInterface",
     "Symfony\\Component\\Mailer\\Transport\\TransportInterface",
     "Symfony\\Component\\Mime\\Address",
