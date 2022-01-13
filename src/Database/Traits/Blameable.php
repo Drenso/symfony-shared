@@ -15,9 +15,9 @@ trait Blameable
    *
    * @Gedmo\Timestampable(on="create")
    *
-   * @Serializer\Exclude()
    */
   #[ORM\Column(name: 'created_at', type: 'datetime_immutable', nullable: false)]
+  #[Serializer\Exclude]
   private $createdAt;
 
   /**
@@ -25,9 +25,9 @@ trait Blameable
    *
    * @Gedmo\Blameable(on="create")
    *
-   * @Serializer\Exclude()
    */
   #[ORM\Column(name: 'created_by', type: 'string', length: 255, nullable: true)]
+  #[Serializer\Exclude]
   private $createdBy;
 
   /**
@@ -35,9 +35,9 @@ trait Blameable
    *
    * @Gedmo\Timestampable(on="update")
    *
-   * @Serializer\Exclude()
    */
   #[ORM\Column(name: 'updated_at', type: 'datetime_immutable', nullable: true)]
+  #[Serializer\Exclude]
   private $updatedAt;
 
   /**
@@ -45,9 +45,9 @@ trait Blameable
    *
    * @Gedmo\Blameable(on="update")
    *
-   * @Serializer\Exclude()
    */
   #[ORM\Column(name: 'updated_by', type: 'string', length: 255, nullable: true)]
+  #[Serializer\Exclude]
   private $updatedBy;
 
   /**

@@ -14,11 +14,11 @@ trait HasDefaultEntityTrait
    *
    *
    *
-   * @Serializer\Exclude()
    */
   #[ORM\Column(type: 'boolean')]
   #[Assert\NotNull]
   #[Assert\Type(type: 'bool')]
+  #[Serializer\Exclude]
   private $isDefault = false;
 
   /**

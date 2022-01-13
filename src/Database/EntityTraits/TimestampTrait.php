@@ -16,10 +16,10 @@ trait TimestampTrait
    * @var DateTimeImmutable
    *
    *
-   * @Serializer\Expose()
    */
   #[ORM\Column(type: 'datetime_immutable')]
   #[Assert\NotNull]
+  #[Serializer\Expose]
   private $timestamp;
 
   /**

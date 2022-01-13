@@ -13,17 +13,17 @@ trait SoftDeletable
   /**
    * @var DateTimeImmutable|null
    *
-   * @Serializer\Exclude()
    */
   #[ORM\Column(name: 'deleted_at', type: 'datetime_immutable_with_conversion', nullable: true)]
+  #[Serializer\Exclude]
   protected $deletedAt;
 
   /**
    * @var string|null
    *
-   * @Serializer\Exclude()
    */
   #[ORM\Column(name: 'deleted_by', type: 'string', length: 255, nullable: true)]
+  #[Serializer\Exclude]
   protected $deletedBy;
 
   /**

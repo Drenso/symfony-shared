@@ -17,7 +17,11 @@ return static function (ContainerConfigurator $containerConfigurator): void {
   $containerConfigurator->import(\Rector\Symfony\Set\SymfonySetList::ANNOTATIONS_TO_ATTRIBUTES);
 
   // Register single rules
-//  $containerConfigurator
-//      ->services()
+  $containerConfigurator
+      ->services()
+      ->set(\Rector\Php80\Rector\Class_\AnnotationToAttributeRector::class)->configure([
+          new \Rector\Php80\ValueObject\AnnotationToAttribute(\JMS\Serializer\Annotation\Expose::class),
+          new \Rector\Php80\ValueObject\AnnotationToAttribute(\JMS\Serializer\Annotation\Exclude::class),
+      ]);
 //      ->set(\Rector\Php74\Rector\Property\TypedPropertyRector::class);
 };
