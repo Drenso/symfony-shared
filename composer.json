@@ -52,6 +52,15 @@
     "symfony/twig-bridge": "~3.4 || ~4.0 || ~5.0",
     "symfony/validator": "~3.4 || ~4.0 || ~5.0"
   },
+  "replace": {
+    "symfony/polyfill-iconv": "*",
+    "symfony/polyfill-mbstring": "*",
+    "symfony/polyfill-php72": "*",
+    "symfony/polyfill-php73": "*",
+    "symfony/polyfill-php74": "*",
+    "symfony/polyfill-php80": "*",
+    "symfony/polyfill-php81": "*"
+  },
   "conflict": {
     "gedmo/doctrine-extensions": "<3.5.0",
     "jms/serializer": "<3.14.0",
