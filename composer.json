@@ -66,7 +66,7 @@
     "stof/doctrine-extensions-bundle": "Needed to use the Blameable trait",
     "symfony/console": "Needed to use the action security command",
     "symfony/doctrine-bridge": "Needed to use the HiddenEntityType, the Database traits and the action security command",
-    "symfony/lock": "Needed to use the UseLock annotation",
+    "symfony/lock": "Needed to use the UseLock attribute",
     "symfony/mailer": "Needed to use the MailService",
     "symfony/security-core": "Needed to use the Blameable subscriber",
     "symfony/translation": "Needed to use the SpreadsheetHelper",

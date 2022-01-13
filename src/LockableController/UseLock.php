@@ -2,40 +2,23 @@
 
 namespace Drenso\Shared\LockableController;
 
+use Attribute;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ConfigurationAnnotation;
 
-/**
- * @Annotation
- */
+#[Attribute(Attribute::IS_REPEATABLE | Attribute::TARGET_CLASS | Attribute::TARGET_FUNCTION)]
 class UseLock extends ConfigurationAnnotation
 {
-  /**
-   * @var string
-   * @Required
-   */
-  private $lockName;
-
-  public function setLockName($lockName)
+  public function __construct(public readonly string $lockName)
   {
-    $this->lockName = $lockName;
+    parent::__construct([]);
   }
 
-  public function getLockName()
-  {
-    return $this->lockName;
-  }
-
-  public function setValue($value)
-  {
-    $this->setLockName($value);
-  }
-
-  public function getAliasName()
+  public function getAliasName(): string
   {
     return 'drenso_use_lock';
   }
 
-  public function allowArray()
+  public function allowArray(): bool
   {
     return true;
   }
