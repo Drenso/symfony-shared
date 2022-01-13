@@ -2,7 +2,7 @@
 
 namespace Drenso\Shared\Command;
 
-use Doctrine\Common\Annotations\AnnotationReader;
+use ReflectionAttribute;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionMethod;
@@ -19,7 +19,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class CheckActionSecurityCommand extends Command
 {
-
   /**
    * Makes the command lazy loaded
    *
@@ -28,56 +27,39 @@ class CheckActionSecurityCommand extends Command
   protected static $defaultName = 'drenso:check:action-security';
 
   /**
-   * @var ContainerInterface
-   */
-  private $container;
-  /**
-   * @var string[]
-   */
-  private $excludedControllers;
-
-  /**
    * CheckActionSecurityCommand constructor.
    *
-   * @param ContainerInterface $container
-   * @param string[]           $excludedControllers
+   * @param string[] $excludedControllers
    */
-  public function __construct(ContainerInterface $container, array $excludedControllers)
+  public function __construct(
+      private ContainerInterface $container, private array $excludedControllers)
   {
-    $this->container           = $container;
-    $this->excludedControllers = $excludedControllers;
-
-    parent::__construct(NULL);
+    parent::__construct();
   }
 
-  /**
-   * {@inheritdoc}
-   */
   protected function configure()
   {
     $this
-        ->setDescription('Check if all actions in the app namespace either have a Security or an IsGranted annotation.');
+        ->setDescription('Check if all actions in the app namespace either have a Security or an IsGranted attribute.');
 
-    $this->addOption('allow-class-annotations', NULL, InputOption::VALUE_NONE,
-        'When given, a global class IsGranted annotation is also allowed');
+    $this->addOption('allow-class-attribute', NULL, InputOption::VALUE_NONE,
+        'When given, a global class attribute is also allowed');
   }
 
   /**
-   * {@inheritdoc}
    * @throws ReflectionException
    */
-  protected function execute(InputInterface $input, OutputInterface $output)
+  protected function execute(InputInterface $input, OutputInterface $output): int
   {
     // Initialize variables
     $io                 = new SymfonyStyle($input, $output);
     $noSecurity         = [];
     $checkedControllers = [];
-    $annotationReader   = new AnnotationReader();
-    $allowClass         = $input->getOption('allow-class-annotations') ?? false;
+    $allowClass         = $input->getOption('allow-class-attribute') ?? false;
     // Find all routes
     $routes = $this->container->get('router')->getRouteCollection()->all();
 
-    foreach ($routes as $route => $param) {
+    foreach ($routes as $param) {
       // Get controller string
       $controller = $param->getDefault('_controller');
 
@@ -88,7 +70,7 @@ class CheckActionSecurityCommand extends Command
 
       if ($controller !== NULL) {
         // Only check own controllers
-        if (strpos(strtolower($controller), 'app') === false) continue;
+        if (!str_contains(strtolower($controller), 'app')) continue;
 
         // Find actions. Possible formats: <service>:<action> and <namespace>:<bundle>:<action>. These need to be checked separately.
         $controllerArray = explode(':', $controller);
@@ -96,21 +78,24 @@ class CheckActionSecurityCommand extends Command
           // Resolve service
           $controllerObject = $this->container->get($controllerArray[0]);
           $action           = $controllerArray[2] ?? $controllerArray[1];
-        } catch (ServiceNotFoundException $e) {
+        } catch (ServiceNotFoundException) {
           $controllerObject = $controllerArray[0];
           // Merge bundle with namespace, but only if this is defined
-          $controllerArray[1] ? $controllerObject .= '/' . $controllerArray[1] : NULL;
+          if ($controllerArray[1]) {
+            $controllerObject .= '/' . $controllerArray[1];
+          }
           $action = $controllerArray[2];
         }
 
         // Create ReflectionMethod
         $reflectedMethod = new ReflectionMethod($controllerObject, $action);
+        $attrFlags       = ReflectionAttribute::IS_INSTANCEOF;
         // Check if Route annotation exists
-        if ($annotationReader->getMethodAnnotation($reflectedMethod, Route::class)) {
+        if ($reflectedMethod->getAttributes(Route::class, $attrFlags)) {
           // Check if Security or IsGranted annotation exists, if not raise error
-          if (!$annotationReader->getMethodAnnotation($reflectedMethod, Security::class) &&
-              !$annotationReader->getMethodAnnotation($reflectedMethod, IsGranted::class) &&
-              (!$allowClass || !$annotationReader->getClassAnnotation(new ReflectionClass($controllerObject), IsGranted::class))) {
+          if (!$reflectedMethod->getAttributes(Security::class, $attrFlags) &&
+              !$reflectedMethod->getAttributes(IsGranted::class, $attrFlags) &&
+              (!$allowClass || !(new ReflectionClass($controllerObject))->getAttributes(IsGranted::class, $attrFlags))) {
             $noSecurity[] = '- ' . $controller;
           }
 
@@ -122,7 +107,6 @@ class CheckActionSecurityCommand extends Command
 
     // Build error string
     if (!empty($noSecurity)) {
-
       $error = [];
       // Concatenate non-pre-authorized methods
       $error[] = 'The following methods do not contain a Security or IsGranted annotation:';
