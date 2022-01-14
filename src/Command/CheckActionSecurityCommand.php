@@ -91,9 +91,9 @@ class CheckActionSecurityCommand extends Command
         // Create ReflectionMethod
         $reflectedMethod = new ReflectionMethod($controllerObject, $action);
         $attrFlags       = ReflectionAttribute::IS_INSTANCEOF;
-        // Check if Route annotation exists
+        // Check if Route attribute exists
         if ($reflectedMethod->getAttributes(Route::class, $attrFlags)) {
-          // Check if Security or IsGranted annotation exists, if not raise error
+          // Check if Security or IsGranted attribute exists, if not raise error
           if (!$reflectedMethod->getAttributes(Security::class, $attrFlags) &&
               !$reflectedMethod->getAttributes(IsGranted::class, $attrFlags) &&
               (!$allowClass || !(new ReflectionClass($controllerObject))->getAttributes(IsGranted::class, $attrFlags))) {
@@ -110,7 +110,7 @@ class CheckActionSecurityCommand extends Command
     if (!empty($noSecurity)) {
       $error = [];
       // Concatenate non-pre-authorized methods
-      $error[] = 'The following methods do not contain a Security or IsGranted annotation:';
+      $error[] = 'The following methods do not contain a Security or IsGranted attribute:';
       $error   = [...$error, ...$noSecurity];
 
       // Feedback error
@@ -120,7 +120,7 @@ class CheckActionSecurityCommand extends Command
     }
 
     // No errors occurred!
-    $io->success('All methods contain a Security or IsGranted annotation!');
+    $io->success('All methods contain a Security or IsGranted attribute!');
 
     if ($output->isVerbose()) {
       $output->writeln("Checked controllers:");

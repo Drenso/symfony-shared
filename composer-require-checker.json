@@ -7,7 +7,6 @@
     "BOMO\\IcalBundle\\Model\\Event",
     "BOMO\\IcalBundle\\Model\\Timezone",
     "BOMO\\IcalBundle\\Provider\\IcsProvider",
-    "Doctrine\\Common\\Annotations\\AnnotationReader",
     "Doctrine\\Common\\Collections\\Collection",
     "Doctrine\\Common\\EventSubscriber",
     "Doctrine\\DBAL\\Platforms\\AbstractPlatform",

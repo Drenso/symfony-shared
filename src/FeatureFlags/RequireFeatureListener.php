@@ -20,14 +20,14 @@ class RequireFeatureListener implements EventSubscriberInterface
   {
     $request = $event->getRequest();
 
-    /** @var $annotations RequireFeature[] */
-    if (!$annotations = $request->attributes->get('_drenso_require_feature')) {
+    /** @var $attributes RequireFeature[] */
+    if (!$attributes = $request->attributes->get('_drenso_require_feature')) {
       return;
     }
 
-    foreach ($annotations as $annotation) {
-      if (!$this->featureFlags->getFlagValue($annotation->flag)) {
-        throw new NotFoundHttpException(sprintf('Feature disabled (%s)', $annotation->flag));
+    foreach ($attributes as $attribute) {
+      if (!$this->featureFlags->getFlagValue($attribute->flag)) {
+        throw new NotFoundHttpException(sprintf('Feature disabled (%s)', $attribute->flag));
       }
     }
   }

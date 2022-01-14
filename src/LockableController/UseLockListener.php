@@ -29,13 +29,13 @@ class UseLockListener implements EventSubscriberInterface
   {
     $request = $event->getRequest();
 
-    /** @var $annotations UseLock[] */
-    if (!$annotations = $request->attributes->get('_drenso_use_lock')) {
+    /** @var $attributes UseLock[] */
+    if (!$attributes = $request->attributes->get('_drenso_use_lock')) {
       return;
     }
 
-    foreach ($annotations as $annotation) {
-      $lock = $this->lockFactory->createLock($annotation->lockName);
+    foreach ($attributes as $attribute) {
+      $lock = $this->lockFactory->createLock($attribute->lockName);
       $lock->acquire(true);
       $this->locks[] = $lock;
     }
