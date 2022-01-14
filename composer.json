@@ -96,5 +96,10 @@
       "Drenso\\Shared\\": "src/",
       "Drenso\\Shared\\Tests\\": "phpunit/"
     }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "v2.x-dev"
+    }
   }
 }
