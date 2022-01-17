@@ -16,6 +16,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\RouterInterface;
 
 class CheckActionSecurityCommand extends Command
 {
@@ -33,6 +34,7 @@ class CheckActionSecurityCommand extends Command
    */
   public function __construct(
       private ContainerInterface $container,
+      private RouterInterface    $router,
       private array              $excludedControllers)
   {
     parent::__construct();
@@ -58,7 +60,7 @@ class CheckActionSecurityCommand extends Command
     $checkedControllers = [];
     $allowClass         = $input->getOption('allow-class-attribute') ?? false;
     // Find all routes
-    $routes = $this->container->get('router')->getRouteCollection()->all();
+    $routes = $this->router->getRouteCollection()->all();
 
     foreach ($routes as $param) {
       // Get controller string
