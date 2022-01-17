@@ -76,6 +76,7 @@
     "Symfony\\Component\\OptionsResolver\\OptionsResolver",
     "Symfony\\Component\\PropertyAccess\\PropertyAccessorInterface",
     "Symfony\\Component\\Routing\\Annotation\\Route",
+    "Symfony\\Component\\Routing\\RouterInterface",
     "Symfony\\Component\\Security\\Core\\Authentication\\Token\\Storage\\TokenStorageInterface",
     "Symfony\\Component\\Validator\\ConstraintViolationInterface",
     "Symfony\\Contracts\\Translation\\TranslatorInterface"

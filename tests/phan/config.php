@@ -100,7 +100,7 @@ return [
 
   // This is useful for excluding hopelessly unanalyzable
   // files that can't be removed for whatever reason.
-    'exclude_file_regex'              => '@vendor\/rector\/*@',
+    'exclude_file_regex'              => '@vendor\/(rector|symfony\/polyfill-\w+)\/*@',
     'exclude_file_list'               => [
         'vendor/symfony/symfony/src/Symfony/Component/Intl/Resources/stubs/IntlDateFormatter.php',
     ],
