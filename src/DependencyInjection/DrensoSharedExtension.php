@@ -83,6 +83,7 @@ class DrensoSharedExtension extends Extension
           ->setAutoconfigured(true)
           ->setPublic($public)
           ->setArgument('$container', new Reference('service_container'))
+          ->setArgument('$router', new Reference('router'))
           ->setArgument('$excludedControllers', $config['check_action_security']['excluded_controllers']);
     }
   }
