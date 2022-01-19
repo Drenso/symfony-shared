@@ -56,6 +56,10 @@ class UTCDateTimeImmutableType extends DateTimeImmutableType
       return $value;
     }
 
+    if ($value instanceof DateTime) {
+      return DateTimeImmutable::createFromMutable($value);
+    }
+
     $converted = DateTimeImmutable::createFromFormat(
         $platform->getDateTimeFormatString(),
         $value,
