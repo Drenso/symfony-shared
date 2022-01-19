@@ -3,6 +3,7 @@
 namespace Drenso\Shared\Database\Types;
 
 use DateTime;
+use DateTimeImmutable;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\DateType;
@@ -38,6 +39,10 @@ class UTCDateType extends DateType
   {
     if (NULL === $value || $value instanceof DateTime) {
       return $value;
+    }
+
+    if ($value instanceof DateTimeImmutable) {
+      return DateTime::createFromImmutable($value);
     }
 
     $converted = DateTime::createFromFormat(
