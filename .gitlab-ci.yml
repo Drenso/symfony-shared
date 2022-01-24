@@ -1,5 +1,6 @@
 stages:
   - prepare
+  - cs-fix
   - lint
   - deploy
 
@@ -10,22 +11,25 @@ variables:
 include:
   - project: 'intern/runner-templates'
     file: '/symfony/install-dependencies.yml'
-    ref: "5.0"
+    ref: "5.1"
+  - project: 'intern/runner-templates'
+    ref: "5.1"
+    file: '/php/code-style-fixer.yml'
   - project: 'intern/runner-templates'
     file: '/php/phan.yml'
-    ref: "5.0"
+    ref: "5.1"
   - project: 'intern/runner-templates'
     file: '/php/composer-require-checker.yml'
-    ref: "5.0"
+    ref: "5.1"
   - project: 'intern/runner-templates'
     file: '/php/composer-unused.yml'
-    ref: "5.0"
+    ref: "5.1"
   - project: 'intern/runner-templates'
     file: '/yaml/yamllint.yml'
-    ref: "5.0"
+    ref: "5.1"
   - project: 'intern/runner-templates'
     file: '/deploy/deploy.yml'
-    ref: "5.0"
+    ref: "5.1"
 
 install-dependencies:
   before_script:
