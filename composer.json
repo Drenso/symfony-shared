@@ -40,7 +40,7 @@
     "phpoffice/phpspreadsheet": "^1.10",
     "rector/rector": "^0.12",
     "sebastian/comparator": "^3.0 || ^4.0",
-    "sensio/framework-extra-bundle": "^5.2 || ^6.0",
+    "sensio/framework-extra-bundle": "^6.0",
     "stof/doctrine-extensions-bundle": "^1.3",
     "symfony/console": "~4.0 || ~5.0 || ~6.0",
     "symfony/doctrine-bridge": "~4.0 || ~5.0 || ~6.0",
@@ -55,7 +55,8 @@
   "conflict": {
     "gedmo/doctrine-extensions": "<3.5.0",
     "jms/serializer": "<3.14.0",
-    "kigkonsult/icalcreator": "<2.39"
+    "kigkonsult/icalcreator": "<2.39",
+    "sensio/framework-extra-bundle": "<6.2.6"
   },
   "suggest": {
     "bomo/ical-bundle": "Needed for the IcalProvider",
@@ -63,6 +64,7 @@
     "jms/serializer-bundle": "Needed to use the Database traits and the Decimal serialization handler",
     "php-decimal/php-decimal": "Needed to use the Decimal serialization handler and the form transformer",
     "phpoffice/phpspreadsheet": "Needed to use the SpreadsheetHelper",
+    "sensio/framework-extra-bundle": "Needed for attribute support",
     "stof/doctrine-extensions-bundle": "Needed to use the Blameable trait",
     "symfony/console": "Needed to use the action security command",
     "symfony/doctrine-bridge": "Needed to use the HiddenEntityType, the Database traits and the action security command",

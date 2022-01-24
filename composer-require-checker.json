@@ -49,7 +49,7 @@
     "PhpOffice\\PhpSpreadsheet\\Writer\\Xlsx",
     "SebastianBergmann\\Comparator\\Comparator",
     "SebastianBergmann\\Comparator\\ComparisonFailure",
-    "Sensio\\Bundle\\FrameworkExtraBundle\\Configuration\\ConfigurationAnnotation",
+    "Sensio\\Bundle\\FrameworkExtraBundle\\Configuration\\ConfigurationInterface",
     "Sensio\\Bundle\\FrameworkExtraBundle\\Configuration\\IsGranted",
     "Sensio\\Bundle\\FrameworkExtraBundle\\Configuration\\Security",
     "Symfony\\Bridge\\Doctrine\\Form\\Type\\EntityType",
