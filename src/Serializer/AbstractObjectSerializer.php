@@ -16,8 +16,7 @@ use RuntimeException;
 abstract class AbstractObjectSerializer
 {
   /**
-   * Create the default subscriber
-   *
+   * Create the default subscriber.
    *
    * @return array[]
    */
@@ -34,7 +33,7 @@ abstract class AbstractObjectSerializer
   }
 
   /**
-   * The actual serialization handler, which call the abstract doSerialize method
+   * The actual serialization handler, which call the abstract doSerialize method.
    */
   public function onPostSerialize(ObjectEvent $event): void
   {
@@ -65,31 +64,31 @@ abstract class AbstractObjectSerializer
   }
 
   /**
-   * Add a string property to the serialized object
+   * Add a string property to the serialized object.
    */
   protected function addStringProperty(
       SerializationVisitorInterface $visitor,
-      string                        $prop,
-      ?string                       $value,
-      bool                          $insertUnderscore = true): void
+      string $prop,
+      ?string $value,
+      bool $insertUnderscore = true): void
   {
     $visitor->visitProperty(
-        new StaticPropertyMetadata('string', $this->propertyName($prop, $insertUnderscore), NULL),
+        new StaticPropertyMetadata('string', $this->propertyName($prop, $insertUnderscore), null),
         $value
     );
   }
 
   /**
-   * Add a boolean property to the serialized object
+   * Add a boolean property to the serialized object.
    */
   protected function addBoolProperty(
       SerializationVisitorInterface $visitor,
-      string                        $prop,
-      ?bool                         $value,
-      bool                          $insertUnderscore = true): void
+      string $prop,
+      ?bool $value,
+      bool $insertUnderscore = true): void
   {
     $visitor->visitProperty(
-        new StaticPropertyMetadata('boolean', $this->propertyName($prop, $insertUnderscore), NULL),
+        new StaticPropertyMetadata('boolean', $this->propertyName($prop, $insertUnderscore), null),
         $value
     );
   }
@@ -102,12 +101,12 @@ abstract class AbstractObjectSerializer
    */
   protected function addProperty(
       SerializationVisitorInterface $visitor,
-      ObjectEvent                   $event,
-      string                        $objectClass,
-      string                        $objectProperty,
+      ObjectEvent $event,
+      string $objectClass,
+      string $objectProperty,
                                     $value,
-      ?string                       $prop = NULL,
-      bool                          $insertUnderscore = true): void
+      ?string $prop = null,
+      bool $insertUnderscore = true): void
   {
     $metadata = $event->getContext()->getMetadataFactory()->getMetadataForClass($objectClass)->propertyMetadata[$objectProperty];
     if (!$metadata instanceof PropertyMetadata) {
@@ -122,13 +121,13 @@ abstract class AbstractObjectSerializer
   }
 
   /**
-   * @param                               $object
+   * @param $object
    */
-  protected abstract function doSerialize(
+  abstract protected function doSerialize(
       SerializationVisitorInterface $visitor,
-      array                         $groups,
+      array $groups,
                                     $object,
-      ObjectEvent                   $event): void;
+      ObjectEvent $event): void;
 
   private function propertyName(string $prop, bool $insertUnderscore)
   {

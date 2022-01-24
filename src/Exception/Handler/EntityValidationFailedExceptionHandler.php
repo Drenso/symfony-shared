@@ -15,8 +15,8 @@ class EntityValidationFailedExceptionHandler implements EventSubscriberInterface
 {
   public function __construct(
       private SerializerInterface $serializer,
-      private string              $controllerPrefix,
-      private string              $dataField)
+      private string $controllerPrefix,
+      private string $dataField)
   {
   }
 

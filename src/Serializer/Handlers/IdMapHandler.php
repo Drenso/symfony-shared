@@ -12,9 +12,8 @@ use JMS\Serializer\Visitor\SerializationVisitorInterface;
 
 class IdMapHandler implements SubscribingHandlerInterface
 {
-
   /**
-   * @inheritDoc
+   * {@inheritDoc}
    */
   public static function getSubscribingMethods()
   {
@@ -36,9 +35,9 @@ class IdMapHandler implements SubscribingHandlerInterface
 
   public function serializeJson(
       SerializationVisitorInterface $visitor,
-      IdMap                         $data,
-      array                         $type,
-      SerializationContext          $context)
+      IdMap $data,
+      array $type,
+      SerializationContext $context)
   {
     // We change the base type, and pass through possible parameters.
     $type['name'] = 'array';
@@ -55,8 +54,8 @@ class IdMapHandler implements SubscribingHandlerInterface
   public function deserializeJson(
       DeserializationVisitorInterface $visitor,
                                       $data,
-      array                           $type,
-      DeserializationContext          $context)
+      array $type,
+      DeserializationContext $context)
   {
     $type['name'] = 'array';
 

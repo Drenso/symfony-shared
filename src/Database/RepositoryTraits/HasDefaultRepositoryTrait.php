@@ -7,13 +7,12 @@ use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
 
 /**
- * Trait HasDefaultRepositoryTrait
+ * Trait HasDefaultRepositoryTrait.
  *
  * @method QueryBuilder createQueryBuilder(string $alias)
  */
 trait HasDefaultRepositoryTrait
 {
-
   /**
    * Get the default value. Can be null.
    *
@@ -30,12 +29,12 @@ trait HasDefaultRepositoryTrait
           ->getQuery()
           ->getSingleResult();
     } catch (NoResultException|NonUniqueResultException) {
-      return NULL;
+      return null;
     }
   }
 
   /**
-   * Clear the default value in the database
+   * Clear the default value in the database.
    */
   public function clearDefault()
   {
@@ -46,5 +45,4 @@ trait HasDefaultRepositoryTrait
         ->getQuery()
         ->execute();
   }
-
 }

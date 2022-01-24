@@ -2,8 +2,6 @@
 
 namespace Drenso\Shared\DependencyInjection;
 
-use Gedmo\SoftDeleteable\SoftDeleteableListener;
-use Symfony\Component\Mailer\Mailer;
 use BOMO\IcalBundle\Provider\IcsProvider;
 use Drenso\Shared\Command\CheckActionSecurityCommand;
 use Drenso\Shared\Database\SoftDeletableSubscriber;
@@ -23,17 +21,19 @@ use Drenso\Shared\Serializer\StaticSerializer;
 use Drenso\Shared\Twig\GravatarExtension;
 use Drenso\Shared\Twig\JmsSerializerExtension;
 use Exception;
+use Gedmo\SoftDeleteable\SoftDeleteableListener;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
+use Symfony\Component\Mailer\Mailer;
 
 class DrensoSharedExtension extends Extension
 {
   /**
-   * @inheritDoc
+   * {@inheritDoc}
    *
    * @throws Exception
    */
@@ -142,7 +142,7 @@ class DrensoSharedExtension extends Extension
           ->setArgument('$senderName', $mailer['sender_name']);
 
       if (!$mailer['translate_sender_name']) {
-        $definition->setArgument('$translator', NULL);
+        $definition->setArgument('$translator', null);
       }
     }
   }

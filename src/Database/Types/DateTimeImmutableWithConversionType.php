@@ -9,16 +9,17 @@ use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\DateTimeImmutableType;
 
 /**
- * Same as DateTimeImmutableType, but convert application values to immutable equivalents
+ * Same as DateTimeImmutableType, but convert application values to immutable equivalents.
  */
 class DateTimeImmutableWithConversionType extends DateTimeImmutableType
 {
-  public final const DATETIME_IMMUTABLE_WITH_CONVERSION = 'datetime_immutable_with_conversion';
+  final public const DATETIME_IMMUTABLE_WITH_CONVERSION = 'datetime_immutable_with_conversion';
 
   /**
    * @param mixed $value
    *
    * @return mixed|string|null
+   *
    * @throws ConversionException
    */
   public function convertToDatabaseValue($value, AbstractPlatform $platform)

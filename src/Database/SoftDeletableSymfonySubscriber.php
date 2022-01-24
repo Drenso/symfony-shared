@@ -15,7 +15,6 @@ use Symfony\Component\HttpKernel\KernelEvents;
  */
 class SoftDeletableSymfonySubscriber implements EventSubscriberInterface
 {
-
   public function __construct(private bool $useUtc)
   {
   }
@@ -26,7 +25,7 @@ class SoftDeletableSymfonySubscriber implements EventSubscriberInterface
         ConsoleEvents::COMMAND => [
             ['registerConversionType', 200],
         ],
-        KernelEvents::REQUEST  => [
+        KernelEvents::REQUEST => [
             ['registerConversionType', 200],
         ],
     ];

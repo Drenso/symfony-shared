@@ -35,7 +35,7 @@ class Configuration implements ConfigurationInterface
   }
 
   /**
-   * Setup configuration for the API services in the bundle
+   * Setup configuration for the API services in the bundle.
    */
   private function configureApiServices(ArrayNodeDefinition $node)
   {
@@ -65,9 +65,10 @@ class Configuration implements ConfigurationInterface
   }
 
   /**
-   * Setup configuration for the commands in the bundle
+   * Setup configuration for the commands in the bundle.
    */
-  private function configureCommands(ArrayNodeDefinition $node){
+  private function configureCommands(ArrayNodeDefinition $node)
+  {
     $node
         ->children()
           ->arrayNode('commands')
@@ -87,9 +88,10 @@ class Configuration implements ConfigurationInterface
   }
 
   /**
-   * Setup configuration for the database extensions
+   * Setup configuration for the database extensions.
    */
-  private function configureDatabase(ArrayNodeDefinition $node) {
+  private function configureDatabase(ArrayNodeDefinition $node)
+  {
     $node
         ->children()
           ->arrayNode('database')
@@ -114,9 +116,10 @@ class Configuration implements ConfigurationInterface
   }
 
   /**
-   * Setup configuration for the mailer extension
+   * Setup configuration for the mailer extension.
    */
-  private function configureEmailService(ArrayNodeDefinition $node) {
+  private function configureEmailService(ArrayNodeDefinition $node)
+  {
     $node
         ->children()
           ->arrayNode('email')
@@ -142,9 +145,10 @@ class Configuration implements ConfigurationInterface
   }
 
   /**
-   * Setup configuration for the services in the bundle
+   * Setup configuration for the services in the bundle.
    */
-  private function configureSerializer(ArrayNodeDefinition $node) {
+  private function configureSerializer(ArrayNodeDefinition $node)
+  {
     $node
         ->children()
           ->arrayNode('serializer')
@@ -173,9 +177,10 @@ class Configuration implements ConfigurationInterface
   }
 
   /**
-   * Setup configuration for the services in the bundle
+   * Setup configuration for the services in the bundle.
    */
-  private function configureServices(ArrayNodeDefinition $node) {
+  private function configureServices(ArrayNodeDefinition $node)
+  {
     $node
         ->children()
           ->arrayNode('services')

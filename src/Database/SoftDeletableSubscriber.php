@@ -9,16 +9,13 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 
 class SoftDeletableSubscriber implements EventSubscriber
 {
-
   /**
-   * Field name for deleted by
+   * Field name for deleted by.
    */
-  const FIELD_NAME = 'deletedBy';
+  final public const FIELD_NAME = 'deletedBy';
 
   /**
    * SoftDeletableSubscriber constructor.
-   *
-   * @param TokenStorageInterface $tokenStorage
    */
   public function __construct(private TokenStorageInterface $tokenStorage)
   {
@@ -37,9 +34,7 @@ class SoftDeletableSubscriber implements EventSubscriber
   }
 
   /**
-   * Sets the deletedBy field
-   *
-   * @param LifecycleEventArgs $args
+   * Sets the deletedBy field.
    */
   public function preSoftDelete(LifecycleEventArgs $args)
   {
@@ -49,7 +44,7 @@ class SoftDeletableSubscriber implements EventSubscriber
     $uow    = $args->getEntityManager()->getUnitOfWork();
 
     // Get old field value
-    $meta     = $om->getClassMetadata(get_class($object));
+    $meta     = $om->getClassMetadata($object::class);
     $reflProp = $meta->getReflectionProperty(self::FIELD_NAME);
     $oldValue = $reflProp->getValue($object);
 

@@ -5,13 +5,12 @@ namespace Drenso\Shared\Database\RepositoryTraits;
 use Doctrine\ORM\QueryBuilder;
 
 /**
- * Trait FindLastTrait
+ * Trait FindLastTrait.
  *
  * @method QueryBuilder createQueryBuilder(string $alias)
  */
 trait FindLastTrait
 {
-
   /**
    * @return mixed
    *

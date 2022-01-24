@@ -8,12 +8,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 trait HasDefaultEntityTrait
 {
-
   /**
-   * @var boolean
-   *
-   *
-   *
+   * @var bool
    */
   #[ORM\Column(type: 'boolean')]
   #[Assert\NotNull]
@@ -35,5 +31,4 @@ trait HasDefaultEntityTrait
 
     return $this;
   }
-
 }

@@ -6,28 +6,26 @@ use DateTimeInterface;
 use Doctrine\ORM\QueryBuilder;
 
 /**
- * Trait FindBetweenTrait
+ * Trait FindBetweenTrait.
  *
  * @method QueryBuilder createQueryBuilder(string $alias)
  */
 trait FindBetweenTrait
 {
-
   /**
    * Find all entities between two given datetime instances.
-   * If any is empty, it will not be used in the constraint
+   * If any is empty, it will not be used in the constraint.
    *
    * @param string|null $alias          If not given, 'e' will be used
    * @param bool        $startInclusive If false, the compare will be exclusive
    * @param bool        $endInclusive   If false, the compare will be exclusive
-   *
    */
   public function findBetween(
       ?DateTimeInterface $start,
       ?DateTimeInterface $end,
-      ?string            $alias = NULL,
-      bool               $startInclusive = true,
-      bool               $endInclusive = true): array
+      ?string $alias = null,
+      bool $startInclusive = true,
+      bool $endInclusive = true): array
   {
     return $this
         ->findBetweenQb($start, $end, $alias, $startInclusive, $endInclusive)
@@ -36,19 +34,18 @@ trait FindBetweenTrait
 
   /**
    * Creates an query builder that will find all entities between two given datetime instances.
-   * If any is empty, it will not be used in the constraint
+   * If any is empty, it will not be used in the constraint.
    *
    * @param string|null $alias          If not given, 'e' will be used
    * @param bool        $startInclusive If false, the compare will be exclusive
    * @param bool        $endInclusive   If false, the compare will be exclusive
-   *
    */
   public function findBetweenQb(
       ?DateTimeInterface $start,
       ?DateTimeInterface $end,
-      ?string            $alias = NULL,
-      bool               $startInclusive = true,
-      bool               $endInclusive = true): QueryBuilder
+      ?string $alias = null,
+      bool $startInclusive = true,
+      bool $endInclusive = true): QueryBuilder
   {
     $alias = $alias ?: 'e';
     $qb    = $this->createQueryBuilder($alias);
@@ -65,5 +62,4 @@ trait FindBetweenTrait
 
     return $qb;
   }
-
 }

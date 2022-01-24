@@ -11,13 +11,12 @@ use Symfony\Component\Form\SubmitButton;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class DeleteType
+ * Class DeleteType.
  *
  * @author BobV
  */
 class DeleteType extends AbstractType
 {
-
   public function buildForm(FormBuilderInterface $builder, array $options)
   {
     $builder
@@ -42,8 +41,7 @@ class DeleteType extends AbstractType
   }
 
   /**
-   * Check whether the "remove" button is clicked
-   *
+   * Check whether the "remove" button is clicked.
    *
    * @return bool
    */
@@ -64,7 +62,6 @@ class DeleteType extends AbstractType
 
   public function configureOptions(OptionsResolver $resolver)
   {
-
     $resolver->setDefaults([
         'mapped' => false,
 

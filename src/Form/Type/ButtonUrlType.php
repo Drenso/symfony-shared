@@ -9,13 +9,12 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class ButtonUrlType
+ * Class ButtonUrlType.
  *
  * @author BobV
  */
 class ButtonUrlType extends AbstractType
 {
-
   public function buildView(FormView $view, FormInterface $form, array $options)
   {
     $view->vars['route']        = $options['route'];
@@ -39,5 +38,4 @@ class ButtonUrlType extends AbstractType
   {
     return ButtonType::class;
   }
-
 }

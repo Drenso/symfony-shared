@@ -12,7 +12,7 @@ use Drenso\Shared\Helper\UtcHelper;
 /**
  * Class UTCDateTimeImmutableType
  * Store all datetime immutable types as UTC in the database
- * Source: https://www.doctrine-project.org/projects/doctrine-orm/en/2.7/cookbook/working-with-datetime.html
+ * Source: https://www.doctrine-project.org/projects/doctrine-orm/en/2.7/cookbook/working-with-datetime.html.
  */
 class UTCDateTimeImmutableType extends DateTimeImmutableType
 {
@@ -20,6 +20,7 @@ class UTCDateTimeImmutableType extends DateTimeImmutableType
    * @param mixed $value
    *
    * @return mixed|string|null
+   *
    * @throws ConversionException
    */
   public function convertToDatabaseValue($value, AbstractPlatform $platform)
@@ -48,11 +49,12 @@ class UTCDateTimeImmutableType extends DateTimeImmutableType
    * @param mixed $value
    *
    * @return DateTimeImmutable|null
+   *
    * @throws ConversionException
    */
   public function convertToPHPValue($value, AbstractPlatform $platform)
   {
-    if (NULL === $value || $value instanceof DateTimeImmutable) {
+    if (null === $value || $value instanceof DateTimeImmutable) {
       return $value;
     }
 

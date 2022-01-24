@@ -9,8 +9,6 @@ trait IdTrait
 {
   /**
    * @var int|null
-   *
-   *
    */
   #[ORM\Column(name: 'id', type: 'integer')]
   #[ORM\Id]

@@ -19,7 +19,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class SpreadsheetHelper
 {
-
   /**
    * SpreadsheetHelper constructor.
    */
@@ -28,8 +27,7 @@ class SpreadsheetHelper
   }
 
   /**
-   * Create an Excel response from a spreadsheet
-   *
+   * Create an Excel response from a spreadsheet.
    *
    * @return StreamedResponse
    */
@@ -49,8 +47,7 @@ class SpreadsheetHelper
   }
 
   /**
-   * Create a CSV response from a spreadsheet
-   *
+   * Create a CSV response from a spreadsheet.
    *
    * @return StreamedResponse
    */
@@ -72,9 +69,7 @@ class SpreadsheetHelper
   }
 
   /**
-   * Creates a new sheet with the specified name
-   *
-   *
+   * Creates a new sheet with the specified name.
    *
    * @throws Exception
    */
@@ -93,11 +88,11 @@ class SpreadsheetHelper
 
   public function setCellTranslatedValue(
       Worksheet &$sheet,
-      int       $column,
-      int       $row,
-      string    $value,
-      bool      $bold = false,
-      string    $translationDomain = 'messages')
+      int $column,
+      int $row,
+      string $value,
+      bool $bold = false,
+      string $translationDomain = 'messages')
   {
     $this->setCellValue($sheet, $column, $row, $this->translator->trans($value, [], $translationDomain), $bold);
   }
@@ -115,7 +110,6 @@ class SpreadsheetHelper
   }
 
   /**
-   *
    * @throws Exception
    */
   public function setCellExplicitString(Worksheet &$sheet, int $column, int $row, string $value)
@@ -125,14 +119,14 @@ class SpreadsheetHelper
   }
 
   public function setCellDateTime(
-      Worksheet          &$sheet,
-      int                $column,
-      int                $row,
+      Worksheet &$sheet,
+      int $column,
+      int $row,
       ?DateTimeInterface $dateTime,
-      bool               $leftAligned = false,
-      bool               $bold = false)
+      bool $leftAligned = false,
+      bool $bold = false)
   {
-    if ($dateTime !== NULL) {
+    if ($dateTime !== null) {
       $this->setCellValue($sheet, $column, $row, Date::PHPToExcel($dateTime), $bold);
     }
     $sheet->getStyleByColumnAndRow($column, $row)->getNumberFormat()->setFormatCode('dd/mm/yyyy hh:mm');
@@ -143,14 +137,14 @@ class SpreadsheetHelper
   }
 
   public function setCellDate(
-      Worksheet          &$sheet,
-      int                $column,
-      int                $row,
+      Worksheet &$sheet,
+      int $column,
+      int $row,
       ?DateTimeInterface $dateTime,
-      bool               $leftAligned = false,
-      bool               $bold = false)
+      bool $leftAligned = false,
+      bool $bold = false)
   {
-    if ($dateTime !== NULL) {
+    if ($dateTime !== null) {
       $this->setCellValue($sheet, $column, $row, Date::PHPToExcel($dateTime), $bold);
     }
     $sheet->getStyleByColumnAndRow($column, $row)->getNumberFormat()->setFormatCode('dd/mm/yyyy');
@@ -161,7 +155,7 @@ class SpreadsheetHelper
   }
 
   /**
-   * @param           $value
+   * @param $value
    */
   public function setCellCurrency(Worksheet &$sheet, int $column, int $row, $value, bool $bold = false)
   {
@@ -170,7 +164,7 @@ class SpreadsheetHelper
   }
 
   /**
-   * Create a correct content disposition
+   * Create a correct content disposition.
    */
   public static function contentDisposition(Response $response, string $filename): void
   {
@@ -189,5 +183,4 @@ class SpreadsheetHelper
   {
     return mb_strtolower(preg_replace('/[^A-Z\d.]/ui', '_', iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $filename)));
   }
-
 }

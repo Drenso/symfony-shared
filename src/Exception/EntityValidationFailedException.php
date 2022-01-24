@@ -8,9 +8,9 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
 
 class EntityValidationFailedException extends Exception
 {
-  public function __construct(private ?ConstraintViolationListInterface $violationList = NULL, ?string $message = NULL)
+  public function __construct(private ?ConstraintViolationListInterface $violationList = null, ?string $message = null)
   {
-    if ($violationList !== NULL) {
+    if ($violationList !== null) {
       $messages = [];
       foreach ($violationList as $violation) {
         assert($violation instanceof ConstraintViolationInterface);
@@ -27,5 +27,4 @@ class EntityValidationFailedException extends Exception
   {
     return $this->violationList;
   }
-
 }

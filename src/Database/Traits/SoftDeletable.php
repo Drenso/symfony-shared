@@ -9,10 +9,8 @@ use JMS\Serializer\Annotation as Serializer;
 
 trait SoftDeletable
 {
-
   /**
    * @var DateTimeImmutable|null
-   *
    */
   #[ORM\Column(name: 'deleted_at', type: 'datetime_immutable_with_conversion', nullable: true)]
   #[Serializer\Exclude]
@@ -20,7 +18,6 @@ trait SoftDeletable
 
   /**
    * @var string|null
-   *
    */
   #[ORM\Column(name: 'deleted_by', type: 'string', length: 255, nullable: true)]
   #[Serializer\Exclude]
@@ -29,10 +26,9 @@ trait SoftDeletable
   /**
    * Sets deletedAt.
    *
-   *
    * @return $this
    */
-  public function setDeletedAt(?DateTimeImmutable $deletedAt = NULL): self
+  public function setDeletedAt(?DateTimeImmutable $deletedAt = null): self
   {
     $this->deletedAt = $deletedAt;
 
@@ -48,8 +44,7 @@ trait SoftDeletable
   }
 
   /**
-   * Set deletedBy
-   *
+   * Set deletedBy.
    *
    * @return $this
    */
@@ -61,7 +56,7 @@ trait SoftDeletable
   }
 
   /**
-   * Get deletedBy
+   * Get deletedBy.
    */
   public function getDeletedBy(): ?string
   {
@@ -73,6 +68,6 @@ trait SoftDeletable
    */
   public function isDeleted(): bool
   {
-    return NULL !== $this->deletedAt;
+    return null !== $this->deletedAt;
   }
 }

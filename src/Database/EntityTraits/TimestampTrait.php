@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Drenso\Shared\Database\EntityTraits;
 
 use DateTimeImmutable;
@@ -11,11 +10,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 trait TimestampTrait
 {
-
   /**
    * @var DateTimeImmutable
-   *
-   *
    */
   #[ORM\Column(type: 'datetime_immutable')]
   #[Assert\NotNull]
@@ -33,5 +29,4 @@ trait TimestampTrait
 
     return $this;
   }
-
 }

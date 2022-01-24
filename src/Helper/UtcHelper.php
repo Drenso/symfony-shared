@@ -10,7 +10,6 @@ use RuntimeException;
 
 class UtcHelper
 {
-
   private static \DateTimeZone $utc;
 
   private static \DateTimeZone $local;
@@ -26,9 +25,9 @@ class UtcHelper
 
     if (PHP_MAJOR_VERSION >= 8) {
       return DateTime::createFromInterface($dateTime)->setTimezone($timezone);
-    } else if ($dateTime instanceof DateTime) {
+    } elseif ($dateTime instanceof DateTime) {
       return (clone $dateTime)->setTimezone($timezone);
-    } else if ($dateTime instanceof DateTimeImmutable) {
+    } elseif ($dateTime instanceof DateTimeImmutable) {
       return $dateTime->setTimezone($timezone);
     }
 

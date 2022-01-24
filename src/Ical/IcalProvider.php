@@ -10,11 +10,10 @@ use DateTimeInterface;
 use Kigkonsult\Icalcreator\IcalInterface;
 
 /**
- * Class IcalProvider
+ * Class IcalProvider.
  */
 class IcalProvider
 {
-
   /**
    * IcalProvider constructor.
    */
@@ -23,9 +22,9 @@ class IcalProvider
   }
 
   /**
-   * Create an iCal Calendar object with the correct timezone options
+   * Create an iCal Calendar object with the correct timezone options.
    */
-  public function createCalendar(string $name, string $description, ?Timezone $tz = NULL): Calendar
+  public function createCalendar(string $name, string $description, ?Timezone $tz = null): Calendar
   {
     $calendar = $this->provider->createCalendar($tz)
         ->setName($name)
@@ -39,7 +38,7 @@ class IcalProvider
   }
 
   /**
-   * Get the timezone configuration for the Netherlands
+   * Get the timezone configuration for the Netherlands.
    */
   public function nlTimezone(): Timezone
   {
@@ -56,7 +55,7 @@ class IcalProvider
                 'byday'   => ['-1', 'SU'],
                 'bymonth' => 10,
             ],
-            'tzname'       => 'CET',
+            'tzname' => 'CET',
         ])
         ->setDaylight([
             'dtstart'      => '19700329T020000',
@@ -68,7 +67,7 @@ class IcalProvider
                 'byday'   => ['-1', 'SU'],
                 'bymonth' => 3,
             ],
-            'tzname'       => 'CEST',
+            'tzname' => 'CEST',
         ])
         ->setXProp(IcalInterface::X_LIC_LOCATION, $tz->getTzid());
 
@@ -81,11 +80,11 @@ class IcalProvider
    * @note You will still need to add it to the Calendar with attachEvent($event).
    */
   public function createEvent(
-      ?string           $summary,
-      ?string           $description,
+      ?string $summary,
+      ?string $description,
       DateTimeInterface $start,
       DateTimeInterface $end,
-      ?string           $location = NULL): Event
+      ?string $location = null): Event
   {
     $event = $this->provider->createEvent();
     $event->getEvent()
@@ -110,5 +109,4 @@ class IcalProvider
         ->setDescription($vEvent->getSummary() . ' - ' . $vEvent->getDescription())
         ->setTrigger($trigger);
   }
-
 }

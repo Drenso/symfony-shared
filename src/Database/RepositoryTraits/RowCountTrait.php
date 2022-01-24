@@ -5,14 +5,14 @@ namespace Drenso\Shared\Database\RepositoryTraits;
 use Doctrine\ORM\QueryBuilder;
 
 /**
- * Trait RowCountTrait
+ * Trait RowCountTrait.
  *
  * @method QueryBuilder createQueryBuilder(string $alias)
  */
 trait RowCountTrait
 {
   /**
-   * Get the full table row count
+   * Get the full table row count.
    */
   public function getRowCount(): int
   {
@@ -20,9 +20,7 @@ trait RowCountTrait
   }
 
   /**
-   * Retrieve the row count for the given builder and column
-   *
-   *
+   * Retrieve the row count for the given builder and column.
    *
    * @noinspection PhpUnhandledExceptionInspection
    * @noinspection PhpDocMissingThrowsInspection

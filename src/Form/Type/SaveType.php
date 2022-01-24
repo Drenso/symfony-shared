@@ -13,7 +13,7 @@ use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class SaveType
+ * Class SaveType.
  *
  * @author BobV
  */
@@ -21,7 +21,6 @@ class SaveType extends AbstractType
 {
   public function buildForm(FormBuilderInterface $builder, array $options)
   {
-
     // Add the save button if required
     if ($options['enable_save']) {
       $builder->add('_save', SubmitType::class, [
@@ -75,8 +74,7 @@ class SaveType extends AbstractType
   }
 
   /**
-   * Check whether the "save and list" button is clicked
-   *
+   * Check whether the "save and list" button is clicked.
    *
    * @return bool
    */
@@ -96,7 +94,6 @@ class SaveType extends AbstractType
 
   public function configureOptions(OptionsResolver $resolver)
   {
-
     $resolver->setDefaults([
         'mapped' => false,
 
@@ -116,7 +113,7 @@ class SaveType extends AbstractType
         'list_label'              => 'form.list',
         'list_translation_domain' => 'drenso_shared',
         'list_icon'               => 'fa-list',
-        'list_route'              => NULL,
+        'list_route'              => null,
         'list_route_params'       => [],
         'list_btn_class'          => 'btn-outline-secondary',
 
@@ -124,7 +121,7 @@ class SaveType extends AbstractType
         'cancel_label'              => 'form.cancel',
         'cancel_translation_domain' => 'drenso_shared',
         'cancel_icon'               => 'fa-times',
-        'cancel_route'              => NULL,
+        'cancel_route'              => null,
         'cancel_route_params'       => [],
         'cancel_btn_class'          => 'btn-outline-danger',
     ]);
@@ -158,19 +155,18 @@ class SaveType extends AbstractType
     $resolver->setAllowedTypes('cancel_btn_class', 'string');
 
     $resolver->setNormalizer('list_route', function (Options $options, $value) {
-      if ($options['enable_list'] === true && $value === NULL) {
+      if ($options['enable_list'] === true && $value === null) {
         throw new MissingOptionsException('The option "list_route" is not set, while the list button is enabled.');
       }
 
       return $value;
     });
     $resolver->setNormalizer('cancel_route', function (Options $options, $value) {
-      if ($options['enable_cancel'] === true && $value === NULL) {
+      if ($options['enable_cancel'] === true && $value === null) {
         throw new MissingOptionsException('The option "cancel_route" is not set, while the cancel button is enabled.');
       }
 
       return $value;
     });
   }
-
 }

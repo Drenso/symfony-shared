@@ -21,7 +21,7 @@ use Symfony\Component\Routing\RouterInterface;
 class CheckActionSecurityCommand extends Command
 {
   /**
-   * Makes the command lazy loaded
+   * Makes the command lazy loaded.
    *
    * @var string
    */
@@ -34,8 +34,8 @@ class CheckActionSecurityCommand extends Command
    */
   public function __construct(
       private ContainerInterface $container,
-      private RouterInterface    $router,
-      private array              $excludedControllers)
+      private RouterInterface $router,
+      private array $excludedControllers)
   {
     parent::__construct();
   }
@@ -45,7 +45,7 @@ class CheckActionSecurityCommand extends Command
     $this
         ->setDescription('Check if all actions in the app namespace either have a Security or an IsGranted attribute.');
 
-    $this->addOption('allow-class-attribute', NULL, InputOption::VALUE_NONE,
+    $this->addOption('allow-class-attribute', null, InputOption::VALUE_NONE,
         'When given, a global class attribute is also allowed');
   }
 
@@ -71,9 +71,11 @@ class CheckActionSecurityCommand extends Command
         continue;
       }
 
-      if ($controller !== NULL) {
+      if ($controller !== null) {
         // Only check own controllers
-        if (!str_contains(strtolower($controller), 'app')) continue;
+        if (!str_contains(strtolower($controller), 'app')) {
+          continue;
+        }
 
         // Find actions. Possible formats: <service>:<action> and <namespace>:<bundle>:<action>. These need to be checked separately.
         $controllerArray = explode(':', (string)$controller);
@@ -125,7 +127,7 @@ class CheckActionSecurityCommand extends Command
     $io->success('All methods contain a Security or IsGranted attribute!');
 
     if ($output->isVerbose()) {
-      $output->writeln("Checked controllers:");
+      $output->writeln('Checked controllers:');
       $output->writeln(implode("\n", $checkedControllers));
       $output->writeln('');
     }

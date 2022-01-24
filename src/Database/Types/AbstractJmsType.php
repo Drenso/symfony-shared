@@ -14,21 +14,22 @@ abstract class AbstractJmsType extends JsonType
    * @param mixed $value
    *
    * @return false|mixed|string|null
+   *
    * @throws ConversionException
    */
   public function convertToDatabaseValue($value, AbstractPlatform $platform)
   {
-    if ($value === NULL || $value === '') {
-      return NULL;
+    if ($value === null || $value === '') {
+      return null;
     }
 
     try {
-      if (NULL !== $groups = $this->getSerializationGroups()) {
+      if (null !== $groups = $this->getSerializationGroups()) {
         $context = StaticSerializer::getSerializationContextFactory()->createSerializationContext();
         $context->setGroups($groups);
       }
 
-      return StaticSerializer::getSerializer()->serialize($value, 'json', $context ?? NULL);
+      return StaticSerializer::getSerializer()->serialize($value, 'json', $context ?? null);
     } catch (Exception $e) {
       throw ConversionException::conversionFailedSerialization($value, 'json', $e->getMessage());
     }
@@ -38,12 +39,13 @@ abstract class AbstractJmsType extends JsonType
    * @param mixed $value
    *
    * @return mixed|null
+   *
    * @throws ConversionException
    */
   public function convertToPHPValue($value, AbstractPlatform $platform)
   {
-    if ($value === NULL || $value === '') {
-      return NULL;
+    if ($value === null || $value === '') {
+      return null;
     }
 
     $value = is_resource($value) ? stream_get_contents($value) : $value;
@@ -56,11 +58,11 @@ abstract class AbstractJmsType extends JsonType
   }
 
   /**
-   * Overwrite this to enable serialization group support
+   * Overwrite this to enable serialization group support.
    */
   protected function getSerializationGroups(): ?array
   {
-    return NULL;
+    return null;
   }
 
   abstract protected function getJmsType(): string;

@@ -11,7 +11,7 @@ use Symfony\Component\Mime\RawMessage;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
- * Class EmailService
+ * Class EmailService.
  *
  * Works as an abstraction layer to create e-mails with the correct parameters
  */
@@ -21,17 +21,16 @@ class EmailService
    * EmailService constructor.
    */
   public function __construct(
-      private MailerInterface      $mailer,
-      private string               $senderEmail,
-      private ?string              $senderName,
+      private MailerInterface $mailer,
+      private string $senderEmail,
+      private ?string $senderName,
       private ?TranslatorInterface $translator,
-      private TransportInterface   $transport)
+      private TransportInterface $transport)
   {
   }
 
   /**
-   * Queues the e-mail by placing it on the message bus
-   *
+   * Queues the e-mail by placing it on the message bus.
    *
    * @throws TransportExceptionInterface
    * @suppress PhanTypeInvalidThrowsIsInterface
@@ -42,8 +41,7 @@ class EmailService
   }
 
   /**
-   * Send the e-mail directly, skipping the message bus
-   *
+   * Send the e-mail directly, skipping the message bus.
    *
    * @throws TransportExceptionInterface
    * @suppress PhanTypeInvalidThrowsIsInterface
@@ -54,12 +52,11 @@ class EmailService
   }
 
   /**
-   * Create an e-mail object for a specific user
+   * Create an e-mail object for a specific user.
    *
    * @param string|null $emailAddress Overwrites the e-mail address
-   *
    */
-  public function emailForUser(EmailableUserInterface $user, ?string $emailAddress = NULL): TemplatedEmail
+  public function emailForUser(EmailableUserInterface $user, ?string $emailAddress = null): TemplatedEmail
   {
     return $this->emailDefaults()
         ->to($this->getAddress($user, $emailAddress));
@@ -68,8 +65,6 @@ class EmailService
   /**
    * Create an e-mail object for the given e- address.
    * Note that the `emailForUser` is preferred.
-   *
-   *
    */
   public function emailForEmailAddress(string $emailAddress): TemplatedEmail
   {
@@ -78,7 +73,7 @@ class EmailService
   }
 
   /**
-   * Sets sane defaults for out e-mails
+   * Sets sane defaults for out e-mails.
    */
   private function emailDefaults(): TemplatedEmail
   {
@@ -91,11 +86,9 @@ class EmailService
   }
 
   /**
-   * Retrieve address object for an user
-   *
-   *
+   * Retrieve address object for an user.
    */
-  private function getAddress(EmailableUserInterface $user, ?string $emailAddress = NULL): Address
+  private function getAddress(EmailableUserInterface $user, ?string $emailAddress = null): Address
   {
     return new Address(($emailAddress ?: $user->getEmailAddress()) ?? '', $user->getEmailName());
   }

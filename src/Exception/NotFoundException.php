@@ -10,5 +10,4 @@ class NotFoundException extends RuntimeException
   {
     parent::__construct(sprintf('Could not find %s with id %d', $type, $id));
   }
-
 }

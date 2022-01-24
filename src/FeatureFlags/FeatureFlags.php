@@ -6,7 +6,7 @@ use Symfony\Component\DependencyInjection\Exception\EnvNotFoundException;
 
 class FeatureFlags
 {
-  private ?array $resolvedConfiguration = NULL;
+  private ?array $resolvedConfiguration = null;
 
   public function __construct(private string $configuration, private string $configurationOverride)
   {
@@ -30,7 +30,7 @@ class FeatureFlags
 
   private function resolve()
   {
-    if (NULL !== $this->resolvedConfiguration) {
+    if (null !== $this->resolvedConfiguration) {
       return;
     }
 

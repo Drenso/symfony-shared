@@ -12,8 +12,6 @@ trait Blameable
 {
   /**
    * @var DateTimeImmutable $created
-   *
-   *
    */
   #[ORM\Column(name: 'created_at', type: 'datetime_immutable', nullable: false)]
   #[Serializer\Exclude]
@@ -22,8 +20,6 @@ trait Blameable
 
   /**
    * @var string|null $createdBy
-   *
-   *
    */
   #[ORM\Column(name: 'created_by', type: 'string', length: 255, nullable: true)]
   #[Serializer\Exclude]
@@ -32,8 +28,6 @@ trait Blameable
 
   /**
    * @var DateTimeImmutable|null $updatedAt
-   *
-   *
    */
   #[ORM\Column(name: 'updated_at', type: 'datetime_immutable', nullable: true)]
   #[Serializer\Exclude]
@@ -42,8 +36,6 @@ trait Blameable
 
   /**
    * @var string|null $updatedBy
-   *
-   *
    */
   #[ORM\Column(name: 'updated_by', type: 'string', length: 255, nullable: true)]
   #[Serializer\Exclude]
@@ -51,7 +43,7 @@ trait Blameable
   private $updatedBy;
 
   /**
-   * Get the last update time, which is either creation time or update time
+   * Get the last update time, which is either creation time or update time.
    */
   public function getLastUpdated(): DateTimeInterface
   {
@@ -59,7 +51,7 @@ trait Blameable
   }
 
   /**
-   * Get the last updated by, which is either creation by or update by
+   * Get the last updated by, which is either creation by or update by.
    */
   public function getLastUpdatedBy(): ?string
   {
@@ -67,8 +59,7 @@ trait Blameable
   }
 
   /**
-   * Set createdAt
-   *
+   * Set createdAt.
    *
    * @return $this
    */
@@ -80,7 +71,7 @@ trait Blameable
   }
 
   /**
-   * Get createdAt
+   * Get createdAt.
    */
   public function getCreatedAt(): ?DateTimeInterface
   {
@@ -88,8 +79,7 @@ trait Blameable
   }
 
   /**
-   * Set createdBy
-   *
+   * Set createdBy.
    *
    * @return $this
    */
@@ -101,7 +91,7 @@ trait Blameable
   }
 
   /**
-   * Get createdBy
+   * Get createdBy.
    */
   public function getCreatedBy(): ?string
   {
@@ -109,8 +99,7 @@ trait Blameable
   }
 
   /**
-   * Set updatedAt
-   *
+   * Set updatedAt.
    *
    * @return $this
    */
@@ -122,7 +111,7 @@ trait Blameable
   }
 
   /**
-   * Get updatedAt
+   * Get updatedAt.
    */
   public function getUpdatedAt(): ?DateTimeInterface
   {
@@ -130,8 +119,7 @@ trait Blameable
   }
 
   /**
-   * Set updatedBy
-   *
+   * Set updatedBy.
    *
    * @return $this
    */
@@ -143,7 +131,7 @@ trait Blameable
   }
 
   /**
-   * Get updatedBy
+   * Get updatedBy.
    */
   public function getUpdatedBy(): ?string
   {

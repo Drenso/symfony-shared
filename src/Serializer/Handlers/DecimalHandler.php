@@ -9,17 +9,15 @@ use JMS\Serializer\Handler\SubscribingHandlerInterface;
 use JMS\Serializer\Visitor\DeserializationVisitorInterface;
 use JMS\Serializer\Visitor\SerializationVisitorInterface;
 
-
 /**
- * Class DecimalSerializer
+ * Class DecimalSerializer.
  *
  * Custom serializer for the decimal type
  */
 class DecimalHandler implements SubscribingHandlerInterface
 {
-
   /**
-   * @inheritDoc
+   * {@inheritDoc}
    */
   public static function getSubscribingMethods()
   {
@@ -41,9 +39,9 @@ class DecimalHandler implements SubscribingHandlerInterface
 
   public function serializeJson(
       SerializationVisitorInterface $visitor,
-      Decimal                       $decimal,
-      array                         $type,
-      Context                       $context)
+      Decimal $decimal,
+      array $type,
+      Context $context)
   {
     return $visitor->visitString($decimal->toString(), $type);
   }
@@ -51,8 +49,8 @@ class DecimalHandler implements SubscribingHandlerInterface
   public function deserializeJson(
       DeserializationVisitorInterface $visitor,
                                       $decimalAsString,
-      array                           $type,
-      Context                         $context)
+      array $type,
+      Context $context)
   {
     // Parse empty strings as zero
     if ($decimalAsString === '') {

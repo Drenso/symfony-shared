@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Drenso\Shared\Form\Type;
-
 
 use Decimal\Decimal;
 use Symfony\Component\Form\AbstractType;
@@ -12,7 +10,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class DecimalType extends AbstractType
 {
-
   public function buildForm(FormBuilderInterface $builder, array $options)
   {
     $builder->addModelTransformer(new CallbackTransformer(

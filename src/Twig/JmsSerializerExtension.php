@@ -10,7 +10,7 @@ use Twig\TwigFilter;
 class JmsSerializerExtension extends AbstractExtension
 {
   public function __construct(
-      private SerializerInterface                  $serializer,
+      private SerializerInterface $serializer,
       private SerializationContextFactoryInterface $contextFactory)
   {
   }
@@ -22,12 +22,11 @@ class JmsSerializerExtension extends AbstractExtension
     ];
   }
 
-  public function encode($data, ?array $serializationGroups = NULL): string
+  public function encode($data, ?array $serializationGroups = null): string
   {
     $context = $this->contextFactory->createSerializationContext();
     $context->setGroups($serializationGroups ?? ['Default']);
 
     return $this->serializer->serialize($data, 'json', $context);
   }
-
 }

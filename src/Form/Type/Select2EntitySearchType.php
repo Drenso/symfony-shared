@@ -32,17 +32,17 @@ class Select2EntitySearchType extends AbstractType
     $builder
         ->addViewTransformer(new CallbackTransformer(
             function ($normData) use ($options) {
-              if (NULL === $normData) {
-                return $options['multiple'] ? [] : NULL;
+              if (null === $normData) {
+                return $options['multiple'] ? [] : null;
               }
 
               if ($normData instanceof Collection) {
                 $normData = $normData->toArray();
-              } else if (!is_iterable($normData)) {
+              } elseif (!is_iterable($normData)) {
                 $normData = [$normData];
               }
 
-              $normData = array_map(fn($item) => [
+              $normData = array_map(fn ($item) => [
                   'value' => $this->propertyAccessor->getValue($item, 'id'),
                   'label' => $this->propertyAccessor->getValue($item, $options['choice_label']),
               ], $normData);
@@ -55,7 +55,7 @@ class Select2EntitySearchType extends AbstractType
             },
             function ($viewData) use ($repository, $options) {
               if (!$viewData) {
-                return $options['multiple'] ? [] : NULL;
+                return $options['multiple'] ? [] : null;
               }
 
               if ($options['multiple']) {
@@ -115,8 +115,8 @@ class Select2EntitySearchType extends AbstractType
         ])
         ->setAllowedTypes('class', 'string')
         ->setAllowedTypes('search_url', 'string')
-        ->addNormalizer('compound', fn() => false) // Force non-compound
-        ->addNormalizer('select2', fn() => true) // Force the use of select 2
+        ->addNormalizer('compound', fn () => false) // Force non-compound
+        ->addNormalizer('select2', fn () => true) // Force the use of select 2
         ->addNormalizer('select2_options', function (Options $options, $value) {
           if (!array_key_exists('ajax', $value)) {
             $value['ajax'] = [];

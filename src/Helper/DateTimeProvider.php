@@ -6,7 +6,7 @@ use DateTime;
 use DateTimeImmutable;
 
 /**
- * Class DateTimeProvider
+ * Class DateTimeProvider.
  */
 class DateTimeProvider
 {
@@ -16,7 +16,7 @@ class DateTimeProvider
 
   /**
    * The current time, based on the configured server timezone
-   * Immutable
+   * Immutable.
    *
    * @noinspection PhpUnhandledExceptionInspection
    */
@@ -38,7 +38,7 @@ class DateTimeProvider
 
   /**
    * The current time, in UTC
-   * Immutable
+   * Immutable.
    *
    * @noinspection PhpUnhandledExceptionInspection
    */

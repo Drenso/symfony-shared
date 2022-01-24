@@ -13,9 +13,8 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 class StaticSerializer implements EventSubscriberInterface
 {
-
-  private static ?SerializerInterface $serializer = NULL;
-  private static ?SerializationContextFactoryInterface $serializationContextFactory = NULL;
+  private static ?SerializerInterface $serializer                                   = null;
+  private static ?SerializationContextFactoryInterface $serializationContextFactory = null;
 
   /**
    * EntitySnapshotter constructor.
@@ -24,12 +23,9 @@ class StaticSerializer implements EventSubscriberInterface
    *
    * This also makes sure we share the configuration as configured with our the parameters, so we can leverage
    * automatic doctrine mapping and any custom handlers registered by us or other (for example, PhoneNumber)
-   *
-   * @param SerializerInterface                  $serializer
-   * @param SerializationContextFactoryInterface $serializationContextFactory
    */
   public function __construct(
-      SerializerInterface                  $serializer,
+      SerializerInterface $serializer,
       SerializationContextFactoryInterface $serializationContextFactory)
   {
     self::$serializer                  = $serializer;
@@ -37,7 +33,7 @@ class StaticSerializer implements EventSubscriberInterface
   }
 
   /**
-   * @inheritDoc
+   * {@inheritDoc}
    *
    * We need to use events to trigger this class to be loaded by the container, as otherwise the
    * default behavior would be to only load it when requested by a service or controller, which isn't
@@ -46,7 +42,7 @@ class StaticSerializer implements EventSubscriberInterface
   public static function getSubscribedEvents()
   {
     return [
-        KernelEvents::REQUEST  => [
+        KernelEvents::REQUEST => [
             ['onRequest', 255],
         ],
         ConsoleEvents::COMMAND => [
@@ -68,7 +64,7 @@ class StaticSerializer implements EventSubscriberInterface
   }
 
   /**
-   * Retrieve the serializer used for the change serialization
+   * Retrieve the serializer used for the change serialization.
    */
   public static function getSerializer(): SerializerInterface
   {
@@ -87,5 +83,4 @@ class StaticSerializer implements EventSubscriberInterface
 
     return self::$serializationContextFactory;
   }
-
 }

@@ -7,9 +7,8 @@ use InvalidArgumentException;
 
 class ArrayHelper
 {
-
   /**
-   * Verify that all array elements are of the supplied type
+   * Verify that all array elements are of the supplied type.
    */
   public static function assertType(array $variables, string $type)
   {
@@ -37,7 +36,7 @@ class ArrayHelper
   }
 
   /**
-   * Verify that all array elements are integers
+   * Verify that all array elements are integers.
    */
   public static function assertInt(array $variables)
   {
@@ -50,7 +49,7 @@ class ArrayHelper
   }
 
   /**
-   * Verify that all array elements are strings
+   * Verify that all array elements are strings.
    */
   public static function assertString(array $variables)
   {
@@ -63,7 +62,7 @@ class ArrayHelper
   }
 
   /**
-   * Verify that all array elements are floats
+   * Verify that all array elements are floats.
    */
   public static function assertFloat(array $variables)
   {
@@ -76,7 +75,7 @@ class ArrayHelper
   }
 
   /**
-   * Verify that all array elements are booleans
+   * Verify that all array elements are booleans.
    */
   public static function assertBool(array $variables)
   {
@@ -89,7 +88,7 @@ class ArrayHelper
   }
 
   /**
-   * Verify that all array elements are arrays
+   * Verify that all array elements are arrays.
    */
   public static function assertArray(array $variables)
   {
@@ -102,7 +101,7 @@ class ArrayHelper
   }
 
   /**
-   * Verify that all array elements are objects of the supplied class
+   * Verify that all array elements are objects of the supplied class.
    */
   public static function assertClass(array $objects, string $class)
   {
@@ -116,7 +115,7 @@ class ArrayHelper
 
   /**
    * Create an indexed (by id) array from the array input.
-   * Note that the IdMap object is recommended when the data is being serialized to JSON
+   * Note that the IdMap object is recommended when the data is being serialized to JSON.
    *
    * @template T of IdInterface
    *
@@ -135,7 +134,7 @@ class ArrayHelper
   }
 
   /**
-   * Map an array of object to an array of ids
+   * Map an array of object to an array of ids.
    *
    * @param IdInterface[] $objects
    *
@@ -144,13 +143,13 @@ class ArrayHelper
   public static function mapToId(array $objects): array
   {
     return array_values(array_map(
-        fn($object) => $object->getId(),
+        fn ($object) => $object->getId(),
         $objects
     ));
   }
 
   /**
-   * Filter null values from array
+   * Filter null values from array.
    *
    * @template T
    *
@@ -160,7 +159,6 @@ class ArrayHelper
    */
   public static function filterNullValuesFromArray(array $data): array
   {
-    return array_values(array_filter($data, fn($item) => $item !== NULL));
+    return array_values(array_filter($data, fn ($item) => $item !== null));
   }
-
 }

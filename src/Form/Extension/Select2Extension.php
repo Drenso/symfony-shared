@@ -12,7 +12,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
- * Class Select2Extension
+ * Class Select2Extension.
  *
  * This class provides a Select2 form extension, to be able to easily set
  * select 2 options on the form
@@ -48,7 +48,7 @@ class Select2Extension extends AbstractTypeExtension
         $select2Options['placeholder'] = $options['translation_domain'] === false || !$this->translator
             ? $options['placeholder']
             : $this->translator->trans($options['placeholder'], [], $options['translation_domain']);
-      } else if (!$options['required']) {
+      } elseif (!$options['required']) {
         // Add default placeholder
         $select2Options['placeholder'] = !$this->translator
             ? 'None'

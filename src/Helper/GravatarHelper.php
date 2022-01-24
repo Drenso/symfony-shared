@@ -3,7 +3,7 @@
 namespace Drenso\Shared\Helper;
 
 /**
- * Class GravatarHelper
+ * Class GravatarHelper.
  *
  * This helper generates a gravatar url for any email address
  */
@@ -13,11 +13,11 @@ class GravatarHelper
   {
   }
 
-  public function gravatarImage(string $emailAddress, ?int $size = NULL, ?string $fallbackStyle = NULL): string
+  public function gravatarImage(string $emailAddress, ?int $size = null, ?string $fallbackStyle = null): string
   {
-    return sprintf("https://www.gravatar.com/avatar/%s?d=%s%s",
+    return sprintf('https://www.gravatar.com/avatar/%s?d=%s%s',
         md5(strtolower(trim($emailAddress))),
         $fallbackStyle ?? $this->fallbackStyle,
-        $size ? sprintf("&s=%d", $size) : "");
+        $size ? sprintf('&s=%d', $size) : '');
   }
 }

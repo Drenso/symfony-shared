@@ -7,7 +7,7 @@ use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
 /**
- * Class GravatarExtension
+ * Class GravatarExtension.
  *
  * This extension generates a gravatar url for any email address
  */
