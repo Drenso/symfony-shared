@@ -9,6 +9,10 @@ class StringHelper
    */
   public static function emptyToNull(?string $value): ?string
   {
+    if ($value === NULL) {
+      return NULL;
+    }
+
     $value = trim($value);
 
     return $value === '' ? null : $value;
