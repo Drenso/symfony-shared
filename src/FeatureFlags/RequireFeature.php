@@ -8,6 +8,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ConfigurationInterface;
 #[Attribute(Attribute::IS_REPEATABLE|Attribute::TARGET_CLASS|Attribute::TARGET_METHOD)]
 class RequireFeature implements ConfigurationInterface
 {
+  public function __construct(public readonly string $flag)
+  {
+  }
+
   public function getAliasName(): string
   {
     return 'drenso_require_feature';
