@@ -3,5 +3,9 @@
   "extends": [
     "local>intern/renovate-config"
   ],
+  "packageRules": [{
+    "matchFiles": ["cs_tools/composer.json"],
+    "rangeStrategy": "pin"
+  }],
   "rangeStrategy": "widen"
 }
