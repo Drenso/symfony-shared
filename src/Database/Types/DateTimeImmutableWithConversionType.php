@@ -31,7 +31,7 @@ class DateTimeImmutableWithConversionType extends DateTimeImmutableType
     return parent::convertToDatabaseValue($value, $platform);
   }
 
-  public function getName()
+  public function getName(): string
   {
     return self::DATETIME_IMMUTABLE_WITH_CONVERSION;
   }

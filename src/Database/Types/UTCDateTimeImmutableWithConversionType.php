@@ -15,7 +15,7 @@ class UTCDateTimeImmutableWithConversionType extends UTCDateTimeImmutableType
     return true;
   }
 
-  public function getName()
+  public function getName(): string
   {
     return self::DATETIME_IMMUTABLE_WITH_CONVERSION;
   }
