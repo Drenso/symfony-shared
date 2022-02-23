@@ -17,16 +17,14 @@ class SoftDeletableSubscriber implements EventSubscriber
   /**
    * SoftDeletableSubscriber constructor.
    */
-  public function __construct(private TokenStorageInterface $tokenStorage)
+  public function __construct(private readonly TokenStorageInterface $tokenStorage)
   {
   }
 
   /**
    * Returns an array of events this subscriber wants to listen to.
-   *
-   * @return array
    */
-  public function getSubscribedEvents()
+  public function getSubscribedEvents(): array
   {
     return [
         SoftDeleteableListener::PRE_SOFT_DELETE,

@@ -21,11 +21,11 @@ class EmailService
    * EmailService constructor.
    */
   public function __construct(
-      private MailerInterface $mailer,
-      private string $senderEmail,
-      private ?string $senderName,
-      private ?TranslatorInterface $translator,
-      private TransportInterface $transport)
+      private readonly MailerInterface $mailer,
+      private readonly string $senderEmail,
+      private readonly ?string $senderName,
+      private readonly ?TranslatorInterface $translator,
+      private readonly TransportInterface $transport)
   {
   }
 

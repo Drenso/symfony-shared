@@ -8,7 +8,7 @@ use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface;
 
 class SoftDeletableSymfonyCacheWarmer implements CacheWarmerInterface
 {
-  public function __construct(private bool $useUtc)
+  public function __construct(private readonly bool $useUtc)
   {
   }
 
@@ -17,19 +17,16 @@ class SoftDeletableSymfonyCacheWarmer implements CacheWarmerInterface
     Validator::$validTypes[] = DateTimeImmutableWithConversionType::DATETIME_IMMUTABLE_WITH_CONVERSION;
   }
 
-  public function isOptional()
+  public function isOptional(): bool
   {
     return false;
   }
 
   /**
-   * @param string $cacheDir
-   *
-   * @return array|string[]
-   *
+   * @return string[]
    * @suppress PhanParamSignatureRealMismatchHasNoParamType
    */
-  public function warmUp($cacheDir)
+  public function warmUp(string $cacheDir): array
   {
     self::registerGedmoType();
     SoftDeletableSymfonySubscriber::registerConversionTypeStatic($this->useUtc);

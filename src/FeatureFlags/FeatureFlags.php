@@ -8,7 +8,7 @@ class FeatureFlags
 {
   private ?array $resolvedConfiguration = null;
 
-  public function __construct(private string $configuration, private string $configurationOverride)
+  public function __construct(private readonly string $configuration, private readonly string $configurationOverride)
   {
   }
 
@@ -28,7 +28,7 @@ class FeatureFlags
     return $this->resolvedConfiguration[$flag];
   }
 
-  private function resolve()
+  private function resolve(): void
   {
     if (null !== $this->resolvedConfiguration) {
       return;

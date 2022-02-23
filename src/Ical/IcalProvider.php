@@ -17,7 +17,7 @@ class IcalProvider
   /**
    * IcalProvider constructor.
    */
-  public function __construct(protected IcsProvider $provider)
+  public function __construct(protected readonly IcsProvider $provider)
   {
   }
 
@@ -100,7 +100,7 @@ class IcalProvider
   /**
    * Add an alarm to an Event. This must be done before attaching it to a Calendar.
    */
-  public function addAlarm(Event $event, string $trigger)
+  public function addAlarm(Event $event, string $trigger): void
   {
     $alarm  = $event->newAlarm();
     $vEvent = $event->getEvent();

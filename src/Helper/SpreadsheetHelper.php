@@ -22,16 +22,14 @@ class SpreadsheetHelper
   /**
    * SpreadsheetHelper constructor.
    */
-  public function __construct(private TranslatorInterface $translator)
+  public function __construct(private readonly ?TranslatorInterface $translator)
   {
   }
 
   /**
    * Create an Excel response from a spreadsheet.
-   *
-   * @return StreamedResponse
    */
-  public function createExcelResponse(Spreadsheet $spreadsheet, string $filename)
+  public function createExcelResponse(Spreadsheet $spreadsheet, string $filename): StreamedResponse
   {
     // Create writer
     $writer   = new Xlsx($spreadsheet);
@@ -48,10 +46,8 @@ class SpreadsheetHelper
 
   /**
    * Create a CSV response from a spreadsheet.
-   *
-   * @return StreamedResponse
    */
-  public function createCsvResponse(Spreadsheet $spreadsheet, string $filename)
+  public function createCsvResponse(Spreadsheet $spreadsheet, string $filename): StreamedResponse
   {
     $writer = (new Csv($spreadsheet))
         ->setDelimiter(';')
@@ -75,32 +71,29 @@ class SpreadsheetHelper
    */
   public function createSheet(Spreadsheet $spreadsheet, string $name): Worksheet
   {
-    $sheet = new Worksheet($spreadsheet, $this->translator->trans($name));
+    $sheet = new Worksheet($spreadsheet, $this->translator?->trans($name) ?? $name);
     $spreadsheet->addSheet($sheet);
 
     return $sheet;
   }
 
-  public function setCellBooleanValue(Worksheet &$sheet, int $column, int $row, bool $value, bool $bold = false)
+  public function setCellBooleanValue(Worksheet &$sheet, int $column, int $row, bool $value, bool $bold = false): void
   {
     $this->setCellTranslatedValue($sheet, $column, $row, $value ? 'excel.boolean.yes' : 'excel.boolean.no', $bold, 'drenso_shared');
   }
 
   public function setCellTranslatedValue(
-      Worksheet &$sheet,
+      Worksheet $sheet,
       int $column,
       int $row,
       string $value,
       bool $bold = false,
-      string $translationDomain = 'messages')
+      string $translationDomain = 'messages'): void
   {
-    $this->setCellValue($sheet, $column, $row, $this->translator->trans($value, [], $translationDomain), $bold);
+    $this->setCellValue($sheet, $column, $row, $this->translator?->trans($value, [], $translationDomain) ?? $value, $bold);
   }
 
-  /**
-   * @param mixed $value
-   */
-  public function setCellValue(Worksheet &$sheet, int $column, int $row, $value, bool $bold = false)
+  public function setCellValue(Worksheet $sheet, int $column, int $row, mixed $value, bool $bold = false): void
   {
     $sheet->setCellValueByColumnAndRow($column, $row, $value);
 
@@ -112,19 +105,19 @@ class SpreadsheetHelper
   /**
    * @throws Exception
    */
-  public function setCellExplicitString(Worksheet &$sheet, int $column, int $row, string $value)
+  public function setCellExplicitString(Worksheet $sheet, int $column, int $row, string $value): void
   {
     $cell = $sheet->getCellByColumnAndRow($column, $row);
     $cell->setValueExplicit($value, DataType::TYPE_STRING);
   }
 
   public function setCellDateTime(
-      Worksheet &$sheet,
+      Worksheet $sheet,
       int $column,
       int $row,
       ?DateTimeInterface $dateTime,
       bool $leftAligned = false,
-      bool $bold = false)
+      bool $bold = false): void
   {
     if ($dateTime !== null) {
       $this->setCellValue($sheet, $column, $row, Date::PHPToExcel($dateTime), $bold);
@@ -137,12 +130,12 @@ class SpreadsheetHelper
   }
 
   public function setCellDate(
-      Worksheet &$sheet,
+      Worksheet $sheet,
       int $column,
       int $row,
       ?DateTimeInterface $dateTime,
       bool $leftAligned = false,
-      bool $bold = false)
+      bool $bold = false): void
   {
     if ($dateTime !== null) {
       $this->setCellValue($sheet, $column, $row, Date::PHPToExcel($dateTime), $bold);
@@ -154,10 +147,7 @@ class SpreadsheetHelper
     }
   }
 
-  /**
-   * @param $value
-   */
-  public function setCellCurrency(Worksheet &$sheet, int $column, int $row, $value, bool $bold = false)
+  public function setCellCurrency(Worksheet $sheet, int $column, int $row, $value, bool $bold = false): void
   {
     $this->setCellValue($sheet, $column, $row, $value, $bold);
     $sheet->getStyleByColumnAndRow($column, $row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_ACCOUNTING_EUR);
@@ -177,9 +167,9 @@ class SpreadsheetHelper
   }
 
   /**
-   * @return false|mixed|string|string[]|null
+   * @return false|string|string[]|null
    */
-  private static function sanitizeFilename(string $filename)
+  private static function sanitizeFilename(string $filename): string|array|false|null
   {
     return mb_strtolower(preg_replace('/[^A-Z\d.]/ui', '_', iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $filename)));
   }

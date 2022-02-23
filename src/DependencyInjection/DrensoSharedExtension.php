@@ -23,22 +23,23 @@ use Drenso\Shared\Serializer\Handlers\IdMapHandler;
 use Drenso\Shared\Serializer\StaticSerializer;
 use Drenso\Shared\Twig\GravatarExtension;
 use Drenso\Shared\Twig\JmsSerializerExtension;
-use Exception;
 use Gedmo\SoftDeleteable\SoftDeleteableListener;
+use JMS\Serializer\ContextFactory\SerializationContextFactoryInterface;
+use JMS\Serializer\SerializerInterface;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\Mailer\Mailer;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mailer\Transport\TransportInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class DrensoSharedExtension extends Extension
 {
-  /**
-   * {@inheritDoc}
-   *
-   * @throws Exception
-   */
-  public function load(array $configs, ContainerBuilder $container)
+  public function load(array $configs, ContainerBuilder $container): void
   {
     // Parse configuration
     $configuration = new Configuration();
@@ -63,9 +64,10 @@ class DrensoSharedExtension extends Extension
 
     if ($convertConfig['enabled']) {
       $container
-          ->autowire(EntityValidationFailedExceptionHandler::class)
+          ->register(EntityValidationFailedExceptionHandler::class)
           ->setAutoconfigured(true)
           ->setPublic($public)
+          ->setArgument('$serializer', new Reference(SerializerInterface::class))
           ->setArgument('$controllerPrefix', $convertConfig['controller_prefix'])
           ->setArgument('$dataField', $convertConfig['data_field']);
     }
@@ -95,7 +97,8 @@ class DrensoSharedExtension extends Extension
       }
 
       $container
-          ->autowire(SoftDeletableSubscriber::class)
+          ->register(SoftDeletableSubscriber::class)
+          ->setArgument('$tokenStorage', new Reference(TokenStorageInterface::class))
           ->setPublic($public)
           ->addTag('doctrine.event_subscriber', [
               'connection' => 'default',
@@ -106,12 +109,12 @@ class DrensoSharedExtension extends Extension
         $useUtc = $database['softdeletable']['use_gedmo_workaround']['use_utc'];
 
         $container
-            ->autowire(SoftDeletableSymfonySubscriber::class)
+            ->register(SoftDeletableSymfonySubscriber::class)
             ->setAutoconfigured(true)
             ->setPublic($public)
             ->setArgument('$useUtc', $useUtc);
         $container
-            ->autowire(SoftDeletableSymfonyCacheWarmer::class)
+            ->register(SoftDeletableSymfonyCacheWarmer::class)
             ->setPublic($public)
             // This need to be run before any other Doctrine warmer!
             ->addTag('kernel.cache_warmer', ['priority' => 10000])
@@ -133,11 +136,15 @@ class DrensoSharedExtension extends Extension
         throw new InvalidConfigurationException('When using the EmaiLService, you need to configure the default sender email (sender_email).');
       }
 
-      $definition = $container->autowire(EmailService::class)
+      $definition = $container
+          ->register(EmailService::class)
           ->setPublic($public)
           ->setLazy(true)
+          ->setArgument('$mailer', new Reference(MailerInterface::class))
           ->setArgument('$senderEmail', $mailer['sender_email'])
-          ->setArgument('$senderName', $mailer['sender_name']);
+          ->setArgument('$senderName', $mailer['sender_name'])
+          ->setArgument('$translator', new Reference(TranslatorInterface::class, ContainerInterface::NULL_ON_INVALID_REFERENCE))
+          ->setArgument('$transport', new Reference(TransportInterface::class));
 
       if (!$mailer['translate_sender_name']) {
         $definition->setArgument('$translator', null);
@@ -150,18 +157,19 @@ class DrensoSharedExtension extends Extension
     $form = $config['form_extensions'];
     if ($form['generic']['enabled']) {
       $container
-          ->autowire(FormExtension::class)
+          ->register(FormExtension::class)
           ->setAutoconfigured(true);
     }
     if ($form['button']['enabled']) {
       $container
-          ->autowire(ButtonExtension::class)
+          ->register(ButtonExtension::class)
           ->setAutoconfigured(true);
     }
     if ($form['select2']['enabled']) {
       $container
-          ->autowire(Select2Extension::class)
-          ->setAutoconfigured(true);
+          ->register(Select2Extension::class)
+          ->setAutoconfigured(true)
+          ->setArgument('$translator', new Reference(TranslatorInterface::class, ContainerInterface::NULL_ON_INVALID_REFERENCE));
     }
   }
 
@@ -172,30 +180,34 @@ class DrensoSharedExtension extends Extension
 
     if ($handlers['decimal']['enabled']) {
       $container
-          ->autowire(DecimalHandler::class)
+          ->register(DecimalHandler::class)
           ->setAutoconfigured(true)
           ->setPublic($public);
     }
 
     if ($handlers['id_map']['enabled']) {
       $container
-          ->autowire(IdMapHandler::class)
+          ->register(IdMapHandler::class)
           ->setAutoconfigured(true)
           ->setPublic($public);
     }
 
     if ($serializer['static_serializer']['enabled']) {
       $container
-          ->autowire(StaticSerializer::class)
+          ->register(StaticSerializer::class)
           ->setAutoconfigured(true)
-          ->setPublic($public);
+          ->setPublic($public)
+          ->setArgument('$serializer', new Reference(SerializerInterface::class))
+          ->setArgument('$contextFactory', new Reference(SerializationContextFactoryInterface::class));
     }
 
     if ($serializer['twig_integration']['enabled']) {
       $container
-          ->autowire(JmsSerializerExtension::class)
+          ->register(JmsSerializerExtension::class)
           ->setAutoconfigured(true)
-          ->setPublic($public);
+          ->setPublic($public)
+          ->setArgument('$serializer', new Reference(SerializerInterface::class))
+          ->setArgument('$contextFactory', new Reference(SerializationContextFactoryInterface::class));
     }
   }
 
@@ -204,31 +216,33 @@ class DrensoSharedExtension extends Extension
     $services = $config['services'];
 
     if ($services['feature_flags']['enabled']) {
-      $container
-          ->autowire(FeatureFlags::class)
+      $featureFlags = $container
+          ->register(FeatureFlags::class)
           ->setAutoconfigured(true)
           ->setArgument('$configuration', $services['feature_flags']['configuration_file'])
           ->setArgument('$configurationOverride', $services['feature_flags']['configuration_local_file'] ?? '')
           ->setPublic($public);
 
       $container
-          ->autowire(RequireFeatureListener::class)
+          ->register(RequireFeatureListener::class)
           ->setAutoconfigured(true)
-          ->setPublic($public);
+          ->setPublic($public)
+          ->setArgument('$featureFlags', $featureFlags);
     }
 
     if ($services['gravatar']['enabled']) {
-      $container
-          ->autowire(GravatarHelper::class)
+      $gravatarHelper = $container
+          ->register(GravatarHelper::class)
           ->setAutoconfigured(true)
           ->setPublic($public)
           ->setArgument('$fallbackStyle', $services['gravatar']['fallback_style']);
 
       if ($services['gravatar']['twig_integration']) {
         $container
-            ->autowire(GravatarExtension::class)
+            ->register(GravatarExtension::class)
             ->setAutoconfigured(true)
-            ->setPublic($public);
+            ->setPublic($public)
+            ->setArgument('$gravatarHelper', $gravatarHelper);
       }
     }
 
@@ -238,18 +252,21 @@ class DrensoSharedExtension extends Extension
       }
 
       $container
-          ->autowire(IcalProvider::class)
+          ->register(IcalProvider::class)
           ->setPublic($public)
           ->setArgument('$provider', new Reference('bomo_ical.ics_provider'));
     }
 
     if ($services['spreadsheethelper']['enabled']) {
       $container
-          ->autowire(SpreadsheetHelper::class)
-          ->setPublic($public);
+          ->register(SpreadsheetHelper::class)
+          ->setPublic($public)
+          ->setArgument('$translator', new Reference(TranslatorInterface::class, ContainerInterface::NULL_ON_INVALID_REFERENCE));
     }
 
     // DateTime provider
-    $container->autowire(DateTimeProvider::class)->setPublic($public);
+    $container
+        ->register(DateTimeProvider::class)
+        ->setPublic($public);
   }
 }

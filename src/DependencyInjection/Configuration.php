@@ -8,7 +8,7 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 class Configuration implements ConfigurationInterface
 {
-  public function getConfigTreeBuilder()
+  public function getConfigTreeBuilder(): TreeBuilder
   {
     $treeBuilder = new TreeBuilder('drenso_shared');
     if (\method_exists($treeBuilder, 'getRootNode')) {
@@ -38,7 +38,7 @@ class Configuration implements ConfigurationInterface
   /**
    * Setup configuration for the API services in the bundle.
    */
-  private function configureApiServices(ArrayNodeDefinition $node)
+  private function configureApiServices(ArrayNodeDefinition $node): void
   {
     $node
         ->children()
@@ -68,7 +68,7 @@ class Configuration implements ConfigurationInterface
   /**
    * Setup configuration for the commands in the bundle.
    */
-  private function configureCommands(ArrayNodeDefinition $node)
+  private function configureCommands(ArrayNodeDefinition $node): void
   {
     $node
         ->children()
@@ -91,7 +91,7 @@ class Configuration implements ConfigurationInterface
   /**
    * Setup configuration for the database extensions.
    */
-  private function configureDatabase(ArrayNodeDefinition $node)
+  private function configureDatabase(ArrayNodeDefinition $node): void
   {
     $node
         ->children()
@@ -119,7 +119,7 @@ class Configuration implements ConfigurationInterface
   /**
    * Setup configuration for the mailer extension.
    */
-  private function configureEmailService(ArrayNodeDefinition $node)
+  private function configureEmailService(ArrayNodeDefinition $node): void
   {
     $node
         ->children()
@@ -148,7 +148,7 @@ class Configuration implements ConfigurationInterface
   /**
    * Setup configuration for the mailer extension.
    */
-  private function configureFormExtensions(ArrayNodeDefinition $node)
+  private function configureFormExtensions(ArrayNodeDefinition $node): void
   {
     $node
         ->children()
@@ -172,7 +172,7 @@ class Configuration implements ConfigurationInterface
   /**
    * Setup configuration for the services in the bundle.
    */
-  private function configureSerializer(ArrayNodeDefinition $node)
+  private function configureSerializer(ArrayNodeDefinition $node): void
   {
     $node
         ->children()
@@ -204,7 +204,7 @@ class Configuration implements ConfigurationInterface
   /**
    * Setup configuration for the services in the bundle.
    */
-  private function configureServices(ArrayNodeDefinition $node)
+  private function configureServices(ArrayNodeDefinition $node): void
   {
     $node
         ->children()

@@ -10,7 +10,7 @@ use DateTimeImmutable;
  */
 class DateTimeProvider
 {
-  public function __construct(private string $now = 'now')
+  public function __construct(private readonly string $now = 'now')
   {
   }
 

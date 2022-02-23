@@ -33,9 +33,9 @@ class CheckActionSecurityCommand extends Command
    * @param string[] $excludedControllers
    */
   public function __construct(
-      private ContainerInterface $container,
-      private RouterInterface $router,
-      private array $excludedControllers)
+      private readonly ContainerInterface $container,
+      private readonly RouterInterface $router,
+      private readonly array $excludedControllers)
   {
     parent::__construct();
   }

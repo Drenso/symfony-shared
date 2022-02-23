@@ -9,7 +9,7 @@ namespace Drenso\Shared\Helper;
  */
 class GravatarHelper
 {
-  public function __construct(private string $fallbackStyle)
+  public function __construct(private readonly string $fallbackStyle)
   {
   }
 

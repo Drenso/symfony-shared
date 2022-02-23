@@ -13,8 +13,8 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 class StaticSerializer implements EventSubscriberInterface
 {
-  private static ?SerializerInterface $serializer                                   = null;
-  private static ?SerializationContextFactoryInterface $serializationContextFactory = null;
+  private static ?SerializerInterface                  $serializer     = null;
+  private static ?SerializationContextFactoryInterface $contextFactory = null;
 
   /**
    * EntitySnapshotter constructor.
@@ -26,10 +26,10 @@ class StaticSerializer implements EventSubscriberInterface
    */
   public function __construct(
       SerializerInterface $serializer,
-      SerializationContextFactoryInterface $serializationContextFactory)
+      SerializationContextFactoryInterface $contextFactory)
   {
-    self::$serializer                  = $serializer;
-    self::$serializationContextFactory = $serializationContextFactory;
+    self::$serializer     = $serializer;
+    self::$contextFactory = $contextFactory;
   }
 
   /**
@@ -39,7 +39,7 @@ class StaticSerializer implements EventSubscriberInterface
    * default behavior would be to only load it when requested by a service or controller, which isn't
    * guaranteed in any other way before Doctrine might load data.
    */
-  public static function getSubscribedEvents()
+  public static function getSubscribedEvents(): array
   {
     return [
         KernelEvents::REQUEST => [
@@ -75,12 +75,12 @@ class StaticSerializer implements EventSubscriberInterface
     return self::$serializer;
   }
 
-  public static function getSerializationContextFactory(): SerializationContextFactoryInterface
+  public static function getContextFactory(): SerializationContextFactoryInterface
   {
-    if (!self::$serializationContextFactory) {
+    if (!self::$contextFactory) {
       throw new RuntimeException('Serialization context factory not available!');
     }
 
-    return self::$serializationContextFactory;
+    return self::$contextFactory;
   }
 }

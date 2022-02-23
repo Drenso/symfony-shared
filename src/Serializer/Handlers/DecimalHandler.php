@@ -16,10 +16,7 @@ use JMS\Serializer\Visitor\SerializationVisitorInterface;
  */
 class DecimalHandler implements SubscribingHandlerInterface
 {
-  /**
-   * {@inheritDoc}
-   */
-  public static function getSubscribingMethods()
+  public static function getSubscribingMethods(): array
   {
     return [
         [
@@ -41,7 +38,7 @@ class DecimalHandler implements SubscribingHandlerInterface
       SerializationVisitorInterface $visitor,
       Decimal $decimal,
       array $type,
-      Context $context)
+      Context $context): mixed
   {
     return $visitor->visitString($decimal->toString(), $type);
   }
@@ -50,7 +47,7 @@ class DecimalHandler implements SubscribingHandlerInterface
       DeserializationVisitorInterface $visitor,
                                       $decimalAsString,
       array $type,
-      Context $context)
+      Context $context): Decimal
   {
     // Parse empty strings as zero
     if ($decimalAsString === '') {

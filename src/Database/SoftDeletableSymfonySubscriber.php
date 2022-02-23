@@ -15,11 +15,11 @@ use Symfony\Component\HttpKernel\KernelEvents;
  */
 class SoftDeletableSymfonySubscriber implements EventSubscriberInterface
 {
-  public function __construct(private bool $useUtc)
+  public function __construct(private readonly bool $useUtc)
   {
   }
 
-  public static function getSubscribedEvents()
+  public static function getSubscribedEvents(): array
   {
     return [
         ConsoleEvents::COMMAND => [

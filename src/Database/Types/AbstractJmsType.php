@@ -25,7 +25,7 @@ abstract class AbstractJmsType extends JsonType
 
     try {
       if (null !== $groups = $this->getSerializationGroups()) {
-        $context = StaticSerializer::getSerializationContextFactory()->createSerializationContext();
+        $context = StaticSerializer::getContextFactory()->createSerializationContext();
         $context->setGroups($groups);
       }
 

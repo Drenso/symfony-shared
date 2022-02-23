@@ -21,7 +21,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class Select2Extension extends AbstractTypeExtension
 {
-  public function __construct(private ?TranslatorInterface $translator)
+  public function __construct(private readonly ?TranslatorInterface $translator)
   {
   }
 

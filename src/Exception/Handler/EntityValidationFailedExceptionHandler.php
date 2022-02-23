@@ -14,13 +14,13 @@ use Symfony\Component\HttpKernel\KernelEvents;
 class EntityValidationFailedExceptionHandler implements EventSubscriberInterface
 {
   public function __construct(
-      private SerializerInterface $serializer,
-      private string $controllerPrefix,
-      private string $dataField)
+      private readonly SerializerInterface $serializer,
+      private readonly string $controllerPrefix,
+      private readonly string $dataField)
   {
   }
 
-  public static function getSubscribedEvents()
+  public static function getSubscribedEvents(): array
   {
     return [
         KernelEvents::EXCEPTION => [
