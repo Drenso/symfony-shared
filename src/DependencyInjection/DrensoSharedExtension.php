@@ -3,7 +3,9 @@
 namespace Drenso\Shared\DependencyInjection;
 
 use BOMO\IcalBundle\Provider\IcsProvider;
+use Doctrine\ORM\EntityManagerInterface;
 use Drenso\Shared\Command\CheckActionSecurityCommand;
+use Drenso\Shared\Database\SoftDeletableFilterController;
 use Drenso\Shared\Database\SoftDeletableSubscriber;
 use Drenso\Shared\Database\SoftDeletableSymfonyCacheWarmer;
 use Drenso\Shared\Database\SoftDeletableSymfonySubscriber;
@@ -103,6 +105,11 @@ class DrensoSharedExtension extends Extension
           ->addTag('doctrine.event_subscriber', [
               'connection' => 'default',
           ]);
+
+      $container
+          ->register(SoftDeletableFilterController::class)
+          ->setArgument('$entityManager', new Reference(EntityManagerInterface::class))
+          ->setPublic($public);
 
       // Compatibility layer for softdeletable immutable problems
       if ($database['softdeletable']['use_gedmo_workaround']['enabled']) {
