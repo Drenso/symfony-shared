@@ -5,7 +5,7 @@ stages:
 
 variables:
   COMPOSER_MEMORY_LIMIT: -1
-  YAMLLINT_DIRECTORIES: src/Resources/config
+  YAMLLINT_DIRECTORIES: config/packages
     
 include:
   - project: 'intern/runner-templates'
