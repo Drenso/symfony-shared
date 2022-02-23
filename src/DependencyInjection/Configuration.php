@@ -28,6 +28,7 @@ class Configuration implements ConfigurationInterface
     $this->configureCommands($rootNode);
     $this->configureDatabase($rootNode);
     $this->configureEmailService($rootNode);
+    $this->configureFormExtensions($rootNode);
     $this->configureSerializer($rootNode);
     $this->configureServices($rootNode);
 
@@ -146,6 +147,32 @@ class Configuration implements ConfigurationInterface
               ->end() // mailer
             ->end() // email children
           ->end() // email
+        ->end();
+  }
+
+  /**
+   * Setup configuration for the mailer extension
+   *
+   * @param ArrayNodeDefinition $node
+   */
+  private function configureFormExtensions(ArrayNodeDefinition $node)
+  {
+    $node
+        ->children()
+          ->arrayNode('form_extensions')
+            ->addDefaultsIfNotSet()
+            ->children()
+              ->arrayNode('generic')
+                ->canBeDisabled()
+              ->end() // generic
+              ->arrayNode('button')
+                ->canBeDisabled()
+              ->end() // button
+              ->arrayNode('select2')
+                ->canBeDisabled()
+              ->end() // select2
+            ->end() // form_extensions children
+          ->end() // form_extensions
         ->end();
   }
 
