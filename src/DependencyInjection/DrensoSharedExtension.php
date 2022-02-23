@@ -11,6 +11,9 @@ use Drenso\Shared\Email\EmailService;
 use Drenso\Shared\Exception\Handler\EntityValidationFailedExceptionHandler;
 use Drenso\Shared\FeatureFlags\FeatureFlags;
 use Drenso\Shared\FeatureFlags\RequireFeatureListener;
+use Drenso\Shared\Form\Extension\ButtonExtension;
+use Drenso\Shared\Form\Extension\FormExtension;
+use Drenso\Shared\Form\Extension\Select2Extension;
 use Drenso\Shared\Helper\DateTimeProvider;
 use Drenso\Shared\Helper\GravatarHelper;
 use Drenso\Shared\Helper\SpreadsheetHelper;
@@ -23,9 +26,7 @@ use Drenso\Shared\Twig\JmsSerializerExtension;
 use Exception;
 use Gedmo\SoftDeleteable\SoftDeleteableListener;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
-use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\Mailer\Mailer;
@@ -39,10 +40,6 @@ class DrensoSharedExtension extends Extension
    */
   public function load(array $configs, ContainerBuilder $container)
   {
-    // Autoload configured services
-    $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
-    $loader->load('services.yml');
-
     // Parse configuration
     $configuration = new Configuration();
     $config        = $this->processConfiguration($configuration, $configs);
@@ -54,6 +51,7 @@ class DrensoSharedExtension extends Extension
     $this->configureCommands($container, $config, $publicServices);
     $this->configureDatabase($container, $config, $publicServices);
     $this->configureEmailService($container, $config, $publicServices);
+    $this->configureFormExtensions($container, $config);
     $this->configureSerializer($container, $config, $publicServices);
     $this->configureServices($container, $config, $publicServices);
   }
@@ -144,6 +142,26 @@ class DrensoSharedExtension extends Extension
       if (!$mailer['translate_sender_name']) {
         $definition->setArgument('$translator', null);
       }
+    }
+  }
+
+  private function configureFormExtensions(ContainerBuilder $container, array $config): void
+  {
+    $form = $config['form_extensions'];
+    if ($form['generic']['enabled']) {
+      $container
+          ->autowire(FormExtension::class)
+          ->setAutoconfigured(true);
+    }
+    if ($form['button']['enabled']) {
+      $container
+          ->autowire(ButtonExtension::class)
+          ->setAutoconfigured(true);
+    }
+    if ($form['select2']['enabled']) {
+      $container
+          ->autowire(Select2Extension::class)
+          ->setAutoconfigured(true);
     }
   }
 
