@@ -13,6 +13,7 @@ use Drenso\Shared\FeatureFlags\RequireFeatureListener;
 use Drenso\Shared\Form\Extension\ButtonExtension;
 use Drenso\Shared\Form\Extension\FormExtension;
 use Drenso\Shared\Form\Extension\Select2Extension;
+use Drenso\Shared\Form\Type\Select2EntitySearchType;
 use Drenso\Shared\Helper\DateTimeProvider;
 use Drenso\Shared\Helper\GravatarHelper;
 use Drenso\Shared\Helper\SpreadsheetHelper;
@@ -157,6 +158,10 @@ class DrensoSharedExtension extends Extension
     if ($form['select2']['enabled']) {
       $container
           ->autowire(Select2Extension::class)
+          ->setAutoconfigured(true);
+
+      $container
+          ->autowire(Select2EntitySearchType::class)
           ->setAutoconfigured(true);
     }
   }
