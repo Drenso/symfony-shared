@@ -21,7 +21,9 @@ use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
  */
 class Select2EntitySearchType extends AbstractType
 {
-  public function __construct(private ManagerRegistry $registry, private PropertyAccessorInterface $propertyAccessor)
+  public function __construct(
+      private readonly ManagerRegistry $registry,
+      private readonly PropertyAccessorInterface $propertyAccessor)
   {
   }
 

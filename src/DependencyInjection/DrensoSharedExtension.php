@@ -4,6 +4,7 @@ namespace Drenso\Shared\DependencyInjection;
 
 use BOMO\IcalBundle\Provider\IcsProvider;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Drenso\Shared\Command\CheckActionSecurityCommand;
 use Drenso\Shared\Database\SoftDeletableFilterController;
 use Drenso\Shared\Database\SoftDeletableSubscriber;
@@ -16,6 +17,7 @@ use Drenso\Shared\FeatureFlags\RequireFeatureListener;
 use Drenso\Shared\Form\Extension\ButtonExtension;
 use Drenso\Shared\Form\Extension\FormExtension;
 use Drenso\Shared\Form\Extension\Select2Extension;
+use Drenso\Shared\Form\Type\Select2EntitySearchType;
 use Drenso\Shared\Helper\DateTimeProvider;
 use Drenso\Shared\Helper\GravatarHelper;
 use Drenso\Shared\Helper\SpreadsheetHelper;
@@ -36,6 +38,7 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mailer\Transport\TransportInterface;
+use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -177,6 +180,12 @@ class DrensoSharedExtension extends Extension
           ->register(Select2Extension::class)
           ->setAutoconfigured(true)
           ->setArgument('$translator', new Reference(TranslatorInterface::class, ContainerInterface::NULL_ON_INVALID_REFERENCE));
+
+      $container
+          ->register(Select2EntitySearchType::class)
+          ->setAutoconfigured(true)
+          ->setArgument('$registry', new Reference(ManagerRegistry::class))
+          ->setArgument('$propertyAccessor', new Reference(PropertyAccessorInterface::class));
     }
   }
 
