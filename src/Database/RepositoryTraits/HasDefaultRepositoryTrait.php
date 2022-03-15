@@ -33,9 +33,7 @@ trait HasDefaultRepositoryTrait
     }
   }
 
-  /**
-   * Clear the default value in the database.
-   */
+  /** Clear the default value in the database. */
   public function clearDefault()
   {
     $this

@@ -23,9 +23,7 @@ trait FindLastTrait
         ->getQuery()->getOneOrNullResult();
   }
 
-  /**
-   * @return mixed
-   */
+  /** @return mixed */
   public function findLastX(int $amount)
   {
     return $this->findLastQb($amount)

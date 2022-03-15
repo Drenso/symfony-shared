@@ -15,9 +15,9 @@ class UTCDateImmutableType extends DateImmutableType
   /**
    * @param mixed $value
    *
-   * @return mixed|string|null
-   *
    * @throws Exception
+   *
+   * @return mixed|string|null
    */
   public function convertToDatabaseValue($value, AbstractPlatform $platform)
   {
@@ -31,9 +31,9 @@ class UTCDateImmutableType extends DateImmutableType
   /**
    * @param mixed $value
    *
-   * @return DateTimeImmutable|null
-   *
    * @throws Exception
+   *
+   * @return DateTimeImmutable|null
    */
   public function convertToPHPValue($value, AbstractPlatform $platform)
   {

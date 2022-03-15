@@ -11,9 +11,7 @@ use Doctrine\ORM\QueryBuilder;
  */
 trait RowCountTrait
 {
-  /**
-   * Get the full table row count.
-   */
+  /** Get the full table row count. */
   public function getRowCount(): int
   {
     return $this->getRowCountForBuilder($this->createQueryBuilder('e'), 'e.id');

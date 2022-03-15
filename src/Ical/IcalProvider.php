@@ -14,16 +14,12 @@ use Kigkonsult\Icalcreator\IcalInterface;
  */
 class IcalProvider
 {
-  /**
-   * IcalProvider constructor.
-   */
+  /** IcalProvider constructor. */
   public function __construct(protected readonly IcsProvider $provider)
   {
   }
 
-  /**
-   * Create an iCal Calendar object with the correct timezone options.
-   */
+  /** Create an iCal Calendar object with the correct timezone options. */
   public function createCalendar(string $name, string $description, ?Timezone $tz = null): Calendar
   {
     $calendar = $this->provider->createCalendar($tz)
@@ -37,9 +33,7 @@ class IcalProvider
     return $calendar;
   }
 
-  /**
-   * Get the timezone configuration for the Netherlands.
-   */
+  /** Get the timezone configuration for the Netherlands. */
   public function nlTimezone(): Timezone
   {
     $tz = $this->provider->createTimezone();
@@ -97,9 +91,7 @@ class IcalProvider
     return $event;
   }
 
-  /**
-   * Add an alarm to an Event. This must be done before attaching it to a Calendar.
-   */
+  /** Add an alarm to an Event. This must be done before attaching it to a Calendar. */
   public function addAlarm(Event $event, string $trigger): void
   {
     $alarm  = $event->newAlarm();

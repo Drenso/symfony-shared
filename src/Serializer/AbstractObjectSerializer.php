@@ -32,9 +32,7 @@ abstract class AbstractObjectSerializer
     ];
   }
 
-  /**
-   * The actual serialization handler, which call the abstract doSerialize method.
-   */
+  /** The actual serialization handler, which call the abstract doSerialize method. */
   public function onPostSerialize(ObjectEvent $event): void
   {
     $visitor = $event->getVisitor();
@@ -63,9 +61,7 @@ abstract class AbstractObjectSerializer
     $this->doSerialize($visitor, $groups, $event->getObject(), $event);
   }
 
-  /**
-   * Add a string property to the serialized object.
-   */
+  /** Add a string property to the serialized object. */
   protected function addStringProperty(
       SerializationVisitorInterface $visitor,
       string $prop,
@@ -78,9 +74,7 @@ abstract class AbstractObjectSerializer
     );
   }
 
-  /**
-   * Add a boolean property to the serialized object.
-   */
+  /** Add a boolean property to the serialized object. */
   protected function addBoolProperty(
       SerializationVisitorInterface $visitor,
       string $prop,
@@ -120,9 +114,7 @@ abstract class AbstractObjectSerializer
     $visitor->visitProperty($metadata, $value);
   }
 
-  /**
-   * @param $object
-   */
+  /** @param $object */
   abstract protected function doSerialize(
       SerializationVisitorInterface $visitor,
       array $groups,

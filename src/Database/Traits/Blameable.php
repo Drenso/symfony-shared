@@ -42,17 +42,13 @@ trait Blameable
   #[Gedmo\Blameable(on: 'update')]
   private $updatedBy;
 
-  /**
-   * Get the last update time, which is either creation time or update time.
-   */
+  /** Get the last update time, which is either creation time or update time. */
   public function getLastUpdated(): DateTimeInterface
   {
     return $this->getUpdatedAt() ?? $this->getCreatedAt();
   }
 
-  /**
-   * Get the last updated by, which is either creation by or update by.
-   */
+  /** Get the last updated by, which is either creation by or update by. */
   public function getLastUpdatedBy(): ?string
   {
     return $this->getUpdatedBy() ?? $this->getCreatedBy();
@@ -70,9 +66,7 @@ trait Blameable
     return $this;
   }
 
-  /**
-   * Get createdAt.
-   */
+  /** Get createdAt. */
   public function getCreatedAt(): ?DateTimeInterface
   {
     return $this->createdAt;
@@ -90,9 +84,7 @@ trait Blameable
     return $this;
   }
 
-  /**
-   * Get createdBy.
-   */
+  /** Get createdBy. */
   public function getCreatedBy(): ?string
   {
     return $this->createdBy;
@@ -110,9 +102,7 @@ trait Blameable
     return $this;
   }
 
-  /**
-   * Get updatedAt.
-   */
+  /** Get updatedAt. */
   public function getUpdatedAt(): ?DateTimeInterface
   {
     return $this->updatedAt;
@@ -130,9 +120,7 @@ trait Blameable
     return $this;
   }
 
-  /**
-   * Get updatedBy.
-   */
+  /** Get updatedBy. */
   public function getUpdatedBy(): ?string
   {
     return $this->updatedBy;

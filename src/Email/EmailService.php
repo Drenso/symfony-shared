@@ -17,9 +17,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class EmailService
 {
-  /**
-   * EmailService constructor.
-   */
+  /** EmailService constructor. */
   public function __construct(
       private readonly MailerInterface $mailer,
       private readonly string $senderEmail,
@@ -72,9 +70,7 @@ class EmailService
         ->to(new Address($emailAddress));
   }
 
-  /**
-   * Sets sane defaults for out e-mails.
-   */
+  /** Sets sane defaults for out e-mails. */
   private function emailDefaults(): TemplatedEmail
   {
     $senderName = $this->senderName
@@ -85,9 +81,7 @@ class EmailService
         ->from(new Address($this->senderEmail, $senderName));
   }
 
-  /**
-   * Retrieve address object for an user.
-   */
+  /** Retrieve address object for an user. */
   private function getAddress(EmailableUserInterface $user, ?string $emailAddress = null): Address
   {
     return new Address(($emailAddress ?: $user->getEmailAddress()) ?? '', $user->getEmailName());

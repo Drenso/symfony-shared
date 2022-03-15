@@ -31,6 +31,8 @@ return (new PhpCsFixer\Config())
         'concat_space'                => ['spacing' => 'one'],
         'increment_style'             => false,
         'ordered_imports'             => ['imports_order' => ['class', 'function', 'const']],
+        'phpdoc_line_span'            => ['const' => 'single', 'method' => 'single', 'property' => 'single'],
+        'phpdoc_order'                => true,
         'single_line_throw'           => false,
         'single_line_comment_spacing' => false,
         'yoda_style'                  => false,

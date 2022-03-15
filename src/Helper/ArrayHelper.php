@@ -7,9 +7,7 @@ use InvalidArgumentException;
 
 class ArrayHelper
 {
-  /**
-   * Verify that all array elements are of the supplied type.
-   */
+  /** Verify that all array elements are of the supplied type. */
   public static function assertType(array $variables, string $type)
   {
     switch ($type) {
@@ -35,9 +33,7 @@ class ArrayHelper
     }
   }
 
-  /**
-   * Verify that all array elements are integers.
-   */
+  /** Verify that all array elements are integers. */
   public static function assertInt(array $variables)
   {
     foreach ($variables as $variable) {
@@ -48,9 +44,7 @@ class ArrayHelper
     }
   }
 
-  /**
-   * Verify that all array elements are strings.
-   */
+  /** Verify that all array elements are strings. */
   public static function assertString(array $variables)
   {
     foreach ($variables as $variable) {
@@ -61,9 +55,7 @@ class ArrayHelper
     }
   }
 
-  /**
-   * Verify that all array elements are floats.
-   */
+  /** Verify that all array elements are floats. */
   public static function assertFloat(array $variables)
   {
     foreach ($variables as $variable) {
@@ -74,9 +66,7 @@ class ArrayHelper
     }
   }
 
-  /**
-   * Verify that all array elements are booleans.
-   */
+  /** Verify that all array elements are booleans. */
   public static function assertBool(array $variables)
   {
     foreach ($variables as $variable) {
@@ -87,9 +77,7 @@ class ArrayHelper
     }
   }
 
-  /**
-   * Verify that all array elements are arrays.
-   */
+  /** Verify that all array elements are arrays. */
   public static function assertArray(array $variables)
   {
     foreach ($variables as $variable) {
@@ -100,9 +88,7 @@ class ArrayHelper
     }
   }
 
-  /**
-   * Verify that all array elements are objects of the supplied class.
-   */
+  /** Verify that all array elements are objects of the supplied class. */
   public static function assertClass(array $objects, string $class)
   {
     foreach ($objects as $object) {

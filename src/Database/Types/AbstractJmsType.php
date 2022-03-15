@@ -13,9 +13,9 @@ abstract class AbstractJmsType extends JsonType
   /**
    * @param mixed $value
    *
-   * @return false|mixed|string|null
-   *
    * @throws ConversionException
+   *
+   * @return false|mixed|string|null
    */
   public function convertToDatabaseValue($value, AbstractPlatform $platform)
   {
@@ -38,9 +38,9 @@ abstract class AbstractJmsType extends JsonType
   /**
    * @param mixed $value
    *
-   * @return mixed|null
-   *
    * @throws ConversionException
+   *
+   * @return mixed|null
    */
   public function convertToPHPValue($value, AbstractPlatform $platform)
   {
@@ -57,9 +57,7 @@ abstract class AbstractJmsType extends JsonType
     }
   }
 
-  /**
-   * Overwrite this to enable serialization group support.
-   */
+  /** Overwrite this to enable serialization group support. */
   protected function getSerializationGroups(): ?array
   {
     return null;

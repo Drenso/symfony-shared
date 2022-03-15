@@ -19,16 +19,12 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class SpreadsheetHelper
 {
-  /**
-   * SpreadsheetHelper constructor.
-   */
+  /** SpreadsheetHelper constructor. */
   public function __construct(private readonly ?TranslatorInterface $translator)
   {
   }
 
-  /**
-   * Create an Excel response from a spreadsheet.
-   */
+  /** Create an Excel response from a spreadsheet. */
   public function createExcelResponse(Spreadsheet $spreadsheet, string $filename): StreamedResponse
   {
     // Create writer
@@ -44,9 +40,7 @@ class SpreadsheetHelper
     return $response;
   }
 
-  /**
-   * Create a CSV response from a spreadsheet.
-   */
+  /** Create a CSV response from a spreadsheet. */
   public function createCsvResponse(Spreadsheet $spreadsheet, string $filename): StreamedResponse
   {
     $writer = (new Csv($spreadsheet))
@@ -102,9 +96,7 @@ class SpreadsheetHelper
     }
   }
 
-  /**
-   * @throws Exception
-   */
+  /** @throws Exception */
   public function setCellExplicitString(Worksheet $sheet, int $column, int $row, string $value): void
   {
     $cell = $sheet->getCellByColumnAndRow($column, $row);
@@ -153,9 +145,7 @@ class SpreadsheetHelper
     $sheet->getStyleByColumnAndRow($column, $row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_ACCOUNTING_EUR);
   }
 
-  /**
-   * Create a correct content disposition.
-   */
+  /** Create a correct content disposition. */
   public static function contentDisposition(Response $response, string $filename): void
   {
     // Set locale required for the iconv conversion to work correctly
@@ -166,9 +156,7 @@ class SpreadsheetHelper
     ));
   }
 
-  /**
-   * @return false|string|string[]|null
-   */
+  /** @return false|string|string[]|null */
   private static function sanitizeFilename(string $filename): string|array|false|null
   {
     return mb_strtolower(preg_replace('/[^A-Z\d.]/ui', '_', iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $filename)));

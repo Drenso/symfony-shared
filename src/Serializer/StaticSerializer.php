@@ -63,9 +63,7 @@ class StaticSerializer implements EventSubscriberInterface
     // Nothing to do, but required to load the static serializer for doctrine
   }
 
-  /**
-   * Retrieve the serializer used for the change serialization.
-   */
+  /** Retrieve the serializer used for the change serialization. */
   public static function getSerializer(): SerializerInterface
   {
     if (!self::$serializer) {

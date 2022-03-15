@@ -35,9 +35,7 @@ trait SoftDeletable
     return $this;
   }
 
-  /**
-   * Returns deletedAt.
-   */
+  /** Returns deletedAt. */
   public function getDeletedAt(): ?DateTimeInterface
   {
     return $this->deletedAt;
@@ -55,17 +53,13 @@ trait SoftDeletable
     return $this;
   }
 
-  /**
-   * Get deletedBy.
-   */
+  /** Get deletedBy. */
   public function getDeletedBy(): ?string
   {
     return $this->deletedBy;
   }
 
-  /**
-   * Is deleted?
-   */
+  /** Is deleted? */
   public function isDeleted(): bool
   {
     return null !== $this->deletedAt;

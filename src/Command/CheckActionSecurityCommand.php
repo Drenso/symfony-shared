@@ -49,9 +49,7 @@ class CheckActionSecurityCommand extends Command
         'When given, a global class attribute is also allowed');
   }
 
-  /**
-   * @throws ReflectionException
-   */
+  /** @throws ReflectionException */
   protected function execute(InputInterface $input, OutputInterface $output): int
   {
     // Initialize variables

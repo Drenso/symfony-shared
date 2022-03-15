@@ -14,8 +14,6 @@ interface EmailableUserInterface
    */
   public function getEmailAddress(): ?string;
 
-  /**
-   * Should return the full name to be used for the e-mail recipient.
-   */
+  /** Should return the full name to be used for the e-mail recipient. */
   public function getEmailName(): string;
 }

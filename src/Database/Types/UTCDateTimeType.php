@@ -19,9 +19,9 @@ class UTCDateTimeType extends DateTimeType
   /**
    * @param mixed $value
    *
-   * @return mixed|string|null
-   *
    * @throws ConversionException
+   *
+   * @return mixed|string|null
    */
   public function convertToDatabaseValue($value, AbstractPlatform $platform)
   {
@@ -35,9 +35,9 @@ class UTCDateTimeType extends DateTimeType
   /**
    * @param mixed $value
    *
-   * @return DateTime|null
-   *
    * @throws ConversionException
+   *
+   * @return DateTime|null
    */
   public function convertToPHPValue($value, AbstractPlatform $platform)
   {

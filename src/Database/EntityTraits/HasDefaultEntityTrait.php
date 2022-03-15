@@ -22,9 +22,7 @@ trait HasDefaultEntityTrait
     return $this->isDefault;
   }
 
-  /**
-   * @return $this
-   */
+  /** @return $this */
   public function setIsDefault(bool $isDefault): self
   {
     $this->isDefault = $isDefault;

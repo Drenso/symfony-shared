@@ -18,9 +18,9 @@ class DateTimeImmutableWithConversionType extends DateTimeImmutableType
   /**
    * @param mixed $value
    *
-   * @return mixed|string|null
-   *
    * @throws ConversionException
+   *
+   * @return mixed|string|null
    */
   public function convertToDatabaseValue($value, AbstractPlatform $platform)
   {
