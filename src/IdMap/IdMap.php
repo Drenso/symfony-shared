@@ -2,7 +2,6 @@
 
 namespace Drenso\Shared\IdMap;
 
-use ArrayIterator;
 use Countable;
 use Drenso\Shared\Interfaces\IdInterface;
 use InvalidArgumentException;
@@ -76,9 +75,9 @@ class IdMap implements Countable, IteratorAggregate, Stringable
   }
 
   /** @return Traversable<int, T> */
-  public function getIterator()
+  public function getIterator(): Traversable
   {
-    return new ArrayIterator($this->elements);
+    yield from $this->elements;
   }
 
   public function __toString(): string
