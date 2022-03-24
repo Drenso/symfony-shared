@@ -3,6 +3,7 @@
 namespace Drenso\Shared\Helper;
 
 use DateTime;
+use DateTimeImmutable;
 use DateTimeInterface;
 use DateTimeZone;
 
@@ -17,10 +18,17 @@ class UtcHelper
     return self::$utc ?: self::$utc = new DateTimeZone('UTC');
   }
 
-  public static function convertToLocalTimezone(DateTimeInterface $dateTime): DateTimeInterface
+  public static function convertToLocalTimezone(
+      DateTimeInterface $dateTime,
+      bool $asImmutable = false): DateTimeInterface
   {
     $timezone = self::$local ?: self::$local = new DateTimeZone(date_default_timezone_get());
 
-    return DateTime::createFromInterface($dateTime)->setTimezone($timezone);
+    $localTime = DateTime::createFromInterface($dateTime)->setTimezone($timezone);
+    if ($asImmutable) {
+      return DateTimeImmutable::createFromMutable($localTime);
+    }
+
+    return $localTime;
   }
 }
