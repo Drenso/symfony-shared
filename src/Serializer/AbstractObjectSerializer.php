@@ -87,6 +87,18 @@ abstract class AbstractObjectSerializer
     );
   }
 
+  protected function addIntProperty(
+      SerializationVisitorInterface $visitor,
+      string $prop,
+      ?int $value,
+      bool $insertUnderscore = true): void
+  {
+    $visitor->visitProperty(
+        new StaticPropertyMetadata('int', $this->propertyName($prop, $insertUnderscore), null),
+        $value
+    );
+  }
+
   /**
    * Add a property as defined in the class metadata.
    * Allows to overwrite the serialized name.
@@ -98,7 +110,7 @@ abstract class AbstractObjectSerializer
       ObjectEvent $event,
       string $objectClass,
       string $objectProperty,
-                                    $value,
+      $value,
       ?string $prop = null,
       bool $insertUnderscore = true): void
   {
@@ -118,7 +130,7 @@ abstract class AbstractObjectSerializer
   abstract protected function doSerialize(
       SerializationVisitorInterface $visitor,
       array $groups,
-                                    $object,
+      $object,
       ObjectEvent $event): void;
 
   private function propertyName(string $prop, bool $insertUnderscore)
