@@ -195,6 +195,14 @@ class Configuration implements ConfigurationInterface
                   ->arrayNode('decimal')
                     ->canBeEnabled()
                   ->end() // decimal
+                  ->arrayNode('enum')
+                    ->canBeEnabled()
+                    ->children()
+                      ->arrayNode('supported_enums')
+                        ->scalarPrototype()->end()
+                      ->end() // supported_enums
+                    ->end() // enum children
+                  ->end() // enum
                   ->arrayNode('id_map')
                     ->canBeEnabled()
                   ->end() // id_map

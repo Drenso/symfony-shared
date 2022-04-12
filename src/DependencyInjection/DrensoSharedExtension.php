@@ -24,6 +24,7 @@ use Drenso\Shared\Helper\SpreadsheetHelper;
 use Drenso\Shared\Ical\IcalProvider;
 use Drenso\Shared\Request\ParamConverter\EnumParamConverter;
 use Drenso\Shared\Serializer\Handlers\DecimalHandler;
+use Drenso\Shared\Serializer\Handlers\EnumHandler;
 use Drenso\Shared\Serializer\Handlers\IdMapHandler;
 use Drenso\Shared\Serializer\StaticSerializer;
 use Drenso\Shared\Twig\GravatarExtension;
@@ -32,6 +33,7 @@ use Gedmo\SoftDeleteable\SoftDeleteableListener;
 use JMS\Serializer\ContextFactory\SerializationContextFactoryInterface;
 use JMS\Serializer\SerializerInterface;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
+use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Reference;
@@ -209,6 +211,30 @@ class DrensoSharedExtension extends ConfigurableExtension
           ->register(DecimalHandler::class)
           ->setAutoconfigured(true)
           ->setPublic($public);
+    }
+
+    if ($handlers['enum']['enabled']) {
+      $container
+          ->register(EnumHandler::class)
+          ->setAbstract(true);
+      $childDefinition = new ChildDefinition(EnumHandler::class);
+      foreach ($handlers['enum']['supported_enums'] as $enumClass) {
+        $container
+            ->setDefinition(sprintf('%s.%s', EnumHandler::class, $enumClass), $childDefinition)
+            ->addTag('jms_serializer.handler', [
+                'type'      => $enumClass,
+                'direction' => 'serialization',
+                'format'    => 'json',
+                'method'    => 'serialize',
+            ])
+            ->addTag('jms_serializer.handler', [
+                'type'      => $enumClass,
+                'direction' => 'deserialization',
+                'format'    => 'json',
+                'method'    => 'deserialize',
+            ])
+            ->addArgument($enumClass);
+      }
     }
 
     if ($handlers['id_map']['enabled']) {

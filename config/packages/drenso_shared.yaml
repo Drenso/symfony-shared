@@ -32,6 +32,9 @@ drenso_shared:
   serializer:
     handlers:
       decimal: false # Enable the decimal handler
+      enum:
+        enabled: false # Enable the handler to automatically (de)serialize backed enum values
+        supported_enums: [ ] # List of supported enums
       id_map: false # Enable the id map handler
     static_serializer: false # Static serializer
     twig_integration:
