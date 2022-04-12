@@ -34,7 +34,7 @@ use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Reference;
-use Symfony\Component\HttpKernel\DependencyInjection\Extension;
+use Symfony\Component\HttpKernel\DependencyInjection\ConfigurableExtension;
 use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mailer\Transport\TransportInterface;
@@ -42,24 +42,20 @@ use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class DrensoSharedExtension extends Extension
+class DrensoSharedExtension extends ConfigurableExtension
 {
-  public function load(array $configs, ContainerBuilder $container): void
+  public function loadInternal(array $mergedConfig, ContainerBuilder $container): void
   {
-    // Parse configuration
-    $configuration = new Configuration();
-    $config        = $this->processConfiguration($configuration, $configs);
-
-    $publicServices = $config['public_services'];
+    $publicServices = $mergedConfig['public_services'];
 
     // Configure the services with retrieved configuration values
-    $this->configureApiServices($container, $config, $publicServices);
-    $this->configureCommands($container, $config, $publicServices);
-    $this->configureDatabase($container, $config, $publicServices);
-    $this->configureEmailService($container, $config, $publicServices);
-    $this->configureFormExtensions($container, $config);
-    $this->configureSerializer($container, $config, $publicServices);
-    $this->configureServices($container, $config, $publicServices);
+    $this->configureApiServices($container, $mergedConfig, $publicServices);
+    $this->configureCommands($container, $mergedConfig, $publicServices);
+    $this->configureDatabase($container, $mergedConfig, $publicServices);
+    $this->configureEmailService($container, $mergedConfig, $publicServices);
+    $this->configureFormExtensions($container, $mergedConfig);
+    $this->configureSerializer($container, $mergedConfig, $publicServices);
+    $this->configureServices($container, $mergedConfig, $publicServices);
   }
 
   private function configureApiServices(ContainerBuilder $container, array $config, bool $public): void
