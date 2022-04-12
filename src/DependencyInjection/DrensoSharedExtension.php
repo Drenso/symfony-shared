@@ -22,6 +22,7 @@ use Drenso\Shared\Helper\DateTimeProvider;
 use Drenso\Shared\Helper\GravatarHelper;
 use Drenso\Shared\Helper\SpreadsheetHelper;
 use Drenso\Shared\Ical\IcalProvider;
+use Drenso\Shared\Request\ParamConverter\EnumParamConverter;
 use Drenso\Shared\Serializer\Handlers\DecimalHandler;
 use Drenso\Shared\Serializer\Handlers\IdMapHandler;
 use Drenso\Shared\Serializer\StaticSerializer;
@@ -54,6 +55,7 @@ class DrensoSharedExtension extends ConfigurableExtension
     $this->configureDatabase($container, $mergedConfig, $publicServices);
     $this->configureEmailService($container, $mergedConfig, $publicServices);
     $this->configureFormExtensions($container, $mergedConfig);
+    $this->configureRequestExtensions($container, $mergedConfig, $publicServices);
     $this->configureSerializer($container, $mergedConfig, $publicServices);
     $this->configureServices($container, $mergedConfig, $publicServices);
   }
@@ -182,6 +184,18 @@ class DrensoSharedExtension extends ConfigurableExtension
           ->setAutoconfigured(true)
           ->setArgument('$registry', new Reference(ManagerRegistry::class))
           ->setArgument('$propertyAccessor', new Reference(PropertyAccessorInterface::class));
+    }
+  }
+
+  private function configureRequestExtensions(ContainerBuilder $container, array $config, bool $public): void
+  {
+    $request = $config['request'];
+    if ($request['param_converter']['enabled']) {
+      $container
+          ->register(EnumParamConverter::class)
+          ->setAutoConfigured(true)
+          ->setPublic($public)
+          ->setArgument('$supportedEnums', $request['param_converter']['supported_enums']);
     }
   }
 

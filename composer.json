@@ -64,7 +64,7 @@
     "jms/serializer-bundle": "Needed to use the Database traits and the Decimal serialization handler",
     "php-decimal/php-decimal": "Needed to use the Decimal serialization handler and the form transformer",
     "phpoffice/phpspreadsheet": "Needed to use the SpreadsheetHelper",
-    "sensio/framework-extra-bundle": "Needed for attribute support",
+    "sensio/framework-extra-bundle": "Needed for attribute support and enum param converter",
     "stof/doctrine-extensions-bundle": "Needed to use the Blameable trait",
     "symfony/console": "Needed to use the action security command",
     "symfony/doctrine-bridge": "Needed to use the HiddenEntityType, the Database traits and the action security command",
