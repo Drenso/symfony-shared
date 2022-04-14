@@ -217,10 +217,9 @@ class DrensoSharedExtension extends ConfigurableExtension
       $container
           ->register(EnumHandler::class)
           ->setAbstract(true);
-      $childDefinition = new ChildDefinition(EnumHandler::class);
       foreach ($handlers['enum']['supported_enums'] as $enumClass) {
         $container
-            ->setDefinition(sprintf('%s.%s', EnumHandler::class, $enumClass), $childDefinition)
+            ->setDefinition(sprintf('%s.%s', EnumHandler::class, $enumClass), new ChildDefinition(EnumHandler::class))
             ->addTag('jms_serializer.handler', [
                 'type'      => $enumClass,
                 'direction' => 'serialization',
