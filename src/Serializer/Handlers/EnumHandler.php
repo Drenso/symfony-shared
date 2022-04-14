@@ -10,10 +10,6 @@ use JMS\Serializer\Visitor\SerializationVisitorInterface;
 
 class EnumHandler
 {
-  public function __construct(private readonly string $enumClass)
-  {
-  }
-
   public function serialize(
       SerializationVisitorInterface $visitor,
       BackedEnum $enum,
@@ -33,6 +29,6 @@ class EnumHandler
       return null;
     }
 
-    return call_user_func($this->enumClass . '::tryFrom', $data);
+    return call_user_func($type['name'] . '::tryFrom', $data);
   }
 }

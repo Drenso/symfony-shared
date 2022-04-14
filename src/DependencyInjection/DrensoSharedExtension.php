@@ -33,7 +33,6 @@ use Gedmo\SoftDeleteable\SoftDeleteableListener;
 use JMS\Serializer\ContextFactory\SerializationContextFactoryInterface;
 use JMS\Serializer\SerializerInterface;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
-use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Reference;
@@ -214,12 +213,9 @@ class DrensoSharedExtension extends ConfigurableExtension
     }
 
     if ($handlers['enum']['enabled']) {
-      $container
-          ->register(EnumHandler::class)
-          ->setAbstract(true);
+      $handlerDefinition = $container->register(EnumHandler::class);
       foreach ($handlers['enum']['supported_enums'] as $enumClass) {
-        $container
-            ->setDefinition(sprintf('%s.%s', EnumHandler::class, $enumClass), new ChildDefinition(EnumHandler::class))
+        $handlerDefinition
             ->addTag('jms_serializer.handler', [
                 'type'      => $enumClass,
                 'direction' => 'serialization',
@@ -231,8 +227,7 @@ class DrensoSharedExtension extends ConfigurableExtension
                 'direction' => 'deserialization',
                 'format'    => 'json',
                 'method'    => 'deserialize',
-            ])
-            ->addArgument($enumClass);
+            ]);
       }
     }
 
