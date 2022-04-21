@@ -52,8 +52,8 @@ abstract class AbstractJmsType extends JsonType
 
     try {
       return StaticSerializer::getSerializer()->deserialize($value, $this->getJmsType(), 'json');
-    } catch (Exception) {
-      throw ConversionException::conversionFailed($value, $this->getName());
+    } catch (Exception $e) {
+      throw ConversionException::conversionFailed($value, $this->getName(), $e);
     }
   }
 
