@@ -1,34 +1,36 @@
-<?php /** @noinspection PhpFullyQualifiedNameUsageInspection */
+<?php
 
 declare(strict_types=1);
 
-use Rector\Core\Configuration\Option;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use JMS\Serializer\Annotation\Exclude;
+use JMS\Serializer\Annotation\Expose;
+use Rector\Config\RectorConfig;
+use Rector\Doctrine\Set\DoctrineSetList;
+use Rector\Php74\Rector\Property\TypedPropertyRector;
+use Rector\Php80\Rector\Class_\AnnotationToAttributeRector;
+use Rector\Php80\Rector\Class_\ClassPropertyAssignToConstructorPromotionRector;
+use Rector\Php80\ValueObject\AnnotationToAttribute;
+use Rector\Php81\Rector\Property\ReadOnlyPropertyRector;
+use Rector\Set\ValueObject\LevelSetList;
+use Rector\Symfony\Set\SymfonySetList;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-  // Configure parameters
-  $containerConfigurator
-      ->parameters()
-      ->set(Option::PATHS, [__DIR__ . '/src',])
-      ->set(Option::AUTO_IMPORT_NAMES, true)
-      ->set(Option::SKIP, [
-          \Rector\Php81\Rector\Property\ReadOnlyPropertyRector::class,
-      ]);
+return static function (RectorConfig $rc): void {
+  $rc->paths([__DIR__ . '/src',]);
+  $rc->importNames();
+  $rc->skip([
+      ReadOnlyPropertyRector::class,
+  ]);
 
-  // Define what rule sets will be applied
-  $containerConfigurator->import(\Rector\Set\ValueObject\LevelSetList::UP_TO_PHP_81);
-  $containerConfigurator->import(\Rector\Doctrine\Set\DoctrineSetList::ANNOTATIONS_TO_ATTRIBUTES);
-  $containerConfigurator->import(\Rector\Symfony\Set\SymfonySetList::ANNOTATIONS_TO_ATTRIBUTES);
+  $rc->import(LevelSetList::UP_TO_PHP_81);
+  $rc->import(DoctrineSetList::ANNOTATIONS_TO_ATTRIBUTES);
+  $rc->import(SymfonySetList::ANNOTATIONS_TO_ATTRIBUTES);
 
-  // Register single rules
-  $containerConfigurator
-      ->services()
-      ->set(\Rector\Php80\Rector\Class_\AnnotationToAttributeRector::class)->configure([
-          new \Rector\Php80\ValueObject\AnnotationToAttribute(Gedmo\Mapping\Annotation\Timestampable::class),
-          new \Rector\Php80\ValueObject\AnnotationToAttribute(Gedmo\Mapping\Annotation\Blameable::class),
-          new \Rector\Php80\ValueObject\AnnotationToAttribute(\JMS\Serializer\Annotation\Exclude::class),
-          new \Rector\Php80\ValueObject\AnnotationToAttribute(\JMS\Serializer\Annotation\Expose::class),
-      ])
-      ->set(\Rector\Php74\Rector\Property\TypedPropertyRector::class)
-      ->set(\Rector\Php80\Rector\Class_\ClassPropertyAssignToConstructorPromotionRector::class);
+  $rc->ruleWithConfiguration(AnnotationToAttributeRector::class, [
+      new AnnotationToAttribute(Gedmo\Mapping\Annotation\Timestampable::class),
+      new AnnotationToAttribute(Gedmo\Mapping\Annotation\Blameable::class),
+      new AnnotationToAttribute(Exclude::class),
+      new AnnotationToAttribute(Expose::class),
+  ]);
+  $rc->rule(TypedPropertyRector::class);
+  $rc->rule(ClassPropertyAssignToConstructorPromotionRector::class);
 };
