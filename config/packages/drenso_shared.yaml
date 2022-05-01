@@ -21,6 +21,9 @@ drenso_shared:
       sender_email: ~ # The default sender email address: required when the e-mail service is enabled
       sender_name: ~ # The default sender name, can be empty
       translate_sender_name: true # When set, the configured sender_name will be translated in the 'messages' domain
+  env:
+    processors:
+      phpstorm: true # Whether to enable the phpstorm env processor
   form_extensions: # Form extensions
     generic: true # Whether to use the generic extension (hide_label and form_header options)
     button: true # Whether to use the button extension (icon and icon_prefix options)

@@ -28,6 +28,7 @@ class Configuration implements ConfigurationInterface
     $this->configureCommands($rootNode);
     $this->configureDatabase($rootNode);
     $this->configureEmailService($rootNode);
+    $this->configureEnv($rootNode);
     $this->configureFormExtensions($rootNode);
     $this->configureRequestExtensions($rootNode);
     $this->configureSerializer($rootNode);
@@ -135,6 +136,28 @@ class Configuration implements ConfigurationInterface
               ->end() // mailer
             ->end() // email children
           ->end() // email
+        ->end();
+  }
+
+  /** Setup configuration for the env helpers in the bundle. */
+  private function configureEnv(ArrayNodeDefinition $node): void
+  {
+    $node
+        ->children()
+          ->arrayNode('env')
+            ->addDefaultsIfNotSet()
+            ->children()
+              ->arrayNode('processors')
+                ->addDefaultsIfNotSet()
+                ->children()
+                  ->arrayNode('phpstorm')
+                    ->canBeDisabled()
+                    ->end()
+                  ->end() // phpstorm
+                ->end() // processors children
+              ->end() // processors
+            ->end() // env children
+          ->end() // env
         ->end();
   }
 

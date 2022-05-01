@@ -11,6 +11,7 @@ use Drenso\Shared\Database\SoftDeletableSubscriber;
 use Drenso\Shared\Database\SoftDeletableSymfonyCacheWarmer;
 use Drenso\Shared\Database\SoftDeletableSymfonySubscriber;
 use Drenso\Shared\Email\EmailService;
+use Drenso\Shared\Env\Processor\PhpStormEnvVarProcessor;
 use Drenso\Shared\Exception\Handler\EntityValidationFailedExceptionHandler;
 use Drenso\Shared\FeatureFlags\FeatureFlags;
 use Drenso\Shared\FeatureFlags\RequireFeatureListener;
@@ -55,6 +56,7 @@ class DrensoSharedExtension extends ConfigurableExtension
     $this->configureCommands($container, $mergedConfig, $publicServices);
     $this->configureDatabase($container, $mergedConfig, $publicServices);
     $this->configureEmailService($container, $mergedConfig, $publicServices);
+    $this->configureEnv($container, $mergedConfig);
     $this->configureFormExtensions($container, $mergedConfig);
     $this->configureRequestExtensions($container, $mergedConfig, $publicServices);
     $this->configureSerializer($container, $mergedConfig, $publicServices);
@@ -158,6 +160,17 @@ class DrensoSharedExtension extends ConfigurableExtension
       if (!$mailer['translate_sender_name']) {
         $definition->setArgument('$translator', null);
       }
+    }
+  }
+
+  private function configureEnv(ContainerBuilder $container, array $config): void
+  {
+    $processors = $config['env']['processors'];
+
+    if ($processors['phpstorm']['enabled']) {
+      $definition = $container
+          ->register(PhpStormEnvVarProcessor::class)
+          ->addTag('container.env_var_processor');
     }
   }
 
