@@ -29,10 +29,7 @@ class SpreadsheetHelper
   {
     // Create writer
     $writer   = new Xlsx($spreadsheet);
-    $response = new StreamedResponse(
-        function () use ($writer) {
-          $writer->save('php://output');
-        });
+    $response = new StreamedResponse(fn() => $writer->save('php://output'));
 
     $response->headers->set('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=utf-8');
     self::contentDisposition($response, $filename . '.xlsx');
@@ -49,9 +46,7 @@ class SpreadsheetHelper
         ->setUseBOM(true)
         ->setSheetIndex(0);
 
-    $response = new StreamedResponse(function () use ($writer) {
-      $writer->save('php://output');
-    });
+    $response = new StreamedResponse(fn () => $writer->save('php://output'));
     $response->headers->set('Content-Type', 'application/csv; charset=utf-8');
     self::contentDisposition($response, $filename . '.csv');
 
