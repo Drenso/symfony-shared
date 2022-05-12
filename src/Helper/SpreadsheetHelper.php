@@ -29,7 +29,7 @@ class SpreadsheetHelper
   {
     // Create writer
     $writer   = new Xlsx($spreadsheet);
-    $response = new StreamedResponse(fn() => $writer->save('php://output'));
+    $response = new StreamedResponse(fn () => $writer->save('php://output'));
 
     $response->headers->set('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=utf-8');
     self::contentDisposition($response, $filename . '.xlsx');
