@@ -16,6 +16,7 @@
     "Doctrine\\DBAL\\Types\\DateTimeType",
     "Doctrine\\DBAL\\Types\\DateType",
     "Doctrine\\DBAL\\Types\\JsonType",
+    "Doctrine\\DBAL\\Types\\StringType",
     "Doctrine\\DBAL\\Types\\Type",
     "Doctrine\\ORM\\EntityManagerInterface",
     "Doctrine\\ORM\\Event\\LifecycleEventArgs",
