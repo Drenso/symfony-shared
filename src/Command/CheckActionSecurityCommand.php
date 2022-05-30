@@ -71,7 +71,7 @@ class CheckActionSecurityCommand extends Command
 
       if ($controller !== null) {
         // Only check own controllers
-        if (!str_contains(strtolower($controller), 'app')) {
+        if (!str_contains(strtolower((string)$controller), 'app')) {
           continue;
         }
 
