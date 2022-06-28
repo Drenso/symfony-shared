@@ -103,5 +103,6 @@ return [
     'exclude_file_regex'              => '@vendor\/(rector|symfony\/polyfill-\w+)\/*@',
     'exclude_file_list'               => [
         'vendor/symfony/symfony/src/Symfony/Component/Intl/Resources/stubs/IntlDateFormatter.php',
+        'vendor/rector/rector/stubs-rector/Internal/EnumInterfaces.php'
     ],
 ];
