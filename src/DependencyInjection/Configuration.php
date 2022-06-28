@@ -214,13 +214,11 @@ class Configuration implements ConfigurationInterface
             ->addDefaultsIfNotSet()
             ->canBeEnabled()
             ->children()
-              ->scalarNode('host')
+              ->arrayNode('allowed_dsn')
                 ->isRequired()
                 ->cannotBeEmpty()
-              ->end() // host
-              ->integerNode('project_id')
-                ->isRequired()
-              ->end() // project_id
+                ->scalarPrototype()
+              ->end() // allowed_dsn
             ->end() // sentry_tunnel children
           ->end() // sentry_tunnel
         ->end();

@@ -227,8 +227,7 @@ class DrensoSharedExtension extends ConfigurableExtension
           ->addMethodCall('setContainer', [new Reference('service_container')])
           ->addTag('controller.service_arguments')
           ->setArgument('$httpClient', new Reference(HttpClientInterface::class))
-          ->setArgument('$host', $sentryTunnel['host'])
-          ->setArgument('$projectId', $sentryTunnel['project_id']);
+          ->setArgument('$allowedDsn', $sentryTunnel['allowed_dsn']);
     }
   }
 

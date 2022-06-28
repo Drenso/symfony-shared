@@ -11,8 +11,7 @@ class SentryTunnelController extends AbstractController
 {
   public function __construct(
       private readonly HttpClientInterface $httpClient,
-      private readonly string $host,
-      private readonly int $projectId)
+      private readonly array $allowedDsn)
   {
   }
 
@@ -30,18 +29,18 @@ class SentryTunnelController extends AbstractController
       throw $this->createNotFoundException('DSN not supplied');
     }
 
-    $parsedDsn = parse_url($dsn);
-    if (false === $parsedDsn || ($parsedDsn['host'] ?? null) !== $this->host) {
-      throw $this->createNotFoundException('Invalid Sentry host');
+    if (!in_array($dsn, $this->allowedDsn)) {
+      throw $this->createNotFoundException('DSN not allowed');
     }
 
-    if (intval(trim(($parsedDsn['path'] ?? ''), '/')) !== $this->projectId) {
-      throw $this->createNotFoundException('Invalid project id');
+    $parsedDsn = parse_url($dsn);
+    if (false === $parsedDsn) {
+      throw $this->createNotFoundException('Invalid Sentry host');
     }
 
     $request = $this->httpClient->request(
         Request::METHOD_POST,
-        sprintf('https://%s/api/%d/envelope/', $this->host, $this->projectId),
+        sprintf('https://%s/api/%d/envelope/', $parsedDsn['host'] ?? null, intval(trim(($parsedDsn['path'] ?? ''), '/'))),
         [
             'body'    => $content,
             'headers' => [
