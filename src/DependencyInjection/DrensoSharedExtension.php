@@ -24,6 +24,7 @@ use Drenso\Shared\Helper\GravatarHelper;
 use Drenso\Shared\Helper\SpreadsheetHelper;
 use Drenso\Shared\Ical\IcalProvider;
 use Drenso\Shared\Request\ParamConverter\EnumParamConverter;
+use Drenso\Shared\Sentry\SentryTunnelController;
 use Drenso\Shared\Serializer\Handlers\DecimalHandler;
 use Drenso\Shared\Serializer\Handlers\EnumHandler;
 use Drenso\Shared\Serializer\Handlers\IdMapHandler;
@@ -43,6 +44,7 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mailer\Transport\TransportInterface;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class DrensoSharedExtension extends ConfigurableExtension
@@ -59,6 +61,7 @@ class DrensoSharedExtension extends ConfigurableExtension
     $this->configureEnv($container, $mergedConfig);
     $this->configureFormExtensions($container, $mergedConfig);
     $this->configureRequestExtensions($container, $mergedConfig, $publicServices);
+    $this->configureSentryTunnel($container, $mergedConfig);
     $this->configureSerializer($container, $mergedConfig, $publicServices);
     $this->configureServices($container, $mergedConfig, $publicServices);
   }
@@ -210,6 +213,22 @@ class DrensoSharedExtension extends ConfigurableExtension
           ->setAutoConfigured(true)
           ->setPublic($public)
           ->setArgument('$supportedEnums', $request['param_converter']['supported_enums']);
+    }
+  }
+
+  private function configureSentryTunnel(ContainerBuilder $container, array $config): void
+  {
+    $sentryTunnel = $config['sentry_tunnel'];
+
+    if ($sentryTunnel['enabled']) {
+      $container
+          ->register(SentryTunnelController::class)
+          ->setAutoconfigured(true)
+          ->addMethodCall('setContainer', [new Reference('service_container')])
+          ->addTag('controller.service_arguments')
+          ->setArgument('$httpClient', new Reference(HttpClientInterface::class))
+          ->setArgument('$host', $sentryTunnel['host'])
+          ->setArgument('$projectId', $sentryTunnel['project_id']);
     }
   }
 

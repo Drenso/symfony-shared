@@ -1,0 +1,6 @@
+_drenso_sentry_tunnel:
+  path: /_stun
+  defaults:
+    _controller: Drenso\Shared\Sentry\SentryTunnelController::tunnel
+  methods:
+    - POST

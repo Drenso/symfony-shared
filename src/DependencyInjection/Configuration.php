@@ -31,6 +31,7 @@ class Configuration implements ConfigurationInterface
     $this->configureEnv($rootNode);
     $this->configureFormExtensions($rootNode);
     $this->configureRequestExtensions($rootNode);
+    $this->configureSentryTunnel($rootNode);
     $this->configureSerializer($rootNode);
     $this->configureServices($rootNode);
 
@@ -204,6 +205,27 @@ class Configuration implements ConfigurationInterface
         ->end();
   }
 
+  /** Setup configuration for a Sentry tunnel */
+  private function configureSentryTunnel(ArrayNodeDefinition $node): void
+  {
+    $node
+        ->children()
+          ->arrayNode('sentry_tunnel')
+            ->addDefaultsIfNotSet()
+            ->canBeEnabled()
+            ->children()
+              ->scalarNode('host')
+                ->isRequired()
+                ->cannotBeEmpty()
+              ->end() // host
+              ->integerNode('project_id')
+                ->isRequired()
+              ->end() // project_id
+            ->end() // sentry_tunnel children
+          ->end() // sentry_tunnel
+        ->end();
+  }
+
   /** Setup configuration for the services in the bundle. */
   private function configureSerializer(ArrayNodeDefinition $node): void
   {
@@ -238,7 +260,7 @@ class Configuration implements ConfigurationInterface
                 ->canBeEnabled()
               ->end() // twig_integration
             ->end() // serializer children
-          ->end() // services
+          ->end() // serializer
         ->end();
   }
 

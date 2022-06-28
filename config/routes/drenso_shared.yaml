@@ -1,0 +1,2 @@
+_drenso_shared:
+  resource: "@DrensoSharedBundle/Resources/config/routing/routing-sentry.yaml"

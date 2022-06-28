@@ -59,6 +59,8 @@
     "Sensio\\Bundle\\FrameworkExtraBundle\\Request\\ParamConverter\\ParamConverterInterface",
     "Symfony\\Bridge\\Doctrine\\Form\\Type\\EntityType",
     "Symfony\\Bridge\\Twig\\Mime\\TemplatedEmail",
+    "Symfony\\Bundle\\FrameworkBundle\\Controller\\AbstractController",
+    "Symfony\\Contracts\\HttpClient\\HttpClientInterface",
     "Symfony\\Component\\Console\\Command\\Command",
     "Symfony\\Component\\Console\\ConsoleEvents",
     "Symfony\\Component\\Console\\Event\\ConsoleCommandEvent",
