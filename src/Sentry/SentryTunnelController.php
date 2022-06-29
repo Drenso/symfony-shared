@@ -33,7 +33,7 @@ class SentryTunnelController extends AbstractController
       throw $this->createNotFoundException('DSN not allowed');
     }
 
-    $parsedDsn = parse_url($dsn);
+    $parsedDsn = parse_url((string)$dsn);
     if (false === $parsedDsn) {
       throw $this->createNotFoundException('Invalid Sentry host');
     }
