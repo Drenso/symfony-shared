@@ -18,7 +18,7 @@ class JmsSerializerExtension extends AbstractExtension
   public function getFilters(): array
   {
     return [
-        new TwigFilter('jms_json_encode', [$this, 'encode'], ['is_safe' => ['js']]),
+        new TwigFilter('jms_json_encode', $this->encode(...), ['is_safe' => ['js']]),
     ];
   }
 

@@ -13,7 +13,7 @@ class PhpStormEnvVarProcessor implements EnvVarProcessorInterface
       return null;
     }
 
-    return 'jetbrains://php-storm/navigate/reference?project=' . urlencode($project) . '&path=%%f:%%l&%kernel.project_dir%/>/';
+    return 'jetbrains://php-storm/navigate/reference?project=' . urlencode((string)$project) . '&path=%%f:%%l&%kernel.project_dir%/>/';
   }
 
   public static function getProvidedTypes(): array
