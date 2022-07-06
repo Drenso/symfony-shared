@@ -4,7 +4,7 @@
     "local>intern/renovate-config"
   ],
   "packageRules": [{
-    "matchFiles": ["cs_tools/composer.json"],
+    "matchPackageNames": ["friendsofphp/php-cs-fixer", "rector/rector"],
     "rangeStrategy": "pin"
   }],
   "rangeStrategy": "widen"
