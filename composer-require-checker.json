@@ -42,6 +42,7 @@
     "Kigkonsult\\Icalcreator\\IcalInterface",
     "PhpOffice\\PhpSpreadsheet\\Cell\\DataType",
     "PhpOffice\\PhpSpreadsheet\\Shared\\Date",
+    "PhpOffice\\PhpSpreadsheet\\Shared\\File",
     "PhpOffice\\PhpSpreadsheet\\Spreadsheet",
     "PhpOffice\\PhpSpreadsheet\\Style\\Alignment",
     "PhpOffice\\PhpSpreadsheet\\Style\\NumberFormat",
@@ -78,7 +79,9 @@
     "Symfony\\Component\\Routing\\Annotation\\Route",
     "Symfony\\Component\\Security\\Core\\Authentication\\Token\\Storage\\TokenStorageInterface",
     "Symfony\\Component\\Validator\\ConstraintViolationInterface",
-    "Symfony\\Contracts\\Translation\\TranslatorInterface"
+    "Symfony\\Contracts\\Translation\\TranslatorInterface",
+    "ZipStream\\Option\\Archive",
+    "ZipStream\\ZipStream"
   ],
   "php-core-extensions" : [
     "Core",
