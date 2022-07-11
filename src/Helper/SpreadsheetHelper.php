@@ -6,6 +6,7 @@ use DateTimeInterface;
 use PhpOffice\PhpSpreadsheet\Cell\DataType;
 use PhpOffice\PhpSpreadsheet\Exception;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
+use PhpOffice\PhpSpreadsheet\Shared\File;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
@@ -16,6 +17,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use ZipStream\Option\Archive;
+use ZipStream\ZipStream;
 
 class SpreadsheetHelper
 {
@@ -49,6 +52,38 @@ class SpreadsheetHelper
     $response = new StreamedResponse(fn () => $writer->save('php://output'));
     $response->headers->set('Content-Type', 'application/csv; charset=utf-8');
     self::contentDisposition($response, $filename . '.csv');
+
+    return $response;
+  }
+
+  /**
+   * Create a ZIP response container multiple Excel spreadsheets.
+   *
+   * @param array $spreadSheets array with ['sheet' => Spreadsheet object, 'filename' => string filename]
+   */
+  public function createZippedExcelResponse(array $spreadSheets, string $zipName): StreamedResponse
+  {
+    $response = new StreamedResponse(
+        function () use ($spreadSheets) {
+          // Create the archive
+          $zipOptions = new Archive();
+          $zipOptions->setSendHttpHeaders(true);
+          $zip = new ZipStream(null, $zipOptions);
+
+          // Loop the supplied spreadsheets
+          foreach ($spreadSheets as $spreadSheet) {
+            $writer   = new Xlsx($spreadSheet['sheet']);
+            $tempFile = @tempnam(File::sysGetTempDir(), 'phpxltmp');
+            $writer->save($tempFile);
+            $zip->addFileFromPath(self::sanitizeFilename($spreadSheet['filename'] . '.xlsx'), $tempFile);
+          }
+
+          // Finalize the zip file
+          $zip->finish();
+        });
+
+    $response->headers->set('Content-Type', 'application/octet-stream; charset=utf-8');
+    self::contentDisposition($response, $zipName . '.zip');
 
     return $response;
   }
