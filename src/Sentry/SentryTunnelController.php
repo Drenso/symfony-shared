@@ -2,9 +2,11 @@
 
 namespace Drenso\Shared\Sentry;
 
+use JsonException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class SentryTunnelController extends AbstractController
@@ -23,7 +25,12 @@ class SentryTunnelController extends AbstractController
       throw $this->createNotFoundException('Invalid content');
     }
 
-    $header = json_decode($pieces[0], true, 512, JSON_THROW_ON_ERROR);
+    try {
+      $header = json_decode($pieces[0], true, 512, JSON_THROW_ON_ERROR);
+    } catch (JsonException $e) {
+      // Invalid JSON received, nothing we can do about that
+      throw new BadRequestHttpException('Invalid JSON', previous: $e);
+    }
 
     if (!$dsn = ($header['dsn'] ?? null)) {
       throw $this->createNotFoundException('DSN not supplied');
