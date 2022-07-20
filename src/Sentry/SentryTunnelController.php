@@ -6,7 +6,6 @@ use JsonException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class SentryTunnelController extends AbstractController
@@ -22,27 +21,31 @@ class SentryTunnelController extends AbstractController
     $content = $request->getContent();
     $pieces  = explode("\n", (string)$content);
     if (empty($pieces)) {
-      throw $this->createNotFoundException('Invalid content');
+      // Invalid content
+      return new Response(status: Response::HTTP_NOT_FOUND);
     }
 
     try {
       $header = json_decode($pieces[0], true, 512, JSON_THROW_ON_ERROR);
-    } catch (JsonException $e) {
+    } catch (JsonException) {
       // Invalid JSON received, nothing we can do about that
-      throw new BadRequestHttpException('Invalid JSON', previous: $e);
+      return new Response(status: Response::HTTP_BAD_REQUEST);
     }
 
     if (!$dsn = ($header['dsn'] ?? null)) {
-      throw $this->createNotFoundException('DSN not supplied');
+      // DSN not supplied
+      return new Response(status: Response::HTTP_BAD_REQUEST);
     }
 
     if (!in_array($dsn, $this->allowedDsn)) {
-      throw $this->createNotFoundException('DSN not allowed');
+      // DSN not allowed
+      return new Response(status: Response::HTTP_NOT_FOUND);
     }
 
     $parsedDsn = parse_url((string)$dsn);
     if (false === $parsedDsn) {
-      throw $this->createNotFoundException('Invalid Sentry host');
+      // Invalid Sentry host
+      return new Response(status: Response::HTTP_NOT_FOUND);
     }
 
     $request = $this->httpClient->request(
