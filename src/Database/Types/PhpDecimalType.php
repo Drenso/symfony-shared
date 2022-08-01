@@ -5,30 +5,37 @@ namespace Drenso\Shared\Database\Types;
 use Decimal\Decimal;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\StringType;
+use InvalidArgumentException;
 
 class PhpDecimalType extends StringType
 {
   final public const NAME = 'php_decimal';
 
-  /**
-   * @param Decimal|null $value
-   *
-   * @return mixed|string|null
-   */
-  public function convertToDatabaseValue($value, AbstractPlatform $platform)
+  public function convertToDatabaseValue(mixed $value, AbstractPlatform $platform): ?string
   {
-    return $value?->toString();
+    if ($value === null) {
+      return null;
+    }
+
+    if (!$value instanceof Decimal) {
+      throw new InvalidArgumentException(sprintf('Expected %s, got %s', Decimal::class, get_debug_type($value)));
+    }
+
+    return $value->toString();
   }
 
-  /**
-   * @param mixed $value
-   *
-   * @return mixed|Decimal|null
-   */
-  public function convertToPHPValue($value, AbstractPlatform $platform): ?Decimal
+  public function convertToPHPValue(mixed $value, AbstractPlatform $platform): ?Decimal
   {
     if ($value === null || $value === '') {
       return null;
+    }
+
+    if ($value instanceof Decimal) {
+      return $value;
+    }
+
+    if (!is_string($value)) {
+      throw new InvalidArgumentException(sprintf('Expected string, got %s', get_debug_type($value)));
     }
 
     return new Decimal($value);
