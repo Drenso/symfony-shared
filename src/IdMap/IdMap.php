@@ -2,6 +2,7 @@
 
 namespace Drenso\Shared\IdMap;
 
+use ArrayAccess;
 use Countable;
 use Drenso\Shared\Interfaces\IdInterface;
 use InvalidArgumentException;
@@ -13,7 +14,7 @@ use Traversable;
  * @template T of IdInterface
  * @template-implements IteratorAggregate<int, T>
  */
-class IdMap implements Countable, IteratorAggregate, Stringable
+class IdMap implements ArrayAccess, Countable, IteratorAggregate, Stringable
 {
   /** @var array<int, T> */
   private array $elements;
@@ -78,6 +79,31 @@ class IdMap implements Countable, IteratorAggregate, Stringable
   public function getIterator(): Traversable
   {
     yield from $this->elements;
+  }
+
+  public function offsetExists(mixed $offset): bool
+  {
+    return isset($this->elements[$offset]);
+  }
+
+  public function offsetGet(mixed $offset): mixed
+  {
+    return $this->elements[$offset]
+        ?? throw new InvalidArgumentException(sprintf('Requested id %d not available', $offset));
+  }
+
+  public function offsetSet(mixed $offset, mixed $value): void
+  {
+    if ($offset === null) {
+      throw new InvalidArgumentException('Cannot dynamically add to IdMap with a null key');
+    }
+
+    $this->elements[$offset] = $value;
+  }
+
+  public function offsetUnset(mixed $offset): void
+  {
+    unset($this->elements[$offset]);
   }
 
   public function __toString(): string
