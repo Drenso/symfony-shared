@@ -7,6 +7,7 @@ use LogicException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\ParamConverterInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class EnumParamConverter implements ParamConverterInterface
 {
@@ -26,8 +27,22 @@ class EnumParamConverter implements ParamConverterInterface
   public function apply(Request $request, ParamConverter $configuration): bool
   {
     $name = $configuration->getName();
-    if (!$value = call_user_func($configuration->getClass() . '::tryFrom', $request->attributes->get($name))) {
+    if (!$request->attributes->has($name)) {
       return false;
+    }
+
+    $requestValue = $request->attributes->get($name);
+    if (!$requestValue && $configuration->isOptional()) {
+      $request->attributes->set($name, null);
+
+      return true;
+    }
+
+    $enumClass = $configuration->getClass();
+    if (!$value = call_user_func($enumClass . '::tryFrom', $requestValue)) {
+      throw new NotFoundHttpException(
+          sprintf('Value given for parameter "%s" cannot be converted to Enum "%s".', $name, $enumClass)
+      );
     }
 
     $request->attributes->set($name, $value);
