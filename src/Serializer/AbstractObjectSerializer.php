@@ -102,15 +102,13 @@ abstract class AbstractObjectSerializer
   /**
    * Add a property as defined in the class metadata.
    * Allows to overwrite the serialized name.
-   *
-   * @param mixed $value
    */
   protected function addProperty(
       SerializationVisitorInterface $visitor,
       ObjectEvent $event,
       string $objectClass,
       string $objectProperty,
-      $value,
+      mixed $value,
       ?string $prop = null,
       bool $insertUnderscore = true): void
   {
