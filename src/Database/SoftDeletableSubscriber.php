@@ -51,7 +51,9 @@ class SoftDeletableSubscriber implements EventSubscriber
   {
     // Get needed objects
     $object = $args->getObject();
+    /* @phan-suppress-next-line PhanDeprecatedFunction */
     $om     = $args->getEntityManager();
+    /* @phan-suppress-next-line PhanDeprecatedFunction */
     $uow    = $args->getEntityManager()->getUnitOfWork();
 
     // Get old field value
