@@ -31,6 +31,13 @@ class DateTimeImmutableWithConversionType extends DateTimeImmutableType
     return parent::convertToDatabaseValue($value, $platform);
   }
 
+  /**
+   * @param mixed $value
+   *
+   * @throws ConversionException
+   *
+   * @return DateTimeImmutable|null
+   */
   public function convertToPHPValue($value, AbstractPlatform $platform)
   {
     // Required to support gedmo/doctrine-extension 3.5.0 and higher
