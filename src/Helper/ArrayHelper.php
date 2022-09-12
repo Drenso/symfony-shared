@@ -10,27 +10,14 @@ class ArrayHelper
   /** Verify that all array elements are of the supplied type. */
   public static function assertType(array $variables, string $type)
   {
-    switch ($type) {
-      case 'int':
-      case 'integer':
-        self::assertInt($variables);
-        break;
-      case 'string':
-        self::assertString($variables);
-        break;
-      case 'float':
-        self::assertFloat($variables);
-        break;
-      case 'bool':
-      case 'boolean':
-        self::assertBool($variables);
-        break;
-      case 'array':
-        self::assertArray($variables);
-        break;
-      default:
-        self::assertClass($variables, $type);
-    }
+    match ($type) {
+      'int', 'integer' => self::assertInt($variables),
+      'string' => self::assertString($variables),
+      'float'  => self::assertFloat($variables),
+      'bool', 'boolean' => self::assertBool($variables),
+      'array' => self::assertArray($variables),
+      default => self::assertClass($variables, $type),
+    };
   }
 
   /** Verify that all array elements are integers. */
