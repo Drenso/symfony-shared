@@ -102,6 +102,7 @@ return [
   // files that can't be removed for whatever reason.
     'exclude_file_regex'              => '@vendor\/(rector|symfony\/polyfill-\w+)\/*@',
     'exclude_file_list'               => [
+        'src/Resources/config/routing/routing-sentry.php',
         'vendor/myclabs/php-enum/stubs/Stringable.php',
         'vendor/rector/rector/stubs-rector/Internal/EnumInterfaces.php',
         'vendor/symfony/symfony/src/Symfony/Component/Intl/Resources/stubs/IntlDateFormatter.php'
