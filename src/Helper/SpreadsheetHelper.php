@@ -3,7 +3,9 @@
 namespace Drenso\Shared\Helper;
 
 use DateTimeInterface;
+use PhpOffice\PhpSpreadsheet\Cell\CellAddress;
 use PhpOffice\PhpSpreadsheet\Cell\DataType;
+use PhpOffice\PhpSpreadsheet\Cell\RowRange;
 use PhpOffice\PhpSpreadsheet\Exception;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PhpOffice\PhpSpreadsheet\Shared\File;
@@ -130,6 +132,7 @@ class SpreadsheetHelper
   {
     $this->setCellValue($sheet, $column, $row, implode("\n", $lines), $bold);
     $sheet->getStyleByColumnAndRow($column, $row)->getAlignment()->setWrapText(true);
+    $sheet->getStyle(new RowRange($row))->getAlignment()->setVertical(Alignment::VERTICAL_TOP);
   }
 
   /** @throws Exception */
