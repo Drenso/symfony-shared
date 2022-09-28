@@ -126,6 +126,12 @@ class SpreadsheetHelper
     }
   }
 
+  public function setCellMultilineValue(Worksheet $sheet, int $column, int $row, array $lines, bool $bold = false): void
+  {
+    $this->setCellValue($sheet, $column, $row, implode("\n", $lines), $bold);
+    $sheet->getStyleByColumnAndRow($column, $row)->getAlignment()->setWrapText(true);
+  }
+
   /** @throws Exception */
   public function setCellExplicitString(Worksheet $sheet, int $column, int $row, string $value): void
   {
