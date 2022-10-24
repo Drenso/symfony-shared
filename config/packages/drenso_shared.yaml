@@ -32,6 +32,8 @@ drenso_shared:
     static_serializer: false # Static serializer
     twig_integration:
       enabled: false # Enable the JMS twig integration (automatically true when you specify any of the options below and omit this line)
+    deserialization:
+      direct_constructor: false # Simple constructor call for parameterless objects, falls back to doctrine constructor when it fails
   services:
     feature_flags:
       enabled: true # Enable the feature flags service and annotations (automatically true when you specify any of the options below and omit this line)
