@@ -257,6 +257,14 @@ class Configuration implements ConfigurationInterface
               ->arrayNode('twig_integration')
                 ->canBeEnabled()
               ->end() // twig_integration
+              ->arrayNode('deserialization')
+                ->addDefaultsIfNotSet()
+                ->children()
+                  ->arrayNode('direct_constructor')
+                    ->canBeEnabled()
+                  ->end() // decimal
+                ->end() // deserialization children
+              ->end() // deserialization
             ->end() // serializer children
           ->end() // serializer
         ->end();

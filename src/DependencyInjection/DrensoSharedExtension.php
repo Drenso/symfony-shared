@@ -28,6 +28,7 @@ use Drenso\Shared\Sentry\SentryTunnelController;
 use Drenso\Shared\Serializer\Handlers\DecimalHandler;
 use Drenso\Shared\Serializer\Handlers\EnumHandler;
 use Drenso\Shared\Serializer\Handlers\IdMapHandler;
+use Drenso\Shared\Serializer\ObjectConstructor;
 use Drenso\Shared\Serializer\StaticSerializer;
 use Drenso\Shared\Twig\GravatarExtension;
 use Drenso\Shared\Twig\JmsSerializerExtension;
@@ -233,8 +234,9 @@ class DrensoSharedExtension extends ConfigurableExtension
 
   private function configureSerializer(ContainerBuilder $container, array $config, bool $public): void
   {
-    $serializer = $config['serializer'];
-    $handlers   = $serializer['handlers'];
+    $serializer      = $config['serializer'];
+    $handlers        = $serializer['handlers'];
+    $deserialization = $serializer['deserialization'];
 
     if ($handlers['decimal']['enabled']) {
       $container
@@ -285,6 +287,13 @@ class DrensoSharedExtension extends ConfigurableExtension
           ->setPublic($public)
           ->setArgument('$serializer', new Reference(SerializerInterface::class))
           ->setArgument('$contextFactory', new Reference(SerializationContextFactoryInterface::class));
+    }
+
+    if ($deserialization['direct_constructor']['enabled']) {
+      $container
+          ->register(ObjectConstructor::class)
+          ->setDecoratedService(new Reference('jms_serializer.doctrine_object_constructor'))
+          ->setArgument('$inner', new Reference('jms_serializer.doctrine_object_constructor.inner'));
     }
   }
 
