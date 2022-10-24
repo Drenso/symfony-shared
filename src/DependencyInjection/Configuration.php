@@ -262,7 +262,7 @@ class Configuration implements ConfigurationInterface
                 ->children()
                   ->arrayNode('direct_constructor')
                     ->canBeEnabled()
-                  ->end() // decimal
+                  ->end() // direct_constructor
                 ->end() // deserialization children
               ->end() // deserialization
             ->end() // serializer children
