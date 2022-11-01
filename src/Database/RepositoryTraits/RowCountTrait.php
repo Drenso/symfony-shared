@@ -21,12 +21,17 @@ trait RowCountTrait
    * Retrieve the row count for the given builder and column.
    *
    * @noinspection PhpUnhandledExceptionInspection
-   * @noinspection PhpDocMissingThrowsInspection
    */
   public function getRowCountForBuilder(QueryBuilder $queryBuilder, string $column): int
   {
     return $queryBuilder
         ->select(sprintf('COUNT(%s)', $column))
         ->getQuery()->getSingleScalarResult();
+  }
+
+  /** Get whether the query builder returns any result */
+  public function hasAnyRows(QueryBuilder $queryBuilder, string $column): bool
+  {
+    return $this->getRowCountForBuilder($queryBuilder, $column) > 0;
   }
 }
