@@ -11,6 +11,8 @@ use Kigkonsult\Icalcreator\IcalInterface;
 
 /**
  * Class IcalProvider.
+ *
+ * @deprecated
  */
 class IcalProvider
 {

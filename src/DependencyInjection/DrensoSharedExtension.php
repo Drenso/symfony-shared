@@ -22,6 +22,7 @@ use Drenso\Shared\Form\Type\Select2EntitySearchType;
 use Drenso\Shared\Helper\DateTimeProvider;
 use Drenso\Shared\Helper\GravatarHelper;
 use Drenso\Shared\Helper\SpreadsheetHelper;
+use Drenso\Shared\Ical\IcalBuilder;
 use Drenso\Shared\Ical\IcalProvider;
 use Drenso\Shared\Request\ParamConverter\EnumParamConverter;
 use Drenso\Shared\Sentry\SentryTunnelController;
@@ -333,8 +334,10 @@ class DrensoSharedExtension extends ConfigurableExtension
     }
 
     if ($services['ical_provider']['enabled']) {
+      trigger_deprecation('drenso/symfony-shared', '2.14', 'The "%s" has been deprecated in favour of "%s"', IcalProvider::class, IcalBuilder::class);
+
       if (!class_exists(IcsProvider::class)) {
-        throw new InvalidConfigurationException('In order to use the IcalProvidor, the iCal bundle needs to be installed. Try running `composer req bomo/ical-bundle`.');
+        throw new InvalidConfigurationException('In order to use the IcalProvider, the iCal bundle needs to be installed. Try running `composer req bomo/ical-bundle`.');
       }
 
       $container
