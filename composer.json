@@ -34,6 +34,7 @@
     "bomo/ical-bundle": "^2.0.2",
     "doctrine/orm": "^2.7",
     "drenso/phan-extensions": "~2.5 || ~3.0",
+    "eluceo/ical": "^2.7",
     "friendsofphp/php-cs-fixer": "3.8.0",
     "jms/serializer-bundle": "^3.14 || ^4.0 || ^5.0",
     "kigkonsult/icalcreator": "^2.39",
@@ -45,6 +46,7 @@
     "sensio/framework-extra-bundle": "^6.0",
     "stof/doctrine-extensions-bundle": "^1.3",
     "symfony/console": "~4.0 || ~5.0 || ~6.0",
+    "symfony/deprecation-contracts": "^2.1 || ^3.0",
     "symfony/doctrine-bridge": "~4.0 || ~5.0 || ~6.0",
     "symfony/framework-bundle": "~4.4 || ~5.0 || ~6.0",
     "symfony/http-client": "~4.4 || ~5.0 || ~6.0",
@@ -65,6 +67,7 @@
   "suggest": {
     "bomo/ical-bundle": "Needed for the IcalProvider",
     "doctrine/orm": "Needed to use the Database traits",
+    "eluceo/ical": "Needed for the IcalBuilder",
     "jms/serializer-bundle": "Needed to use the Database traits and the Decimal serialization handler",
     "php-decimal/php-decimal": "Needed to use the Decimal serialization handler and the form transformer",
     "phpoffice/phpspreadsheet": "Needed to use the SpreadsheetHelper",
