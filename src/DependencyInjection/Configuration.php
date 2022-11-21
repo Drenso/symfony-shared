@@ -49,8 +49,10 @@ class Configuration implements ConfigurationInterface
               ->arrayNode('convert_entity_validation_exception')
                 ->canBeEnabled()
                 ->children()
-                  ->scalarNode('controller_prefix')
-                    ->defaultValue('App\\Controller\\Api\\')
+                  ->arrayNode('controller_prefix')
+                    ->scalarPrototype()->end()
+                    ->beforeNormalization()->castToArray()->end()
+                    ->defaultValue(['App\\Controller\\Api\\'])
                   ->end() // controller_prefix
                   ->scalarNode('data_field')
                     ->defaultValue('payload')

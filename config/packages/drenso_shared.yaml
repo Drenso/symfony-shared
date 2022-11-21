@@ -3,7 +3,7 @@ drenso_shared:
   api:
     convert_entity_validation_exception:
       enabled: false # When enabled, the exception will be converted to a JSON response
-      controller_prefix: 'App\\Controller\\Api\\' # The controller prefix to convert the exception for.
+      controller_prefix: 'App\\Controller\\Api\\' # The controller prefix (or prefix array) to convert the exception for.
       data_field: 'payload'
   commands:
     check_action_security:

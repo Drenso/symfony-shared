@@ -13,9 +13,10 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 class EntityValidationFailedExceptionHandler implements EventSubscriberInterface
 {
+  /** @param string[] $controllerPrefixes */
   public function __construct(
       private readonly SerializerInterface $serializer,
-      private readonly string $controllerPrefix,
+      private readonly array $controllerPrefixes,
       private readonly string $dataField)
   {
   }
@@ -37,9 +38,7 @@ class EntityValidationFailedExceptionHandler implements EventSubscriberInterface
       return;
     }
 
-    $controller = $event->getRequest()->attributes->get('_controller');
-
-    if (!str_starts_with((string)$controller, $this->controllerPrefix)) {
+    if (!$this->matchesPrefix((string)$event->getRequest()->attributes->get('_controller'))) {
       return;
     }
 
@@ -52,5 +51,16 @@ class EntityValidationFailedExceptionHandler implements EventSubscriberInterface
 
     // Wrap exception in Bad Request exception, to not trigger other handlers such as Sentry
     $event->setThrowable(new BadRequestHttpException($exception->getMessage(), $exception));
+  }
+
+  private function matchesPrefix(string $controller)
+  {
+    foreach ($this->controllerPrefixes as $controllerPrefix) {
+      if (str_starts_with($controller, $controllerPrefix)) {
+        return true;
+      }
+    }
+
+    return false;
   }
 }

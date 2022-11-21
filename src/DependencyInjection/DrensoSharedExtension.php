@@ -79,7 +79,7 @@ class DrensoSharedExtension extends ConfigurableExtension
           ->setAutoconfigured(true)
           ->setPublic($public)
           ->setArgument('$serializer', new Reference(SerializerInterface::class))
-          ->setArgument('$controllerPrefix', $convertConfig['controller_prefix'])
+          ->setArgument('$controllerPrefixes', $convertConfig['controller_prefix'])
           ->setArgument('$dataField', $convertConfig['data_field']);
     }
   }
