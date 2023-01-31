@@ -170,9 +170,11 @@ class SpreadsheetHelper
    */
   public function setCellValue(Worksheet &$sheet, int $column, int $row, $value, bool $bold = false)
   {
+    /** @phan-suppress-next-line PhanDeprecatedFunction */
     $sheet->setCellValueByColumnAndRow($column, $row, $value);
 
     if ($bold) {
+      /** @phan-suppress-next-line PhanDeprecatedFunction */
       $sheet->getStyleByColumnAndRow($column, $row)->getFont()->setBold(true);
     }
   }
@@ -187,6 +189,7 @@ class SpreadsheetHelper
    */
   public function setCellExplicitString(Worksheet &$sheet, int $column, int $row, string $value)
   {
+    /** @phan-suppress-next-line PhanDeprecatedFunction */
     $cell = $sheet->getCellByColumnAndRow($column, $row);
     $cell->setValueExplicit($value, DataType::TYPE_STRING);
   }
@@ -204,9 +207,11 @@ class SpreadsheetHelper
     if ($dateTime !== NULL) {
       $this->setCellValue($sheet, $column, $row, Date::PHPToExcel($dateTime), $bold);
     }
+    /** @phan-suppress-next-line PhanDeprecatedFunction */
     $sheet->getStyleByColumnAndRow($column, $row)->getNumberFormat()->setFormatCode('dd/mm/yyyy hh:mm');
 
     if ($leftAligned) {
+      /** @phan-suppress-next-line PhanDeprecatedFunction */
       $sheet->getStyleByColumnAndRow($column, $row)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
     }
   }
@@ -224,9 +229,11 @@ class SpreadsheetHelper
     if ($dateTime !== NULL) {
       $this->setCellValue($sheet, $column, $row, Date::PHPToExcel($dateTime), $bold);
     }
+    /** @phan-suppress-next-line PhanDeprecatedFunction */
     $sheet->getStyleByColumnAndRow($column, $row)->getNumberFormat()->setFormatCode('dd/mm/yyyy');
 
     if ($leftAligned) {
+      /** @phan-suppress-next-line PhanDeprecatedFunction */
       $sheet->getStyleByColumnAndRow($column, $row)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
     }
   }
@@ -241,6 +248,7 @@ class SpreadsheetHelper
   public function setCellCurrency(Worksheet &$sheet, int $column, int $row, $value, bool $bold = false)
   {
     $this->setCellValue($sheet, $column, $row, $value, $bold);
+    /** @phan-suppress-next-line PhanDeprecatedFunction */
     $sheet->getStyleByColumnAndRow($column, $row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_ACCOUNTING_EUR);
   }
 
