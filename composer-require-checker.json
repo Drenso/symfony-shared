@@ -59,6 +59,7 @@
     "JMS\\Serializer\\Visitor\\DeserializationVisitorInterface",
     "JMS\\Serializer\\Visitor\\SerializationVisitorInterface",
     "Kigkonsult\\Icalcreator\\IcalInterface",
+    "PhpOffice\\PhpSpreadsheet\\Cell\\CellAddress",
     "PhpOffice\\PhpSpreadsheet\\Cell\\DataType",
     "PhpOffice\\PhpSpreadsheet\\Cell\\RowRange",
     "PhpOffice\\PhpSpreadsheet\\Shared\\Date",

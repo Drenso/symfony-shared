@@ -3,6 +3,7 @@
 namespace Drenso\Shared\Helper;
 
 use DateTimeInterface;
+use PhpOffice\PhpSpreadsheet\Cell\CellAddress;
 use PhpOffice\PhpSpreadsheet\Cell\DataType;
 use PhpOffice\PhpSpreadsheet\Cell\RowRange;
 use PhpOffice\PhpSpreadsheet\Exception;
@@ -102,7 +103,7 @@ class SpreadsheetHelper
     return $sheet;
   }
 
-  public function setCellBooleanValue(Worksheet &$sheet, int $column, int $row, bool $value, bool $bold = false): void
+  public function setCellBooleanValue(Worksheet $sheet, int $column, int $row, bool $value, bool $bold = false): void
   {
     $this->setCellTranslatedValue($sheet, $column, $row, $value ? 'excel.boolean.yes' : 'excel.boolean.no', $bold, 'drenso_shared');
   }
@@ -120,25 +121,25 @@ class SpreadsheetHelper
 
   public function setCellValue(Worksheet $sheet, int $column, int $row, mixed $value, bool $bold = false): void
   {
-    $sheet->setCellValueByColumnAndRow($column, $row, $value);
+    $coordinate = CellAddress::fromColumnAndRow($column, $row);
+    $sheet->setCellValue($coordinate, $value);
 
     if ($bold) {
-      $sheet->getStyleByColumnAndRow($column, $row)->getFont()->setBold(true);
+      $sheet->getStyle($coordinate)->getFont()->setBold(true);
     }
   }
 
   public function setCellMultilineValue(Worksheet $sheet, int $column, int $row, array $lines, bool $bold = false): void
   {
     $this->setCellValue($sheet, $column, $row, implode("\n", $lines), $bold);
-    $sheet->getStyleByColumnAndRow($column, $row)->getAlignment()->setWrapText(true);
+    $sheet->getStyle(CellAddress::fromColumnAndRow($column, $row))->getAlignment()->setWrapText(true);
     $sheet->getStyle(new RowRange($row))->getAlignment()->setVertical(Alignment::VERTICAL_TOP);
   }
 
   /** @throws Exception */
   public function setCellExplicitString(Worksheet $sheet, int $column, int $row, string $value): void
   {
-    $cell = $sheet->getCellByColumnAndRow($column, $row);
-    $cell->setValueExplicit($value, DataType::TYPE_STRING);
+    $sheet->getCell(CellAddress::fromColumnAndRow($column, $row))->setValueExplicit($value, DataType::TYPE_STRING);
   }
 
   public function setCellDateTime(
@@ -152,10 +153,12 @@ class SpreadsheetHelper
     if ($dateTime !== null) {
       $this->setCellValue($sheet, $column, $row, Date::PHPToExcel($dateTime), $bold);
     }
-    $sheet->getStyleByColumnAndRow($column, $row)->getNumberFormat()->setFormatCode('dd/mm/yyyy hh:mm');
+
+    $coordinate = CellAddress::fromColumnAndRow($column, $row);
+    $sheet->getStyle($coordinate)->getNumberFormat()->setFormatCode('dd/mm/yyyy hh:mm');
 
     if ($leftAligned) {
-      $sheet->getStyleByColumnAndRow($column, $row)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+      $sheet->getStyle($coordinate)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
     }
   }
 
@@ -170,17 +173,18 @@ class SpreadsheetHelper
     if ($dateTime !== null) {
       $this->setCellValue($sheet, $column, $row, Date::PHPToExcel($dateTime), $bold);
     }
-    $sheet->getStyleByColumnAndRow($column, $row)->getNumberFormat()->setFormatCode('dd/mm/yyyy');
+    $coordinate = CellAddress::fromColumnAndRow($column, $row);
+    $sheet->getStyle($coordinate)->getNumberFormat()->setFormatCode('dd/mm/yyyy');
 
     if ($leftAligned) {
-      $sheet->getStyleByColumnAndRow($column, $row)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+      $sheet->getStyle($coordinate)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
     }
   }
 
   public function setCellCurrency(Worksheet $sheet, int $column, int $row, $value, bool $bold = false): void
   {
     $this->setCellValue($sheet, $column, $row, $value, $bold);
-    $sheet->getStyleByColumnAndRow($column, $row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_ACCOUNTING_EUR);
+    $sheet->getStyle(CellAddress::fromColumnAndRow($column, $row))->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_ACCOUNTING_EUR);
   }
 
   /** Create a correct content disposition. */
