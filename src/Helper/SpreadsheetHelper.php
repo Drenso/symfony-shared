@@ -97,7 +97,7 @@ class SpreadsheetHelper
    */
   public function createSheet(Spreadsheet $spreadsheet, string $name): Worksheet
   {
-    $sheet = new Worksheet($spreadsheet, $this->translator?->trans($name) ?? $name);
+    $sheet = new Worksheet($spreadsheet, self::sanitizeSheetName($this->translator?->trans($name) ?? $name));
     $spreadsheet->addSheet($sheet);
 
     return $sheet;
@@ -201,6 +201,11 @@ class SpreadsheetHelper
         ResponseHeaderBag::DISPOSITION_ATTACHMENT,
         self::sanitizeFilename($filename)
     ));
+  }
+
+  public static function sanitizeSheetName(string $sheetName): string
+  {
+    return str_replace(Worksheet::getInvalidCharacters(), '_', iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $sheetName));
   }
 
   /** @return false|string|string[]|null */
