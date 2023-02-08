@@ -208,8 +208,7 @@ class SpreadsheetHelper
     return str_replace(Worksheet::getInvalidCharacters(), '_', iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $sheetName));
   }
 
-  /** @return false|string|string[]|null */
-  private static function sanitizeFilename(string $filename): string|array|false|null
+  private static function sanitizeFilename(string $filename): string
   {
     return mb_strtolower(preg_replace('/[^A-Z\d.]/ui', '_', iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $filename)));
   }
