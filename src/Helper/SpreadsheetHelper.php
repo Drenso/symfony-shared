@@ -137,9 +137,14 @@ class SpreadsheetHelper
   }
 
   /** @throws Exception */
-  public function setCellExplicitString(Worksheet $sheet, int $column, int $row, string $value): void
+  public function setCellExplicitString(Worksheet $sheet, int $column, int $row, string $value, bool $bold = false): void
   {
-    $sheet->getCell(CellAddress::fromColumnAndRow($column, $row))->setValueExplicit($value, DataType::TYPE_STRING);
+    $coordinate = CellAddress::fromColumnAndRow($column, $row);
+    $sheet->getCell($coordinate)->setValueExplicit($value, DataType::TYPE_STRING);
+
+    if ($bold) {
+      $sheet->getStyle($coordinate)->getFont()->setBold(true);
+    }
   }
 
   public function setCellDateTime(
