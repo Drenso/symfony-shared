@@ -12,7 +12,7 @@ class DecimalComparator extends Comparator
   /**
    * @inheritDoc
    */
-  public function accepts($expected, $actual)
+  public function accepts(mixed $expected, mixed $actual): bool
   {
     return $expected instanceof Decimal && $actual instanceof Decimal;
   }
@@ -20,7 +20,7 @@ class DecimalComparator extends Comparator
   /**
    * @inheritDoc
    */
-  public function assertEquals($expected, $actual, $delta = 0.0, $canonicalize = false, $ignoreCase = false)
+  public function assertEquals(mixed $expected, mixed $actual, float $delta = 0.0, bool $canonicalize = false, bool $ignoreCase = false): void
   {
     if (!$expected->equals($actual)) {
       throw new ComparisonFailure(
