@@ -6,13 +6,19 @@ use JsonException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class SentryTunnelController extends AbstractController
 {
   public function __construct(
       private readonly HttpClientInterface $httpClient,
-      private readonly array $allowedDsn)
+      private readonly array $allowedDsn,
+      private readonly int $connectTimeout,
+      private readonly int $maxDuration)
   {
   }
 
@@ -48,17 +54,26 @@ class SentryTunnelController extends AbstractController
       return new Response(status: Response::HTTP_NOT_FOUND);
     }
 
-    $request = $this->httpClient->request(
-        Request::METHOD_POST,
-        sprintf('https://%s/api/%d/envelope/', $parsedDsn['host'] ?? null, intval(trim(($parsedDsn['path'] ?? ''), '/'))),
-        [
-            'body'    => $content,
-            'headers' => [
-                'Content-Type' => 'application/x-sentry-envelope',
-            ],
-        ]
-    );
+    try {
+      $request = $this->httpClient->request(
+          Request::METHOD_POST,
+          sprintf('https://%s/api/%d/envelope/', $parsedDsn['host'] ?? null, intval(trim(($parsedDsn['path'] ?? ''), '/'))),
+          [
+              'body'    => $content,
+              'headers' => [
+                  'Content-Type' => 'application/x-sentry-envelope',
+              ],
+              'timeout'       => $this->connectTimeout,
+              'max_duration'  => $this->maxDuration,
+              'max_redirects' => 0, // Do not follow redirects
+          ]
+      );
 
-    return new Response($request->getContent());
+      return new Response($request->getContent());
+    } catch (TransportExceptionInterface|RedirectionExceptionInterface) {
+      return new Response(status: Response::HTTP_SERVICE_UNAVAILABLE);
+    } catch (ClientExceptionInterface|ServerExceptionInterface) {
+      return new Response(status: $request->getStatusCode());
+    }
   }
 }

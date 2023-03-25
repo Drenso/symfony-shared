@@ -229,7 +229,9 @@ class DrensoSharedExtension extends ConfigurableExtension
           ->addMethodCall('setContainer', [new Reference('service_container')])
           ->addTag('controller.service_arguments')
           ->setArgument('$httpClient', new Reference(HttpClientInterface::class))
-          ->setArgument('$allowedDsn', $sentryTunnel['allowed_dsn']);
+          ->setArgument('$allowedDsn', $sentryTunnel['allowed_dsn'])
+          ->setArgument('$connectTimeout', $sentryTunnel['connect_timeout'])
+          ->setArgument('$maxDuration', $sentryTunnel['max_duration']);
     }
   }
 

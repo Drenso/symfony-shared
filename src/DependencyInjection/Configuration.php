@@ -219,8 +219,18 @@ class Configuration implements ConfigurationInterface
               ->arrayNode('allowed_dsn')
                 ->isRequired()
                 ->cannotBeEmpty()
-                ->scalarPrototype()
+                ->scalarPrototype()->end()
               ->end() // allowed_dsn
+              ->integerNode('connect_timeout')
+                ->defaultValue(2)
+                ->min(1)
+                ->max(30)
+              ->end() // connect_timeout
+              ->integerNode('max_duration')
+                ->defaultValue(4)
+                ->min(1)
+                ->max(30)
+              ->end() // max_duration
             ->end() // sentry_tunnel children
           ->end() // sentry_tunnel
         ->end();
