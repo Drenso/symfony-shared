@@ -46,6 +46,7 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mailer\Transport\TransportInterface;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -229,6 +230,7 @@ class DrensoSharedExtension extends ConfigurableExtension
           ->addMethodCall('setContainer', [new Reference('service_container')])
           ->addTag('controller.service_arguments')
           ->setArgument('$httpClient', new Reference(HttpClientInterface::class))
+          ->setArgument('$appCache', new Reference(CacheInterface::class, ContainerInterface::NULL_ON_INVALID_REFERENCE))
           ->setArgument('$allowedDsn', $sentryTunnel['allowed_dsn'])
           ->setArgument('$connectTimeout', $sentryTunnel['connect_timeout'])
           ->setArgument('$maxDuration', $sentryTunnel['max_duration']);

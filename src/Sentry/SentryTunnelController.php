@@ -2,10 +2,13 @@
 
 namespace Drenso\Shared\Sentry;
 
+use DateInterval;
 use JsonException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Cache\CacheInterface;
+use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
@@ -14,8 +17,11 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class SentryTunnelController extends AbstractController
 {
+  private const CACHE_KEY = 'drenso.sentry_tunnel.available';
+
   public function __construct(
       private readonly HttpClientInterface $httpClient,
+      private readonly ?CacheInterface $appCache,
       private readonly array $allowedDsn,
       private readonly int $connectTimeout,
       private readonly int $maxDuration)
@@ -24,6 +30,11 @@ class SentryTunnelController extends AbstractController
 
   public function tunnel(Request $request): Response
   {
+    if (!$this->isAvailable()) {
+      // Cache indicates service is not available
+      return new Response(status: Response::HTTP_SERVICE_UNAVAILABLE);
+    }
+
     $content = $request->getContent();
     $pieces  = explode("\n", (string)$content);
     if (empty($pieces)) {
@@ -71,9 +82,27 @@ class SentryTunnelController extends AbstractController
 
       return new Response($request->getContent());
     } catch (TransportExceptionInterface|RedirectionExceptionInterface) {
+      $this->markUnavailable();
+
       return new Response(status: Response::HTTP_SERVICE_UNAVAILABLE);
     } catch (ClientExceptionInterface|ServerExceptionInterface) {
       return new Response(status: $request->getStatusCode());
     }
+  }
+
+  private function isAvailable(): bool
+  {
+    // Fill with true if there is nothing in the cache
+    return $this->appCache?->get(self::CACHE_KEY, static fn () => true) ?? true;
+  }
+
+  private function markUnavailable(): void
+  {
+    $this->appCache?->delete(self::CACHE_KEY);
+    $this->appCache?->get(self::CACHE_KEY, static function (ItemInterface $item) {
+      $item->expiresAfter(new DateInterval('PT5M'));
+
+      return false;
+    });
   }
 }
