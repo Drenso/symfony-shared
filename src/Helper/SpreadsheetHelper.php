@@ -32,28 +32,62 @@ class SpreadsheetHelper
   /** Create an Excel response from a spreadsheet. */
   public function createExcelResponse(Spreadsheet $spreadsheet, string $filename): StreamedResponse
   {
-    // Create writer
-    $writer   = new Xlsx($spreadsheet);
-    $response = new StreamedResponse(fn () => $writer->save('php://output'));
+    $writer = $this->createXlsxWriter($spreadsheet);
 
+    $response = new StreamedResponse(fn () => $writer->save('php://output'));
     $response->headers->set('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=utf-8');
     self::contentDisposition($response, $filename . '.xlsx');
 
     return $response;
   }
 
-  /** Create a CSV response from a spreadsheet. */
-  public function createCsvResponse(Spreadsheet $spreadsheet, string $filename): StreamedResponse
+  /**
+   * Create a CSV response from a spreadsheet. If the Spreadsheet contains multiple worksheets, only the first sheet
+   * will be exported. When the `multipleWorksheetsAsZipArchive` is set to true, all available sheets will be converted
+   * into a dedicated CSV file and packed into a single ZIP archive.
+   */
+  public function createCsvResponse(
+      Spreadsheet $spreadsheet,
+      string $filename,
+      bool $multipleWorksheetsAsZipArchive = false): StreamedResponse
   {
-    $writer = (new Csv($spreadsheet))
-        ->setDelimiter(';')
-        ->setEnclosure('')
-        ->setUseBOM(true)
-        ->setSheetIndex(0);
+    if ($multipleWorksheetsAsZipArchive && $spreadsheet->getSheetCount() > 1) {
+      return $this->createZippedCsvResponse($spreadsheet, $filename);
+    }
+
+    $writer = $this->createCsvWriter($spreadsheet);
 
     $response = new StreamedResponse(fn () => $writer->save('php://output'));
     $response->headers->set('Content-Type', 'application/csv; charset=utf-8');
     self::contentDisposition($response, $filename . '.csv');
+
+    return $response;
+  }
+
+  /** Create a ZIP response containing a CSV file for each worksheet */
+  public function createZippedCsvResponse(Spreadsheet $spreadsheet, string $zipName): StreamedResponse
+  {
+    $response = new StreamedResponse(
+        function () use ($spreadsheet) {
+          // Create the archive
+          $zipOptions = new Archive();
+          $zipOptions->setSendHttpHeaders(true);
+          $zip = new ZipStream(null, $zipOptions);
+
+          // Loop the spreadsheet worksheets
+          for ($i = 0; $i < $spreadsheet->getSheetCount(); ++$i) {
+            $writer   = $this->createCsvWriter($spreadsheet, $i);
+            $tempFile = @tempnam(File::sysGetTempDir(), 'phpxltmp');
+            $writer->save($tempFile);
+            $zip->addFileFromPath(self::sanitizeFilename($spreadsheet->getSheet($i)->getTitle() . '.csv'), $tempFile);
+          }
+
+          // Finalize the zip file
+          $zip->finish();
+        });
+
+    $response->headers->set('Content-Type', 'application/octet-stream; charset=utf-8');
+    self::contentDisposition($response, $zipName . '.zip');
 
     return $response;
   }
@@ -74,7 +108,7 @@ class SpreadsheetHelper
 
           // Loop the supplied spreadsheets
           foreach ($spreadSheets as $spreadSheet) {
-            $writer   = new Xlsx($spreadSheet['sheet']);
+            $writer   = $this->createXlsxWriter($spreadSheet['sheet']);
             $tempFile = @tempnam(File::sysGetTempDir(), 'phpxltmp');
             $writer->save($tempFile);
             $zip->addFileFromPath(self::sanitizeFilename($spreadSheet['filename'] . '.xlsx'), $tempFile);
@@ -88,6 +122,22 @@ class SpreadsheetHelper
     self::contentDisposition($response, $zipName . '.zip');
 
     return $response;
+  }
+
+  /** Create a default CSV writer */
+  public function createCsvWriter(Spreadsheet $spreadsheet, int $sheetIndex = 0): Csv
+  {
+    return (new Csv($spreadsheet))
+        ->setDelimiter(';')
+        ->setEnclosure('')
+        ->setUseBOM(true)
+        ->setSheetIndex($sheetIndex);
+  }
+
+  /** Create a default Xlsx writer */
+  public function createXlsxWriter(Spreadsheet $spreadsheet): Xlsx
+  {
+    return new Xlsx($spreadsheet);
   }
 
   /**
