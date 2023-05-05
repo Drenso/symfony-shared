@@ -12,7 +12,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
  */
 class RequireFeatureListener implements EventSubscriberInterface
 {
-  public function __construct(private readonly FeatureFlags $featureFlags)
+  public function __construct(private readonly FeatureFlagsInterface $featureFlags)
   {
   }
 

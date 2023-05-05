@@ -294,13 +294,29 @@ class Configuration implements ConfigurationInterface
                 ->canBeEnabled()
                 ->children()
                   ->scalarNode('configuration_file')
-                    ->isRequired()
-                    ->cannotBeEmpty()
+                    ->defaultNull()
                   ->end() // configuration_file
                   ->scalarNode('configuration_local_file')
-                    ->cannotBeEmpty()
+                    ->defaultNull()
                   ->end() // configuration_local_file
+                  ->scalarNode('custom_handler')
+                    ->defaultNull()
+                  ->end() // custom_handler
                 ->end() // feature_flags children
+                ->validate()
+                  ->ifTrue(function ($value) {
+                    if (!$value['enabled']) {
+                      return false;
+                    }
+
+                    if ($value['custom_handler']) {
+                      return false;
+                    }
+
+                    return !($value['configuration_file'] && $value['configuration_local_file']);
+                  })
+                  ->thenInvalid('Either configuration_file and configuration_local_file must be set, or a custom_handler!')
+                ->end() // validate
               ->end() // feature_flags
               ->arrayNode('gravatar')
                 ->canBeEnabled()

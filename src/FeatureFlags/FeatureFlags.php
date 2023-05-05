@@ -4,7 +4,7 @@ namespace Drenso\Shared\FeatureFlags;
 
 use Symfony\Component\DependencyInjection\Exception\EnvNotFoundException;
 
-class FeatureFlags
+class FeatureFlags implements FeatureFlagsInterface
 {
   private ?array $resolvedConfiguration = null;
 

@@ -14,6 +14,7 @@ use Drenso\Shared\Email\EmailService;
 use Drenso\Shared\Env\Processor\PhpStormEnvVarProcessor;
 use Drenso\Shared\Exception\Handler\EntityValidationFailedExceptionHandler;
 use Drenso\Shared\FeatureFlags\FeatureFlags;
+use Drenso\Shared\FeatureFlags\FeatureFlagsInterface;
 use Drenso\Shared\FeatureFlags\RequireFeatureListener;
 use Drenso\Shared\Form\Extension\ButtonExtension;
 use Drenso\Shared\Form\Extension\FormExtension;
@@ -307,18 +308,30 @@ class DrensoSharedExtension extends ConfigurableExtension
     $services = $config['services'];
 
     if ($services['feature_flags']['enabled']) {
-      $featureFlags = $container
-          ->register(FeatureFlags::class)
-          ->setAutoconfigured(true)
-          ->setArgument('$configuration', $services['feature_flags']['configuration_file'])
-          ->setArgument('$configurationOverride', $services['feature_flags']['configuration_local_file'] ?? '')
-          ->setPublic($public);
+      if (!$services['feature_flags']['custom_handler']) {
+        $container
+            ->register(FeatureFlagsInterface::class, FeatureFlags::class)
+            ->setAutoconfigured(true)
+            ->setArgument('$configuration', $services['feature_flags']['configuration_file'])
+            ->setArgument('$configurationOverride', $services['feature_flags']['configuration_local_file'] ?? '')
+            ->setPublic($public);
+        // BC: Alias the old service id with the instance
+        $container
+            ->setAlias(FeatureFlags::class, FeatureFlagsInterface::class)
+            ->setDeprecated(
+                'drenso/symfony-shared',
+                '2.21.0',
+                'Direct usage of "%alias_id%" has been deprecated in favour of "' . FeatureFlagsInterface::class . '"'
+            );
+      } else {
+        $container->setAlias(FeatureFlagsInterface::class, $services['feature_flags']['custom_handler']);
+      }
 
       $container
           ->register(RequireFeatureListener::class)
           ->setAutoconfigured(true)
           ->setPublic($public)
-          ->setArgument('$featureFlags', $featureFlags);
+          ->setArgument('$featureFlags', new Reference(FeatureFlagsInterface::class));
     }
 
     if ($services['gravatar']['enabled']) {
