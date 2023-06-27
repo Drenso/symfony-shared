@@ -16,7 +16,12 @@ class EnumHandler
       array $type,
       SerializationContext $context)
   {
-    return $visitor->visitString($enum->value, $type);
+    $value = $enum->value;
+    if (is_int($value)) {
+      return $visitor->visitInteger($value, $type);
+    }
+
+    return $visitor->visitString($value, $type);
   }
 
   public function deserialize(
