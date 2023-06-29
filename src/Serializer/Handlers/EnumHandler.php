@@ -26,7 +26,7 @@ class EnumHandler
 
   public function deserialize(
       DeserializationVisitorInterface $visitor,
-      ?string $data,
+      string|int|null $data,
       array $type,
       DeserializationContext $context): ?BackedEnum
   {
