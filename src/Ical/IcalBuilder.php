@@ -95,15 +95,16 @@ class IcalBuilder
     }
 
     if ($alarmTrigger) {
+      // Parse the value and make sure to use an inverted duration to place the trigger before event start
+      $duration         = is_string($alarmTrigger) ? new DateInterval($alarmTrigger) : $alarmTrigger;
+      $duration->invert = 1;
+
       $event->addAlarm(new Alarm(
           new DisplayAction($description
               ? sprintf('%s - %s', $summary, $description)
               : $summary
           ),
-          new RelativeTrigger(is_string($alarmTrigger)
-              ? new DateInterval($alarmTrigger)
-              : $alarmTrigger
-          )
+          new RelativeTrigger($duration)
       ));
     }
 
