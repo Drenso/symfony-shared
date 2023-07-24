@@ -96,11 +96,15 @@ class SpreadsheetHelper
         function () use ($spreadSheets, $zipName) {
 
           // Create the archive
-          $zip = new ZipStream(
-              defaultCompressionMethod: CompressionMethod::STORE,
-              defaultEnableZeroHeader: false,
-              sendHttpHeaders: false,
-          );
+          if (PHP_VERSION_ID >= 81000) {
+            $zip = new ZipStream(
+                defaultCompressionMethod: CompressionMethod::STORE, // @phan-suppress-current-line PhanCompatibleNamedArgument
+                defaultEnableZeroHeader: false, // @phan-suppress-current-line PhanCompatibleNamedArgument
+                sendHttpHeaders: false, // @phan-suppress-current-line PhanCompatibleNamedArgument
+            );
+          } else {
+            throw new \Exception('PHP 8.1 required for this function');
+          }
 
           // Loop the supplied spreadsheets
           foreach ($spreadSheets as $spreadSheet) {
