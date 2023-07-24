@@ -54,13 +54,15 @@
     "symfony/validator": "~3.4 || ~4.0 || ~5.0"
   },
   "conflict": {
-    "kigkonsult/icalcreator": "<2.39"
+    "kigkonsult/icalcreator": "<2.39",
+    "maennchen/zipstream-php": "<3"
   },
   "suggest": {
     "bomo/ical-bundle": "Needed for the IcalProvider",
     "doctrine/orm": "Needed to use the Database traits",
     "eluceo/ical": "Needed for the IcalBuilder",
     "jms/serializer-bundle": "Needed to use the Database traits and the Decimal serialization handler",
+    "maennchen/zipstream-php": "Needed to use the zipped spreadsheet responses",
     "php-decimal/php-decimal": "Needed to use the Decimal serialization handler and the form transformer",
     "phpoffice/phpspreadsheet": "Needed to use the SpreadsheetHelper",
     "stof/doctrine-extensions-bundle": "Needed to use the Blameable trait",

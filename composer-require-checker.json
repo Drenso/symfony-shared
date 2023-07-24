@@ -96,7 +96,7 @@
     "Symfony\\Component\\Security\\Core\\Authentication\\Token\\Storage\\TokenStorageInterface",
     "Symfony\\Component\\Validator\\ConstraintViolationInterface",
     "Symfony\\Contracts\\Translation\\TranslatorInterface",
-    "ZipStream\\Option\\Archive",
+    "ZipStream\\CompressionMethod",
     "ZipStream\\ZipStream"
   ],
   "php-core-extensions" : [
