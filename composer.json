@@ -24,6 +24,7 @@
     "ext-iconv": "*",
     "ext-json": "*",
     "ext-mbstring": "*",
+    "ext-random": "*",
     "symfony/config": "~3.4 || ~4.0 || ~5.0",
     "symfony/dependency-injection": "~3.4 || ~4.0 || ~5.0",
     "symfony/form": "~3.4 || ~4.0 || ~5.0",
