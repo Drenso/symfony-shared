@@ -107,7 +107,8 @@
     "Reflection",
     "SPL",
     "standard",
-    "decimal"
+    "decimal",
+    "random"
   ],
   "scan-files" : []
 }
