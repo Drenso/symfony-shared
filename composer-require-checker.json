@@ -113,7 +113,7 @@
     "Symfony\\Contracts\\HttpClient\\Exception\\TransportExceptionInterface",
     "Symfony\\Contracts\\HttpClient\\HttpClientInterface",
     "Symfony\\Contracts\\Translation\\TranslatorInterface",
-    "ZipStream\\Option\\Archive",
+    "ZipStream\\CompressionMethod",
     "ZipStream\\ZipStream"
   ],
   "php-core-extensions" : [

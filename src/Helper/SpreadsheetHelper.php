@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use ZipStream\Option\Archive;
+use ZipStream\CompressionMethod;
 use ZipStream\ZipStream;
 
 class SpreadsheetHelper
@@ -70,9 +70,11 @@ class SpreadsheetHelper
     $response = new StreamedResponse(
         function () use ($spreadsheet) {
           // Create the archive
-          $zipOptions = new Archive();
-          $zipOptions->setSendHttpHeaders(true);
-          $zip = new ZipStream(null, $zipOptions);
+          $zip = new ZipStream(
+              defaultCompressionMethod: CompressionMethod::STORE,
+              defaultEnableZeroHeader: false,
+              sendHttpHeaders: false
+          );
 
           // Loop the spreadsheet worksheets
           for ($i = 0; $i < $spreadsheet->getSheetCount(); ++$i) {
@@ -102,9 +104,11 @@ class SpreadsheetHelper
     $response = new StreamedResponse(
         function () use ($spreadSheets) {
           // Create the archive
-          $zipOptions = new Archive();
-          $zipOptions->setSendHttpHeaders(true);
-          $zip = new ZipStream(null, $zipOptions);
+          $zip = new ZipStream(
+              defaultCompressionMethod: CompressionMethod::STORE,
+              defaultEnableZeroHeader: false,
+              sendHttpHeaders: false,
+          );
 
           // Loop the supplied spreadsheets
           foreach ($spreadSheets as $spreadSheet) {
