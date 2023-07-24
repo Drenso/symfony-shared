@@ -96,7 +96,7 @@ class SpreadsheetHelper
         function () use ($spreadSheets, $zipName) {
 
           // Create the archive
-          if (PHP_VERSION_ID >= 81000) {
+          if (PHP_VERSION_ID >= 80100) {
             $zip = new ZipStream(
                 defaultCompressionMethod: CompressionMethod::STORE, // @phan-suppress-current-line PhanCompatibleNamedArgument
                 defaultEnableZeroHeader: false, // @phan-suppress-current-line PhanCompatibleNamedArgument
