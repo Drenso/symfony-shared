@@ -4,6 +4,10 @@ stages:
   - lint
   - deploy
 
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE != "merge_request_event"
+
 variables:
   COMPOSER_MEMORY_LIMIT: -1
   YAMLLINT_DIRECTORIES: config/packages
