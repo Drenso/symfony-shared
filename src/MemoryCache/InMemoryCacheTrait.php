@@ -19,4 +19,9 @@ trait InMemoryCacheTrait
   {
     return $this->_memCache[$key] ??= $builder();
   }
+
+  protected function memCachedClear(): void
+  {
+    $this->_memCache = [];
+  }
 }
