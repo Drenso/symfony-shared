@@ -132,6 +132,18 @@ class ArrayHelper
    */
   public static function filterNullValuesFromArray(array $data): array
   {
-    return array_values(array_filter($data, fn ($item) => $item !== null));
+    return array_values(array_filter($data, fn (mixed $item): bool => $item !== null));
+  }
+
+  /**
+   * Filter empty values from string array.
+   *
+   * @param string[] $data
+   *
+   * @return string[]
+   */
+  public static function filterEmptyValuesFromStringArray(array $data): array
+  {
+    return array_values(array_filter($data, fn (string $item): bool => trim($item) !== ''));
   }
 }
