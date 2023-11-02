@@ -39,7 +39,7 @@ class EnumParamConverter implements ParamConverterInterface
     }
 
     $enumClass = $configuration->getClass();
-    if (!$value = call_user_func($enumClass . '::tryFrom', $requestValue)) {
+    if ($requestValue === null || !$value = call_user_func($enumClass . '::tryFrom', $requestValue)) {
       throw new NotFoundHttpException(
           sprintf('Value given for parameter "%s" cannot be converted to Enum "%s".', $name, $enumClass)
       );
