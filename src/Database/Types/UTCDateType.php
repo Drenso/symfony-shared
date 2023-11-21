@@ -7,7 +7,7 @@ use DateTimeImmutable;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\DateType;
-use Drenso\Shared\Helper\UtcHelper;
+use Drenso\Shared\Helper\DateTimeHelper;
 use Exception;
 
 class UTCDateType extends DateType
@@ -19,8 +19,8 @@ class UTCDateType extends DateType
    */
   public function convertToDatabaseValue($value, AbstractPlatform $platform)
   {
-    if ($value instanceof DateTime && $value->getTimezone() !== UtcHelper::getUtc()) {
-      $value = new DateTime($value->format('Y-m-d'), UtcHelper::getUtc());
+    if ($value instanceof DateTime && $value->getTimezone() !== DateTimeHelper::getUtcTimeZone()) {
+      $value = new DateTime($value->format('Y-m-d'), DateTimeHelper::getUtcTimeZone());
     }
 
     return parent::convertToDatabaseValue($value, $platform);
@@ -52,7 +52,7 @@ class UTCDateType extends DateType
     $converted = DateTime::createFromFormat(
       '!' . $platform->getDateFormatString(),
       $value,
-      UtcHelper::getUtc()
+      DateTimeHelper::getUtcTimeZone()
     );
 
     if (!$converted) {

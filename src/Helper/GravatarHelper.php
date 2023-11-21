@@ -3,9 +3,7 @@
 namespace Drenso\Shared\Helper;
 
 /**
- * Class GravatarHelper.
- *
- * This helper generates a gravatar url for any email address
+ * This helper generates a gravatar url for any email address.
  */
 class GravatarHelper
 {

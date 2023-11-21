@@ -5,9 +5,6 @@ namespace Drenso\Shared\Helper;
 use DateTime;
 use DateTimeImmutable;
 
-/**
- * Class DateTimeProvider.
- */
 class DateTimeProvider
 {
   public function __construct(private readonly string $now = 'now')
@@ -44,7 +41,7 @@ class DateTimeProvider
    */
   public function utcNow(): DateTimeImmutable
   {
-    return new DateTimeImmutable($this->now, UtcHelper::getUtc());
+    return new DateTimeImmutable($this->now, DateTimeHelper::getUtcTimeZone());
   }
 
   /**
@@ -55,6 +52,6 @@ class DateTimeProvider
    */
   public function utcNowMutable(): DateTime
   {
-    return new DateTime($this->now, UtcHelper::getUtc());
+    return new DateTime($this->now, DateTimeHelper::getUtcTimeZone());
   }
 }

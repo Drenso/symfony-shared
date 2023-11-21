@@ -7,7 +7,7 @@ use DateTimeImmutable;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\DateTimeImmutableType;
-use Drenso\Shared\Helper\UtcHelper;
+use Drenso\Shared\Helper\DateTimeHelper;
 
 /**
  * Store all datetime immutable types as UTC in the database
@@ -27,7 +27,7 @@ class UTCDateTimeImmutableType extends DateTimeImmutableType
     }
 
     if ($value instanceof DateTimeImmutable) {
-      $value = $value->setTimezone(UtcHelper::getUtc());
+      $value = $value->setTimezone(DateTimeHelper::getUtcTimeZone());
     }
 
     return parent::convertToDatabaseValue($value, $platform);
@@ -68,7 +68,7 @@ class UTCDateTimeImmutableType extends DateTimeImmutableType
     $converted = DateTimeImmutable::createFromFormat(
       $platform->getDateTimeFormatString(),
       $value,
-      UtcHelper::getUtc()
+      DateTimeHelper::getUtcTimeZone()
     );
 
     if (!$converted) {

@@ -2,21 +2,19 @@
 
 namespace Drenso\Shared\FeatureFlags;
 
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ControllerArgumentsEvent;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\HttpKernel\KernelEvents;
 
 /**
  * Handles the RequireFeature attribute on controllers.
  */
-class RequireFeatureListener implements EventSubscriberInterface
+class RequireFeatureListener
 {
   public function __construct(private readonly FeatureFlagsInterface $featureFlags)
   {
   }
 
-  public function onKernelControllerArguments(ControllerArgumentsEvent $event): void
+  public function __invoke(ControllerArgumentsEvent $event): void
   {
     $request = $event->getRequest();
 
@@ -30,10 +28,5 @@ class RequireFeatureListener implements EventSubscriberInterface
         throw new NotFoundHttpException(sprintf('Feature disabled (%s)', $attribute->flag));
       }
     }
-  }
-
-  public static function getSubscribedEvents(): array
-  {
-    return [KernelEvents::CONTROLLER_ARGUMENTS => 'onKernelControllerArguments'];
   }
 }

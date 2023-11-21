@@ -2,12 +2,11 @@
 
 namespace Drenso\Shared\DependencyInjection;
 
-use BOMO\IcalBundle\Provider\IcsProvider;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Drenso\Shared\Command\CheckActionSecurityCommand;
 use Drenso\Shared\Database\SoftDeletableFilterController;
-use Drenso\Shared\Database\SoftDeletableSubscriber;
+use Drenso\Shared\Database\SoftDeletableListener;
 use Drenso\Shared\Database\SoftDeletableSymfonyCacheWarmer;
 use Drenso\Shared\Database\SoftDeletableSymfonySubscriber;
 use Drenso\Shared\Email\EmailService;
@@ -23,8 +22,6 @@ use Drenso\Shared\Form\Type\Select2EntitySearchType;
 use Drenso\Shared\Helper\DateTimeProvider;
 use Drenso\Shared\Helper\GravatarHelper;
 use Drenso\Shared\Helper\SpreadsheetHelper;
-use Drenso\Shared\Ical\IcalBuilder;
-use Drenso\Shared\Ical\IcalProvider;
 use Drenso\Shared\Request\ParamConverter\EnumParamConverter;
 use Drenso\Shared\Sentry\SentryTunnelController;
 use Drenso\Shared\Serializer\Handlers\DecimalHandler;
@@ -78,7 +75,7 @@ class DrensoSharedExtension extends ConfigurableExtension
     if ($convertConfig['enabled']) {
       $container
         ->register(EntityValidationFailedExceptionHandler::class)
-        ->setAutoconfigured(true)
+        ->addTag('kernel.event_listener', ['priority' => 1024])
         ->setPublic($public)
         ->setArgument('$serializer', new Reference(SerializerInterface::class))
         ->setArgument('$controllerPrefixes', $convertConfig['controller_prefix'])
@@ -109,7 +106,7 @@ class DrensoSharedExtension extends ConfigurableExtension
       }
 
       $container
-        ->register(SoftDeletableSubscriber::class)
+        ->register(SoftDeletableListener::class)
         ->setArgument('$tokenStorage', new Reference(TokenStorageInterface::class))
         ->setPublic($public)
         ->addTag('doctrine.event_listener', [
@@ -128,7 +125,7 @@ class DrensoSharedExtension extends ConfigurableExtension
 
         $container
           ->register(SoftDeletableSymfonySubscriber::class)
-          ->setAutoconfigured(true)
+          ->addTag('kernel.event_subscriber')
           ->setPublic($public)
           ->setArgument('$useUtc', $useUtc);
         $container
@@ -175,7 +172,7 @@ class DrensoSharedExtension extends ConfigurableExtension
     $processors = $config['env']['processors'];
 
     if ($processors['phpstorm']['enabled']) {
-      $definition = $container
+      $container
         ->register(PhpStormEnvVarProcessor::class)
         ->addTag('container.env_var_processor');
     }
@@ -187,22 +184,22 @@ class DrensoSharedExtension extends ConfigurableExtension
     if ($form['generic']['enabled']) {
       $container
         ->register(FormExtension::class)
-        ->setAutoconfigured(true);
+        ->addTag('form.type_extension');
     }
     if ($form['button']['enabled']) {
       $container
         ->register(ButtonExtension::class)
-        ->setAutoconfigured(true);
+        ->addTag('form.type_extension');
     }
     if ($form['select2']['enabled']) {
       $container
         ->register(Select2Extension::class)
-        ->setAutoconfigured(true)
+        ->addTag('form.type_extension')
         ->setArgument('$translator', new Reference(TranslatorInterface::class, ContainerInterface::NULL_ON_INVALID_REFERENCE));
 
       $container
         ->register(Select2EntitySearchType::class)
-        ->setAutoconfigured(true)
+        ->addTag('form.type')
         ->setArgument('$registry', new Reference(ManagerRegistry::class))
         ->setArgument('$propertyAccessor', new Reference(PropertyAccessorInterface::class));
     }
@@ -214,7 +211,7 @@ class DrensoSharedExtension extends ConfigurableExtension
     if ($request['param_converter']['enabled']) {
       $container
         ->register(EnumParamConverter::class)
-        ->setAutoConfigured(true)
+        ->addTag('request.param_converter')
         ->setPublic($public)
         ->setArgument('$supportedEnums', $request['param_converter']['supported_enums']);
     }
@@ -227,7 +224,6 @@ class DrensoSharedExtension extends ConfigurableExtension
     if ($sentryTunnel['enabled']) {
       $container
         ->register(SentryTunnelController::class)
-        ->setAutoconfigured(true)
         ->addMethodCall('setContainer', [new Reference('service_container')])
         ->addTag('controller.service_arguments')
         ->setArgument('$httpClient', new Reference(HttpClientInterface::class))
@@ -247,7 +243,7 @@ class DrensoSharedExtension extends ConfigurableExtension
     if ($handlers['decimal']['enabled']) {
       $container
         ->register(DecimalHandler::class)
-        ->setAutoconfigured(true)
+        ->addTag('jms_serializer.subscribing_handler')
         ->setPublic($public);
     }
 
@@ -273,14 +269,14 @@ class DrensoSharedExtension extends ConfigurableExtension
     if ($handlers['id_map']['enabled']) {
       $container
         ->register(IdMapHandler::class)
-        ->setAutoconfigured(true)
+        ->addTag('jms_serializer.subscribing_handler')
         ->setPublic($public);
     }
 
     if ($serializer['static_serializer']['enabled']) {
       $container
         ->register(StaticSerializer::class)
-        ->setAutoconfigured(true)
+        ->addTag('kernel.event_subscriber')
         ->setPublic($public)
         ->setArgument('$serializer', new Reference(SerializerInterface::class))
         ->setArgument('$contextFactory', new Reference(SerializationContextFactoryInterface::class));
@@ -289,7 +285,7 @@ class DrensoSharedExtension extends ConfigurableExtension
     if ($serializer['twig_integration']['enabled']) {
       $container
         ->register(JmsSerializerExtension::class)
-        ->setAutoconfigured(true)
+        ->addTag('twig.extension')
         ->setPublic($public)
         ->setArgument('$serializer', new Reference(SerializerInterface::class))
         ->setArgument('$contextFactory', new Reference(SerializationContextFactoryInterface::class));
@@ -311,7 +307,6 @@ class DrensoSharedExtension extends ConfigurableExtension
       if (!$services['feature_flags']['custom_handler']) {
         $container
           ->register(FeatureFlagsInterface::class, FeatureFlags::class)
-          ->setAutoconfigured(true)
           ->setArgument('$configuration', $services['feature_flags']['configuration_file'])
           ->setArgument('$configurationOverride', $services['feature_flags']['configuration_local_file'] ?? '')
           ->setPublic($public);
@@ -329,7 +324,7 @@ class DrensoSharedExtension extends ConfigurableExtension
 
       $container
         ->register(RequireFeatureListener::class)
-        ->setAutoconfigured(true)
+        ->addTag('kernel.event_listener')
         ->setPublic($public)
         ->setArgument('$featureFlags', new Reference(FeatureFlagsInterface::class));
     }
@@ -337,30 +332,16 @@ class DrensoSharedExtension extends ConfigurableExtension
     if ($services['gravatar']['enabled']) {
       $gravatarHelper = $container
         ->register(GravatarHelper::class)
-        ->setAutoconfigured(true)
         ->setPublic($public)
         ->setArgument('$fallbackStyle', $services['gravatar']['fallback_style']);
 
       if ($services['gravatar']['twig_integration']) {
         $container
           ->register(GravatarExtension::class)
-          ->setAutoconfigured(true)
+          ->addTag('twig.extension')
           ->setPublic($public)
           ->setArgument('$gravatarHelper', $gravatarHelper);
       }
-    }
-
-    if ($services['ical_provider']['enabled']) {
-      trigger_deprecation('drenso/symfony-shared', '2.14', 'The "%s" has been deprecated in favour of "%s"', IcalProvider::class, IcalBuilder::class);
-
-      if (!class_exists(IcsProvider::class)) {
-        throw new InvalidConfigurationException('In order to use the IcalProvider, the iCal bundle needs to be installed. Try running `composer req bomo/ical-bundle`.');
-      }
-
-      $container
-        ->register(IcalProvider::class)
-        ->setPublic($public)
-        ->setArgument('$provider', new Reference('bomo_ical.ics_provider'));
     }
 
     if ($services['spreadsheethelper']['enabled']) {

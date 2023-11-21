@@ -4,14 +4,12 @@ namespace Drenso\Shared\Exception\Handler;
 
 use Drenso\Shared\Exception\EntityValidationFailedException;
 use JMS\Serializer\SerializerInterface;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\HttpKernel\KernelEvents;
 
-class EntityValidationFailedExceptionHandler implements EventSubscriberInterface
+class EntityValidationFailedExceptionHandler
 {
   /** @param string[] $controllerPrefixes */
   public function __construct(
@@ -21,16 +19,7 @@ class EntityValidationFailedExceptionHandler implements EventSubscriberInterface
   {
   }
 
-  public static function getSubscribedEvents(): array
-  {
-    return [
-      KernelEvents::EXCEPTION => [
-        ['handleException', 1024],
-      ],
-    ];
-  }
-
-  public function handleException(ExceptionEvent $event): void
+  public function __invoke(ExceptionEvent $event): void
   {
     $exception = $event->getThrowable();
 

@@ -6,7 +6,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
-class SoftDeletableSubscriber
+class SoftDeletableListener
 {
   /** Field name for deleted by. */
   final public const FIELD_NAME = 'deletedBy';

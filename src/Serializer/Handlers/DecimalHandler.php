@@ -10,9 +10,7 @@ use JMS\Serializer\Visitor\DeserializationVisitorInterface;
 use JMS\Serializer\Visitor\SerializationVisitorInterface;
 
 /**
- * Class DecimalSerializer.
- *
- * Custom serializer for the decimal type
+ * Custom serializer for the decimal type.
  */
 class DecimalHandler implements SubscribingHandlerInterface
 {
