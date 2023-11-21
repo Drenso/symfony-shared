@@ -59,7 +59,7 @@ class DrensoSharedExtension extends ConfigurableExtension
 
     // Configure the services with retrieved configuration values
     $this->configureApiServices($container, $mergedConfig, $publicServices);
-    $this->configureCommands($container, $mergedConfig, $publicServices);
+    $this->configureCommands($container, $mergedConfig);
     $this->configureDatabase($container, $mergedConfig, $publicServices);
     $this->configureEmailService($container, $mergedConfig, $publicServices);
     $this->configureEnv($container, $mergedConfig);
@@ -86,15 +86,14 @@ class DrensoSharedExtension extends ConfigurableExtension
     }
   }
 
-  private function configureCommands(ContainerBuilder $container, array $config, bool $public): void
+  private function configureCommands(ContainerBuilder $container, array $config): void
   {
     $config = $config['commands'];
 
     if ($config['check_action_security']['enabled']) {
       $container
         ->register(CheckActionSecurityCommand::class)
-        ->setAutoconfigured(true)
-        ->setPublic($public)
+        ->addTag('console.command')
         ->setArgument('$container', new Reference('service_container'))
         ->setArgument('$router', new Reference('router'))
         ->setArgument('$excludedControllers', $config['check_action_security']['excluded_controllers']);
