@@ -17,13 +17,12 @@ class ObjectConstructor implements ObjectConstructorInterface
   {
   }
 
-  /** {@inheritdoc} */
   public function construct(
-      DeserializationVisitorInterface $visitor,
-      ClassMetadata $metadata,
-      $data,
-      array $type,
-      DeserializationContext $context): ?object
+    DeserializationVisitorInterface $visitor,
+    ClassMetadata $metadata,
+    $data,
+    array $type,
+    DeserializationContext $context): ?object
   {
     try {
       $clazz = $metadata->name;

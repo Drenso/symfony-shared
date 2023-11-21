@@ -19,7 +19,7 @@ class EnumParamConverter implements ParamConverterInterface
       }
 
       throw new LogicException(sprintf(
-          'Only BackedEnum can be configured for this converter, %s fails this requirement!', $supportedEnum
+        'Only BackedEnum can be configured for this converter, %s fails this requirement!', $supportedEnum
       ));
     }
   }
@@ -41,7 +41,7 @@ class EnumParamConverter implements ParamConverterInterface
     $enumClass = $configuration->getClass();
     if ($requestValue === null || !$value = call_user_func($enumClass . '::tryFrom', $requestValue)) {
       throw new NotFoundHttpException(
-          sprintf('Value given for parameter "%s" cannot be converted to Enum "%s".', $name, $enumClass)
+        sprintf('Value given for parameter "%s" cannot be converted to Enum "%s".', $name, $enumClass)
       );
     }
 

@@ -8,6 +8,7 @@ use ReflectionException;
 use ReflectionMethod;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -18,35 +19,22 @@ use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\RouterInterface;
 
+#[AsCommand(name: 'drenso:check:action-security', description: 'Check if all actions in the app namespace either have a Security or an IsGranted attribute.')]
 class CheckActionSecurityCommand extends Command
 {
-  /**
-   * Makes the command lazy loaded.
-   *
-   * @var string
-   */
-  protected static $defaultName = 'drenso:check:action-security';
-
-  /**
-   * CheckActionSecurityCommand constructor.
-   *
-   * @param string[] $excludedControllers
-   */
+  /** @param string[] $excludedControllers */
   public function __construct(
-      private readonly ContainerInterface $container,
-      private readonly RouterInterface $router,
-      private readonly array $excludedControllers)
+    private readonly ContainerInterface $container,
+    private readonly RouterInterface $router,
+    private readonly array $excludedControllers)
   {
     parent::__construct();
   }
 
-  protected function configure()
+  protected function configure(): void
   {
-    $this
-        ->setDescription('Check if all actions in the app namespace either have a Security or an IsGranted attribute.');
-
     $this->addOption('allow-class-attribute', null, InputOption::VALUE_NONE,
-        'When given, a global class attribute is also allowed');
+      'When given, a global class attribute is also allowed');
   }
 
   /** @throws ReflectionException */
@@ -96,9 +84,9 @@ class CheckActionSecurityCommand extends Command
         // Check if Route attribute exists
         if ($reflectedMethod->getAttributes(Route::class, $attrFlags)) {
           // Check if Security or IsGranted attribute exists, if not raise error
-          if (!$reflectedMethod->getAttributes(Security::class, $attrFlags) &&
-              !$reflectedMethod->getAttributes(IsGranted::class, $attrFlags) &&
-              (!$allowClass || !(new ReflectionClass($controllerObject))->getAttributes(IsGranted::class, $attrFlags))) {
+          if (!$reflectedMethod->getAttributes(Security::class, $attrFlags)
+              && !$reflectedMethod->getAttributes(IsGranted::class, $attrFlags)
+              && (!$allowClass || !(new ReflectionClass($controllerObject))->getAttributes(IsGranted::class, $attrFlags))) {
             $noSecurity[] = '- ' . $controller;
           }
 
@@ -118,7 +106,7 @@ class CheckActionSecurityCommand extends Command
       // Feedback error
       $io->error(implode("\n", $error));
 
-      return 1;
+      return Command::FAILURE;
     }
 
     // No errors occurred!
@@ -130,6 +118,6 @@ class CheckActionSecurityCommand extends Command
       $output->writeln('');
     }
 
-    return 0;
+    return Command::SUCCESS;
   }
 }

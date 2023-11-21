@@ -77,12 +77,12 @@ class DrensoSharedExtension extends ConfigurableExtension
 
     if ($convertConfig['enabled']) {
       $container
-          ->register(EntityValidationFailedExceptionHandler::class)
-          ->setAutoconfigured(true)
-          ->setPublic($public)
-          ->setArgument('$serializer', new Reference(SerializerInterface::class))
-          ->setArgument('$controllerPrefixes', $convertConfig['controller_prefix'])
-          ->setArgument('$dataField', $convertConfig['data_field']);
+        ->register(EntityValidationFailedExceptionHandler::class)
+        ->setAutoconfigured(true)
+        ->setPublic($public)
+        ->setArgument('$serializer', new Reference(SerializerInterface::class))
+        ->setArgument('$controllerPrefixes', $convertConfig['controller_prefix'])
+        ->setArgument('$dataField', $convertConfig['data_field']);
     }
   }
 
@@ -92,12 +92,12 @@ class DrensoSharedExtension extends ConfigurableExtension
 
     if ($config['check_action_security']['enabled']) {
       $container
-          ->register(CheckActionSecurityCommand::class)
-          ->setAutoconfigured(true)
-          ->setPublic($public)
-          ->setArgument('$container', new Reference('service_container'))
-          ->setArgument('$router', new Reference('router'))
-          ->setArgument('$excludedControllers', $config['check_action_security']['excluded_controllers']);
+        ->register(CheckActionSecurityCommand::class)
+        ->setAutoconfigured(true)
+        ->setPublic($public)
+        ->setArgument('$container', new Reference('service_container'))
+        ->setArgument('$router', new Reference('router'))
+        ->setArgument('$excludedControllers', $config['check_action_security']['excluded_controllers']);
     }
   }
 
@@ -110,33 +110,34 @@ class DrensoSharedExtension extends ConfigurableExtension
       }
 
       $container
-          ->register(SoftDeletableSubscriber::class)
-          ->setArgument('$tokenStorage', new Reference(TokenStorageInterface::class))
-          ->setPublic($public)
-          ->addTag('doctrine.event_subscriber', [
-              'connection' => 'default',
-          ]);
+        ->register(SoftDeletableSubscriber::class)
+        ->setArgument('$tokenStorage', new Reference(TokenStorageInterface::class))
+        ->setPublic($public)
+        ->addTag('doctrine.event_listener', [
+          'event'      => SoftDeleteableListener::PRE_SOFT_DELETE,
+          'connection' => 'default',
+        ]);
 
       $container
-          ->register(SoftDeletableFilterController::class)
-          ->setArgument('$entityManager', new Reference(EntityManagerInterface::class))
-          ->setPublic($public);
+        ->register(SoftDeletableFilterController::class)
+        ->setArgument('$entityManager', new Reference(EntityManagerInterface::class))
+        ->setPublic($public);
 
       // Compatibility layer for softdeletable immutable problems
       if ($database['softdeletable']['use_gedmo_workaround']['enabled']) {
         $useUtc = $database['softdeletable']['use_gedmo_workaround']['use_utc'];
 
         $container
-            ->register(SoftDeletableSymfonySubscriber::class)
-            ->setAutoconfigured(true)
-            ->setPublic($public)
-            ->setArgument('$useUtc', $useUtc);
+          ->register(SoftDeletableSymfonySubscriber::class)
+          ->setAutoconfigured(true)
+          ->setPublic($public)
+          ->setArgument('$useUtc', $useUtc);
         $container
-            ->register(SoftDeletableSymfonyCacheWarmer::class)
-            ->setPublic($public)
+          ->register(SoftDeletableSymfonyCacheWarmer::class)
+          ->setPublic($public)
             // This need to be run before any other Doctrine warmer!
-            ->addTag('kernel.cache_warmer', ['priority' => 10000])
-            ->setArgument('$useUtc', $useUtc);
+          ->addTag('kernel.cache_warmer', ['priority' => 10000])
+          ->setArgument('$useUtc', $useUtc);
       }
     }
   }
@@ -155,14 +156,14 @@ class DrensoSharedExtension extends ConfigurableExtension
       }
 
       $definition = $container
-          ->register(EmailService::class)
-          ->setPublic($public)
-          ->setLazy(true)
-          ->setArgument('$mailer', new Reference(MailerInterface::class))
-          ->setArgument('$senderEmail', $mailer['sender_email'])
-          ->setArgument('$senderName', $mailer['sender_name'])
-          ->setArgument('$translator', new Reference(TranslatorInterface::class, ContainerInterface::NULL_ON_INVALID_REFERENCE))
-          ->setArgument('$transport', new Reference(TransportInterface::class));
+        ->register(EmailService::class)
+        ->setPublic($public)
+        ->setLazy(true)
+        ->setArgument('$mailer', new Reference(MailerInterface::class))
+        ->setArgument('$senderEmail', $mailer['sender_email'])
+        ->setArgument('$senderName', $mailer['sender_name'])
+        ->setArgument('$translator', new Reference(TranslatorInterface::class, ContainerInterface::NULL_ON_INVALID_REFERENCE))
+        ->setArgument('$transport', new Reference(TransportInterface::class));
 
       if (!$mailer['translate_sender_name']) {
         $definition->setArgument('$translator', null);
@@ -176,8 +177,8 @@ class DrensoSharedExtension extends ConfigurableExtension
 
     if ($processors['phpstorm']['enabled']) {
       $definition = $container
-          ->register(PhpStormEnvVarProcessor::class)
-          ->addTag('container.env_var_processor');
+        ->register(PhpStormEnvVarProcessor::class)
+        ->addTag('container.env_var_processor');
     }
   }
 
@@ -186,25 +187,25 @@ class DrensoSharedExtension extends ConfigurableExtension
     $form = $config['form_extensions'];
     if ($form['generic']['enabled']) {
       $container
-          ->register(FormExtension::class)
-          ->setAutoconfigured(true);
+        ->register(FormExtension::class)
+        ->setAutoconfigured(true);
     }
     if ($form['button']['enabled']) {
       $container
-          ->register(ButtonExtension::class)
-          ->setAutoconfigured(true);
+        ->register(ButtonExtension::class)
+        ->setAutoconfigured(true);
     }
     if ($form['select2']['enabled']) {
       $container
-          ->register(Select2Extension::class)
-          ->setAutoconfigured(true)
-          ->setArgument('$translator', new Reference(TranslatorInterface::class, ContainerInterface::NULL_ON_INVALID_REFERENCE));
+        ->register(Select2Extension::class)
+        ->setAutoconfigured(true)
+        ->setArgument('$translator', new Reference(TranslatorInterface::class, ContainerInterface::NULL_ON_INVALID_REFERENCE));
 
       $container
-          ->register(Select2EntitySearchType::class)
-          ->setAutoconfigured(true)
-          ->setArgument('$registry', new Reference(ManagerRegistry::class))
-          ->setArgument('$propertyAccessor', new Reference(PropertyAccessorInterface::class));
+        ->register(Select2EntitySearchType::class)
+        ->setAutoconfigured(true)
+        ->setArgument('$registry', new Reference(ManagerRegistry::class))
+        ->setArgument('$propertyAccessor', new Reference(PropertyAccessorInterface::class));
     }
   }
 
@@ -213,10 +214,10 @@ class DrensoSharedExtension extends ConfigurableExtension
     $request = $config['request'];
     if ($request['param_converter']['enabled']) {
       $container
-          ->register(EnumParamConverter::class)
-          ->setAutoConfigured(true)
-          ->setPublic($public)
-          ->setArgument('$supportedEnums', $request['param_converter']['supported_enums']);
+        ->register(EnumParamConverter::class)
+        ->setAutoConfigured(true)
+        ->setPublic($public)
+        ->setArgument('$supportedEnums', $request['param_converter']['supported_enums']);
     }
   }
 
@@ -226,15 +227,15 @@ class DrensoSharedExtension extends ConfigurableExtension
 
     if ($sentryTunnel['enabled']) {
       $container
-          ->register(SentryTunnelController::class)
-          ->setAutoconfigured(true)
-          ->addMethodCall('setContainer', [new Reference('service_container')])
-          ->addTag('controller.service_arguments')
-          ->setArgument('$httpClient', new Reference(HttpClientInterface::class))
-          ->setArgument('$appCache', new Reference(CacheInterface::class, ContainerInterface::NULL_ON_INVALID_REFERENCE))
-          ->setArgument('$allowedDsn', $sentryTunnel['allowed_dsn'])
-          ->setArgument('$connectTimeout', $sentryTunnel['connect_timeout'])
-          ->setArgument('$maxDuration', $sentryTunnel['max_duration']);
+        ->register(SentryTunnelController::class)
+        ->setAutoconfigured(true)
+        ->addMethodCall('setContainer', [new Reference('service_container')])
+        ->addTag('controller.service_arguments')
+        ->setArgument('$httpClient', new Reference(HttpClientInterface::class))
+        ->setArgument('$appCache', new Reference(CacheInterface::class, ContainerInterface::NULL_ON_INVALID_REFERENCE))
+        ->setArgument('$allowedDsn', $sentryTunnel['allowed_dsn'])
+        ->setArgument('$connectTimeout', $sentryTunnel['connect_timeout'])
+        ->setArgument('$maxDuration', $sentryTunnel['max_duration']);
     }
   }
 
@@ -246,60 +247,60 @@ class DrensoSharedExtension extends ConfigurableExtension
 
     if ($handlers['decimal']['enabled']) {
       $container
-          ->register(DecimalHandler::class)
-          ->setAutoconfigured(true)
-          ->setPublic($public);
+        ->register(DecimalHandler::class)
+        ->setAutoconfigured(true)
+        ->setPublic($public);
     }
 
     if ($handlers['enum']['enabled']) {
       $handlerDefinition = $container->register(EnumHandler::class);
       foreach ($handlers['enum']['supported_enums'] as $enumClass) {
         $handlerDefinition
-            ->addTag('jms_serializer.handler', [
-                'type'      => $enumClass,
-                'direction' => 'serialization',
-                'format'    => 'json',
-                'method'    => 'serialize',
-            ])
-            ->addTag('jms_serializer.handler', [
-                'type'      => $enumClass,
-                'direction' => 'deserialization',
-                'format'    => 'json',
-                'method'    => 'deserialize',
-            ]);
+          ->addTag('jms_serializer.handler', [
+            'type'      => $enumClass,
+            'direction' => 'serialization',
+            'format'    => 'json',
+            'method'    => 'serialize',
+          ])
+          ->addTag('jms_serializer.handler', [
+            'type'      => $enumClass,
+            'direction' => 'deserialization',
+            'format'    => 'json',
+            'method'    => 'deserialize',
+          ]);
       }
     }
 
     if ($handlers['id_map']['enabled']) {
       $container
-          ->register(IdMapHandler::class)
-          ->setAutoconfigured(true)
-          ->setPublic($public);
+        ->register(IdMapHandler::class)
+        ->setAutoconfigured(true)
+        ->setPublic($public);
     }
 
     if ($serializer['static_serializer']['enabled']) {
       $container
-          ->register(StaticSerializer::class)
-          ->setAutoconfigured(true)
-          ->setPublic($public)
-          ->setArgument('$serializer', new Reference(SerializerInterface::class))
-          ->setArgument('$contextFactory', new Reference(SerializationContextFactoryInterface::class));
+        ->register(StaticSerializer::class)
+        ->setAutoconfigured(true)
+        ->setPublic($public)
+        ->setArgument('$serializer', new Reference(SerializerInterface::class))
+        ->setArgument('$contextFactory', new Reference(SerializationContextFactoryInterface::class));
     }
 
     if ($serializer['twig_integration']['enabled']) {
       $container
-          ->register(JmsSerializerExtension::class)
-          ->setAutoconfigured(true)
-          ->setPublic($public)
-          ->setArgument('$serializer', new Reference(SerializerInterface::class))
-          ->setArgument('$contextFactory', new Reference(SerializationContextFactoryInterface::class));
+        ->register(JmsSerializerExtension::class)
+        ->setAutoconfigured(true)
+        ->setPublic($public)
+        ->setArgument('$serializer', new Reference(SerializerInterface::class))
+        ->setArgument('$contextFactory', new Reference(SerializationContextFactoryInterface::class));
     }
 
     if ($deserialization['direct_constructor']['enabled']) {
       $container
-          ->register(ObjectConstructor::class)
-          ->setDecoratedService(new Reference('jms_serializer.doctrine_object_constructor'))
-          ->setArgument('$inner', new Reference('jms_serializer.doctrine_object_constructor.inner'));
+        ->register(ObjectConstructor::class)
+        ->setDecoratedService(new Reference('jms_serializer.doctrine_object_constructor'))
+        ->setArgument('$inner', new Reference('jms_serializer.doctrine_object_constructor.inner'));
     }
   }
 
@@ -310,43 +311,43 @@ class DrensoSharedExtension extends ConfigurableExtension
     if ($services['feature_flags']['enabled']) {
       if (!$services['feature_flags']['custom_handler']) {
         $container
-            ->register(FeatureFlagsInterface::class, FeatureFlags::class)
-            ->setAutoconfigured(true)
-            ->setArgument('$configuration', $services['feature_flags']['configuration_file'])
-            ->setArgument('$configurationOverride', $services['feature_flags']['configuration_local_file'] ?? '')
-            ->setPublic($public);
+          ->register(FeatureFlagsInterface::class, FeatureFlags::class)
+          ->setAutoconfigured(true)
+          ->setArgument('$configuration', $services['feature_flags']['configuration_file'])
+          ->setArgument('$configurationOverride', $services['feature_flags']['configuration_local_file'] ?? '')
+          ->setPublic($public);
         // BC: Alias the old service id with the instance
         $container
-            ->setAlias(FeatureFlags::class, FeatureFlagsInterface::class)
-            ->setDeprecated(
-                'drenso/symfony-shared',
-                '2.21.0',
-                'Direct usage of "%alias_id%" has been deprecated in favour of "' . FeatureFlagsInterface::class . '"'
-            );
+          ->setAlias(FeatureFlags::class, FeatureFlagsInterface::class)
+          ->setDeprecated(
+            'drenso/symfony-shared',
+            '2.21.0',
+            'Direct usage of "%alias_id%" has been deprecated in favour of "' . FeatureFlagsInterface::class . '"'
+          );
       } else {
         $container->setAlias(FeatureFlagsInterface::class, $services['feature_flags']['custom_handler']);
       }
 
       $container
-          ->register(RequireFeatureListener::class)
-          ->setAutoconfigured(true)
-          ->setPublic($public)
-          ->setArgument('$featureFlags', new Reference(FeatureFlagsInterface::class));
+        ->register(RequireFeatureListener::class)
+        ->setAutoconfigured(true)
+        ->setPublic($public)
+        ->setArgument('$featureFlags', new Reference(FeatureFlagsInterface::class));
     }
 
     if ($services['gravatar']['enabled']) {
       $gravatarHelper = $container
-          ->register(GravatarHelper::class)
-          ->setAutoconfigured(true)
-          ->setPublic($public)
-          ->setArgument('$fallbackStyle', $services['gravatar']['fallback_style']);
+        ->register(GravatarHelper::class)
+        ->setAutoconfigured(true)
+        ->setPublic($public)
+        ->setArgument('$fallbackStyle', $services['gravatar']['fallback_style']);
 
       if ($services['gravatar']['twig_integration']) {
         $container
-            ->register(GravatarExtension::class)
-            ->setAutoconfigured(true)
-            ->setPublic($public)
-            ->setArgument('$gravatarHelper', $gravatarHelper);
+          ->register(GravatarExtension::class)
+          ->setAutoconfigured(true)
+          ->setPublic($public)
+          ->setArgument('$gravatarHelper', $gravatarHelper);
       }
     }
 
@@ -358,21 +359,21 @@ class DrensoSharedExtension extends ConfigurableExtension
       }
 
       $container
-          ->register(IcalProvider::class)
-          ->setPublic($public)
-          ->setArgument('$provider', new Reference('bomo_ical.ics_provider'));
+        ->register(IcalProvider::class)
+        ->setPublic($public)
+        ->setArgument('$provider', new Reference('bomo_ical.ics_provider'));
     }
 
     if ($services['spreadsheethelper']['enabled']) {
       $container
-          ->register(SpreadsheetHelper::class)
-          ->setPublic($public)
-          ->setArgument('$translator', new Reference(TranslatorInterface::class, ContainerInterface::NULL_ON_INVALID_REFERENCE));
+        ->register(SpreadsheetHelper::class)
+        ->setPublic($public)
+        ->setArgument('$translator', new Reference(TranslatorInterface::class, ContainerInterface::NULL_ON_INVALID_REFERENCE));
     }
 
     // DateTime provider
     $container
-        ->register(DateTimeProvider::class)
-        ->setPublic($public);
+      ->register(DateTimeProvider::class)
+      ->setPublic($public);
   }
 }

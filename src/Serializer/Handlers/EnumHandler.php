@@ -11,10 +11,10 @@ use JMS\Serializer\Visitor\SerializationVisitorInterface;
 class EnumHandler
 {
   public function serialize(
-      SerializationVisitorInterface $visitor,
-      BackedEnum $enum,
-      array $type,
-      SerializationContext $context)
+    SerializationVisitorInterface $visitor,
+    BackedEnum $enum,
+    array $type,
+    SerializationContext $context)
   {
     $value = $enum->value;
     if (is_int($value)) {
@@ -25,10 +25,10 @@ class EnumHandler
   }
 
   public function deserialize(
-      DeserializationVisitorInterface $visitor,
-      string|int|null $data,
-      array $type,
-      DeserializationContext $context): ?BackedEnum
+    DeserializationVisitorInterface $visitor,
+    string|int|null $data,
+    array $type,
+    DeserializationContext $context): ?BackedEnum
   {
     if ($data === null) {
       return null;

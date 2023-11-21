@@ -17,35 +17,31 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class DeleteType extends AbstractType
 {
-  public function buildForm(FormBuilderInterface $builder, array $options)
+  public function buildForm(FormBuilderInterface $builder, array $options): void
   {
     $builder
-        ->add('_remove', SubmitType::class, [
-            'label'              => $options['delete_label'],
-            'translation_domain' => $options['delete_translation_domain'],
-            'icon'               => $options['delete_icon'],
-            'attr'               => [
-                'class' => $options['delete_btn_class'],
-            ],
-        ])
-        ->add('_cancel', ButtonUrlType::class, [
-            'label'              => $options['cancel_label'],
-            'translation_domain' => $options['cancel_translation_domain'],
-            'icon'               => $options['cancel_icon'],
-            'route'              => $options['cancel_route'],
-            'route_params'       => $options['cancel_route_params'],
-            'attr'               => [
-                'class' => $options['cancel_btn_class'],
-            ],
-        ]);
+      ->add('_remove', SubmitType::class, [
+        'label'              => $options['delete_label'],
+        'translation_domain' => $options['delete_translation_domain'],
+        'icon'               => $options['delete_icon'],
+        'attr'               => [
+          'class' => $options['delete_btn_class'],
+        ],
+      ])
+      ->add('_cancel', ButtonUrlType::class, [
+        'label'              => $options['cancel_label'],
+        'translation_domain' => $options['cancel_translation_domain'],
+        'icon'               => $options['cancel_icon'],
+        'route'              => $options['cancel_route'],
+        'route_params'       => $options['cancel_route_params'],
+        'attr'               => [
+          'class' => $options['cancel_btn_class'],
+        ],
+      ]);
   }
 
-  /**
-   * Check whether the "remove" button is clicked.
-   *
-   * @return bool
-   */
-  public static function isRemoveClicked(FormInterface $form)
+  /** Check whether the "remove" button is clicked. */
+  public static function isRemoveClicked(FormInterface $form): bool
   {
     assert($form instanceof Form);
     $clickedButton = $form->getClickedButton();
@@ -60,21 +56,21 @@ class DeleteType extends AbstractType
     return false;
   }
 
-  public function configureOptions(OptionsResolver $resolver)
+  public function configureOptions(OptionsResolver $resolver): void
   {
     $resolver->setDefaults([
-        'mapped' => false,
+      'mapped' => false,
 
-        'delete_label'              => 'form.confirm-delete',
-        'delete_translation_domain' => 'drenso_shared',
-        'delete_icon'               => 'fa-check',
-        'delete_btn_class'          => 'btn-outline-danger',
+      'delete_label'              => 'form.confirm-delete',
+      'delete_translation_domain' => 'drenso_shared',
+      'delete_icon'               => 'fa-check',
+      'delete_btn_class'          => 'btn-outline-danger',
 
-        'cancel_label'              => 'form.cancel',
-        'cancel_translation_domain' => 'drenso_shared',
-        'cancel_icon'               => 'fa-times',
-        'cancel_route_params'       => [],
-        'cancel_btn_class'          => 'btn-outline-dark',
+      'cancel_label'              => 'form.cancel',
+      'cancel_translation_domain' => 'drenso_shared',
+      'cancel_icon'               => 'fa-times',
+      'cancel_route_params'       => [],
+      'cancel_btn_class'          => 'btn-outline-dark',
     ]);
 
     $resolver->setRequired('cancel_route');

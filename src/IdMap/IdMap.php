@@ -12,6 +12,7 @@ use Traversable;
 
 /**
  * @template T of IdInterface
+ *
  * @template-implements IteratorAggregate<int, T>
  */
 class IdMap implements ArrayAccess, Countable, IteratorAggregate, Stringable

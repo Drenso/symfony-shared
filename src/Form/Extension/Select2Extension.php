@@ -12,12 +12,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
- * Class Select2Extension.
- *
  * This class provides a Select2 form extension, to be able to easily set
- * select 2 options on the form
- *
- * @author BobV
+ * select 2 options on the form.
  */
 class Select2Extension extends AbstractTypeExtension
 {
@@ -25,22 +21,22 @@ class Select2Extension extends AbstractTypeExtension
   {
   }
 
-  public function buildForm(FormBuilderInterface $builder, array $options)
+  public function buildForm(FormBuilderInterface $builder, array $options): void
   {
     $builder->setAttribute('select2', $options['select2']);
   }
 
-  public function buildView(FormView $view, FormInterface $form, array $options)
+  public function buildView(FormView $view, FormInterface $form, array $options): void
   {
     $view->vars['select2'] = $options['select2'];
 
     if ($options['select2']) {
       // Create options
       $select2Options = [
-          'width'      => '100%',
-          'theme'      => $options['select2_theme'],
-          'allowClear' => !$options['required'],
-          'multiple'   => $options['multiple'],
+        'width'      => '100%',
+        'theme'      => $options['select2_theme'],
+        'allowClear' => !$options['required'],
+        'multiple'   => $options['multiple'],
       ];
 
       // Determine the placeholder
@@ -60,26 +56,21 @@ class Select2Extension extends AbstractTypeExtension
     }
   }
 
-  public function configureOptions(OptionsResolver $resolver)
+  public function configureOptions(OptionsResolver $resolver): void
   {
     $resolver
-        ->setDefaults([
-            'select2'         => false,
-            'select2_theme'   => 'bootstrap',
-            'select2_options' => [],
-        ])
-        ->setAllowedTypes('select2', ['bool'])
-        ->setAllowedTypes('select2_theme', ['string'])
-        ->setAllowedTypes('select2_options', ['array']);
+      ->setDefaults([
+        'select2'         => false,
+        'select2_theme'   => 'bootstrap',
+        'select2_options' => [],
+      ])
+      ->setAllowedTypes('select2', ['bool'])
+      ->setAllowedTypes('select2_theme', ['string'])
+      ->setAllowedTypes('select2_options', ['array']);
   }
 
   public static function getExtendedTypes(): iterable
   {
     return [ChoiceType::class, Select2EntitySearchType::class];
-  }
-
-  public function getExtendedType()
-  {
-    return self::getExtendedTypes()[0];
   }
 }

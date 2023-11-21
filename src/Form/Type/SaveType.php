@@ -12,73 +12,64 @@ use Symfony\Component\OptionsResolver\Exception\MissingOptionsException;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-/**
- * Class SaveType.
- *
- * @author BobV
- */
 class SaveType extends AbstractType
 {
-  public function buildForm(FormBuilderInterface $builder, array $options)
+  public function buildForm(FormBuilderInterface $builder, array $options): void
   {
     // Add the save button if required
     if ($options['enable_save']) {
       $builder->add('_save', SubmitType::class, [
-          'label'              => $options['save_label'],
-          'translation_domain' => $options['save_translation_domain'],
-          'icon'               => $options['save_icon'],
-          'attr'               => [
-              'class' => $options['save_btn_class'],
-          ],
+        'label'              => $options['save_label'],
+        'translation_domain' => $options['save_translation_domain'],
+        'icon'               => $options['save_icon'],
+        'attr'               => [
+          'class' => $options['save_btn_class'],
+        ],
       ]);
     }
 
     // Add the save and list button if required
     if ($options['enable_save_and_list']) {
       $builder->add('_save_and_list', SubmitType::class, [
-          'label'              => $options['save_and_list_label'],
-          'translation_domain' => $options['save_and_list_translation_domain'],
-          'icon'               => $options['save_and_list_icon'],
-          'attr'               => [
-              'class' => $options['save_and_list_btn_class'],
-          ],
+        'label'              => $options['save_and_list_label'],
+        'translation_domain' => $options['save_and_list_translation_domain'],
+        'icon'               => $options['save_and_list_icon'],
+        'attr'               => [
+          'class' => $options['save_and_list_btn_class'],
+        ],
       ]);
     }
 
     // Add the list button if required
     if ($options['enable_list']) {
       $builder->add('_list', ButtonUrlType::class, [
-          'label'              => $options['list_label'],
-          'translation_domain' => $options['list_translation_domain'],
-          'icon'               => $options['list_icon'],
-          'route'              => $options['list_route'],
-          'route_params'       => $options['list_route_params'],
-          'attr'               => [
-              'class' => $options['list_btn_class'],
-          ],
+        'label'              => $options['list_label'],
+        'translation_domain' => $options['list_translation_domain'],
+        'icon'               => $options['list_icon'],
+        'route'              => $options['list_route'],
+        'route_params'       => $options['list_route_params'],
+        'attr'               => [
+          'class' => $options['list_btn_class'],
+        ],
       ]);
     }
 
     if ($options['enable_cancel']) {
       $builder->add('_cancel', ButtonUrlType::class, [
-          'label'              => $options['cancel_label'],
-          'translation_domain' => $options['cancel_translation_domain'],
-          'icon'               => $options['cancel_icon'],
-          'route'              => $options['cancel_route'],
-          'route_params'       => $options['cancel_route_params'],
-          'attr'               => [
-              'class' => $options['cancel_btn_class'],
-          ],
+        'label'              => $options['cancel_label'],
+        'translation_domain' => $options['cancel_translation_domain'],
+        'icon'               => $options['cancel_icon'],
+        'route'              => $options['cancel_route'],
+        'route_params'       => $options['cancel_route_params'],
+        'attr'               => [
+          'class' => $options['cancel_btn_class'],
+        ],
       ]);
     }
   }
 
-  /**
-   * Check whether the "save and list" button is clicked.
-   *
-   * @return bool
-   */
-  public static function isListClicked(FormInterface $form)
+  /** Check whether the "save and list" button is clicked. */
+  public static function isListClicked(FormInterface $form): bool
   {
     assert($form instanceof Form);
     $clickedButton = $form->getClickedButton();
@@ -92,38 +83,38 @@ class SaveType extends AbstractType
     return false;
   }
 
-  public function configureOptions(OptionsResolver $resolver)
+  public function configureOptions(OptionsResolver $resolver): void
   {
     $resolver->setDefaults([
-        'mapped' => false,
+      'mapped' => false,
 
-        'enable_save'             => true,
-        'save_label'              => 'form.save',
-        'save_translation_domain' => 'drenso_shared',
-        'save_icon'               => 'fa-check',
-        'save_btn_class'          => 'btn-outline-success',
+      'enable_save'             => true,
+      'save_label'              => 'form.save',
+      'save_translation_domain' => 'drenso_shared',
+      'save_icon'               => 'fa-check',
+      'save_btn_class'          => 'btn-outline-success',
 
-        'enable_save_and_list'             => true,
-        'save_and_list_label'              => 'form.save-and-list',
-        'save_and_list_translation_domain' => 'drenso_shared',
-        'save_and_list_icon'               => 'fa-check',
-        'save_and_list_btn_class'          => 'btn-outline-success',
+      'enable_save_and_list'             => true,
+      'save_and_list_label'              => 'form.save-and-list',
+      'save_and_list_translation_domain' => 'drenso_shared',
+      'save_and_list_icon'               => 'fa-check',
+      'save_and_list_btn_class'          => 'btn-outline-success',
 
-        'enable_list'             => false,
-        'list_label'              => 'form.list',
-        'list_translation_domain' => 'drenso_shared',
-        'list_icon'               => 'fa-list',
-        'list_route'              => null,
-        'list_route_params'       => [],
-        'list_btn_class'          => 'btn-outline-secondary',
+      'enable_list'             => false,
+      'list_label'              => 'form.list',
+      'list_translation_domain' => 'drenso_shared',
+      'list_icon'               => 'fa-list',
+      'list_route'              => null,
+      'list_route_params'       => [],
+      'list_btn_class'          => 'btn-outline-secondary',
 
-        'enable_cancel'             => false,
-        'cancel_label'              => 'form.cancel',
-        'cancel_translation_domain' => 'drenso_shared',
-        'cancel_icon'               => 'fa-times',
-        'cancel_route'              => null,
-        'cancel_route_params'       => [],
-        'cancel_btn_class'          => 'btn-outline-danger',
+      'enable_cancel'             => false,
+      'cancel_label'              => 'form.cancel',
+      'cancel_translation_domain' => 'drenso_shared',
+      'cancel_icon'               => 'fa-times',
+      'cancel_route'              => null,
+      'cancel_route_params'       => [],
+      'cancel_btn_class'          => 'btn-outline-danger',
     ]);
 
     $resolver->setAllowedTypes('enable_save', 'bool');

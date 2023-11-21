@@ -24,8 +24,8 @@ class DateTimeHelper
   }
 
   public static function convertTo(
-      DateTimeInterface $toConvert,
-      ?DateTimeZone $timezone = null): DateTime
+    DateTimeInterface $toConvert,
+    ?DateTimeZone $timezone = null): DateTime
   {
     $converted = DateTime::createFromInterface($toConvert);
 
@@ -33,8 +33,8 @@ class DateTimeHelper
   }
 
   public static function convertToImmutable(
-      DateTimeInterface $toConvert,
-      ?DateTimeZone $timezone = null): DateTimeImmutable
+    DateTimeInterface $toConvert,
+    ?DateTimeZone $timezone = null): DateTimeImmutable
   {
     $converted = DateTimeImmutable::createFromInterface($toConvert);
 

@@ -24,7 +24,6 @@ use ZipStream\ZipStream;
 
 class SpreadsheetHelper
 {
-  /** SpreadsheetHelper constructor. */
   public function __construct(private readonly ?TranslatorInterface $translator)
   {
   }
@@ -47,9 +46,9 @@ class SpreadsheetHelper
    * into a dedicated CSV file and packed into a single ZIP archive.
    */
   public function createCsvResponse(
-      Spreadsheet $spreadsheet,
-      string $filename,
-      bool $multipleWorksheetsAsZipArchive = false): StreamedResponse
+    Spreadsheet $spreadsheet,
+    string $filename,
+    bool $multipleWorksheetsAsZipArchive = false): StreamedResponse
   {
     if ($multipleWorksheetsAsZipArchive && $spreadsheet->getSheetCount() > 1) {
       return $this->createZippedCsvResponse($spreadsheet, $filename);
@@ -68,25 +67,25 @@ class SpreadsheetHelper
   public function createZippedCsvResponse(Spreadsheet $spreadsheet, string $zipName): StreamedResponse
   {
     $response = new StreamedResponse(
-        function () use ($spreadsheet) {
-          // Create the archive
-          $zip = new ZipStream(
-              defaultCompressionMethod: CompressionMethod::STORE,
-              defaultEnableZeroHeader: false,
-              sendHttpHeaders: false
-          );
+      function () use ($spreadsheet): void {
+        // Create the archive
+        $zip = new ZipStream(
+          defaultCompressionMethod: CompressionMethod::STORE,
+          defaultEnableZeroHeader: false,
+          sendHttpHeaders: false
+        );
 
-          // Loop the spreadsheet worksheets
-          for ($i = 0; $i < $spreadsheet->getSheetCount(); ++$i) {
-            $writer   = $this->createCsvWriter($spreadsheet, $i);
-            $tempFile = @tempnam(File::sysGetTempDir(), 'phpxltmp');
-            $writer->save($tempFile);
-            $zip->addFileFromPath(self::sanitizeFilename($spreadsheet->getSheet($i)->getTitle() . '.csv'), $tempFile);
-          }
+        // Loop the spreadsheet worksheets
+        for ($i = 0; $i < $spreadsheet->getSheetCount(); ++$i) {
+          $writer   = $this->createCsvWriter($spreadsheet, $i);
+          $tempFile = @tempnam(File::sysGetTempDir(), 'phpxltmp');
+          $writer->save($tempFile);
+          $zip->addFileFromPath(self::sanitizeFilename($spreadsheet->getSheet($i)->getTitle() . '.csv'), $tempFile);
+        }
 
-          // Finalize the zip file
-          $zip->finish();
-        });
+        // Finalize the zip file
+        $zip->finish();
+      });
 
     $response->headers->set('Content-Type', 'application/octet-stream; charset=utf-8');
     self::contentDisposition($response, $zipName . '.zip');
@@ -102,25 +101,25 @@ class SpreadsheetHelper
   public function createZippedExcelResponse(array $spreadSheets, string $zipName): StreamedResponse
   {
     $response = new StreamedResponse(
-        function () use ($spreadSheets) {
-          // Create the archive
-          $zip = new ZipStream(
-              defaultCompressionMethod: CompressionMethod::STORE,
-              defaultEnableZeroHeader: false,
-              sendHttpHeaders: false,
-          );
+      function () use ($spreadSheets): void {
+        // Create the archive
+        $zip = new ZipStream(
+          defaultCompressionMethod: CompressionMethod::STORE,
+          defaultEnableZeroHeader: false,
+          sendHttpHeaders: false,
+        );
 
-          // Loop the supplied spreadsheets
-          foreach ($spreadSheets as $spreadSheet) {
-            $writer   = $this->createXlsxWriter($spreadSheet['sheet']);
-            $tempFile = @tempnam(File::sysGetTempDir(), 'phpxltmp');
-            $writer->save($tempFile);
-            $zip->addFileFromPath(self::sanitizeFilename($spreadSheet['filename'] . '.xlsx'), $tempFile);
-          }
+        // Loop the supplied spreadsheets
+        foreach ($spreadSheets as $spreadSheet) {
+          $writer   = $this->createXlsxWriter($spreadSheet['sheet']);
+          $tempFile = @tempnam(File::sysGetTempDir(), 'phpxltmp');
+          $writer->save($tempFile);
+          $zip->addFileFromPath(self::sanitizeFilename($spreadSheet['filename'] . '.xlsx'), $tempFile);
+        }
 
-          // Finalize the zip file
-          $zip->finish();
-        });
+        // Finalize the zip file
+        $zip->finish();
+      });
 
     $response->headers->set('Content-Type', 'application/octet-stream; charset=utf-8');
     self::contentDisposition($response, $zipName . '.zip');
@@ -132,10 +131,10 @@ class SpreadsheetHelper
   public function createCsvWriter(Spreadsheet $spreadsheet, int $sheetIndex = 0): Csv
   {
     return (new Csv($spreadsheet))
-        ->setDelimiter(';')
-        ->setEnclosure('')
-        ->setUseBOM(true)
-        ->setSheetIndex($sheetIndex);
+      ->setDelimiter(';')
+      ->setEnclosure('')
+      ->setUseBOM(true)
+      ->setSheetIndex($sheetIndex);
   }
 
   /** Create a default Xlsx writer */
@@ -163,12 +162,12 @@ class SpreadsheetHelper
   }
 
   public function setCellTranslatedValue(
-      Worksheet $sheet,
-      int $column,
-      int $row,
-      string $value,
-      bool $bold = false,
-      string $translationDomain = 'messages'): void
+    Worksheet $sheet,
+    int $column,
+    int $row,
+    string $value,
+    bool $bold = false,
+    string $translationDomain = 'messages'): void
   {
     $this->setCellValue($sheet, $column, $row, $this->translator?->trans($value, [], $translationDomain) ?? $value, $bold);
   }
@@ -202,12 +201,12 @@ class SpreadsheetHelper
   }
 
   public function setCellDateTime(
-      Worksheet $sheet,
-      int $column,
-      int $row,
-      ?DateTimeInterface $dateTime,
-      bool $leftAligned = false,
-      bool $bold = false): void
+    Worksheet $sheet,
+    int $column,
+    int $row,
+    ?DateTimeInterface $dateTime,
+    bool $leftAligned = false,
+    bool $bold = false): void
   {
     if ($dateTime !== null) {
       $this->setCellValue($sheet, $column, $row, Date::PHPToExcel($dateTime), $bold);
@@ -222,12 +221,12 @@ class SpreadsheetHelper
   }
 
   public function setCellDate(
-      Worksheet $sheet,
-      int $column,
-      int $row,
-      ?DateTimeInterface $dateTime,
-      bool $leftAligned = false,
-      bool $bold = false): void
+    Worksheet $sheet,
+    int $column,
+    int $row,
+    ?DateTimeInterface $dateTime,
+    bool $leftAligned = false,
+    bool $bold = false): void
   {
     if ($dateTime !== null) {
       $this->setCellValue($sheet, $column, $row, Date::PHPToExcel($dateTime), $bold);
@@ -240,7 +239,7 @@ class SpreadsheetHelper
     }
   }
 
-  public function setCellCurrency(Worksheet $sheet, int $column, int $row, $value, bool $bold = false): void
+  public function setCellCurrency(Worksheet $sheet, int $column, int $row, mixed $value, bool $bold = false): void
   {
     $this->setCellValue($sheet, $column, $row, $value, $bold);
     $sheet->getStyle(CellAddress::fromColumnAndRow($column, $row))->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_ACCOUNTING_EUR);
@@ -252,8 +251,8 @@ class SpreadsheetHelper
     // Set locale required for the iconv conversion to work correctly
     setlocale(LC_CTYPE, 'en_US.UTF-8');
     $response->headers->set('Content-Disposition', $response->headers->makeDisposition(
-        ResponseHeaderBag::DISPOSITION_ATTACHMENT,
-        self::sanitizeFilename($filename)
+      ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+      self::sanitizeFilename($filename)
     ));
   }
 

@@ -2,27 +2,24 @@
 
 namespace Drenso\Shared\Database\EntityTraits;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 trait HasDefaultEntityTrait
 {
-  /**
-   * @var bool
-   */
-  #[ORM\Column(type: 'boolean')]
+  #[ORM\Column(type: Types::BOOLEAN)]
   #[Assert\NotNull]
   #[Assert\Type(type: 'bool')]
   #[Serializer\Exclude]
-  private $isDefault = false;
+  private ?bool $isDefault = false;
 
   public function isDefault(): bool
   {
     return $this->isDefault;
   }
 
-  /** @return $this */
   public function setIsDefault(bool $isDefault): self
   {
     $this->isDefault = $isDefault;

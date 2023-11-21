@@ -19,11 +19,11 @@ class EmailService
 {
   /** EmailService constructor. */
   public function __construct(
-      private readonly MailerInterface $mailer,
-      private readonly string $senderEmail,
-      private readonly ?string $senderName,
-      private readonly ?TranslatorInterface $translator,
-      private readonly TransportInterface $transport)
+    private readonly MailerInterface $mailer,
+    private readonly string $senderEmail,
+    private readonly ?string $senderName,
+    private readonly ?TranslatorInterface $translator,
+    private readonly TransportInterface $transport)
   {
   }
 
@@ -31,6 +31,7 @@ class EmailService
    * Queues the e-mail by placing it on the message bus.
    *
    * @throws TransportExceptionInterface
+   *
    * @suppress PhanTypeInvalidThrowsIsInterface
    */
   public function send(RawMessage $message): void
@@ -42,6 +43,7 @@ class EmailService
    * Send the e-mail directly, skipping the message bus.
    *
    * @throws TransportExceptionInterface
+   *
    * @suppress PhanTypeInvalidThrowsIsInterface
    */
   public function sendDirectly(RawMessage $message): void
@@ -57,7 +59,7 @@ class EmailService
   public function emailForUser(EmailableUserInterface $user, ?string $emailAddress = null): TemplatedEmail
   {
     return $this->emailDefaults()
-        ->to($this->getAddress($user, $emailAddress));
+      ->to($this->getAddress($user, $emailAddress));
   }
 
   /**
@@ -67,7 +69,7 @@ class EmailService
   public function emailForEmailAddress(string $emailAddress): TemplatedEmail
   {
     return $this->emailDefaults()
-        ->to(new Address($emailAddress));
+      ->to(new Address($emailAddress));
   }
 
   /** Sets sane defaults for out e-mails. */
@@ -78,7 +80,7 @@ class EmailService
         : '';
 
     return (new TemplatedEmail())
-        ->from(new Address($this->senderEmail, $senderName));
+      ->from(new Address($this->senderEmail, $senderName));
   }
 
   /** Retrieve address object for an user. */

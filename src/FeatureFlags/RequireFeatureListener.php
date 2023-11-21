@@ -16,7 +16,7 @@ class RequireFeatureListener implements EventSubscriberInterface
   {
   }
 
-  public function onKernelControllerArguments(ControllerArgumentsEvent $event)
+  public function onKernelControllerArguments(ControllerArgumentsEvent $event): void
   {
     $request = $event->getRequest();
 

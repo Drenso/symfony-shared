@@ -25,8 +25,8 @@ class IcalProvider
   public function createCalendar(string $name, string $description, ?Timezone $tz = null): Calendar
   {
     $calendar = $this->provider->createCalendar($tz)
-        ->setName($name)
-        ->setDescription($description);
+      ->setName($name)
+      ->setDescription($description);
 
     if ($tz && $locationProp = $tz->getTimezone()->getXprop(IcalInterface::X_LIC_LOCATION)) {
       $calendar->getCalendar()->setXprop($locationProp[0], $locationProp[1]);
@@ -40,32 +40,32 @@ class IcalProvider
   {
     $tz = $this->provider->createTimezone();
     $tz
-        ->setTzid('Europe/Amsterdam')
-        ->setStandard([
-            'dtstart'      => '19701025T030000',
-            'tzoffsetto'   => '+0100',
-            'tzoffsetfrom' => '+0200',
-            'rrule'        => [
-                'freq'    => 'YEARLY',
-                'wkst'    => 'SU',
-                'byday'   => ['-1', 'SU'],
-                'bymonth' => 10,
-            ],
-            'tzname' => 'CET',
-        ])
-        ->setDaylight([
-            'dtstart'      => '19700329T020000',
-            'tzoffsetto'   => '+0200',
-            'tzoffsetfrom' => '+0100',
-            'rrule'        => [
-                'freq'    => 'YEARLY',
-                'wkst'    => 'SU',
-                'byday'   => ['-1', 'SU'],
-                'bymonth' => 3,
-            ],
-            'tzname' => 'CEST',
-        ])
-        ->setXProp(IcalInterface::X_LIC_LOCATION, $tz->getTzid());
+      ->setTzid('Europe/Amsterdam')
+      ->setStandard([
+        'dtstart'      => '19701025T030000',
+        'tzoffsetto'   => '+0100',
+        'tzoffsetfrom' => '+0200',
+        'rrule'        => [
+          'freq'    => 'YEARLY',
+          'wkst'    => 'SU',
+          'byday'   => ['-1', 'SU'],
+          'bymonth' => 10,
+        ],
+        'tzname' => 'CET',
+      ])
+      ->setDaylight([
+        'dtstart'      => '19700329T020000',
+        'tzoffsetto'   => '+0200',
+        'tzoffsetfrom' => '+0100',
+        'rrule'        => [
+          'freq'    => 'YEARLY',
+          'wkst'    => 'SU',
+          'byday'   => ['-1', 'SU'],
+          'bymonth' => 3,
+        ],
+        'tzname' => 'CEST',
+      ])
+      ->setXProp(IcalInterface::X_LIC_LOCATION, $tz->getTzid());
 
     return $tz;
   }
@@ -76,19 +76,19 @@ class IcalProvider
    * @note You will still need to add it to the Calendar with attachEvent($event).
    */
   public function createEvent(
-      ?string $summary,
-      ?string $description,
-      DateTimeInterface $start,
-      DateTimeInterface $end,
-      ?string $location = null): Event
+    ?string $summary,
+    ?string $description,
+    DateTimeInterface $start,
+    DateTimeInterface $end,
+    ?string $location = null): Event
   {
     $event = $this->provider->createEvent();
     $event->getEvent()
-        ->setDtstart($start)
-        ->setDtend($end)
-        ->setSummary($summary)
-        ->setDescription($description)
-        ->setLocation($location);
+      ->setDtstart($start)
+      ->setDtend($end)
+      ->setSummary($summary)
+      ->setDescription($description)
+      ->setLocation($location);
 
     return $event;
   }
@@ -99,8 +99,8 @@ class IcalProvider
     $alarm  = $event->newAlarm();
     $vEvent = $event->getEvent();
     $alarm
-        ->setAction('DISPLAY')
-        ->setDescription($vEvent->getSummary() . ' - ' . $vEvent->getDescription())
-        ->setTrigger($trigger);
+      ->setAction('DISPLAY')
+      ->setDescription($vEvent->getSummary() . ' - ' . $vEvent->getDescription())
+      ->setTrigger($trigger);
   }
 }

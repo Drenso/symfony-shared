@@ -13,20 +13,18 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 class StaticSerializer implements EventSubscriberInterface
 {
-  private static ?SerializerInterface                  $serializer     = null;
+  private static ?SerializerInterface $serializer                      = null;
   private static ?SerializationContextFactoryInterface $contextFactory = null;
 
   /**
-   * EntitySnapshotter constructor.
-   *
    * Makes the static serializer available, as custom doctrine types do not have access to the service container.
    *
    * This also makes sure we share the configuration as configured with our the parameters, so we can leverage
    * automatic doctrine mapping and any custom handlers registered by us or other (for example, PhoneNumber)
    */
   public function __construct(
-      SerializerInterface $serializer,
-      SerializationContextFactoryInterface $contextFactory)
+    SerializerInterface $serializer,
+    SerializationContextFactoryInterface $contextFactory)
   {
     self::$serializer     = $serializer;
     self::$contextFactory = $contextFactory;
@@ -42,23 +40,23 @@ class StaticSerializer implements EventSubscriberInterface
   public static function getSubscribedEvents(): array
   {
     return [
-        KernelEvents::REQUEST => [
-            ['onRequest', 255],
-        ],
-        ConsoleEvents::COMMAND => [
-            ['onConsole', 255],
-        ],
+      KernelEvents::REQUEST => [
+        ['onRequest', 255],
+      ],
+      ConsoleEvents::COMMAND => [
+        ['onConsole', 255],
+      ],
     ];
   }
 
   /** @noinspection PhpUnused */
-  public function onRequest(RequestEvent $event)
+  public function onRequest(RequestEvent $event): void
   {
     // Nothing to do, but required to load the static serializer for doctrine
   }
 
   /** @noinspection PhpUnused */
-  public function onConsole(ConsoleCommandEvent $event)
+  public function onConsole(ConsoleCommandEvent $event): void
   {
     // Nothing to do, but required to load the static serializer for doctrine
   }

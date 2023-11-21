@@ -13,3 +13,6 @@ composer.phar
 
 # PHP-CS-Fixer cache
 .php-cs-fixer.cache
+
+# Rector cache
+/var/cache/rector

@@ -11,8 +11,6 @@ use JMS\Serializer\Exception\Exception;
 abstract class AbstractJmsType extends JsonType
 {
   /**
-   * @param mixed $value
-   *
    * @throws ConversionException
    *
    * @return false|mixed|string|null
@@ -36,8 +34,6 @@ abstract class AbstractJmsType extends JsonType
   }
 
   /**
-   * @param mixed $value
-   *
    * @throws ConversionException
    *
    * @return mixed|null

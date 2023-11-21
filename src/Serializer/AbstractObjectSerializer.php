@@ -23,12 +23,12 @@ abstract class AbstractObjectSerializer
   public static function defaultSubscriber(string $clazz): array
   {
     return [
-        [
-            'event'  => Events::POST_SERIALIZE,
-            'class'  => $clazz,
-            'format' => 'json',
-            'method' => 'onPostSerialize',
-        ],
+      [
+        'event'  => Events::POST_SERIALIZE,
+        'class'  => $clazz,
+        'format' => 'json',
+        'method' => 'onPostSerialize',
+      ],
     ];
   }
 
@@ -63,39 +63,39 @@ abstract class AbstractObjectSerializer
 
   /** Add a string property to the serialized object. */
   protected function addStringProperty(
-      SerializationVisitorInterface $visitor,
-      string $prop,
-      ?string $value,
-      bool $insertUnderscore = true): void
+    SerializationVisitorInterface $visitor,
+    string $prop,
+    ?string $value,
+    bool $insertUnderscore = true): void
   {
     $visitor->visitProperty(
-        new StaticPropertyMetadata('string', $this->propertyName($prop, $insertUnderscore), null),
-        $value
+      new StaticPropertyMetadata('string', $this->propertyName($prop, $insertUnderscore), null),
+      $value
     );
   }
 
   /** Add a boolean property to the serialized object. */
   protected function addBoolProperty(
-      SerializationVisitorInterface $visitor,
-      string $prop,
-      ?bool $value,
-      bool $insertUnderscore = true): void
+    SerializationVisitorInterface $visitor,
+    string $prop,
+    ?bool $value,
+    bool $insertUnderscore = true): void
   {
     $visitor->visitProperty(
-        new StaticPropertyMetadata('boolean', $this->propertyName($prop, $insertUnderscore), null),
-        $value
+      new StaticPropertyMetadata('boolean', $this->propertyName($prop, $insertUnderscore), null),
+      $value
     );
   }
 
   protected function addIntProperty(
-      SerializationVisitorInterface $visitor,
-      string $prop,
-      ?int $value,
-      bool $insertUnderscore = true): void
+    SerializationVisitorInterface $visitor,
+    string $prop,
+    ?int $value,
+    bool $insertUnderscore = true): void
   {
     $visitor->visitProperty(
-        new StaticPropertyMetadata('int', $this->propertyName($prop, $insertUnderscore), null),
-        $value
+      new StaticPropertyMetadata('int', $this->propertyName($prop, $insertUnderscore), null),
+      $value
     );
   }
 
@@ -104,13 +104,13 @@ abstract class AbstractObjectSerializer
    * Allows to overwrite the serialized name.
    */
   protected function addProperty(
-      SerializationVisitorInterface $visitor,
-      ObjectEvent $event,
-      string $objectClass,
-      string $objectProperty,
-      mixed $value,
-      ?string $prop = null,
-      bool $insertUnderscore = true): void
+    SerializationVisitorInterface $visitor,
+    ObjectEvent $event,
+    string $objectClass,
+    string $objectProperty,
+    mixed $value,
+    ?string $prop = null,
+    bool $insertUnderscore = true): void
   {
     $metadata = $event->getContext()->getMetadataFactory()->getMetadataForClass($objectClass)->propertyMetadata[$objectProperty];
     if (!$metadata instanceof PropertyMetadata) {
@@ -124,12 +124,11 @@ abstract class AbstractObjectSerializer
     $visitor->visitProperty($metadata, $value);
   }
 
-  /** @param $object */
   abstract protected function doSerialize(
-      SerializationVisitorInterface $visitor,
-      array $groups,
-      $object,
-      ObjectEvent $event): void;
+    SerializationVisitorInterface $visitor,
+    array $groups,
+    $object,
+    ObjectEvent $event): void;
 
   private function propertyName(string $prop, bool $insertUnderscore)
   {

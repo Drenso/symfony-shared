@@ -13,8 +13,6 @@ use Exception;
 class UTCDateType extends DateType
 {
   /**
-   * @param mixed $value
-   *
    * @throws Exception
    *
    * @return mixed|string|null
@@ -29,8 +27,6 @@ class UTCDateType extends DateType
   }
 
   /**
-   * @param mixed $value
-   *
    * @throws Exception
    *
    * @return DateTime|null
@@ -45,17 +41,25 @@ class UTCDateType extends DateType
       return DateTime::createFromImmutable($value);
     }
 
-    $converted = DateTime::createFromFormat(
-        '!' . $platform->getDateFormatString(),
+    if (!is_string($value)) {
+      throw ConversionException::conversionFailedFormat(
         $value,
-        UtcHelper::getUtc()
+        $this->getName(),
+        $platform->getDateTimeFormatString()
+      );
+    }
+
+    $converted = DateTime::createFromFormat(
+      '!' . $platform->getDateFormatString(),
+      $value,
+      UtcHelper::getUtc()
     );
 
     if (!$converted) {
       throw ConversionException::conversionFailedFormat(
-          $value,
-          $this->getName(),
-          $platform->getDateTimeFormatString()
+        $value,
+        $this->getName(),
+        $platform->getDateTimeFormatString()
       );
     }
 

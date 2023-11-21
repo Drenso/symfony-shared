@@ -20,11 +20,11 @@ class SentryTunnelController extends AbstractController
   private const CACHE_KEY = 'drenso.sentry_tunnel.available';
 
   public function __construct(
-      private readonly HttpClientInterface $httpClient,
-      private readonly ?CacheInterface $appCache,
-      private readonly array $allowedDsn,
-      private readonly int $connectTimeout,
-      private readonly int $maxDuration)
+    private readonly HttpClientInterface $httpClient,
+    private readonly ?CacheInterface $appCache,
+    private readonly array $allowedDsn,
+    private readonly int $connectTimeout,
+    private readonly int $maxDuration)
   {
   }
 
@@ -67,17 +67,17 @@ class SentryTunnelController extends AbstractController
 
     try {
       $request = $this->httpClient->request(
-          Request::METHOD_POST,
-          sprintf('https://%s/api/%d/envelope/', $parsedDsn['host'] ?? null, intval(trim(($parsedDsn['path'] ?? ''), '/'))),
-          [
-              'body'    => $content,
-              'headers' => [
-                  'Content-Type' => 'application/x-sentry-envelope',
-              ],
-              'timeout'       => $this->connectTimeout,
-              'max_duration'  => $this->maxDuration,
-              'max_redirects' => 0, // Do not follow redirects
-          ]
+        Request::METHOD_POST,
+        sprintf('https://%s/api/%d/envelope/', $parsedDsn['host'] ?? null, intval(trim($parsedDsn['path'] ?? '', '/'))),
+        [
+          'body'    => $content,
+          'headers' => [
+            'Content-Type' => 'application/x-sentry-envelope',
+          ],
+          'timeout'       => $this->connectTimeout,
+          'max_duration'  => $this->maxDuration,
+          'max_redirects' => 0, // Do not follow redirects
+        ]
       );
 
       return new Response($request->getContent());
@@ -93,13 +93,13 @@ class SentryTunnelController extends AbstractController
   private function isAvailable(): bool
   {
     // Fill with true if there is nothing in the cache
-    return $this->appCache?->get(self::CACHE_KEY, static fn () => true) ?? true;
+    return $this->appCache?->get(self::CACHE_KEY, static fn (): bool => true) ?? true;
   }
 
   private function markUnavailable(): void
   {
     $this->appCache?->delete(self::CACHE_KEY);
-    $this->appCache?->get(self::CACHE_KEY, static function (ItemInterface $item) {
+    $this->appCache?->get(self::CACHE_KEY, static function (ItemInterface $item): bool {
       $item->expiresAfter(new DateInterval('PT5M'));
 
       return false;

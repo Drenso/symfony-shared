@@ -25,8 +25,8 @@ trait RowCountTrait
   public function getRowCountForBuilder(QueryBuilder $queryBuilder, string $column): int
   {
     return $queryBuilder
-        ->select(sprintf('COUNT(%s)', $column))
-        ->getQuery()->getSingleScalarResult();
+      ->select(sprintf('COUNT(%s)', $column))
+      ->getQuery()->getSingleScalarResult();
   }
 
   /** Get whether the query builder returns any result */

@@ -24,6 +24,7 @@ class SoftDeletableSymfonyCacheWarmer implements CacheWarmerInterface
 
   /**
    * @return string[]
+   *
    * @suppress PhanParamSignatureRealMismatchHasNoParamType
    */
   public function warmUp(string $cacheDir): array

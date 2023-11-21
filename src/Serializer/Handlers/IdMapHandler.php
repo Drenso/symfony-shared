@@ -15,26 +15,26 @@ class IdMapHandler implements SubscribingHandlerInterface
   public static function getSubscribingMethods(): array
   {
     return [
-        [
-            'direction' => GraphNavigatorInterface::DIRECTION_SERIALIZATION,
-            'type'      => IdMap::class,
-            'format'    => 'json',
-            'method'    => 'serializeJson',
-        ],
-        [
-            'direction' => GraphNavigatorInterface::DIRECTION_DESERIALIZATION,
-            'type'      => IdMap::class,
-            'format'    => 'json',
-            'method'    => 'deserializeJson',
-        ],
+      [
+        'direction' => GraphNavigatorInterface::DIRECTION_SERIALIZATION,
+        'type'      => IdMap::class,
+        'format'    => 'json',
+        'method'    => 'serializeJson',
+      ],
+      [
+        'direction' => GraphNavigatorInterface::DIRECTION_DESERIALIZATION,
+        'type'      => IdMap::class,
+        'format'    => 'json',
+        'method'    => 'deserializeJson',
+      ],
     ];
   }
 
   public function serializeJson(
-      SerializationVisitorInterface $visitor,
-      IdMap $data,
-      array $type,
-      SerializationContext $context): mixed
+    SerializationVisitorInterface $visitor,
+    IdMap $data,
+    array $type,
+    SerializationContext $context): mixed
   {
     // We change the base type, and pass through possible parameters.
     $type['name'] = 'array';
@@ -49,10 +49,10 @@ class IdMapHandler implements SubscribingHandlerInterface
   }
 
   public function deserializeJson(
-      DeserializationVisitorInterface $visitor,
-                                      $data,
-      array $type,
-      DeserializationContext $context): IdMap
+    DeserializationVisitorInterface $visitor,
+    $data,
+    array $type,
+    DeserializationContext $context): IdMap
   {
     $type['name'] = 'array';
 

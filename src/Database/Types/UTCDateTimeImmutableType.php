@@ -10,15 +10,12 @@ use Doctrine\DBAL\Types\DateTimeImmutableType;
 use Drenso\Shared\Helper\UtcHelper;
 
 /**
- * Class UTCDateTimeImmutableType
  * Store all datetime immutable types as UTC in the database
  * Source: https://www.doctrine-project.org/projects/doctrine-orm/en/2.7/cookbook/working-with-datetime.html.
  */
 class UTCDateTimeImmutableType extends DateTimeImmutableType
 {
   /**
-   * @param mixed $value
-   *
    * @throws ConversionException
    *
    * @return mixed|string|null
@@ -46,8 +43,6 @@ class UTCDateTimeImmutableType extends DateTimeImmutableType
   }
 
   /**
-   * @param mixed $value
-   *
    * @throws ConversionException
    *
    * @return DateTimeImmutable|null
@@ -62,17 +57,25 @@ class UTCDateTimeImmutableType extends DateTimeImmutableType
       return DateTimeImmutable::createFromMutable($value);
     }
 
-    $converted = DateTimeImmutable::createFromFormat(
-        $platform->getDateTimeFormatString(),
+    if (!is_string($value)) {
+      throw ConversionException::conversionFailedFormat(
         $value,
-        UtcHelper::getUtc()
+        $this->getName(),
+        $platform->getDateTimeFormatString()
+      );
+    }
+
+    $converted = DateTimeImmutable::createFromFormat(
+      $platform->getDateTimeFormatString(),
+      $value,
+      UtcHelper::getUtc()
     );
 
     if (!$converted) {
       throw ConversionException::conversionFailedFormat(
-          $value,
-          $this->getName(),
-          $platform->getDateTimeFormatString()
+        $value,
+        $this->getName(),
+        $platform->getDateTimeFormatString()
       );
     }
 

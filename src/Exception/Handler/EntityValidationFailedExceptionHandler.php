@@ -15,22 +15,22 @@ class EntityValidationFailedExceptionHandler implements EventSubscriberInterface
 {
   /** @param string[] $controllerPrefixes */
   public function __construct(
-      private readonly SerializerInterface $serializer,
-      private readonly array $controllerPrefixes,
-      private readonly string $dataField)
+    private readonly SerializerInterface $serializer,
+    private readonly array $controllerPrefixes,
+    private readonly string $dataField)
   {
   }
 
   public static function getSubscribedEvents(): array
   {
     return [
-        KernelEvents::EXCEPTION => [
-            ['handleException', 1024],
-        ],
+      KernelEvents::EXCEPTION => [
+        ['handleException', 1024],
+      ],
     ];
   }
 
-  public function handleException(ExceptionEvent $event)
+  public function handleException(ExceptionEvent $event): void
   {
     $exception = $event->getThrowable();
 
@@ -44,8 +44,8 @@ class EntityValidationFailedExceptionHandler implements EventSubscriberInterface
 
     // Create a JSON response with a serialized representation of the validation exception
     $json = $this->serializer->serialize([
-        'reason'         => 'validation.failed',
-        $this->dataField => $exception->getViolationList(),
+      'reason'         => 'validation.failed',
+      $this->dataField => $exception->getViolationList(),
     ], 'json');
     $event->setResponse(new JsonResponse($json, Response::HTTP_BAD_REQUEST, [], true));
 
@@ -53,7 +53,7 @@ class EntityValidationFailedExceptionHandler implements EventSubscriberInterface
     $event->setThrowable(new BadRequestHttpException($exception->getMessage(), $exception));
   }
 
-  private function matchesPrefix(string $controller)
+  private function matchesPrefix(string $controller): bool
   {
     foreach ($this->controllerPrefixes as $controllerPrefix) {
       if (str_starts_with($controller, $controllerPrefix)) {

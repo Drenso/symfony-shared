@@ -18,8 +18,8 @@ trait FindIdsTrait
     $qb    = $this->createQueryBuilder($alias);
 
     return $qb
-        ->where($qb->expr()->in(sprintf('%s.id', $alias), ':ids'))
-        ->setParameter('ids', $ids);
+      ->where($qb->expr()->in(sprintf('%s.id', $alias), ':ids'))
+      ->setParameter('ids', $ids);
   }
 
   /** Retrieve entities by the given ids. */

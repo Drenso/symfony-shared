@@ -19,6 +19,7 @@
     "Doctrine\\DBAL\\Types\\JsonType",
     "Doctrine\\DBAL\\Types\\StringType",
     "Doctrine\\DBAL\\Types\\Type",
+    "Doctrine\\DBAL\\Types\\Types",
     "Doctrine\\ORM\\EntityManagerInterface",
     "Doctrine\\ORM\\Event\\LifecycleEventArgs",
     "Doctrine\\ORM\\NonUniqueResultException",

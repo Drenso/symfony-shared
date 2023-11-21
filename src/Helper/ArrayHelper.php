@@ -8,7 +8,7 @@ use InvalidArgumentException;
 class ArrayHelper
 {
   /** Verify that all array elements are of the supplied type. */
-  public static function assertType(array $variables, string $type)
+  public static function assertType(array $variables, string $type): void
   {
     match ($type) {
       'int', 'integer' => self::assertInt($variables),
@@ -21,67 +21,67 @@ class ArrayHelper
   }
 
   /** Verify that all array elements are integers. */
-  public static function assertInt(array $variables)
+  public static function assertInt(array $variables): void
   {
     foreach ($variables as $variable) {
       if (!is_int($variable)) {
         throw new InvalidArgumentException(
-            sprintf('Expected variable to be of type int, but found variable of type "%s"', gettype($variable)));
+          sprintf('Expected variable to be of type int, but found variable of type "%s"', gettype($variable)));
       }
     }
   }
 
   /** Verify that all array elements are strings. */
-  public static function assertString(array $variables)
+  public static function assertString(array $variables): void
   {
     foreach ($variables as $variable) {
       if (!is_string($variable)) {
         throw new InvalidArgumentException(
-            sprintf('Expected variable to be of type string, but found variable of type "%s"', gettype($variable)));
+          sprintf('Expected variable to be of type string, but found variable of type "%s"', gettype($variable)));
       }
     }
   }
 
   /** Verify that all array elements are floats. */
-  public static function assertFloat(array $variables)
+  public static function assertFloat(array $variables): void
   {
     foreach ($variables as $variable) {
       if (!is_float($variable)) {
         throw new InvalidArgumentException(
-            sprintf('Expected variable to be of type float, but found variable of type "%s"', gettype($variable)));
+          sprintf('Expected variable to be of type float, but found variable of type "%s"', gettype($variable)));
       }
     }
   }
 
   /** Verify that all array elements are booleans. */
-  public static function assertBool(array $variables)
+  public static function assertBool(array $variables): void
   {
     foreach ($variables as $variable) {
       if (!is_bool($variable)) {
         throw new InvalidArgumentException(
-            sprintf('Expected variable to be of type bool, but found variable of type "%s"', gettype($variable)));
+          sprintf('Expected variable to be of type bool, but found variable of type "%s"', gettype($variable)));
       }
     }
   }
 
   /** Verify that all array elements are arrays. */
-  public static function assertArray(array $variables)
+  public static function assertArray(array $variables): void
   {
     foreach ($variables as $variable) {
       if (!is_array($variable)) {
         throw new InvalidArgumentException(
-            sprintf('Expected variable to be of type string, but found variable of type "%s"', gettype($variable)));
+          sprintf('Expected variable to be of type string, but found variable of type "%s"', gettype($variable)));
       }
     }
   }
 
   /** Verify that all array elements are objects of the supplied class. */
-  public static function assertClass(array $objects, string $class)
+  public static function assertClass(array $objects, string $class): void
   {
     foreach ($objects as $object) {
       if (!($isObject = is_object($object)) || !$object instanceof $class) {
         throw new InvalidArgumentException(
-            sprintf('Expected object to be of type "%s", but found %s of type "%s"', $class, $isObject ? 'object' : 'variable', $isObject ? $object::class : gettype($object)));
+          sprintf('Expected object to be of type "%s", but found %s of type "%s"', $class, $isObject ? 'object' : 'variable', $isObject ? $object::class : gettype($object)));
       }
     }
   }
@@ -116,8 +116,8 @@ class ArrayHelper
   public static function mapToId(array $objects): array
   {
     return array_values(array_map(
-        fn ($object) => $object->getId(),
-        $objects
+      fn ($object): ?int => $object->getId(),
+      $objects
     ));
   }
 

@@ -4,43 +4,32 @@ namespace Drenso\Shared\Database\Traits;
 
 use DateTimeImmutable;
 use DateTimeInterface;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation as Serializer;
 
 trait Blameable
 {
-  /**
-   * @var DateTimeImmutable $created
-   */
-  #[ORM\Column(name: 'created_at', type: 'datetime_immutable', nullable: false)]
+  #[ORM\Column(name: 'created_at', type: Types::DATETIME_IMMUTABLE, nullable: false)]
   #[Serializer\Exclude]
   #[Gedmo\Timestampable(on: 'create')]
-  private $createdAt;
+  private ?DateTimeImmutable $createdAt = null;
 
-  /**
-   * @var string|null $createdBy
-   */
-  #[ORM\Column(name: 'created_by', type: 'string', length: 255, nullable: true)]
+  #[ORM\Column(name: 'created_by', type: Types::STRING, length: 255, nullable: true)]
   #[Serializer\Exclude]
   #[Gedmo\Blameable(on: 'create')]
-  private $createdBy;
+  private ?string $createdBy = null;
 
-  /**
-   * @var DateTimeImmutable|null $updatedAt
-   */
-  #[ORM\Column(name: 'updated_at', type: 'datetime_immutable', nullable: true)]
+  #[ORM\Column(name: 'updated_at', type: Types::DATETIME_IMMUTABLE, nullable: true)]
   #[Serializer\Exclude]
   #[Gedmo\Timestampable(on: 'update')]
-  private $updatedAt;
+  private ?DateTimeImmutable $updatedAt = null;
 
-  /**
-   * @var string|null $updatedBy
-   */
-  #[ORM\Column(name: 'updated_by', type: 'string', length: 255, nullable: true)]
+  #[ORM\Column(name: 'updated_by', type: Types::STRING, length: 255, nullable: true)]
   #[Serializer\Exclude]
   #[Gedmo\Blameable(on: 'update')]
-  private $updatedBy;
+  private ?string $updatedBy = null;
 
   /** Get the last update time, which is either creation time or update time. */
   public function getLastUpdated(): DateTimeInterface
@@ -54,11 +43,6 @@ trait Blameable
     return $this->getUpdatedBy() ?? $this->getCreatedBy();
   }
 
-  /**
-   * Set createdAt.
-   *
-   * @return $this
-   */
   public function setCreatedAt(DateTimeImmutable $createdAt): self
   {
     $this->createdAt = $createdAt;
@@ -66,17 +50,11 @@ trait Blameable
     return $this;
   }
 
-  /** Get createdAt. */
   public function getCreatedAt(): ?DateTimeInterface
   {
     return $this->createdAt;
   }
 
-  /**
-   * Set createdBy.
-   *
-   * @return $this
-   */
   public function setCreatedBy(?string $createdBy): self
   {
     $this->createdBy = $createdBy;
@@ -84,17 +62,11 @@ trait Blameable
     return $this;
   }
 
-  /** Get createdBy. */
   public function getCreatedBy(): ?string
   {
     return $this->createdBy;
   }
 
-  /**
-   * Set updatedAt.
-   *
-   * @return $this
-   */
   public function setUpdatedAt(?DateTimeImmutable $updatedAt): self
   {
     $this->updatedAt = $updatedAt;
@@ -102,17 +74,11 @@ trait Blameable
     return $this;
   }
 
-  /** Get updatedAt. */
   public function getUpdatedAt(): ?DateTimeInterface
   {
     return $this->updatedAt;
   }
 
-  /**
-   * Set updatedBy.
-   *
-   * @return $this
-   */
   public function setUpdatedBy(?string $updatedBy): self
   {
     $this->updatedBy = $updatedBy;
@@ -120,7 +86,6 @@ trait Blameable
     return $this;
   }
 
-  /** Get updatedBy. */
   public function getUpdatedBy(): ?string
   {
     return $this->updatedBy;

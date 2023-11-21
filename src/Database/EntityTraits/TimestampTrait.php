@@ -4,19 +4,17 @@ namespace Drenso\Shared\Database\EntityTraits;
 
 use DateTimeImmutable;
 use DateTimeInterface;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 trait TimestampTrait
 {
-  /**
-   * @var DateTimeImmutable
-   */
-  #[ORM\Column(type: 'datetime_immutable')]
+  #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
   #[Assert\NotNull]
   #[Serializer\Expose]
-  private $timestamp;
+  private ?DateTimeImmutable $timestamp = null;
 
   public function getTimestamp(): ?DateTimeInterface
   {

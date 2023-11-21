@@ -22,16 +22,16 @@ class SoftDeletableSymfonySubscriber implements EventSubscriberInterface
   public static function getSubscribedEvents(): array
   {
     return [
-        ConsoleEvents::COMMAND => [
-            ['registerConversionType', 200],
-        ],
-        KernelEvents::REQUEST => [
-            ['registerConversionType', 200],
-        ],
+      ConsoleEvents::COMMAND => [
+        ['registerConversionType', 200],
+      ],
+      KernelEvents::REQUEST => [
+        ['registerConversionType', 200],
+      ],
     ];
   }
 
-  public function registerConversionType()
+  public function registerConversionType(): void
   {
     self::registerConversionTypeStatic($this->useUtc);
   }

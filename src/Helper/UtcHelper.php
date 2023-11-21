@@ -22,8 +22,8 @@ class UtcHelper
   }
 
   public static function convertToLocalTimezone(
-      DateTimeInterface $dateTime,
-      bool $asImmutable = false): DateTimeInterface
+    DateTimeInterface $dateTime,
+    bool $asImmutable = false): DateTimeInterface
   {
     return $asImmutable
         ? DateTimeHelper::convertToLocalImmutable($dateTime)

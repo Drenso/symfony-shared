@@ -22,71 +22,71 @@ use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 class Select2EntitySearchType extends AbstractType
 {
   public function __construct(
-      private readonly ManagerRegistry $registry,
-      private readonly PropertyAccessorInterface $propertyAccessor)
+    private readonly ManagerRegistry $registry,
+    private readonly PropertyAccessorInterface $propertyAccessor)
   {
   }
 
-  public function buildForm(FormBuilderInterface $builder, array $options)
+  public function buildForm(FormBuilderInterface $builder, array $options): void
   {
     $repository = $this->registry->getRepository($options['class']);
 
     $builder
-        ->addViewTransformer(new CallbackTransformer(
-            function ($normData) use ($options) {
-              if (null === $normData) {
-                return $options['multiple'] ? [] : null;
-              }
+      ->addViewTransformer(new CallbackTransformer(
+        function (array $normData) use ($options) {
+          if (null === $normData) {
+            return $options['multiple'] ? [] : null;
+          }
 
-              if ($normData instanceof Collection) {
-                $normData = $normData->toArray();
-              } elseif (!is_iterable($normData)) {
-                $normData = [$normData];
-              }
+          if ($normData instanceof Collection) {
+            $normData = $normData->toArray();
+          } elseif (!is_iterable($normData)) {
+            $normData = [$normData];
+          }
 
-              $normData = array_map(fn ($item) => [
-                  'value' => $this->propertyAccessor->getValue($item, 'id'),
-                  'label' => $this->propertyAccessor->getValue($item, $options['choice_label']),
-              ], $normData);
+          $normData = array_map(fn ($item): array => [
+            'value' => $this->propertyAccessor->getValue($item, 'id'),
+            'label' => $this->propertyAccessor->getValue($item, $options['choice_label']),
+          ], $normData);
 
-              if (!$options['multiple']) {
-                return $normData[0];
-              }
+          if (!$options['multiple']) {
+            return $normData[0];
+          }
 
-              return $normData;
-            },
-            function ($viewData) use ($repository, $options) {
-              if (!$viewData) {
-                return $options['multiple'] ? [] : null;
-              }
+          return $normData;
+        },
+        function ($viewData) use ($repository, $options) {
+          if (!$viewData) {
+            return $options['multiple'] ? [] : null;
+          }
 
-              if ($options['multiple']) {
-                if (!is_array($viewData)) {
-                  throw new TransformationFailedException('Array data is required for multiple option');
-                }
+          if ($options['multiple']) {
+            if (!is_array($viewData)) {
+              throw new TransformationFailedException('Array data is required for multiple option');
+            }
 
-                $result = [];
-                foreach ($viewData as $itemId) {
-                  if (!$item = $repository->find($itemId)) {
-                    throw new TransformationFailedException('Could not convert data into entity');
-                  }
-
-                  $result[] = $item;
-                }
-
-                return $result;
-              }
-
-              if (!$item = $repository->find($viewData)) {
+            $result = [];
+            foreach ($viewData as $itemId) {
+              if (!$item = $repository->find($itemId)) {
                 throw new TransformationFailedException('Could not convert data into entity');
               }
 
-              return $item;
+              $result[] = $item;
             }
-        ));
+
+            return $result;
+          }
+
+          if (!$item = $repository->find($viewData)) {
+            throw new TransformationFailedException('Could not convert data into entity');
+          }
+
+          return $item;
+        }
+      ));
   }
 
-  public function buildView(FormView $view, FormInterface $form, array $options)
+  public function buildView(FormView $view, FormInterface $form, array $options): void
   {
     $view->vars['multiple'] = $options['multiple'];
 
@@ -98,45 +98,45 @@ class Select2EntitySearchType extends AbstractType
     }
   }
 
-  public function configureOptions(OptionsResolver $resolver)
+  public function configureOptions(OptionsResolver $resolver): void
   {
     $resolver
-        ->setDefaults([
-            'multiple'        => false,
-            'select2'         => true,
-            'select2_options' => [],
-            'search_delay'    => 250,
-        ])
-        ->setAllowedTypes('multiple', 'bool')
-        ->setAllowedTypes('select2', 'bool')
-        ->setAllowedTypes('select2_options', 'array')
-        ->setAllowedTypes('search_delay', 'int')
-        ->setRequired([
-            'class',
-            'search_url',
-        ])
-        ->setAllowedTypes('class', 'string')
-        ->setAllowedTypes('search_url', 'string')
-        ->addNormalizer('compound', fn () => false) // Force non-compound
-        ->addNormalizer('select2', fn () => true) // Force the use of select 2
-        ->addNormalizer('select2_options', function (Options $options, $value) {
-          if (!array_key_exists('ajax', $value)) {
-            $value['ajax'] = [];
-          }
+      ->setDefaults([
+        'multiple'        => false,
+        'select2'         => true,
+        'select2_options' => [],
+        'search_delay'    => 250,
+      ])
+      ->setAllowedTypes('multiple', 'bool')
+      ->setAllowedTypes('select2', 'bool')
+      ->setAllowedTypes('select2_options', 'array')
+      ->setAllowedTypes('search_delay', 'int')
+      ->setRequired([
+        'class',
+        'search_url',
+      ])
+      ->setAllowedTypes('class', 'string')
+      ->setAllowedTypes('search_url', 'string')
+      ->addNormalizer('compound', fn (): bool => false) // Force non-compound
+      ->addNormalizer('select2', fn (): bool => true) // Force the use of select 2
+      ->addNormalizer('select2_options', function (Options $options, array $value): array {
+        if (!array_key_exists('ajax', $value)) {
+          $value['ajax'] = [];
+        }
 
-          if (!array_key_exists('delay', $value['ajax'])) {
-            $value['ajax']['delay'] = $options['search_delay'];
-          }
+        if (!array_key_exists('delay', $value['ajax'])) {
+          $value['ajax']['delay'] = $options['search_delay'];
+        }
 
-          if (!array_key_exists('url', $value['ajax'])) {
-            $value['ajax']['url'] = $options['search_url'];
-          }
+        if (!array_key_exists('url', $value['ajax'])) {
+          $value['ajax']['url'] = $options['search_url'];
+        }
 
-          if (!array_key_exists('minimumInputLength', $value)) {
-            $value['minimumInputLength'] = 1;
-          }
+        if (!array_key_exists('minimumInputLength', $value)) {
+          $value['minimumInputLength'] = 1;
+        }
 
-          return $value;
-        });
+        return $value;
+      });
   }
 }

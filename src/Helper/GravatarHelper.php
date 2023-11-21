@@ -16,8 +16,8 @@ class GravatarHelper
   public function gravatarImage(string $emailAddress, ?int $size = null, ?string $fallbackStyle = null): string
   {
     return sprintf('https://www.gravatar.com/avatar/%s?d=%s%s',
-        md5(strtolower(trim($emailAddress))),
-        $fallbackStyle ?? $this->fallbackStyle,
-        $size ? sprintf('&s=%d', $size) : '');
+      md5(strtolower(trim($emailAddress))),
+      $fallbackStyle ?? $this->fallbackStyle,
+      $size ? sprintf('&s=%d', $size) : '');
   }
 }

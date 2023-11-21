@@ -10,27 +10,27 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class DecimalType extends AbstractType
 {
-  public function buildForm(FormBuilderInterface $builder, array $options)
+  public function buildForm(FormBuilderInterface $builder, array $options): void
   {
     $builder->addModelTransformer(new CallbackTransformer(
-        function ($value) {
-          if (!$value instanceof Decimal) {
-            return $value;
-          }
-
-          return $value->toFloat();
-        },
-        function ($value) {
-          if (!is_string($value) && !is_float($value)) {
-            return $value;
-          }
-
-          return new Decimal((string)$value);
+      function ($value) {
+        if (!$value instanceof Decimal) {
+          return $value;
         }
+
+        return $value->toFloat();
+      },
+      function ($value) {
+        if (!is_string($value) && !is_float($value)) {
+          return $value;
+        }
+
+        return new Decimal((string)$value);
+      }
     ));
   }
 
-  public function getParent()
+  public function getParent(): ?string
   {
     return NumberType::class;
   }

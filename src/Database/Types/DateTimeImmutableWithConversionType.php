@@ -16,8 +16,6 @@ class DateTimeImmutableWithConversionType extends DateTimeImmutableType
   final public const DATETIME_IMMUTABLE_WITH_CONVERSION = 'datetime_immutable_with_conversion';
 
   /**
-   * @param mixed $value
-   *
    * @throws ConversionException
    *
    * @return mixed|string|null
@@ -32,8 +30,6 @@ class DateTimeImmutableWithConversionType extends DateTimeImmutableType
   }
 
   /**
-   * @param mixed $value
-   *
    * @throws ConversionException
    *
    * @return DateTimeImmutable|null

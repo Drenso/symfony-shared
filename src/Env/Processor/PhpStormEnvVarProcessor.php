@@ -19,7 +19,7 @@ class PhpStormEnvVarProcessor implements EnvVarProcessorInterface
   public static function getProvidedTypes(): array
   {
     return [
-        'phpstorm' => 'string',
+      'phpstorm' => 'string',
     ];
   }
 }

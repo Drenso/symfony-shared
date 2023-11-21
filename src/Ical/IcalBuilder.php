@@ -35,13 +35,13 @@ class IcalBuilder
    * @param string|null       $productIdentifier Product identifier to be used in the export, auto padded with `-//` and `//`
    */
   public function __construct(
-      private readonly string $domain,
-      private readonly string $name,
-      private readonly string $description,
-      private readonly ?DateTimeZone $timeZone = null,
-      private readonly bool $includeTimeZoneInformation = true,
-      ?DateInterval $publishedTTL = null,
-      ?string $productIdentifier = null)
+    private readonly string $domain,
+    private readonly string $name,
+    private readonly string $description,
+    private readonly ?DateTimeZone $timeZone = null,
+    private readonly bool $includeTimeZoneInformation = true,
+    ?DateInterval $publishedTTL = null,
+    ?string $productIdentifier = null)
   {
     if (!class_exists(Calendar::class)) {
       throw new InvalidConfigurationException('In order to use the IcalBuilder, the iCal library needs to be installed. Try running `composer req eluceo/ical`.');
@@ -63,14 +63,14 @@ class IcalBuilder
    * The bound event instance is returned for further processing if necessary.
    */
   public function addEvent(
-      ?string $identifier,
-      string $summary,
-      DateTimeInterface $start,
-      DateTimeInterface $end,
-      ?string $description = null,
-      ?string $location = null,
-      DateInterval|string|null $alarmTrigger = null,
-      ?DateTimeInterface $touchedAt = null): Event
+    ?string $identifier,
+    string $summary,
+    DateTimeInterface $start,
+    DateTimeInterface $end,
+    ?string $description = null,
+    ?string $location = null,
+    DateInterval|string|null $alarmTrigger = null,
+    ?DateTimeInterface $touchedAt = null): Event
   {
     $identifier = sprintf('%s@%s', $identifier ?: bin2hex(random_bytes(16)), $this->domain);
 
@@ -80,11 +80,11 @@ class IcalBuilder
     }
 
     $event = (new Event(new UniqueIdentifier($identifier)))
-        ->setSummary($summary)
-        ->setOccurrence(new TimeSpan(
-            new DateTime($start, $this->includeTimeZoneInformation),
-            new DateTime($end, $this->includeTimeZoneInformation),
-        ));
+      ->setSummary($summary)
+      ->setOccurrence(new TimeSpan(
+        new DateTime($start, $this->includeTimeZoneInformation),
+        new DateTime($end, $this->includeTimeZoneInformation),
+      ));
 
     if ($description) {
       $event->setDescription($description);
@@ -100,11 +100,11 @@ class IcalBuilder
       $duration->invert = 1;
 
       $event->addAlarm(new Alarm(
-          new DisplayAction($description
-              ? sprintf('%s - %s', $summary, $description)
-              : $summary
-          ),
-          new RelativeTrigger($duration)
+        new DisplayAction($description
+            ? sprintf('%s - %s', $summary, $description)
+            : $summary
+        ),
+        new RelativeTrigger($duration)
       ));
     }
 
@@ -129,17 +129,17 @@ class IcalBuilder
   {
     if ($this->timeZone && $this->includeTimeZoneInformation) {
       $this->cal->addTimeZone(TimeZone::createFromPhpDateTimeZone(
-          $this->timeZone,
-          $this->beginDateTime ?? new DateTimeImmutable(),
-          $this->endDateTime ?? new DateTimeImmutable(),
+        $this->timeZone,
+        $this->beginDateTime ?? new DateTimeImmutable(),
+        $this->endDateTime ?? new DateTimeImmutable(),
       ));
     }
 
     $component = (new CalendarFactory())->createCalendar($this->cal);
 
     return $component
-        ->withProperty(new Property('X-WR-CALNAME', new TextValue($this->name)))
-        ->withProperty(new Property('X-WR-CALDESC', new TextValue($this->description)))
-        ->__toString();
+      ->withProperty(new Property('X-WR-CALNAME', new TextValue($this->name)))
+      ->withProperty(new Property('X-WR-CALDESC', new TextValue($this->description)))
+      ->__toString();
   }
 }
