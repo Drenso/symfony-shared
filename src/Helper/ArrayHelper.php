@@ -2,6 +2,7 @@
 
 namespace Drenso\Shared\Helper;
 
+use Doctrine\Common\Collections\ReadableCollection;
 use Drenso\Shared\Interfaces\IdInterface;
 use InvalidArgumentException;
 
@@ -145,5 +146,23 @@ class ArrayHelper
   public static function filterEmptyValuesFromStringArray(array $data): array
   {
     return array_values(array_filter($data, fn (string $item): bool => trim($item) !== ''));
+  }
+
+  /**
+   * Resolve a variable (either an array or a Doctrine ReadableCollection) to an array.
+   *
+   * @template T
+   *
+   * @param array<T>|ReadableCollection<T> $arrayOrCollection
+   *
+   * @return array<T>
+   */
+  public static function resolveArray(array|ReadableCollection $arrayOrCollection): array
+  {
+    if ($arrayOrCollection instanceof ReadableCollection) {
+      return $arrayOrCollection->toArray();
+    }
+
+    return $arrayOrCollection;
   }
 }

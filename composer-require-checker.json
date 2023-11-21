@@ -9,6 +9,7 @@
     "BOMO\\IcalBundle\\Model\\Timezone",
     "BOMO\\IcalBundle\\Provider\\IcsProvider",
     "Doctrine\\Common\\Collections\\Collection",
+    "Doctrine\\Common\\Collections\\ReadableCollection",
     "Doctrine\\Common\\EventSubscriber",
     "Doctrine\\DBAL\\Platforms\\AbstractPlatform",
     "Doctrine\\DBAL\\Types\\ConversionException",
