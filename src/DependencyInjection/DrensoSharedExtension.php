@@ -310,14 +310,6 @@ class DrensoSharedExtension extends ConfigurableExtension
           ->setArgument('$configuration', $services['feature_flags']['configuration_file'])
           ->setArgument('$configurationOverride', $services['feature_flags']['configuration_local_file'] ?? '')
           ->setPublic($public);
-        // BC: Alias the old service id with the instance
-        $container
-          ->setAlias(FeatureFlags::class, FeatureFlagsInterface::class)
-          ->setDeprecated(
-            'drenso/symfony-shared',
-            '2.21.0',
-            'Direct usage of "%alias_id%" has been deprecated in favour of "' . FeatureFlagsInterface::class . '"'
-          );
       } else {
         $container->setAlias(FeatureFlagsInterface::class, $services['feature_flags']['custom_handler']);
       }
