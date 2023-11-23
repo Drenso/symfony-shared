@@ -33,7 +33,7 @@ class Select2EntitySearchType extends AbstractType
 
     $builder
       ->addViewTransformer(new CallbackTransformer(
-        function (array $normData) use ($options) {
+        function (mixed $normData) use ($options): mixed {
           if (null === $normData) {
             return $options['multiple'] ? [] : null;
           }
@@ -55,7 +55,7 @@ class Select2EntitySearchType extends AbstractType
 
           return $normData;
         },
-        function ($viewData) use ($repository, $options) {
+        function (mixed $viewData) use ($repository, $options): mixed {
           if (!$viewData) {
             return $options['multiple'] ? [] : null;
           }
