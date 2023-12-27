@@ -42,7 +42,7 @@
     "maennchen/zipstream-php": "^3.0",
     "php-decimal/php-decimal": "^1.1",
     "phpoffice/phpspreadsheet": "^1.23",
-    "rector/rector": "0.18.12",
+    "rector/rector": "0.18.13",
     "sebastian/comparator": "^5.0",
     "sensio/framework-extra-bundle": "^6.0",
     "stof/doctrine-extensions-bundle": "^1.3",
