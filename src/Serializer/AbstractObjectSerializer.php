@@ -130,7 +130,7 @@ abstract class AbstractObjectSerializer
     $object,
     ObjectEvent $event): void;
 
-  private function propertyName(string $prop, bool $insertUnderscore)
+  private function propertyName(string $prop, bool $insertUnderscore): string
   {
     return ($insertUnderscore ? '_' : '') . $prop;
   }
