@@ -4,8 +4,9 @@ namespace Drenso\Shared\Helper;
 
 use DateTime;
 use DateTimeImmutable;
+use Psr\Clock\ClockInterface;
 
-class DateTimeProvider
+class DateTimeProvider implements ClockInterface
 {
   public function __construct(private readonly string $now = 'now')
   {
