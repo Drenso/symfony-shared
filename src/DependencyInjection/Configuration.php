@@ -326,6 +326,14 @@ class Configuration implements ConfigurationInterface
             ->arrayNode('spreadsheethelper')
               ->canBeEnabled()
             ->end() // spreadsheethelper
+            ->arrayNode('datetimeprovider')
+              ->canBeDisabled()
+              ->children()
+                ->booleanNode('clock_interface')
+                  ->defaultFalse()
+                ->end() // clock_interface
+              ->end() // datetimeprovider children
+            ->end() // datetimeprovider
           ->end() // services children
         ->end() // services
       ->end();

@@ -34,6 +34,7 @@ use Drenso\Shared\Twig\JmsSerializerExtension;
 use Gedmo\SoftDeleteable\SoftDeleteableListener;
 use JMS\Serializer\ContextFactory\SerializationContextFactoryInterface;
 use JMS\Serializer\SerializerInterface;
+use Psr\Clock\ClockInterface;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -343,9 +344,14 @@ class DrensoSharedExtension extends ConfigurableExtension
         ->setArgument('$translator', new Reference(TranslatorInterface::class, ContainerInterface::NULL_ON_INVALID_REFERENCE));
     }
 
-    // DateTime provider
-    $container
-      ->register(DateTimeProvider::class)
-      ->setPublic($public);
+    if ($services['datetimeprovider']['enabled']) {
+      $container
+        ->register(DateTimeProvider::class)
+        ->setPublic($public);
+
+      if ($services['datetimeprovider']['clock_interface']) {
+        $container->setAlias(ClockInterface::class, DateTimeProvider::class);
+      }
+    }
   }
 }
