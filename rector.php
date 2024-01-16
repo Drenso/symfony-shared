@@ -23,7 +23,7 @@ return static function (RectorConfig $rc): void {
   $rc->cacheDirectory('./var/cache/rector');
 
   $rc->paths([__DIR__ . '/src',]);
-  $rc->parallel(seconds: 180, jobSize: 10);
+  $rc->parallel(processTimeout: 180, jobSize: 10);
   $rc->importNames();
   $rc->skip([
       ReadOnlyPropertyRector::class,
