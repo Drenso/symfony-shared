@@ -37,7 +37,7 @@
     "doctrine/orm": "^2.7",
     "drenso/phan-extensions": "~3.0",
     "eluceo/ical": "^2.7",
-    "friendsofphp/php-cs-fixer": "3.46.0",
+    "friendsofphp/php-cs-fixer": "3.47.0",
     "jms/serializer-bundle": "^5.0",
     "kigkonsult/icalcreator": "^2.39",
     "maennchen/zipstream-php": "^3.0",
