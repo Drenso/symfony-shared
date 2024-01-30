@@ -22,12 +22,8 @@ class SoftDeletableSymfonyCacheWarmer implements CacheWarmerInterface
     return false;
   }
 
-  /**
-   * @return string[]
-   *
-   * @suppress PhanParamSignatureRealMismatchHasNoParamType
-   */
-  public function warmUp(string $cacheDir): array
+  /** @return string[] */
+  public function warmUp(string $cacheDir, ?string $buildDir = null): array
   {
     self::registerGedmoType();
     SoftDeletableSymfonySubscriber::registerConversionTypeStatic($this->useUtc);

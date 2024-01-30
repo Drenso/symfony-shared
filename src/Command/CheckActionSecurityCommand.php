@@ -6,8 +6,6 @@ use ReflectionAttribute;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionMethod;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -18,6 +16,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[AsCommand(name: 'drenso:check:action-security', description: 'Check if all actions in the app namespace either have a Security or an IsGranted attribute.')]
 class CheckActionSecurityCommand extends Command
@@ -84,8 +83,7 @@ class CheckActionSecurityCommand extends Command
         // Check if Route attribute exists
         if ($reflectedMethod->getAttributes(Route::class, $attrFlags)) {
           // Check if Security or IsGranted attribute exists, if not raise error
-          if (!$reflectedMethod->getAttributes(Security::class, $attrFlags)
-              && !$reflectedMethod->getAttributes(IsGranted::class, $attrFlags)
+          if (!$reflectedMethod->getAttributes(IsGranted::class, $attrFlags)
               && (!$allowClass || !(new ReflectionClass($controllerObject))->getAttributes(IsGranted::class, $attrFlags))) {
             $noSecurity[] = '- ' . $controller;
           }
