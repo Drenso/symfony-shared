@@ -22,7 +22,6 @@ use Drenso\Shared\Form\Type\Select2EntitySearchType;
 use Drenso\Shared\Helper\DateTimeProvider;
 use Drenso\Shared\Helper\GravatarHelper;
 use Drenso\Shared\Helper\SpreadsheetHelper;
-use Drenso\Shared\Request\ParamConverter\EnumParamConverter;
 use Drenso\Shared\Sentry\SentryTunnelController;
 use Drenso\Shared\Serializer\Handlers\DecimalHandler;
 use Drenso\Shared\Serializer\Handlers\EnumHandler;
