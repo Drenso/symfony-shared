@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\ParamConverterInte
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
+/** @deprecated Symfony can handle this from version 6.3 */
 class EnumParamConverter implements ParamConverterInterface
 {
   public function __construct(private readonly array $supportedEnums)

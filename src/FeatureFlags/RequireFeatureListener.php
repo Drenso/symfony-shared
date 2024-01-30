@@ -16,14 +16,8 @@ class RequireFeatureListener
 
   public function __invoke(ControllerArgumentsEvent $event): void
   {
-    $request = $event->getRequest();
-
-    /** @var $attributes RequireFeature[] */
-    if (!$attributes = $request->attributes->get('_drenso_require_feature')) {
-      return;
-    }
-
-    foreach ($attributes as $attribute) {
+    foreach ($event->getAttributes(RequireFeature::class) as $attribute) {
+      /** @var RequireFeature $attribute */
       if (!$this->featureFlags->getFlagValue($attribute->flag)) {
         throw new NotFoundHttpException(sprintf('Feature disabled (%s)', $attribute->flag));
       }

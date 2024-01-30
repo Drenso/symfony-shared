@@ -27,14 +27,8 @@ class UseLockListener implements EventSubscriberInterface
 
   public function onKernelControllerArguments(ControllerArgumentsEvent $event): void
   {
-    $request = $event->getRequest();
-
-    /** @var $attributes UseLock[] */
-    if (!$attributes = $request->attributes->get('_drenso_use_lock')) {
-      return;
-    }
-
-    foreach ($attributes as $attribute) {
+    foreach ($event->getAttributes(UseLock::class) as $attribute) {
+      /** @var UseLock $attribute */
       $lock = $this->lockFactory->createLock($attribute->lockName);
       $lock->acquire(true);
       $this->locks[] = $lock;
