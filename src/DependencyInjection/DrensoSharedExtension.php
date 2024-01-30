@@ -62,7 +62,6 @@ class DrensoSharedExtension extends ConfigurableExtension
     $this->configureEmailService($container, $mergedConfig, $publicServices);
     $this->configureEnv($container, $mergedConfig);
     $this->configureFormExtensions($container, $mergedConfig);
-    $this->configureRequestExtensions($container, $mergedConfig, $publicServices);
     $this->configureSentryTunnel($container, $mergedConfig);
     $this->configureSerializer($container, $mergedConfig, $publicServices);
     $this->configureServices($container, $mergedConfig, $publicServices);
@@ -203,18 +202,6 @@ class DrensoSharedExtension extends ConfigurableExtension
         ->addTag('form.type')
         ->setArgument('$registry', new Reference(ManagerRegistry::class))
         ->setArgument('$propertyAccessor', new Reference(PropertyAccessorInterface::class));
-    }
-  }
-
-  private function configureRequestExtensions(ContainerBuilder $container, array $config, bool $public): void
-  {
-    $request = $config['request'];
-    if ($request['param_converter']['enabled']) {
-      $container
-        ->register(EnumParamConverter::class)
-        ->addTag('request.param_converter')
-        ->setPublic($public)
-        ->setArgument('$supportedEnums', $request['param_converter']['supported_enums']);
     }
   }
 

@@ -23,7 +23,6 @@ class Configuration implements ConfigurationInterface
     $this->configureEmailService($rootNode);
     $this->configureEnv($rootNode);
     $this->configureFormExtensions($rootNode);
-    $this->configureRequestExtensions($rootNode);
     $this->configureSentryTunnel($rootNode);
     $this->configureSerializer($rootNode);
     $this->configureServices($rootNode);
@@ -176,27 +175,6 @@ class Configuration implements ConfigurationInterface
             ->end() // select2
           ->end() // form_extensions children
         ->end() // form_extensions
-      ->end();
-  }
-
-  /** Setup configuration for the request extensions */
-  private function configureRequestExtensions(ArrayNodeDefinition $node): void
-  {
-    $node
-      ->children()
-        ->arrayNode('request')
-          ->addDefaultsIfNotSet()
-            ->children()
-              ->arrayNode('param_converter')
-                ->canBeEnabled()
-                ->children()
-                  ->arrayNode('supported_enums')
-                    ->scalarPrototype()->end()
-                  ->end() // supported_enums
-                ->end() // param_converter children
-              ->end() // param_converter
-            ->end() // request children
-          ->end() // request
       ->end();
   }
 

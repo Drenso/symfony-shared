@@ -28,10 +28,6 @@ drenso_shared:
     generic: true # Whether to use the generic extension (hide_label and form_header options)
     button: true # Whether to use the button extension (icon and icon_prefix options)
     select2: true # Whether to use the select2 extension (select2, select2_theme and select2_options options)
-  request:
-    param_converter:
-      enabled: false # Enable the request param converter in order to convert a parameter into a backed enum equivalent
-      supported_enums: [ ] # List of supported enums
   serializer:
     handlers:
       decimal: false # Enable the decimal handler
