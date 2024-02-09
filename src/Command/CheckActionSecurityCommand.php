@@ -62,12 +62,18 @@ class CheckActionSecurityCommand extends Command
           continue;
         }
 
-        // Find actions. Possible formats: <service>:<action> and <namespace>:<bundle>:<action>. These need to be checked separately.
+        // Find actions. Possible formats: <invokable service>, <service>:<action> and <namespace>:<bundle>:<action>. These need to be checked separately.
         $controllerArray = explode(':', (string)$controller);
+
         try {
           // Resolve service
           $controllerObject = $this->container->get($controllerArray[0]);
-          $action           = $controllerArray[2] ?? $controllerArray[1];
+          if (count($controllerArray) === 1) {
+            // Invokable controller
+            $action = '__invoke';
+          } else {
+            $action = $controllerArray[2] ?? $controllerArray[1];
+          }
         } catch (ServiceNotFoundException) {
           $controllerObject = $controllerArray[0];
           // Merge bundle with namespace, but only if this is defined
@@ -77,14 +83,29 @@ class CheckActionSecurityCommand extends Command
           $action = $controllerArray[2];
         }
 
-        // Create ReflectionMethod
-        $reflectedMethod = new ReflectionMethod($controllerObject, $action);
-        $attrFlags       = ReflectionAttribute::IS_INSTANCEOF;
+        $attrFlags = ReflectionAttribute::IS_INSTANCEOF;
+
+        // Specific handling for invokable controllers
+        if ($action === '__invoke') {
+          $reflectedClass = new ReflectionClass($controllerObject);
+          if ($reflectedClass->getAttributes(Route::class, $attrFlags)) {
+            if (!$reflectedClass->getAttributes(IsGranted::class, $attrFlags)) {
+              $noSecurity[] = '- ' . $controller;
+            }
+
+            // Save as checked for verbose output
+            $checkedControllers[] = '- ' . $controller;
+          }
+
+          continue;
+        }
+
         // Check if Route attribute exists
+        $reflectedMethod = new ReflectionMethod($controllerObject, $action);
         if ($reflectedMethod->getAttributes(Route::class, $attrFlags)) {
           // Check if Security or IsGranted attribute exists, if not raise error
           if (!$reflectedMethod->getAttributes(IsGranted::class, $attrFlags)
-              && (!$allowClass || !(new ReflectionClass($controllerObject))->getAttributes(IsGranted::class, $attrFlags))) {
+            && (!$allowClass || !(new ReflectionClass($controllerObject))->getAttributes(IsGranted::class, $attrFlags))) {
             $noSecurity[] = '- ' . $controller;
           }
 
@@ -94,12 +115,23 @@ class CheckActionSecurityCommand extends Command
       }
     }
 
+    if ($output->isVerbose()) {
+      $checked = [
+        'Checked controllers:',
+        ...$checkedControllers,
+      ];
+
+      $io->info(implode("\n", $checkedControllers));
+      $output->writeln('');
+    }
+
     // Build error string
     if (!empty($noSecurity)) {
-      $error = [];
       // Concatenate non-pre-authorized methods
-      $error[] = 'The following methods do not contain a Security or IsGranted attribute:';
-      $error   = [...$error, ...$noSecurity];
+      $error = [
+        'The following methods do not contain a Security or IsGranted attribute:',
+        ...$noSecurity,
+      ];
 
       // Feedback error
       $io->error(implode("\n", $error));
@@ -109,12 +141,6 @@ class CheckActionSecurityCommand extends Command
 
     // No errors occurred!
     $io->success('All methods contain a Security or IsGranted attribute!');
-
-    if ($output->isVerbose()) {
-      $output->writeln('Checked controllers:');
-      $output->writeln(implode("\n", $checkedControllers));
-      $output->writeln('');
-    }
 
     return Command::SUCCESS;
   }
