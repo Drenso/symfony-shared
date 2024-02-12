@@ -263,6 +263,6 @@ class SpreadsheetHelper
 
   public static function sanitizeFilename(string $filename): string
   {
-    return mb_strtolower(preg_replace('/[^A-Z\d.]/ui', '_', iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $filename)));
+    return mb_strtolower((string)preg_replace('/[^A-Z\d.]/ui', '_', iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $filename)));
   }
 }
