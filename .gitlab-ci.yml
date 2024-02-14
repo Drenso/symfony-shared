@@ -15,25 +15,25 @@ variables:
 include:
   - project: 'intern/runner-templates'
     file: '/symfony/install-dependencies.yml'
-    ref: "12.0"
+    ref: "12.1"
   - project: 'intern/runner-templates'
-    ref: "12.0"
+    ref: "12.1"
     file: '/php/code-style-fixer.yml'
   - project: 'intern/runner-templates'
     file: '/php/phan.yml'
-    ref: "12.0"
+    ref: "12.1"
   - project: 'intern/runner-templates'
     file: '/php/composer-require-checker.yml'
-    ref: "12.0"
+    ref: "12.1"
   - project: 'intern/runner-templates'
     file: '/php/composer-unused.yml'
-    ref: "12.0"
+    ref: "12.1"
   - project: 'intern/runner-templates'
     file: '/yaml/yamllint.yml'
-    ref: "12.0"
+    ref: "12.1"
   - project: 'intern/runner-templates'
     file: '/deploy/deploy.yml'
-    ref: "12.0"
+    ref: "12.1"
 
 install-dependencies:
   before_script:
