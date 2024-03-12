@@ -6,7 +6,6 @@ use ReflectionAttribute;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionMethod;
-use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -18,7 +17,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[AsCommand(name: 'drenso:check:action-security', description: 'Check if all actions in the app namespace either have a Security or an IsGranted attribute.')]
 class CheckActionSecurityCommand extends Command
 {
   /** @param string[] $excludedControllers */
@@ -32,8 +30,10 @@ class CheckActionSecurityCommand extends Command
 
   protected function configure(): void
   {
-    $this->addOption('allow-class-attribute', null, InputOption::VALUE_NONE,
-      'When given, a global class attribute is also allowed');
+    $this
+      ->setDescription('Check if all actions in the app namespace either have a Security or an IsGranted attribute.')
+      ->addOption('allow-class-attribute', null, InputOption::VALUE_NONE,
+        'When given, a global class attribute is also allowed');
   }
 
   /** @throws ReflectionException */

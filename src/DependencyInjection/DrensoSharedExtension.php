@@ -89,7 +89,7 @@ class DrensoSharedExtension extends ConfigurableExtension
     if ($config['check_action_security']['enabled']) {
       $container
         ->register(CheckActionSecurityCommand::class)
-        ->addTag('console.command')
+        ->addTag('console.command', ['command' => 'drenso:check:action-security'])
         ->setArgument('$container', new Reference('service_container'))
         ->setArgument('$router', new Reference('router'))
         ->setArgument('$excludedControllers', $config['check_action_security']['excluded_controllers']);
