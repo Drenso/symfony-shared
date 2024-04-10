@@ -16,8 +16,8 @@ class StringHelper
     return $value === '' ? null : $value;
   }
 
-  public static function quickEscape(?string $value): string
+  public static function quickEscape(?string $value, string $encoding = 'UTF-8'): string
   {
-    return htmlspecialchars($value ?? '', ENT_QUOTES|ENT_SUBSTITUTE, 'UTF-8');
+    return htmlspecialchars($value ?? '', ENT_QUOTES|ENT_SUBSTITUTE, $encoding);
   }
 }
