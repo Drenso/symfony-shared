@@ -156,9 +156,16 @@ class SpreadsheetHelper
     return $sheet;
   }
 
-  public function setCellBooleanValue(Worksheet $sheet, int $column, int $row, bool $value, bool $bold = false): void
+  public function setCellBooleanValue(
+    Worksheet $sheet,
+    int $column,
+    int $row,
+    bool $value,
+    bool $bold = false): CellAddress
   {
-    $this->setCellTranslatedValue($sheet, $column, $row, $value ? 'excel.boolean.yes' : 'excel.boolean.no', $bold, 'drenso_shared');
+    return $this->setCellTranslatedValue(
+      $sheet, $column, $row, $value ? 'excel.boolean.yes' : 'excel.boolean.no', $bold, 'drenso_shared',
+    );
   }
 
   public function setCellTranslatedValue(
@@ -167,12 +174,12 @@ class SpreadsheetHelper
     int $row,
     string $value,
     bool $bold = false,
-    string $translationDomain = 'messages'): void
+    string $translationDomain = 'messages'): CellAddress
   {
-    $this->setCellValue($sheet, $column, $row, $this->translator?->trans($value, [], $translationDomain) ?? $value, $bold);
+    return $this->setCellValue($sheet, $column, $row, $this->translator?->trans($value, [], $translationDomain) ?? $value, $bold);
   }
 
-  public function setCellValue(Worksheet $sheet, int $column, int $row, mixed $value, bool $bold = false): void
+  public function setCellValue(Worksheet $sheet, int $column, int $row, mixed $value, bool $bold = false): CellAddress
   {
     $coordinate = CellAddress::fromColumnAndRow($column, $row);
     $sheet->setCellValue($coordinate, $value);
@@ -180,17 +187,31 @@ class SpreadsheetHelper
     if ($bold) {
       $sheet->getStyle($coordinate)->getFont()->setBold(true);
     }
+
+    return $coordinate;
   }
 
-  public function setCellMultilineValue(Worksheet $sheet, int $column, int $row, array $lines, bool $bold = false): void
+  public function setCellMultilineValue(
+    Worksheet $sheet,
+    int $column,
+    int $row,
+    array $lines,
+    bool $bold = false): CellAddress
   {
-    $this->setCellValue($sheet, $column, $row, implode("\n", $lines), $bold);
-    $sheet->getStyle(CellAddress::fromColumnAndRow($column, $row))->getAlignment()->setWrapText(true);
+    $coordinate = $this->setCellValue($sheet, $column, $row, implode("\n", $lines), $bold);
+    $sheet->getStyle($coordinate)->getAlignment()->setWrapText(true);
     $sheet->getStyle(new RowRange($row))->getAlignment()->setVertical(Alignment::VERTICAL_TOP);
+
+    return $coordinate;
   }
 
   /** @throws Exception */
-  public function setCellExplicitString(Worksheet $sheet, int $column, int $row, string $value, bool $bold = false): void
+  public function setCellExplicitString(
+    Worksheet $sheet,
+    int $column,
+    int $row,
+    string $value,
+    bool $bold = false): CellAddress
   {
     $coordinate = CellAddress::fromColumnAndRow($column, $row);
     $sheet->getCell($coordinate)->setValueExplicit($value, DataType::TYPE_STRING);
@@ -198,6 +219,30 @@ class SpreadsheetHelper
     if ($bold) {
       $sheet->getStyle($coordinate)->getFont()->setBold(true);
     }
+
+    return $coordinate;
+  }
+
+  public function setCellDurationFormatted(
+    Worksheet $sheet,
+    int $column,
+    int $row,
+    ?int $seconds,
+    bool $leftAligned = false,
+    bool $bold = false): CellAddress
+  {
+    if ($seconds !== null) {
+      $coordinate = $this->setCellValue($sheet, $column, $row, "=$seconds/60/60/24", $bold);
+    }
+
+    $coordinate ??= CellAddress::fromColumnAndRow($column, $row);
+    $sheet->getStyle($coordinate)->getNumberFormat()->setFormatCode('[h]:mm:ss');
+
+    if ($leftAligned) {
+      $this->setCellLeftAligned($sheet, $coordinate);
+    }
+
+    return $coordinate;
   }
 
   public function setCellDateTime(
@@ -206,18 +251,20 @@ class SpreadsheetHelper
     int $row,
     ?DateTimeInterface $dateTime,
     bool $leftAligned = false,
-    bool $bold = false): void
+    bool $bold = false): CellAddress
   {
     if ($dateTime !== null) {
-      $this->setCellValue($sheet, $column, $row, Date::PHPToExcel($dateTime), $bold);
+      $coordinate = $this->setCellValue($sheet, $column, $row, Date::PHPToExcel($dateTime), $bold);
     }
 
-    $coordinate = CellAddress::fromColumnAndRow($column, $row);
+    $coordinate ??= CellAddress::fromColumnAndRow($column, $row);
     $sheet->getStyle($coordinate)->getNumberFormat()->setFormatCode('dd/mm/yyyy hh:mm');
 
     if ($leftAligned) {
-      $sheet->getStyle($coordinate)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+      $this->setCellLeftAligned($sheet, $coordinate);
     }
+
+    return $coordinate;
   }
 
   public function setCellDate(
@@ -226,7 +273,7 @@ class SpreadsheetHelper
     int $row,
     ?DateTimeInterface $dateTime,
     bool $leftAligned = false,
-    bool $bold = false): void
+    bool $bold = false): CellAddress
   {
     if ($dateTime !== null) {
       $this->setCellValue($sheet, $column, $row, Date::PHPToExcel($dateTime), $bold);
@@ -235,14 +282,28 @@ class SpreadsheetHelper
     $sheet->getStyle($coordinate)->getNumberFormat()->setFormatCode('dd/mm/yyyy');
 
     if ($leftAligned) {
-      $sheet->getStyle($coordinate)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+      $this->setCellLeftAligned($sheet, $coordinate);
     }
+
+    return $coordinate;
   }
 
-  public function setCellCurrency(Worksheet $sheet, int $column, int $row, mixed $value, bool $bold = false): void
+  public function setCellCurrency(
+    Worksheet $sheet,
+    int $column,
+    int $row,
+    mixed $value,
+    bool $bold = false): CellAddress
   {
-    $this->setCellValue($sheet, $column, $row, $value, $bold);
-    $sheet->getStyle(CellAddress::fromColumnAndRow($column, $row))->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_ACCOUNTING_EUR);
+    $coordinate = $this->setCellValue($sheet, $column, $row, $value, $bold);
+    $sheet->getStyle($coordinate)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_ACCOUNTING_EUR);
+
+    return $coordinate;
+  }
+
+  public function setCellLeftAligned(Worksheet $sheet, CellAddress $coordinate): void
+  {
+    $sheet->getStyle($coordinate)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
   }
 
   /** Create a correct content disposition. */
