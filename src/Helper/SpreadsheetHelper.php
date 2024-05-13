@@ -301,6 +301,26 @@ class SpreadsheetHelper
     return $coordinate;
   }
 
+  public function setCellFormula(
+    Worksheet $sheet,
+    int $column,
+    int $row,
+    mixed $value,
+    bool $bold = false): CellAddress
+  {
+    $coordinate = CellAddress::fromColumnAndRow($column, $row);
+    $sheet->setCellValueExplicit($coordinate, $value, DataType::TYPE_FORMULA);
+
+    $style = $sheet->getStyle($coordinate);
+    $style->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_PERCENTAGE_00);
+
+    if ($bold) {
+      $style->getFont()->setBold(true);
+    }
+
+    return $coordinate;
+  }
+
   public function setCellLeftAligned(Worksheet $sheet, CellAddress $coordinate): void
   {
     $sheet->getStyle($coordinate)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
