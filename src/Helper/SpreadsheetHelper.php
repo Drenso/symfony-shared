@@ -160,11 +160,15 @@ class SpreadsheetHelper
     Worksheet $sheet,
     int $column,
     int $row,
-    bool $value,
+    ?bool $value,
     bool $bold = false): CellAddress
   {
+    if ($value !== null) {
+      $value = $value ? 'excel.boolean.yes' : 'excel.boolean.no';
+    }
+
     return $this->setCellTranslatedValue(
-      $sheet, $column, $row, $value ? 'excel.boolean.yes' : 'excel.boolean.no', $bold, 'drenso_shared',
+      $sheet, $column, $row, $value, $bold, 'drenso_shared',
     );
   }
 
@@ -210,7 +214,7 @@ class SpreadsheetHelper
     Worksheet $sheet,
     int $column,
     int $row,
-    string $value,
+    ?string $value,
     bool $bold = false): CellAddress
   {
     $coordinate = CellAddress::fromColumnAndRow($column, $row);
