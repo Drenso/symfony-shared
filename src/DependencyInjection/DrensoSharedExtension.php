@@ -290,15 +290,18 @@ class DrensoSharedExtension extends ConfigurableExtension
   {
     $services = $config['services'];
 
-    if ($services['feature_flags']['enabled']) {
-      if (!$services['feature_flags']['custom_handler']) {
+    $featureFlags = $services['feature_flags'];
+    if ($featureFlags['enabled']) {
+      if (!$featureFlags['custom_handler']) {
         $container
           ->register(FeatureFlagsInterface::class, FeatureFlags::class)
-          ->setArgument('$configuration', $services['feature_flags']['configuration_file'])
-          ->setArgument('$configurationOverride', $services['feature_flags']['configuration_local_file'] ?? '')
+          ->setArgument('$configuration', $featureFlags['configuration_file'])
+          ->setArgument('$configurationOverride', $featureFlags['configuration_local_file'] ?? '')
+          ->setArgument('$jsonCommentParserEnabled', $featureFlags['json_comment_parser_enabled'])
+          ->setArgument('$appCache', new Reference(CacheInterface::class, ContainerInterface::NULL_ON_INVALID_REFERENCE))
           ->setPublic($public);
       } else {
-        $container->setAlias(FeatureFlagsInterface::class, $services['feature_flags']['custom_handler']);
+        $container->setAlias(FeatureFlagsInterface::class, $featureFlags['custom_handler']);
       }
 
       $container

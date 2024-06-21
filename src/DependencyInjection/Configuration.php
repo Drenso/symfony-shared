@@ -270,6 +270,9 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('configuration_local_file')
                   ->defaultNull()
                 ->end() // configuration_local_file
+                ->booleanNode('json_comment_parser_enabled')
+                  ->defaultTrue()
+                ->end() // json_comment_parser_enabled
                 ->scalarNode('custom_handler')
                   ->defaultNull()
                 ->end() // custom_handler
