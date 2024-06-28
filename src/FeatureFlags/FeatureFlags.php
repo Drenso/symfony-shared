@@ -10,6 +10,7 @@ class FeatureFlags implements FeatureFlagsInterface
   private const CACHE_KEY_MTIME  = 'drenso.feature_flags.mtime';
   private const CACHE_KEY_CONFIG = 'drenso.feature_flags.configuration';
 
+  /** @var array<string, bool>|null */
   private ?array $resolvedConfiguration = null;
 
   public function __construct(
@@ -34,6 +35,14 @@ class FeatureFlags implements FeatureFlagsInterface
     }
 
     return $this->resolvedConfiguration[$flag];
+  }
+
+  public function getConfiguredFlags(): array
+  {
+    // Lazy resolving, only resolve when requested
+    $this->resolve();
+
+    return array_keys($this->resolvedConfiguration ?? []);
   }
 
   private function resolve(): void
