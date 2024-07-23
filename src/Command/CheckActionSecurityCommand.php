@@ -31,7 +31,6 @@ class CheckActionSecurityCommand extends Command
   protected function configure(): void
   {
     $this
-      ->setDescription('Check if all actions in the app namespace either have a Security or an IsGranted attribute.')
       ->addOption('allow-class-attribute', null, InputOption::VALUE_NONE,
         'When given, a global class attribute is also allowed');
   }
@@ -121,7 +120,7 @@ class CheckActionSecurityCommand extends Command
         ...$checkedControllers,
       ];
 
-      $io->info(implode("\n", $checkedControllers));
+      $io->info(implode("\n", $checked));
       $output->writeln('');
     }
 
