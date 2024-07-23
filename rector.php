@@ -7,6 +7,7 @@ use Rector\Config\RectorConfig;
 use Rector\Doctrine\Set\DoctrineSetList;
 use Rector\Php81\Rector\Property\ReadOnlyPropertyRector;
 use Rector\Symfony\Set\SymfonySetList;
+use Rector\Symfony\Symfony61\Rector\Class_\CommandConfigureToAttributeRector;
 
 return RectorConfig::configure()
   ->withCache('./var/cache/rector', FileCacheStorage::class)
@@ -15,6 +16,7 @@ return RectorConfig::configure()
   ->withImportNames()
   ->withSkip([
     ReadOnlyPropertyRector::class,
+    CommandConfigureToAttributeRector::class,
   ])
   ->withPhpSets()
   ->withPreparedSets(
