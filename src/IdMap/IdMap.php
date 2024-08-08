@@ -11,7 +11,7 @@ use Stringable;
 use Traversable;
 
 /**
- * @template T of IdInterface
+ * @template T
  *
  * @template-implements IteratorAggregate<int, T>
  */
@@ -20,7 +20,11 @@ class IdMap implements ArrayAccess, Countable, IteratorAggregate, Stringable
   /** @var array<int, T> */
   private array $elements;
 
-  /** @param T[] $objects */
+  /**
+   * @template TConstructor of T&IdInterface
+   *
+   * @param TConstructor[] $objects
+   */
   public function __construct(array $objects = [])
   {
     $this->elements = [];
@@ -39,8 +43,6 @@ class IdMap implements ArrayAccess, Countable, IteratorAggregate, Stringable
   }
 
   /**
-   * @template T
-   *
    * @param array<int, T> $data
    *
    * @return IdMap<T>
