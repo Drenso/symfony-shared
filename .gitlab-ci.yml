@@ -20,8 +20,8 @@ include:
     ref: "15.0"
     file: '/php/code-style-fixer.yml'
   - project: 'intern/runner-templates'
-    file: '/php/phan.yml'
     ref: "15.0"
+    file: '/php/phpstan.yml'
   - project: 'intern/runner-templates'
     file: '/php/composer-require-checker.yml'
     ref: "15.0"
@@ -41,12 +41,6 @@ install-dependencies:
   except:
     - master
     - tags
-
-php-analysis:
-  except:
-    - schedules
-    - tags
-    - master
 
 yaml-analysis:
   except:
