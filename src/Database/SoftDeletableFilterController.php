@@ -29,11 +29,13 @@ class SoftDeletableFilterController
     $this->entityManager->getFilters()->enable(self::SOFT_DELETE_FILTER);
   }
 
+  /** @param class-string $class */
   public function disableSoftDeleteFilterForEntity(string $class): void
   {
     $this->getSoftDeleteFilter()->disableForEntity($class);
   }
 
+  /** @param class-string $class */
   public function enableSoftDeleteFilterForEntity(string $class): void
   {
     $this->getSoftDeleteFilter()->enableForEntity($class);

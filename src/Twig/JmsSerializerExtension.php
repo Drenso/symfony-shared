@@ -22,7 +22,7 @@ class JmsSerializerExtension extends AbstractExtension
     ];
   }
 
-  public function encode($data, ?array $serializationGroups = null): string
+  public function encode(mixed $data, ?array $serializationGroups = null): string
   {
     $context = $this->contextFactory->createSerializationContext();
     $context->setGroups($serializationGroups ?? ['Default']);

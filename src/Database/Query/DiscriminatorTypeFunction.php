@@ -8,6 +8,7 @@ use Doctrine\ORM\Query\Parser;
 use Doctrine\ORM\Query\QueryException;
 use Doctrine\ORM\Query\SqlWalker;
 use Doctrine\ORM\Query\TokenType;
+use Drenso\Shared\Exception\NullGuard\MustNotBeNullException;
 
 /**
  * Provides a way to access an entity's discriminator field in DQL
@@ -45,8 +46,8 @@ class DiscriminatorTypeFunction extends FunctionNode
   public function getSql(SqlWalker $sqlWalker): string
   {
     $qComp = $sqlWalker->getQueryComponent($this->dqlAlias);
-    /** @var ClassMetadataInfo $class */
-    $class      = $qComp['metadata'];
+    /** @var ClassMetadataInfo<object> $class */
+    $class      = $qComp['metadata'] ?? throw new MustNotBeNullException();
     $tableAlias = $sqlWalker->getSQLTableAlias($class->getTableName(), $this->dqlAlias);
 
     if (!isset($class->discriminatorColumn['name'])) {

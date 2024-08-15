@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class AcceptedResponse extends Response
 {
+  /** @param array<string, list<string|null>> $headers */
   public function __construct(array $headers = [])
   {
     parent::__construct(null, Response::HTTP_ACCEPTED, $headers);

@@ -96,7 +96,7 @@ class SpreadsheetHelper
   /**
    * Create a ZIP response container multiple Excel spreadsheets.
    *
-   * @param array $spreadSheets array with ['sheet' => Spreadsheet object, 'filename' => string filename]
+   * @param array<array{sheet: Spreadsheet, filename: string}> $spreadSheets array with ['sheet' => Spreadsheet object, 'filename' => string filename]
    */
   public function createZippedExcelResponse(array $spreadSheets, string $zipName): StreamedResponse
   {
@@ -165,11 +165,13 @@ class SpreadsheetHelper
   {
     if ($value !== null) {
       $value = $value ? 'excel.boolean.yes' : 'excel.boolean.no';
+
+      return $this->setCellTranslatedValue(
+        $sheet, $column, $row, $value, $bold, 'drenso_shared',
+      );
     }
 
-    return $this->setCellTranslatedValue(
-      $sheet, $column, $row, $value, $bold, 'drenso_shared',
-    );
+    return $this->setCellValue($sheet, $column, $row, $value, $bold);
   }
 
   public function setCellTranslatedValue(
@@ -195,6 +197,7 @@ class SpreadsheetHelper
     return $coordinate;
   }
 
+  /** @param string[] $lines */
   public function setCellMultilineValue(
     Worksheet $sheet,
     int $column,
@@ -343,11 +346,19 @@ class SpreadsheetHelper
 
   public static function sanitizeSheetName(string $sheetName): string
   {
-    return str_replace(Worksheet::getInvalidCharacters(), '_', iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $sheetName));
+    if (false === $iconv = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $sheetName)) {
+      $iconv = $sheetName;
+    }
+
+    return str_replace(Worksheet::getInvalidCharacters(), '_', $iconv);
   }
 
   public static function sanitizeFilename(string $filename): string
   {
-    return mb_strtolower((string)preg_replace('/[^A-Z\d.]/ui', '_', iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $filename)));
+    if (false === $iconv = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $filename)) {
+      $iconv = $filename;
+    }
+
+    return mb_strtolower((string)preg_replace('/[^A-Z\d.]/ui', '_', $iconv));
   }
 }

@@ -50,7 +50,7 @@ class IdMapHandler implements SubscribingHandlerInterface
 
   public function deserializeJson(
     DeserializationVisitorInterface $visitor,
-    $data,
+    mixed $data,
     array $type,
     DeserializationContext $context): IdMap
   {

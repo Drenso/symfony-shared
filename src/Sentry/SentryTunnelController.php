@@ -19,6 +19,7 @@ class SentryTunnelController extends AbstractController
 {
   private const CACHE_KEY = 'drenso.sentry_tunnel.available';
 
+  /** @param string[] $allowedDsn */
   public function __construct(
     private readonly HttpClientInterface $httpClient,
     private readonly ?CacheInterface $appCache,

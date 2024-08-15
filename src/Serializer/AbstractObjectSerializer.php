@@ -112,7 +112,10 @@ abstract class AbstractObjectSerializer
     ?string $prop = null,
     bool $insertUnderscore = true): void
   {
-    $metadata = $event->getContext()->getMetadataFactory()->getMetadataForClass($objectClass)->propertyMetadata[$objectProperty];
+    $metadata = $event->getContext()
+      ->getMetadataFactory()
+      ->getMetadataForClass($objectClass)
+      ?->propertyMetadata[$objectProperty] ?? null;
     if (!$metadata instanceof PropertyMetadata) {
       throw new RuntimeException('Invalid property metadata!');
     }
@@ -127,7 +130,7 @@ abstract class AbstractObjectSerializer
   abstract protected function doSerialize(
     SerializationVisitorInterface $visitor,
     array $groups,
-    $object,
+    mixed $object,
     ObjectEvent $event): void;
 
   private function propertyName(string $prop, bool $insertUnderscore): string

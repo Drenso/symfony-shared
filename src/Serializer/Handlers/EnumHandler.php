@@ -14,7 +14,7 @@ class EnumHandler
     SerializationVisitorInterface $visitor,
     BackedEnum $enum,
     array $type,
-    SerializationContext $context)
+    SerializationContext $context): string
   {
     $value = $enum->value;
     if (is_int($value)) {

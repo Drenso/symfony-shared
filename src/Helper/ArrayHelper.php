@@ -3,12 +3,21 @@
 namespace Drenso\Shared\Helper;
 
 use Doctrine\Common\Collections\ReadableCollection;
+use Drenso\Shared\Exception\NullGuard\IdRequiredException;
 use Drenso\Shared\Interfaces\IdInterface;
 use InvalidArgumentException;
 
 class ArrayHelper
 {
-  /** Verify that all array elements are of the supplied type. */
+  /**
+   * Verify that all array elements are of the supplied type.
+   *
+   * @template T
+   *
+   * @param 'int'|'integer'|'string'|'float'|'bool'|'boolean'|'array'|class-string<T> $type
+   *
+   * @phpstan-assert T[] $variables
+   */
   public static function assertType(array $variables, string $type): void
   {
     match ($type) {
@@ -21,7 +30,11 @@ class ArrayHelper
     };
   }
 
-  /** Verify that all array elements are integers. */
+  /**
+   * Verify that all array elements are integers.
+   *
+   * @phpstan-assert int[] $variables
+   */
   public static function assertInt(array $variables): void
   {
     foreach ($variables as $variable) {
@@ -32,7 +45,11 @@ class ArrayHelper
     }
   }
 
-  /** Verify that all array elements are strings. */
+  /**
+   * Verify that all array elements are strings.
+   *
+   * @phpstan-assert string[] $variables
+   */
   public static function assertString(array $variables): void
   {
     foreach ($variables as $variable) {
@@ -43,7 +60,11 @@ class ArrayHelper
     }
   }
 
-  /** Verify that all array elements are floats. */
+  /**
+   * Verify that all array elements are floats.
+   *
+   * @phpstan-assert float[] $variables
+   */
   public static function assertFloat(array $variables): void
   {
     foreach ($variables as $variable) {
@@ -54,7 +75,11 @@ class ArrayHelper
     }
   }
 
-  /** Verify that all array elements are booleans. */
+  /**
+   * Verify that all array elements are booleans.
+   *
+   * @phpstan-assert bool[] $variables
+   */
   public static function assertBool(array $variables): void
   {
     foreach ($variables as $variable) {
@@ -65,7 +90,11 @@ class ArrayHelper
     }
   }
 
-  /** Verify that all array elements are arrays. */
+  /**
+   * Verify that all array elements are arrays.
+   *
+   * @phpstan-assert array<array> $variables
+   */
   public static function assertArray(array $variables): void
   {
     foreach ($variables as $variable) {
@@ -76,7 +105,15 @@ class ArrayHelper
     }
   }
 
-  /** Verify that all array elements are objects of the supplied class. */
+  /**
+   * Verify that all array elements are objects of the supplied class.
+   *
+   * @template T
+   *
+   * @param class-string<T> $class
+   *
+   * @phpstan-assert T[] $objects
+   */
   public static function assertClass(array $objects, string $class): void
   {
     foreach ($objects as $object) {
@@ -101,7 +138,7 @@ class ArrayHelper
   {
     $result = [];
     foreach ($objects as $object) {
-      $result[$object->getId()] = $object;
+      $result[$object->getId() ?? throw new IdRequiredException()] = $object;
     }
 
     return $result;
@@ -117,7 +154,7 @@ class ArrayHelper
   public static function mapToId(array $objects): array
   {
     return array_values(array_map(
-      fn ($object): ?int => $object->getId(),
+      fn ($object): int => $object->getId() ?? throw new IdRequiredException(),
       $objects
     ));
   }
@@ -153,7 +190,7 @@ class ArrayHelper
    *
    * @template T
    *
-   * @param array<T>|ReadableCollection<T> $arrayOrCollection
+   * @param array<T>|ReadableCollection<int, T> $arrayOrCollection
    *
    * @return array<T>
    */

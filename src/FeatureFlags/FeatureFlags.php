@@ -2,6 +2,7 @@
 
 namespace Drenso\Shared\FeatureFlags;
 
+use Drenso\Shared\Exception\NullGuard\MustNotBeNullException;
 use Symfony\Component\DependencyInjection\Exception\EnvNotFoundException;
 use Symfony\Contracts\Cache\CacheInterface;
 
@@ -10,7 +11,7 @@ class FeatureFlags implements FeatureFlagsInterface
   private const CACHE_KEY_MTIME  = 'drenso.feature_flags.mtime';
   private const CACHE_KEY_CONFIG = 'drenso.feature_flags.configuration';
 
-  /** @var array<string, bool>|null */
+  /** @var array<string, mixed>|null */
   private ?array $resolvedConfiguration = null;
 
   public function __construct(
@@ -45,6 +46,7 @@ class FeatureFlags implements FeatureFlagsInterface
     return array_keys($this->resolvedConfiguration ?? []);
   }
 
+  /** @phpstan-assert array<string, mixed> $this->resolvedConfiguration */
   private function resolve(): void
   {
     if (null !== $this->resolvedConfiguration) {
@@ -75,6 +77,9 @@ class FeatureFlags implements FeatureFlagsInterface
       filemtime($this->configuration),
       $overrideAvailable ? filemtime($this->configurationOverride) : 0,
     );
+    if ($currentMTime === false) {
+      $currentMTime = 0;
+    }
 
     $cachedMTime = $this->appCache->get(self::CACHE_KEY_MTIME, static fn (): int => 0);
     if ($cachedMTime < $currentMTime) {
@@ -89,6 +94,12 @@ class FeatureFlags implements FeatureFlagsInterface
     $this->appCache->get(self::CACHE_KEY_MTIME, static fn (): int => $currentMTime);
   }
 
+  /**
+   * @return array<string, bool>
+   *
+   * @noinspection PhpUnhandledExceptionInspection
+   * @noinspection PhpDocMissingThrowsInspection
+   */
   private function parseConfiguration(bool $overrideAvailable): array
   {
     $configuration         = file_get_contents($this->configuration);
@@ -110,6 +121,7 @@ class FeatureFlags implements FeatureFlagsInterface
     }
 
     // Regex from https://stackoverflow.com/a/43439966
-    return preg_replace('~ (" (?:\\\\. | [^"])*+ ") | // \V*+ | /\* .*? \*/ ~xs', '$1', $data);
+    return preg_replace('~ (" (?:\\\\. | [^"])*+ ") | // \V*+ | /\* .*? \*/ ~xs', '$1', $data)
+      ?? throw new MustNotBeNullException();
   }
 }

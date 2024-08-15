@@ -19,7 +19,7 @@ class EntityValidationFailedException extends Exception
 
       parent::__construct(join("\n", $messages));
     } else {
-      parent::__construct($message);
+      parent::__construct($message ?? '');
     }
   }
 

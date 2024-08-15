@@ -43,7 +43,7 @@ class DecimalHandler implements SubscribingHandlerInterface
 
   public function deserializeJson(
     DeserializationVisitorInterface $visitor,
-    $decimalAsString,
+    mixed $decimalAsString,
     array $type,
     Context $context): Decimal
   {
