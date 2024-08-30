@@ -3,7 +3,7 @@
        {%- if tooltip|default('') is not empty %} data-toggle="tooltip" title="{{ tooltip }}"{% endif -%}
   ><a href="{{ url|default('#') }}" class="btn btn-{{ variant|default('primary') }}
       {%- if disabled|default(false) %} disabled{% endif %}"
-      {%- if blank|default(false) %} target=" _blank" {% endif -%}
+      {%- if blank|default(false) %} target="_blank" rel="noopener noreferrer"{% endif -%}
     ><i class="{{ icon_prefix|default('fas fa-fw') }} {{ icon }}"></i> {{ label }}</a></div>
 {%- endmacro -%}
 
