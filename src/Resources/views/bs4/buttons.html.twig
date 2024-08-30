@@ -1,47 +1,37 @@
-{% macro button(label, url, icon, variant, tooltip, blank, disabled, icon_prefix) %}
-  {% apply spaceless %}
-    <div class="d-inline-block"
-        {% if tooltip|default('') is not empty %}
-          data-toggle="tooltip" title="{{ tooltip }}"
-        {% endif %}
-    >
-      <a href="{{ url|default('#') }}"
-         class="btn btn-{{ variant|default('primary') }}
-         {% if disabled|default(false) %} disabled{% endif %}"
-          {% if blank|default(false) %} target=" _blank" {% endif %}
-      >
-        <i class="{{ icon_prefix|default('fas fa-fw') }} {{ icon }}"></i>
-        {{ label }}
-      </a>
-    </div>
-  {% endapply %}
-{% endmacro %}
+{%- macro button(label, url, icon, variant, tooltip, blank, disabled, icon_prefix) -%}
+  <div class="d-inline-block"
+       {%- if tooltip|default('') is not empty %} data-toggle="tooltip" title="{{ tooltip }}"{% endif -%}
+  ><a href="{{ url|default('#') }}" class="btn btn-{{ variant|default('primary') }}
+      {%- if disabled|default(false) %} disabled{% endif %}"
+      {%- if blank|default(false) %} target=" _blank" {% endif -%}
+    ><i class="{{ icon_prefix|default('fas fa-fw') }} {{ icon }}"></i> {{ label }}</a></div>
+{%- endmacro -%}
 
-{% macro add_outline(variant, outline) %}
+{%- macro add_outline(variant, outline) -%}
   {{- ((outline ?? true) ? 'outline-' : '') ~ variant -}}
-{% endmacro %}
+{%- endmacro -%}
 
-{% macro list_button(url, tooltip, blank, disabled, outline) %}
-  {% from _self import button, add_outline %}
-  {{ button('button.list'|trans({}, 'drenso_shared'), url, 'fa-list', add_outline('secondary', outline), tooltip, blank, disabled) }}
-{% endmacro %}
+{%- macro list_button(url, tooltip, blank, disabled, outline) -%}
+  {%- from _self import button, add_outline -%}
+  {{- button('button.list'|trans({}, 'drenso_shared'), url, 'fa-list', add_outline('secondary', outline), tooltip, blank, disabled) -}}
+{%- endmacro -%}
 
-{% macro add_button(url, tooltip, blank, disabled, outline) %}
-  {% from _self import button, add_outline %}
-  {{ button('button.add'|trans({}, 'drenso_shared'), url, 'fa-plus', add_outline('success', outline), tooltip, blank, disabled) }}
-{% endmacro %}
+{%- macro add_button(url, tooltip, blank, disabled, outline) -%}
+  {%- from _self import button, add_outline -%}
+  {{- button('button.add'|trans({}, 'drenso_shared'), url, 'fa-plus', add_outline('success', outline), tooltip, blank, disabled) -}}
+{%- endmacro -%}
 
-{% macro edit_button(url, tooltip, blank, disabled, outline) %}
-  {% from _self import button, add_outline %}
-  {{ button('button.edit'|trans({}, 'drenso_shared'), url, 'fa-edit', add_outline('primary', outline), tooltip, blank, disabled) }}
-{% endmacro %}
+{%- macro edit_button(url, tooltip, blank, disabled, outline) -%}
+  {%- from _self import button, add_outline -%}
+  {{- button('button.edit'|trans({}, 'drenso_shared'), url, 'fa-edit', add_outline('primary', outline), tooltip, blank, disabled) -}}
+{%- endmacro -%}
 
-{% macro delete_button(url, tooltip, blank, disabled, outline) %}
-  {% from _self import button, add_outline %}
-  {{ button('button.delete'|trans({}, 'drenso_shared'), url, 'fa-trash', add_outline('danger', outline), tooltip, blank, disabled) }}
-{% endmacro %}
+{%- macro delete_button(url, tooltip, blank, disabled, outline) -%}
+  {%- from _self import button, add_outline -%}
+  {{- button('button.delete'|trans({}, 'drenso_shared'), url, 'fa-trash', add_outline('danger', outline), tooltip, blank, disabled) -}}
+{%- endmacro -%}
 
-{% macro view_button(url, tooltip, blank, disabled, outline) %}
-  {% from _self import button, add_outline %}
-  {{ button('button.view'|trans({}, 'drenso_shared'), url, 'fa-eye', add_outline('secondary', outline), tooltip, blank, disabled) }}
-{% endmacro %}
+{%- macro view_button(url, tooltip, blank, disabled, outline) -%}
+  {%- from _self import button, add_outline -%}
+  {{- button('button.view'|trans({}, 'drenso_shared'), url, 'fa-eye', add_outline('secondary', outline), tooltip, blank, disabled) -}}
+{%- endmacro -%}

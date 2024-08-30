@@ -1,56 +1,52 @@
-{% macro flashbag_alert(type, message, icon, close, raw) %}
+{%- macro flashbag_alert(type, message, icon, close, raw) -%}
   <div class="alert alert-{{ type }}{% if close %} alert-dismissible{% endif %} fade-in" role="alert">
-    {% if close %}
+    {%- if close -%}
       <button type="button" class="close" data-dismiss="alert"
               aria-label="{{ "general.close"|trans({}, 'drenso_shared') }}">
         <span aria-hidden="true">&times;</span>
       </button>
-    {% endif %}
+    {%- endif -%}
     <div class="d-flex">
-      {% if icon is not null %}
-        <div class="mr-3">
-          <span class="fas fa-fw {{ icon }}" aria-hidden="true"></span>
-        </div>
-      {% endif %}
+      {%- if icon is not null -%}
+        <div class="mr-3"><span class="fas fa-fw {{ icon }}" aria-hidden="true"></span></div>
+      {%- endif -%}
       <div class="flex-fill">
-        {% if raw|default(false) %}
-          {{ message|raw }}
-        {% else %}
-          {{ message|nl2br }}
-        {% endif %}
+        {%- if raw|default(false) -%}
+          {{- message|raw -}}
+        {%- else -%}
+          {{- message|nl2br -}}
+        {%- endif -%}
       </div>
     </div>
   </div>
-{% endmacro %}
+{%- endmacro -%}
 
-{% apply spaceless %}
-  <div id="flashbag-container">
-    {% block flashbags %}
-      {% from _self import flashbag_alert %}
+<div id="flashbag-container">
+  {%- block flashbags -%}
+    {%- from _self import flashbag_alert -%}
 
-      {# General error messages #}
-      {% for flashMessage in app.session.flashbag.get('error') %}
-        {{ flashbag_alert('danger', flashMessage, 'fa-exclamation-triangle', true) }}
-      {% endfor %}
+    {# General error messages #}
+    {%- for flashMessage in app.session.flashbag.get('error') -%}
+      {{- flashbag_alert('danger', flashMessage, 'fa-exclamation-triangle', true) -}}
+    {%- endfor -%}
 
-      {# General notice message #}
-      {% for flashMessage in app.session.flashbag.get('warning') %}
-        {{ flashbag_alert('warning', flashMessage, 'fa-exclamation', true) }}
-      {% endfor %}
+    {# General notice message #}
+    {%- for flashMessage in app.session.flashbag.get('warning') -%}
+      {{- flashbag_alert('warning', flashMessage, 'fa-exclamation', true) -}}
+    {%- endfor -%}
 
-      {# General success messages #}
-      {% for flashMessage in app.session.flashbag.get('success') %}
-        {{ flashbag_alert('success', flashMessage, 'fa-check', true) }}
-      {% endfor %}
+    {# General success messages #}
+    {%- for flashMessage in app.session.flashbag.get('success') -%}
+      {{- flashbag_alert('success', flashMessage, 'fa-check', true) -}}
+    {%- endfor -%}
 
-      {# General info messages #}
-      {% for flashMessage in app.session.flashbag.get('info') %}
-        {{ flashbag_alert('info', flashMessage, 'fa-info', true) }}
-      {% endfor %}
-      {% for flashMessage in app.session.flashbag.get('notice') %}
-        {{ flashbag_alert('info', flashMessage, 'fa-info', true) }}
-      {% endfor %}
+    {# General info messages #}
+    {%- for flashMessage in app.session.flashbag.get('info') -%}
+      {{- flashbag_alert('info', flashMessage, 'fa-info', true) -}}
+    {%- endfor -%}
+    {%- for flashMessage in app.session.flashbag.get('notice') -%}
+      {{- flashbag_alert('info', flashMessage, 'fa-info', true) -}}
+    {%- endfor -%}
 
-    {% endblock %}
-  </div>
-{% endapply %}
+  {%- endblock -%}
+</div>
