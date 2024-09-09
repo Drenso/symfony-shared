@@ -8,6 +8,8 @@ use Doctrine\ORM\QueryBuilder;
 /**
  * Trait FindBetweenTrait.
  *
+ * @template T of object
+ *
  * @method QueryBuilder createQueryBuilder(string $alias)
  */
 trait FindBetweenTrait
@@ -19,6 +21,8 @@ trait FindBetweenTrait
    * @param string|null $alias          If not given, 'e' will be used
    * @param bool        $startInclusive If false, the compare will be exclusive
    * @param bool        $endInclusive   If false, the compare will be exclusive
+   *
+   * @return T[]
    */
   public function findBetween(
     ?DateTimeInterface $start,

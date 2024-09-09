@@ -7,6 +7,8 @@ use Doctrine\ORM\QueryBuilder;
 /**
  * Trait FindIdsTrait.
  *
+ * @template T of object
+ *
  * @method QueryBuilder createQueryBuilder(string $alias)
  */
 trait FindIdsTrait
@@ -22,7 +24,11 @@ trait FindIdsTrait
       ->setParameter('ids', $ids);
   }
 
-  /** Retrieve entities by the given ids. */
+  /**
+   * Retrieve entities by the given ids.
+   *
+   * @return T[]
+   */
   public function findByIds(array $ids): array
   {
     return $this->findByIdsQb($ids)->getQuery()->getResult();

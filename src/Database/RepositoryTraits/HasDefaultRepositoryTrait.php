@@ -7,11 +7,17 @@ use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
 
 /**
+ * @template T of object
+ *
  * @method QueryBuilder createQueryBuilder(string $alias)
  */
 trait HasDefaultRepositoryTrait
 {
-  /** Get the default value. Can be null. */
+  /**
+   * Get the default value. Can be null.
+   *
+   * @return T|null
+   */
   public function getDefault(): mixed
   {
     try {

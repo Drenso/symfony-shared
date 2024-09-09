@@ -7,6 +7,8 @@ use Doctrine\ORM\QueryBuilder;
 /**
  * Trait FindLastTrait.
  *
+ * @template T of object
+ *
  * @method QueryBuilder createQueryBuilder(string $alias)
  */
 trait FindLastTrait
@@ -14,14 +16,17 @@ trait FindLastTrait
   /**
    * @noinspection PhpUnhandledExceptionInspection Does not happen due to query build
    * @noinspection PhpDocMissingThrowsInspection
+   *
+   * @return T|null
    */
-  public function findLast()
+  public function findLast(): mixed
   {
     return $this->findLastQb()
       ->getQuery()->getOneOrNullResult();
   }
 
-  public function findLastX(int $amount)
+  /** @return T[] */
+  public function findLastX(int $amount): array
   {
     return $this->findLastQb($amount)
       ->getQuery()->getResult();
