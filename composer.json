@@ -39,7 +39,7 @@
     "jms/serializer-bundle": "^5.0",
     "maennchen/zipstream-php": "^3.0",
     "php-decimal/php-decimal": "^1.1",
-    "phpoffice/phpspreadsheet": "^1.23 || ^2.0",
+    "phpoffice/phpspreadsheet": "^1.23 || ^2.0 || ^3.0",
     "phpstan/phpstan": "1.12.5",
     "rector/rector": "1.2.5",
     "sebastian/comparator": "^5.0 || ^6.0",
