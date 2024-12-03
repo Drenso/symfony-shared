@@ -174,15 +174,17 @@ class SpreadsheetHelper
     return $this->setCellValue($sheet, $column, $row, $value, $bold);
   }
 
+  /** @param array<string, mixed> $translationParams */
   public function setCellTranslatedValue(
     Worksheet $sheet,
     int $column,
     int $row,
     string $value,
     bool $bold = false,
-    string $translationDomain = 'messages'): CellAddress
+    string $translationDomain = 'messages',
+    array $translationParams = []): CellAddress
   {
-    return $this->setCellValue($sheet, $column, $row, $this->translator?->trans($value, [], $translationDomain) ?? $value, $bold);
+    return $this->setCellValue($sheet, $column, $row, $this->translator?->trans($value, $translationParams, $translationDomain) ?? $value, $bold);
   }
 
   public function setCellValue(Worksheet $sheet, int $column, int $row, mixed $value, bool $bold = false): CellAddress
