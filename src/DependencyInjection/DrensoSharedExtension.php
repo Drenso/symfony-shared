@@ -5,6 +5,7 @@ namespace Drenso\Shared\DependencyInjection;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Drenso\Shared\Command\CheckActionSecurityCommand;
+use Drenso\Shared\Command\CheckMessengerQueuesCommand;
 use Drenso\Shared\Database\SoftDeletableFilterController;
 use Drenso\Shared\Database\SoftDeletableListener;
 use Drenso\Shared\Database\SoftDeletableSymfonyCacheWarmer;
@@ -47,6 +48,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Zenstruck\Messenger\Monitor\Transports;
 
 class DrensoSharedExtension extends ConfigurableExtension
 {
@@ -93,6 +95,16 @@ class DrensoSharedExtension extends ConfigurableExtension
         ->setArgument('$container', new Reference('service_container'))
         ->setArgument('$router', new Reference('router'))
         ->setArgument('$excludedControllers', $config['check_action_security']['excluded_controllers']);
+    }
+
+    if ($config['check_messenger_monitor']['enabled']) {
+      $container
+        ->register(CheckMessengerQueuesCommand::class)
+        ->addTag('console.command', ['command' => 'drenso:check:messenger-queues', 'description' => 'Icinga messenger queue status check'])
+        ->setArgument('$transports', new Reference(Transports::class, ContainerInterface::NULL_ON_INVALID_REFERENCE))
+        ->setArgument('$failedQueue', $config['check_messenger_monitor']['failed_queue'])
+        ->setArgument('$disabledQueues', $config['check_messenger_monitor']['disabled_queues'])
+        ->setArgument('$nowMargin', $config['check_messenger_monitor']['now_margin']);
     }
   }
 

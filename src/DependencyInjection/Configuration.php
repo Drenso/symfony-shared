@@ -76,6 +76,18 @@ class Configuration implements ConfigurationInterface
                 ->end() // excluded_methods
               ->end() // check_action_security children
             ->end() // check_action_security
+            ->arrayNode('check_messenger_monitor')
+              ->canBeEnabled()
+              ->children()
+                ->scalarNode('failed_queue')->defaultValue('failed')->cannotBeEmpty()->info('The failed queue name')->end()
+                ->arrayNode('disabled_queues')
+                  ->info('Queues that should be excluded from the check')
+                  ->scalarPrototype()->cannotBeEmpty()->end()
+                  ->defaultValue(['email'])
+                ->end() // disabled_queues
+                ->integerNode('now_margin')->defaultValue(5)->min(0)->info('The amount of minutes around now')->end()
+              ->end() // messenger_monitor children
+            ->end() // messenger_monitor
           ->end() // commands children
         ->end() // commands
       ->end();
