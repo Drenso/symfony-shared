@@ -3,7 +3,7 @@
 namespace Drenso\Shared\Database;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Event\LifecycleEventArgs;
+use Gedmo\SoftDeleteable\Event\PreSoftDeleteEventArgs;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class SoftDeletableListener
@@ -15,14 +15,17 @@ class SoftDeletableListener
   {
   }
 
-  /** Sets the deletedBy field. */
-  public function preSoftDelete(LifecycleEventArgs $args): void
+  /**
+   * Sets the deletedBy field.
+   *
+   * @param PreSoftDeleteEventArgs<EntityManagerInterface> $args
+   */
+  public function preSoftDelete(PreSoftDeleteEventArgs $args): void
   {
     // Get needed objects
     $object = $args->getObject();
     $om     = $args->getObjectManager();
-    assert($om instanceof EntityManagerInterface);
-    $uow = $om->getUnitOfWork();
+    $uow    = $om->getUnitOfWork();
 
     // Get old field value
     $meta     = $om->getClassMetadata($object::class);
