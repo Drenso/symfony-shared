@@ -3,7 +3,6 @@
 namespace Drenso\Shared\Exception;
 
 use Exception;
-use Symfony\Component\Validator\ConstraintViolationInterface;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 
 class EntityValidationFailedException extends Exception
