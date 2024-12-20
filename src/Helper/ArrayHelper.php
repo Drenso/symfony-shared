@@ -94,6 +94,7 @@ class ArrayHelper
    * Verify that all array elements are arrays.
    *
    * @phpstan-assert array<array> $variables
+   * @phpstan-ignore missingType.iterableValue
    */
   public static function assertArray(array $variables): void
   {

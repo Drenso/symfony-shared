@@ -4,6 +4,7 @@ namespace Drenso\Shared\MemoryCache;
 
 use Closure;
 
+/** @phpstan-ignore trait.unused */
 trait InMemoryCacheTrait
 {
   private array $_memCache = [];

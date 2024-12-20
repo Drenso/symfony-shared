@@ -13,7 +13,6 @@ class EntityValidationFailedException extends Exception
     if ($violationList !== null) {
       $messages = [];
       foreach ($violationList as $violation) {
-        assert($violation instanceof ConstraintViolationInterface);
         $messages[] = $violation->getMessage();
       }
 

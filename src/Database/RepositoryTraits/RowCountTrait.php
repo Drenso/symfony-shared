@@ -8,6 +8,8 @@ use Doctrine\ORM\QueryBuilder;
  * Trait RowCountTrait.
  *
  * @method QueryBuilder createQueryBuilder(string $alias)
+ *
+ * @phpstan-ignore trait.unused
  */
 trait RowCountTrait
 {

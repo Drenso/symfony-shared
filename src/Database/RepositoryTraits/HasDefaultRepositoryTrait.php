@@ -10,6 +10,8 @@ use Doctrine\ORM\QueryBuilder;
  * @template T of object
  *
  * @method QueryBuilder createQueryBuilder(string $alias)
+ *
+ * @phpstan-ignore trait.unused
  */
 trait HasDefaultRepositoryTrait
 {

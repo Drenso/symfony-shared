@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
+/** @phpstan-ignore trait.unused */
 trait TimestampTrait
 {
   #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]

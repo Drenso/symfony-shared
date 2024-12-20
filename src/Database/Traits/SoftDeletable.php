@@ -8,6 +8,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 
+/** @phpstan-ignore trait.unused */
 trait SoftDeletable
 {
   #[ORM\Column(name: 'deleted_at', type: 'datetime_immutable_with_conversion', nullable: true)]

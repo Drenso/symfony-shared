@@ -30,6 +30,7 @@ class IdMap implements ArrayAccess, Countable, IteratorAggregate, Stringable
   {
     $this->elements = [];
     foreach ($objects as $object) {
+      /** @phpstan-ignore instanceof.alwaysTrue */
       if (!$object instanceof IdInterface) {
         throw new InvalidArgumentException(sprintf('All array items must implement %s', IdInterface::class));
       }
