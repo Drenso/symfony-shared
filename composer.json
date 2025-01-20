@@ -57,6 +57,7 @@
     "symfony/security-http": "~6.4 || ~7.0",
     "symfony/translation-contracts": "~1.1 || ~2.0 || ~3.0",
     "symfony/twig-bridge": "~6.4 || ~7.0",
+    "symfony/uid": "~6.4 || ~7.0",
     "symfony/validator": "~6.4 || ~7.0",
     "zenstruck/messenger-monitor-bundle": "~0.5"
   },
@@ -83,6 +84,7 @@
     "symfony/security-core": "Needed to use the Blameable subscriber",
     "symfony/translation": "Needed to use the SpreadsheetHelper",
     "symfony/twig-bundle": "Needed to use the MailService",
+    "symfony/uid": "Needed to use the UlidMap",
     "symfony/validator": "Use EntityValidationFailedException for nice exception messages when validation failed",
     "twig/extra-bundle": "Needed to use the MailService when inlining CSS styles",
     "twig/cssinliner-extra": "Needed to use the MailService when inlining CSS styles",

@@ -266,36 +266,6 @@ $ignoreErrors[] = [
 	'path' => __DIR__ . '/src/Serializer/Handlers/EnumHandler.php',
 ];
 $ignoreErrors[] = [
-	'message' => '#^Method Drenso\\\\Shared\\\\Serializer\\\\Handlers\\\\IdMapHandler\\:\\:deserializeJson\\(\\) has parameter \\$type with no value type specified in iterable type array\\.$#',
-	'identifier' => 'missingType.iterableValue',
-	'count' => 1,
-	'path' => __DIR__ . '/src/Serializer/Handlers/IdMapHandler.php',
-];
-$ignoreErrors[] = [
-	'message' => '#^Method Drenso\\\\Shared\\\\Serializer\\\\Handlers\\\\IdMapHandler\\:\\:deserializeJson\\(\\) return type with generic class Drenso\\\\Shared\\\\IdMap\\\\IdMap does not specify its types\\: T$#',
-	'identifier' => 'missingType.generics',
-	'count' => 1,
-	'path' => __DIR__ . '/src/Serializer/Handlers/IdMapHandler.php',
-];
-$ignoreErrors[] = [
-	'message' => '#^Method Drenso\\\\Shared\\\\Serializer\\\\Handlers\\\\IdMapHandler\\:\\:getSubscribingMethods\\(\\) return type has no value type specified in iterable type array\\.$#',
-	'identifier' => 'missingType.iterableValue',
-	'count' => 1,
-	'path' => __DIR__ . '/src/Serializer/Handlers/IdMapHandler.php',
-];
-$ignoreErrors[] = [
-	'message' => '#^Method Drenso\\\\Shared\\\\Serializer\\\\Handlers\\\\IdMapHandler\\:\\:serializeJson\\(\\) has parameter \\$data with generic class Drenso\\\\Shared\\\\IdMap\\\\IdMap but does not specify its types\\: T$#',
-	'identifier' => 'missingType.generics',
-	'count' => 1,
-	'path' => __DIR__ . '/src/Serializer/Handlers/IdMapHandler.php',
-];
-$ignoreErrors[] = [
-	'message' => '#^Method Drenso\\\\Shared\\\\Serializer\\\\Handlers\\\\IdMapHandler\\:\\:serializeJson\\(\\) has parameter \\$type with no value type specified in iterable type array\\.$#',
-	'identifier' => 'missingType.iterableValue',
-	'count' => 1,
-	'path' => __DIR__ . '/src/Serializer/Handlers/IdMapHandler.php',
-];
-$ignoreErrors[] = [
 	'message' => '#^Method Drenso\\\\Shared\\\\Serializer\\\\ObjectConstructor\\:\\:construct\\(\\) has parameter \\$type with no value type specified in iterable type array\\.$#',
 	'identifier' => 'missingType.iterableValue',
 	'count' => 1,

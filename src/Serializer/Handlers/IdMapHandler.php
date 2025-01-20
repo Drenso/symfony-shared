@@ -2,37 +2,45 @@
 
 namespace Drenso\Shared\Serializer\Handlers;
 
+use Drenso\Shared\IdMap\AbstractIdMap;
 use Drenso\Shared\IdMap\IdMap;
+use Drenso\Shared\IdMap\UlidMap;
 use JMS\Serializer\DeserializationContext;
 use JMS\Serializer\GraphNavigatorInterface;
 use JMS\Serializer\Handler\SubscribingHandlerInterface;
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\Visitor\DeserializationVisitorInterface;
 use JMS\Serializer\Visitor\SerializationVisitorInterface;
+use RuntimeException;
 
 class IdMapHandler implements SubscribingHandlerInterface
 {
+  /** @phpstan-ignore missingType.iterableValue */
   public static function getSubscribingMethods(): array
   {
-    return [
-      [
+    $result = [];
+    foreach ([IdMap::class, UlidMap::class] as $type) {
+      $result[] = [
         'direction' => GraphNavigatorInterface::DIRECTION_SERIALIZATION,
-        'type'      => IdMap::class,
+        'type'      => $type,
         'format'    => 'json',
         'method'    => 'serializeJson',
-      ],
-      [
+      ];
+      $result[] = [
         'direction' => GraphNavigatorInterface::DIRECTION_DESERIALIZATION,
-        'type'      => IdMap::class,
+        'type'      => $type,
         'format'    => 'json',
         'method'    => 'deserializeJson',
-      ],
-    ];
+      ];
+    }
+
+    return $result;
   }
 
+  /** @phpstan-ignore missingType.iterableValue,missingType.generics */
   public function serializeJson(
     SerializationVisitorInterface $visitor,
-    IdMap $data,
+    AbstractIdMap $data,
     array $type,
     SerializationContext $context): mixed
   {
@@ -48,14 +56,24 @@ class IdMapHandler implements SubscribingHandlerInterface
     return (object)$result;
   }
 
+  /** @phpstan-ignore missingType.iterableValue,missingType.generics */
   public function deserializeJson(
     DeserializationVisitorInterface $visitor,
     mixed $data,
     array $type,
-    DeserializationContext $context): IdMap
+    DeserializationContext $context): AbstractIdMap
   {
+    $mapType      = $type['name'];
     $type['name'] = 'array';
+    $deserialized = $visitor->visitArray($data, $type);
 
-    return IdMap::fromMappedArray($visitor->visitArray($data, $type));
+    return match ($mapType) {
+      IdMap::class   => IdMap::fromMappedArray($deserialized),
+      UlidMap::class => UlidMap::fromMappedArray($deserialized),
+      default        => throw new RuntimeException(sprintf(
+        'Invalid type configuration, got %s but expected one of (%s, %s)',
+        $mapType, IdMap::class, UlidMap::class,
+      )),
+    };
   }
 }
