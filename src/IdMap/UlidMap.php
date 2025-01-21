@@ -6,12 +6,17 @@ use Drenso\Shared\Interfaces\UlidInterface;
 use InvalidArgumentException;
 
 /**
- * @template T of UlidInterface
+ * @template T
  *
  * @template-extends AbstractIdMap<string, T>
  */
 class UlidMap extends AbstractIdMap
 {
+  /**
+   * @template TConstructor of T&UlidInterface
+   *
+   * @param TConstructor[] $objects
+   */
   public function __construct(array $objects = [])
   {
     foreach ($objects as $object) {
