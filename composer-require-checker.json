@@ -86,6 +86,8 @@
     "PhpOffice\\PhpSpreadsheet\\Worksheet\\Worksheet",
     "PhpOffice\\PhpSpreadsheet\\Writer\\Csv",
     "PhpOffice\\PhpSpreadsheet\\Writer\\Xlsx",
+    "Monolog\\Handler\\AbstractHandler",
+    "Monolog\\LogRecord",
     "SebastianBergmann\\Comparator\\Comparator",
     "SebastianBergmann\\Comparator\\ComparisonFailure",
     "Symfony\\Bridge\\Doctrine\\Form\\Type\\EntityType",

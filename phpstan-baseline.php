@@ -34,7 +34,7 @@ $ignoreErrors[] = [
 $ignoreErrors[] = [
 	'message' => '#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeParentInterface\\:\\:end\\(\\)\\.$#',
 	'identifier' => 'method.notFound',
-	'count' => 4,
+	'count' => 5,
 	'path' => __DIR__ . '/src/DependencyInjection/Configuration.php',
 ];
 $ignoreErrors[] = [
@@ -75,6 +75,12 @@ $ignoreErrors[] = [
 ];
 $ignoreErrors[] = [
 	'message' => '#^Parameter \\#1 \\$node of method Drenso\\\\Shared\\\\DependencyInjection\\\\Configuration\\:\\:configureFormExtensions\\(\\) expects Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\ArrayNodeDefinition, Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition given\\.$#',
+	'identifier' => 'argument.type',
+	'count' => 1,
+	'path' => __DIR__ . '/src/DependencyInjection/Configuration.php',
+];
+$ignoreErrors[] = [
+	'message' => '#^Parameter \\#1 \\$node of method Drenso\\\\Shared\\\\DependencyInjection\\\\Configuration\\:\\:configureLogging\\(\\) expects Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\ArrayNodeDefinition, Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition given\\.$#',
 	'identifier' => 'argument.type',
 	'count' => 1,
 	'path' => __DIR__ . '/src/DependencyInjection/Configuration.php',
@@ -129,6 +135,12 @@ $ignoreErrors[] = [
 ];
 $ignoreErrors[] = [
 	'message' => '#^Method Drenso\\\\Shared\\\\DependencyInjection\\\\DrensoSharedExtension\\:\\:configureFormExtensions\\(\\) has parameter \\$config with no value type specified in iterable type array\\.$#',
+	'identifier' => 'missingType.iterableValue',
+	'count' => 1,
+	'path' => __DIR__ . '/src/DependencyInjection/DrensoSharedExtension.php',
+];
+$ignoreErrors[] = [
+	'message' => '#^Method Drenso\\\\Shared\\\\DependencyInjection\\\\DrensoSharedExtension\\:\\:configureLogging\\(\\) has parameter \\$config with no value type specified in iterable type array\\.$#',
 	'identifier' => 'missingType.iterableValue',
 	'count' => 1,
 	'path' => __DIR__ . '/src/DependencyInjection/DrensoSharedExtension.php',

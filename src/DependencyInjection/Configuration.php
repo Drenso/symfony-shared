@@ -23,6 +23,7 @@ class Configuration implements ConfigurationInterface
     $this->configureEmailService($rootNode);
     $this->configureEnv($rootNode);
     $this->configureFormExtensions($rootNode);
+    $this->configureLogging($rootNode);
     $this->configureSentryTunnel($rootNode);
     $this->configureSerializer($rootNode);
     $this->configureServices($rootNode);
@@ -185,6 +186,27 @@ class Configuration implements ConfigurationInterface
             ->arrayNode('select2')
               ->canBeDisabled()
             ->end() // select2
+          ->end() // form_extensions children
+        ->end() // form_extensions
+      ->end();
+  }
+
+  /** Setup configuration for logging. */
+  private function configureLogging(ArrayNodeDefinition $node): void
+  {
+    $node
+      ->children()
+        ->arrayNode('logging')
+          ->addDefaultsIfNotSet()
+          ->children()
+            ->arrayNode('filters')
+              ->addDefaultsIfNotSet()
+              ->children()
+                ->arrayNode('zenstruck_cache')
+                  ->canBeEnabled()
+                ->end() // zenstruck_cache
+              ->end() // filters children
+            ->end() // filters
           ->end() // form_extensions children
         ->end() // form_extensions
       ->end();
