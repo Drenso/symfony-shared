@@ -36,7 +36,7 @@
     "doctrine/doctrine-bundle": "^2.13",
     "doctrine/orm": "^2.7",
     "eluceo/ical": "^2.7",
-    "friendsofphp/php-cs-fixer": "3.68.3",
+    "friendsofphp/php-cs-fixer": "3.68.4",
     "jms/serializer-bundle": "^5.0",
     "maennchen/zipstream-php": "^3.0",
     "monolog/monolog": "^3.8",
