@@ -158,6 +158,10 @@ class Configuration implements ConfigurationInterface
             ->arrayNode('processors')
               ->addDefaultsIfNotSet()
               ->children()
+                ->arrayNode('false_or_string')
+                  ->canBeDisabled()
+                  ->end()
+                ->end() // false_or_string
                 ->arrayNode('phpstorm')
                   ->canBeDisabled()
                   ->end()

@@ -23,6 +23,7 @@ drenso_shared:
       translate_sender_name: true # When set, the configured sender_name will be translated in the 'messages' domain
   env:
     processors:
+      false_or_string: true # Whether to enable the false or string env processor
       phpstorm: true # Whether to enable the phpstorm env processor
   form_extensions: # Form extensions
     generic: true # Whether to use the generic extension (hide_label and form_header options)

@@ -11,6 +11,7 @@ use Drenso\Shared\Database\SoftDeletableListener;
 use Drenso\Shared\Database\SoftDeletableSymfonyCacheWarmer;
 use Drenso\Shared\Database\SoftDeletableSymfonySubscriber;
 use Drenso\Shared\Email\EmailService;
+use Drenso\Shared\Env\Processor\FalseOrStringEnvVarProcessor;
 use Drenso\Shared\Env\Processor\PhpStormEnvVarProcessor;
 use Drenso\Shared\Exception\Handler\EntityValidationFailedExceptionHandler;
 use Drenso\Shared\FeatureFlags\FeatureFlags;
@@ -183,6 +184,12 @@ class DrensoSharedExtension extends ConfigurableExtension
   private function configureEnv(ContainerBuilder $container, array $config): void
   {
     $processors = $config['env']['processors'];
+
+    if ($processors['false_or_string']['enabled']) {
+      $container
+        ->register(FalseOrStringEnvVarProcessor::class)
+        ->addTag('container.env_var_processor');
+    }
 
     if ($processors['phpstorm']['enabled']) {
       $container
