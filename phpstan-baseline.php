@@ -22,7 +22,7 @@ $ignoreErrors[] = [
 $ignoreErrors[] = [
 	'message' => '#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeParentInterface\\:\\:arrayNode\\(\\)\\.$#',
 	'identifier' => 'method.notFound',
-	'count' => 2,
+	'count' => 3,
 	'path' => __DIR__ . '/src/DependencyInjection/Configuration.php',
 ];
 $ignoreErrors[] = [
@@ -34,7 +34,7 @@ $ignoreErrors[] = [
 $ignoreErrors[] = [
 	'message' => '#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeParentInterface\\:\\:end\\(\\)\\.$#',
 	'identifier' => 'method.notFound',
-	'count' => 5,
+	'count' => 4,
 	'path' => __DIR__ . '/src/DependencyInjection/Configuration.php',
 ];
 $ignoreErrors[] = [
