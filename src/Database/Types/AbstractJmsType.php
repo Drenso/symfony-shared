@@ -3,19 +3,16 @@
 namespace Drenso\Shared\Database\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Types\ConversionException;
+use Doctrine\DBAL\Types\Exception\SerializationFailed;
+use Doctrine\DBAL\Types\Exception\ValueNotConvertible;
 use Doctrine\DBAL\Types\JsonType;
 use Drenso\Shared\Serializer\StaticSerializer;
 use JMS\Serializer\Exception\Exception;
 
 abstract class AbstractJmsType extends JsonType
 {
-  /**
-   * @throws ConversionException
-   *
-   * @return false|mixed|string|null
-   */
-  public function convertToDatabaseValue($value, AbstractPlatform $platform)
+  /** @throws SerializationFailed */
+  public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
   {
     if ($value === null || $value === '') {
       return null;
@@ -29,16 +26,12 @@ abstract class AbstractJmsType extends JsonType
 
       return StaticSerializer::getSerializer()->serialize($value, 'json', $context ?? null);
     } catch (Exception $e) {
-      throw ConversionException::conversionFailedSerialization($value, 'json', $e->getMessage());
+      throw SerializationFailed::new($value, 'json', $e->getMessage());
     }
   }
 
-  /**
-   * @throws ConversionException
-   *
-   * @return mixed|null
-   */
-  public function convertToPHPValue($value, AbstractPlatform $platform)
+  /** @throws ValueNotConvertible|\Doctrine\DBAL\Exception */
+  public function convertToPHPValue($value, AbstractPlatform $platform): mixed
   {
     if ($value === null || $value === '') {
       return null;
@@ -49,7 +42,7 @@ abstract class AbstractJmsType extends JsonType
     try {
       return StaticSerializer::getSerializer()->deserialize($value, $this->getJmsType(), 'json');
     } catch (Exception $e) {
-      throw ConversionException::conversionFailed($value, $this->getName(), $e);
+      throw ValueNotConvertible::new($value, static::class, null, $e);
     }
   }
 

@@ -2,7 +2,7 @@
 
 namespace Drenso\Shared\Database\Query;
 
-use Doctrine\ORM\Mapping\ClassMetadataInfo;
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Query\AST\Functions\FunctionNode;
 use Doctrine\ORM\Query\Parser;
 use Doctrine\ORM\Query\QueryException;
@@ -46,7 +46,7 @@ class DiscriminatorTypeFunction extends FunctionNode
   public function getSql(SqlWalker $sqlWalker): string
   {
     $qComp = $sqlWalker->getQueryComponent($this->dqlAlias);
-    /** @var ClassMetadataInfo<object> $class */
+    /** @var ClassMetadata<object> $class */
     $class      = $qComp['metadata'] ?? throw new MustNotBeNullException();
     $tableAlias = $sqlWalker->getSQLTableAlias($class->getTableName(), $this->dqlAlias);
 

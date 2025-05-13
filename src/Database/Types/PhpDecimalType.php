@@ -4,13 +4,14 @@ namespace Drenso\Shared\Database\Types;
 
 use Decimal\Decimal;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrine\DBAL\Types\Exception\InvalidType;
 use Doctrine\DBAL\Types\StringType;
-use InvalidArgumentException;
 
 class PhpDecimalType extends StringType
 {
   final public const NAME = 'php_decimal';
 
+  /** @throws InvalidType */
   public function convertToDatabaseValue(mixed $value, AbstractPlatform $platform): ?string
   {
     if ($value === null) {
@@ -18,12 +19,13 @@ class PhpDecimalType extends StringType
     }
 
     if (!$value instanceof Decimal) {
-      throw new InvalidArgumentException(sprintf('Expected %s, got %s', Decimal::class, get_debug_type($value)));
+      throw InvalidType::new($value, static::class, [Decimal::class]);
     }
 
     return $value->toString();
   }
 
+  /** @throws InvalidType */
   public function convertToPHPValue(mixed $value, AbstractPlatform $platform): ?Decimal
   {
     if ($value === null || $value === '') {
@@ -35,7 +37,7 @@ class PhpDecimalType extends StringType
     }
 
     if (!is_string($value)) {
-      throw new InvalidArgumentException(sprintf('Expected string, got %s', get_debug_type($value)));
+      throw InvalidType::new($value, static::class, ['string']);
     }
 
     return new Decimal($value);

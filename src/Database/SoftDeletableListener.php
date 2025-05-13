@@ -3,6 +3,7 @@
 namespace Drenso\Shared\Database;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Drenso\Shared\Exception\NullGuard\MustNotBeNullException;
 use Gedmo\SoftDeleteable\Event\PreSoftDeleteEventArgs;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
@@ -29,7 +30,7 @@ class SoftDeletableListener
 
     // Get old field value
     $meta     = $om->getClassMetadata($object::class);
-    $reflProp = $meta->getReflectionProperty(self::FIELD_NAME);
+    $reflProp = $meta->getReflectionProperty(self::FIELD_NAME) ?? throw new MustNotBeNullException();
     $oldValue = $reflProp->getValue($object);
 
     // Update the value

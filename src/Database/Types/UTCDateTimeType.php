@@ -5,8 +5,9 @@ namespace Drenso\Shared\Database\Types;
 use DateTime;
 use DateTimeImmutable;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\DateTimeType;
+use Doctrine\DBAL\Types\Exception\InvalidFormat;
+use Doctrine\DBAL\Types\Exception\InvalidType;
 use Drenso\Shared\Helper\DateTimeHelper;
 
 /**
@@ -15,12 +16,8 @@ use Drenso\Shared\Helper\DateTimeHelper;
  */
 class UTCDateTimeType extends DateTimeType
 {
-  /**
-   * @throws ConversionException
-   *
-   * @return mixed|string|null
-   */
-  public function convertToDatabaseValue($value, AbstractPlatform $platform)
+  /** @throws InvalidType */
+  public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
   {
     if ($value instanceof DateTime) {
       $value->setTimezone(DateTimeHelper::getUtcTimeZone());
@@ -30,11 +27,10 @@ class UTCDateTimeType extends DateTimeType
   }
 
   /**
-   * @throws ConversionException
-   *
-   * @return DateTime|null
+   * @throws InvalidType
+   * @throws InvalidFormat
    */
-  public function convertToPHPValue($value, AbstractPlatform $platform)
+  public function convertToPHPValue($value, AbstractPlatform $platform): ?DateTime
   {
     if (null === $value || $value instanceof DateTime) {
       return $value;
@@ -45,10 +41,10 @@ class UTCDateTimeType extends DateTimeType
     }
 
     if (!is_string($value)) {
-      throw ConversionException::conversionFailedFormat(
+      throw InvalidType::new(
         $value,
-        $this->getName(),
-        $platform->getDateTimeFormatString()
+        static::class,
+        ['string']
       );
     }
 
@@ -59,9 +55,9 @@ class UTCDateTimeType extends DateTimeType
     );
 
     if (!$converted) {
-      throw ConversionException::conversionFailedFormat(
+      throw InvalidFormat::new(
         $value,
-        $this->getName(),
+        static::class,
         $platform->getDateTimeFormatString()
       );
     }
