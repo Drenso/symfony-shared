@@ -36,9 +36,4 @@ class DateTimeImmutableWithConversionType extends DateTimeImmutableType
 
     return parent::convertToPHPValue($value, $platform);
   }
-
-  public function getName(): string
-  {
-    return self::DATETIME_IMMUTABLE_WITH_CONVERSION;
-  }
 }
