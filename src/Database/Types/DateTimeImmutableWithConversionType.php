@@ -17,7 +17,7 @@ class DateTimeImmutableWithConversionType extends DateTimeImmutableType
   final public const DATETIME_IMMUTABLE_WITH_CONVERSION = 'datetime_immutable_with_conversion';
 
   /** @throws InvalidType */
-  public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
+  public function convertToDatabaseValue(mixed $value, AbstractPlatform $platform): ?string
   {
     if ($value instanceof DateTime) {
       $value = DateTimeImmutable::createFromMutable($value);
@@ -27,7 +27,7 @@ class DateTimeImmutableWithConversionType extends DateTimeImmutableType
   }
 
   /** @throws InvalidFormat */
-  public function convertToPHPValue($value, AbstractPlatform $platform): ?DateTimeImmutable
+  public function convertToPHPValue(mixed $value, AbstractPlatform $platform): ?DateTimeImmutable
   {
     // Required to support gedmo/doctrine-extension 3.5.0 and higher
     if ($value instanceof DateTime) {

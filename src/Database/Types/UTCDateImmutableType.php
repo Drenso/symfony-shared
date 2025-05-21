@@ -14,7 +14,7 @@ use Exception;
 class UTCDateImmutableType extends DateImmutableType
 {
   /** @throws Exception */
-  public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
+  public function convertToDatabaseValue(mixed $value, AbstractPlatform $platform): ?string
   {
     if ($value instanceof DateTimeImmutable) {
       $value = new DateTimeImmutable($value->format('Y-m-d'), DateTimeHelper::getUtcTimeZone());
@@ -27,7 +27,7 @@ class UTCDateImmutableType extends DateImmutableType
    * @throws InvalidType
    * @throws InvalidFormat
    */
-  public function convertToPHPValue($value, AbstractPlatform $platform): ?DateTimeImmutable
+  public function convertToPHPValue(mixed $value, AbstractPlatform $platform): ?DateTimeImmutable
   {
     if (null === $value || $value instanceof DateTimeImmutable) {
       return $value;

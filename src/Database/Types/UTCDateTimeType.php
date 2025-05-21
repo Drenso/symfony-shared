@@ -17,7 +17,7 @@ use Drenso\Shared\Helper\DateTimeHelper;
 class UTCDateTimeType extends DateTimeType
 {
   /** @throws InvalidType */
-  public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
+  public function convertToDatabaseValue(mixed $value, AbstractPlatform $platform): ?string
   {
     if ($value instanceof DateTime) {
       $value->setTimezone(DateTimeHelper::getUtcTimeZone());
@@ -30,7 +30,7 @@ class UTCDateTimeType extends DateTimeType
    * @throws InvalidType
    * @throws InvalidFormat
    */
-  public function convertToPHPValue($value, AbstractPlatform $platform): ?DateTime
+  public function convertToPHPValue(mixed $value, AbstractPlatform $platform): ?DateTime
   {
     if (null === $value || $value instanceof DateTime) {
       return $value;

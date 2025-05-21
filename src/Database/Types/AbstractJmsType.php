@@ -12,7 +12,7 @@ use JMS\Serializer\Exception\Exception;
 abstract class AbstractJmsType extends JsonType
 {
   /** @throws SerializationFailed */
-  public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
+  public function convertToDatabaseValue(mixed $value, AbstractPlatform $platform): ?string
   {
     if ($value === null || $value === '') {
       return null;
@@ -31,7 +31,7 @@ abstract class AbstractJmsType extends JsonType
   }
 
   /** @throws ValueNotConvertible|\Doctrine\DBAL\Exception */
-  public function convertToPHPValue($value, AbstractPlatform $platform): mixed
+  public function convertToPHPValue(mixed $value, AbstractPlatform $platform): mixed
   {
     if ($value === null || $value === '') {
       return null;

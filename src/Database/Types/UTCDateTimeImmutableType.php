@@ -17,7 +17,7 @@ use Drenso\Shared\Helper\DateTimeHelper;
 class UTCDateTimeImmutableType extends DateTimeImmutableType
 {
   /** @throws InvalidType */
-  public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
+  public function convertToDatabaseValue(mixed $value, AbstractPlatform $platform): ?string
   {
     if ($this->shouldConvertToImmutable() && $value instanceof DateTime) {
       $value = DateTimeImmutable::createFromMutable($value);
@@ -43,7 +43,7 @@ class UTCDateTimeImmutableType extends DateTimeImmutableType
    * @throws InvalidType
    * @throws InvalidFormat
    */
-  public function convertToPHPValue($value, AbstractPlatform $platform): ?DateTimeImmutable
+  public function convertToPHPValue(mixed $value, AbstractPlatform $platform): ?DateTimeImmutable
   {
     if (null === $value || $value instanceof DateTimeImmutable) {
       return $value;

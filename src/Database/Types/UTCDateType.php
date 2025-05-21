@@ -14,7 +14,7 @@ use Exception;
 class UTCDateType extends DateType
 {
   /** @throws Exception */
-  public function convertToDatabaseValue($value, AbstractPlatform $platform): mixed
+  public function convertToDatabaseValue(mixed $value, AbstractPlatform $platform): mixed
   {
     if ($value instanceof DateTime && $value->getTimezone() !== DateTimeHelper::getUtcTimeZone()) {
       $value = new DateTime($value->format('Y-m-d'), DateTimeHelper::getUtcTimeZone());
@@ -27,7 +27,7 @@ class UTCDateType extends DateType
    * @throws InvalidType
    * @throws InvalidFormat
    */
-  public function convertToPHPValue($value, AbstractPlatform $platform): ?DateTime
+  public function convertToPHPValue(mixed $value, AbstractPlatform $platform): ?DateTime
   {
     if (null === $value || $value instanceof DateTime) {
       return $value;
