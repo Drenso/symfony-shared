@@ -13,7 +13,8 @@ class DisablePostFlushDetachCompilerPass implements CompilerPassInterface
 
   public function process(ContainerBuilder $container): void
   {
-    if (!$container->getParameter(DrensoSharedExtension::SOFTDELETABLE_DISABLE_POST_FLUSH_DETACH)) {
+    if (!$container->hasParameter(DrensoSharedExtension::SOFTDELETABLE_DISABLE_POST_FLUSH_DETACH)
+      || !$container->getParameter(DrensoSharedExtension::SOFTDELETABLE_DISABLE_POST_FLUSH_DETACH)) {
       return;
     }
 
