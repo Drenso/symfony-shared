@@ -54,6 +54,8 @@ use Zenstruck\Messenger\Monitor\Transports;
 
 class DrensoSharedExtension extends ConfigurableExtension
 {
+  public const SOFTDELETABLE_DISABLE_POST_FLUSH_DETACH = 'drenso.shared.softdeletable.disable_post_flush_detach';
+
   public function loadInternal(array $mergedConfig, ContainerBuilder $container): void
   {
     $publicServices = $mergedConfig['public_services'];
@@ -149,6 +151,11 @@ class DrensoSharedExtension extends ConfigurableExtension
           ->addTag('kernel.cache_warmer', ['priority' => 10000])
           ->setArgument('$useUtc', $useUtc);
       }
+
+      $container->setParameter(
+        self::SOFTDELETABLE_DISABLE_POST_FLUSH_DETACH,
+        $database['softdeletable']['disable_post_flush_detach']['enabled']
+      );
     }
   }
 
