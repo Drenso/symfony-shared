@@ -113,6 +113,9 @@ class Configuration implements ConfigurationInterface
                     ->end() // use_utc
                   ->end() // use_gedmo_workaround children
                 ->end() // use_gedmo_workaround
+                ->arrayNode('disable_post_flush_detach')
+                  ->canBeDisabled()
+                ->end() // disable_post_flush_detach
               ->end() // softdelete_enabled children
             ->end() // softdelete_enabled
           ->end() // database children
