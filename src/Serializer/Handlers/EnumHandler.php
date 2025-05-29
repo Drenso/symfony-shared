@@ -10,6 +10,11 @@ use JMS\Serializer\Visitor\SerializationVisitorInterface;
 
 class EnumHandler
 {
+  /**
+   * @param array{name: string, params: array} $type
+   *
+   * @phpstan-ignore missingType.iterableValue
+   */
   public function serialize(
     SerializationVisitorInterface $visitor,
     BackedEnum $enum,
@@ -24,6 +29,11 @@ class EnumHandler
     return $visitor->visitString($value, $type);
   }
 
+  /**
+   * @param array{name: string, params: array} $type
+   *
+   * @phpstan-ignore missingType.iterableValue
+   */
   public function deserialize(
     DeserializationVisitorInterface $visitor,
     string|int|null $data,

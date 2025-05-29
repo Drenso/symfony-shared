@@ -242,34 +242,10 @@ $ignoreErrors[] = [
 	'path' => __DIR__ . '/src/Serializer/AbstractObjectSerializer.php',
 ];
 $ignoreErrors[] = [
-	'message' => '#^Method Drenso\\\\Shared\\\\Serializer\\\\Handlers\\\\DecimalHandler\\:\\:deserializeJson\\(\\) has parameter \\$type with no value type specified in iterable type array\\.$#',
-	'identifier' => 'missingType.iterableValue',
-	'count' => 1,
-	'path' => __DIR__ . '/src/Serializer/Handlers/DecimalHandler.php',
-];
-$ignoreErrors[] = [
 	'message' => '#^Method Drenso\\\\Shared\\\\Serializer\\\\Handlers\\\\DecimalHandler\\:\\:getSubscribingMethods\\(\\) return type has no value type specified in iterable type array\\.$#',
 	'identifier' => 'missingType.iterableValue',
 	'count' => 1,
 	'path' => __DIR__ . '/src/Serializer/Handlers/DecimalHandler.php',
-];
-$ignoreErrors[] = [
-	'message' => '#^Method Drenso\\\\Shared\\\\Serializer\\\\Handlers\\\\DecimalHandler\\:\\:serializeJson\\(\\) has parameter \\$type with no value type specified in iterable type array\\.$#',
-	'identifier' => 'missingType.iterableValue',
-	'count' => 1,
-	'path' => __DIR__ . '/src/Serializer/Handlers/DecimalHandler.php',
-];
-$ignoreErrors[] = [
-	'message' => '#^Method Drenso\\\\Shared\\\\Serializer\\\\Handlers\\\\EnumHandler\\:\\:deserialize\\(\\) has parameter \\$type with no value type specified in iterable type array\\.$#',
-	'identifier' => 'missingType.iterableValue',
-	'count' => 1,
-	'path' => __DIR__ . '/src/Serializer/Handlers/EnumHandler.php',
-];
-$ignoreErrors[] = [
-	'message' => '#^Method Drenso\\\\Shared\\\\Serializer\\\\Handlers\\\\EnumHandler\\:\\:serialize\\(\\) has parameter \\$type with no value type specified in iterable type array\\.$#',
-	'identifier' => 'missingType.iterableValue',
-	'count' => 1,
-	'path' => __DIR__ . '/src/Serializer/Handlers/EnumHandler.php',
 ];
 $ignoreErrors[] = [
 	'message' => '#^Parameter \\#1 \\$callback of function call_user_func expects callable\\(\\)\\: mixed, non\\-falsy\\-string given\\.$#',

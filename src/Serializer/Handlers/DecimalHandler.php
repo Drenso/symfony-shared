@@ -32,6 +32,11 @@ class DecimalHandler implements SubscribingHandlerInterface
     ];
   }
 
+  /**
+   * @param array{name: string, params: array} $type
+   *
+   * @phpstan-ignore missingType.iterableValue
+   */
   public function serializeJson(
     SerializationVisitorInterface $visitor,
     Decimal $decimal,
@@ -41,6 +46,11 @@ class DecimalHandler implements SubscribingHandlerInterface
     return $visitor->visitString($decimal->toString(), $type);
   }
 
+  /**
+   * @param array{name: string, params: array} $type
+   *
+   * @phpstan-ignore missingType.iterableValue
+   */
   public function deserializeJson(
     DeserializationVisitorInterface $visitor,
     mixed $decimalAsString,

@@ -37,7 +37,11 @@ class IdMapHandler implements SubscribingHandlerInterface
     return $result;
   }
 
-  /** @phpstan-ignore missingType.iterableValue,missingType.generics */
+  /**
+   * @param array{name: string, params: array} $type
+   *
+   * @phpstan-ignore missingType.generics,missingType.iterableValue
+   */
   public function serializeJson(
     SerializationVisitorInterface $visitor,
     AbstractIdMap $data,
@@ -56,7 +60,11 @@ class IdMapHandler implements SubscribingHandlerInterface
     return (object)$result;
   }
 
-  /** @phpstan-ignore missingType.iterableValue,missingType.generics */
+  /**
+   * @param array{name: string, params: array} $type
+   *
+   * @phpstan-ignore missingType.generics,missingType.iterableValue
+   */
   public function deserializeJson(
     DeserializationVisitorInterface $visitor,
     mixed $data,
