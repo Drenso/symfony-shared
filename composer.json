@@ -42,7 +42,7 @@
     "monolog/monolog": "^3.8",
     "php-decimal/php-decimal": "^1.1",
     "phpoffice/phpspreadsheet": "^1.23 || ^2.0 || ^3.0 || ^4.0",
-    "phpstan/phpstan": "2.1.18",
+    "phpstan/phpstan": "2.1.19",
     "rector/rector": "2.1.2",
     "sebastian/comparator": "^5.0 || ^6.0 || ^7.0",
     "stof/doctrine-extensions-bundle": "^1.14",
