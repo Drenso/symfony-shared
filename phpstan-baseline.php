@@ -170,12 +170,6 @@ $ignoreErrors[] = [
 	'path' => __DIR__ . '/src/DependencyInjection/DrensoSharedExtension.php',
 ];
 $ignoreErrors[] = [
-	'message' => '#^Parameter \\#2 \\$array of function array_key_exists expects array, hasOffsetValue\\(string, mixed\\) given\\.$#',
-	'identifier' => 'argument.type',
-	'count' => 1,
-	'path' => __DIR__ . '/src/Form/Type/Select2EntitySearchType.php',
-];
-$ignoreErrors[] = [
 	'message' => '#^Parameter \\#2 \\$array of function array_map expects array, iterable given\\.$#',
 	'identifier' => 'argument.type',
 	'count' => 1,
