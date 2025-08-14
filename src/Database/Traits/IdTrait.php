@@ -4,6 +4,7 @@ namespace Drenso\Shared\Database\Traits;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Drenso\Shared\Exception\NullGuard\IdRequiredException;
 use JMS\Serializer\Annotation as Serializer;
 
 /** @phpstan-ignore trait.unused */
@@ -18,5 +19,10 @@ trait IdTrait
   public function getId(): ?int
   {
     return $this->id;
+  }
+
+  public function getNonNullId(): int
+  {
+    return $this->id ?? throw new IdRequiredException();
   }
 }
