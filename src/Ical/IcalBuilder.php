@@ -96,9 +96,19 @@ class IcalBuilder
 
     if ($alarmTrigger) {
       // Parse the value and make sure to use an inverted duration to place the trigger before event start
-      $duration         = is_string($alarmTrigger) ? new DateInterval($alarmTrigger) : $alarmTrigger;
-      $duration->invert = 1;
+      $duration = is_string($alarmTrigger) ? new DateInterval($alarmTrigger) : $alarmTrigger;
 
+      $days    = abs($duration->days ?: 0);
+      $hours   = abs($duration->h);
+      $minutes = abs($duration->i);
+      $seconds = abs($duration->s);
+      if ($days + $hours + $minutes + $seconds === 0) {
+        // iCal bug, see https://github.com/markuspoerschke/iCal/pull/683
+        // So, fall back to a single second
+        $duration = new DateInterval('PT1S');
+      }
+
+      $duration->invert = 1;
       $event->addAlarm(new Alarm(
         new DisplayAction($description
             ? sprintf('%s - %s', $summary, $description)
