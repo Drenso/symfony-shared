@@ -156,7 +156,7 @@ class ArrayHelper
   public static function mapToId(array $objects): array
   {
     return array_values(array_map(
-      fn ($object): int => $object->getId() ?? throw new IdRequiredException(),
+      fn (IdInterface $object): int => $object->getId() ?? throw new IdRequiredException(),
       $objects
     ));
   }
