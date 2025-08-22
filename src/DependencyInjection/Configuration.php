@@ -350,7 +350,7 @@ class Configuration implements ConfigurationInterface
                   ->isRequired()
                   ->cannotBeEmpty()
                   ->validate()
-                    ->ifFalse(fn (mixed $value): bool => is_int($value))->thenInvalid('Must be a numeric value')
+                    ->ifTrue(fn (mixed $value): bool => !is_int($value))->thenInvalid('Must be a numeric value')
                   ->end() // validate
                 ->end() // national_country_code
                 ->arrayNode('twig_integration')
