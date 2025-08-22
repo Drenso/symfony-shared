@@ -33,9 +33,11 @@ use Drenso\Shared\Serializer\ObjectConstructor;
 use Drenso\Shared\Serializer\StaticSerializer;
 use Drenso\Shared\Twig\GravatarExtension;
 use Drenso\Shared\Twig\JmsSerializerExtension;
+use Drenso\Shared\Twig\PhoneNumberExtension;
 use Gedmo\SoftDeleteable\SoftDeleteableListener;
 use JMS\Serializer\ContextFactory\SerializationContextFactoryInterface;
 use JMS\Serializer\SerializerInterface;
+use libphonenumber\PhoneNumberUtil;
 use Psr\Clock\ClockInterface;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -360,6 +362,17 @@ class DrensoSharedExtension extends ConfigurableExtension
           ->addTag('twig.extension')
           ->setPublic($public)
           ->setArgument('$gravatarHelper', $gravatarHelper);
+      }
+    }
+
+    if ($services['phone_number']['enabled']) {
+      if ($services['phone_number']['twig_integration']) {
+        $container
+          ->register(PhoneNumberExtension::class)
+          ->addTag('twig.extension')
+          ->setPublic($public)
+          ->setArgument('$phoneNumberUtil', new Reference(PhoneNumberUtil::class))
+          ->setArgument('$nationalCountryCode', $services['phone_number']['national_country_code']);
       }
     }
 

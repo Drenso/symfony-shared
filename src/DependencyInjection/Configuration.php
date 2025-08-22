@@ -343,6 +343,21 @@ class Configuration implements ConfigurationInterface
                 ->end() // twig_integration
               ->end() // gravatar children
             ->end() // gravatar
+            ->arrayNode('phone_number')
+              ->canBeEnabled()
+              ->children()
+                ->scalarNode('national_country_code')
+                  ->isRequired()
+                  ->cannotBeEmpty()
+                  ->validate()
+                    ->ifFalse(fn (mixed $value): bool => is_int($value))->thenInvalid('Must be a numeric value')
+                  ->end() // validate
+                ->end() // national_country_code
+                ->arrayNode('twig_integration')
+                  ->canBeDisabled()
+                ->end() // twig_integration
+              ->end() // phone_number children
+            ->end() // phone_number
             ->arrayNode('spreadsheethelper')
               ->canBeEnabled()
             ->end() // spreadsheethelper
