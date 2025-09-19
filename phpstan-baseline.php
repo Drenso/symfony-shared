@@ -182,12 +182,6 @@ $ignoreErrors[] = [
 	'path' => __DIR__ . '/src/Form/Type/Select2EntitySearchType.php',
 ];
 $ignoreErrors[] = [
-	'message' => '#^Method Drenso\\\\Shared\\\\Helper\\\\ArrayHelper\\:\\:assertArray\\(\\) has parameter \\$variables with no value type specified in iterable type array\\.$#',
-	'identifier' => 'missingType.iterableValue',
-	'count' => 1,
-	'path' => __DIR__ . '/src/Helper/ArrayHelper.php',
-];
-$ignoreErrors[] = [
 	'message' => '#^Method Drenso\\\\Shared\\\\Helper\\\\ArrayHelper\\:\\:assertBool\\(\\) has parameter \\$variables with no value type specified in iterable type array\\.$#',
 	'identifier' => 'missingType.iterableValue',
 	'count' => 1,
@@ -219,6 +213,12 @@ $ignoreErrors[] = [
 ];
 $ignoreErrors[] = [
 	'message' => '#^Method Drenso\\\\Shared\\\\Helper\\\\ArrayHelper\\:\\:assertType\\(\\) has parameter \\$variables with no value type specified in iterable type array\\.$#',
+	'identifier' => 'missingType.iterableValue',
+	'count' => 1,
+	'path' => __DIR__ . '/src/Helper/ArrayHelper.php',
+];
+$ignoreErrors[] = [
+	'message' => '#^PHPDoc tag @phpstan\\-assert for \\$variables has no value type specified in iterable type array\\.$#',
 	'identifier' => 'missingType.iterableValue',
 	'count' => 1,
 	'path' => __DIR__ . '/src/Helper/ArrayHelper.php',
