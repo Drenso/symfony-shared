@@ -24,6 +24,7 @@ class Configuration implements ConfigurationInterface
     $this->configureEnv($rootNode);
     $this->configureFormExtensions($rootNode);
     $this->configureLogging($rootNode);
+    $this->configureMessenger($rootNode);
     $this->configureSentryTunnel($rootNode);
     $this->configureSerializer($rootNode);
     $this->configureServices($rootNode);
@@ -214,6 +215,26 @@ class Configuration implements ConfigurationInterface
             ->end() // filters
           ->end() // form_extensions children
         ->end() // form_extensions
+      ->end();
+  }
+
+  /** Setup configuration for Messenger services */
+  private function configureMessenger(ArrayNodeDefinition $node): void
+  {
+    $node
+      ->children()
+        ->arrayNode('messenger')
+          ->addDefaultsIfNotSet()
+          ->children()
+            ->arrayNode('middleware')
+              ->addDefaultsIfNotSet()
+              ->children()
+                ->arrayNode('doctrine_transaction')
+                  ->canBeDisabled()
+                ->end() // doctrine_transaction
+            ->end() // middleware
+          ->end() // messenger children
+        ->end() // messenger
       ->end();
   }
 

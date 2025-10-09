@@ -25,6 +25,7 @@ use Drenso\Shared\Helper\DateTimeProvider;
 use Drenso\Shared\Helper\GravatarHelper;
 use Drenso\Shared\Helper\SpreadsheetHelper;
 use Drenso\Shared\Logging\FilterHandler\ZenstruckCacheLoggingFilterHandler;
+use Drenso\Shared\Messenger\Middleware\DoctrineTransactionMiddleware;
 use Drenso\Shared\Sentry\SentryTunnelController;
 use Drenso\Shared\Serializer\Handlers\DecimalHandler;
 use Drenso\Shared\Serializer\Handlers\EnumHandler;
@@ -70,6 +71,7 @@ class DrensoSharedExtension extends ConfigurableExtension
     $this->configureEnv($container, $mergedConfig);
     $this->configureFormExtensions($container, $mergedConfig);
     $this->configureLogging($container, $mergedConfig);
+    $this->configureMessenger($container, $mergedConfig);
     $this->configureSentryTunnel($container, $mergedConfig);
     $this->configureSerializer($container, $mergedConfig, $publicServices);
     $this->configureServices($container, $mergedConfig, $publicServices);
@@ -240,6 +242,18 @@ class DrensoSharedExtension extends ConfigurableExtension
 
     if ($logging['filters']['zenstruck_cache']['enabled']) {
       $container->register(ZenstruckCacheLoggingFilterHandler::class);
+    }
+  }
+
+  private function configureMessenger(ContainerBuilder $container, array $config): void
+  {
+    $messenger  = $config['messenger'];
+    $middleware = $messenger['middleware'];
+
+    if ($middleware['doctrine_transaction']['enabled']) {
+      $container
+        ->register(DoctrineTransactionMiddleware::class)
+        ->addArgument(new Reference(ManagerRegistry::class));
     }
   }
 
