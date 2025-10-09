@@ -33,7 +33,7 @@ class UlidQueryParameterRule implements Rule
 
   public function processNode(Node $node, Scope $scope): array
   {
-    /** @phpstan-ignore instanceof.alwaysTrue */
+    /* @phpstan-ignore instanceof.alwaysTrue */
     if (!$node instanceof MethodCall) {
       return [];
     }
