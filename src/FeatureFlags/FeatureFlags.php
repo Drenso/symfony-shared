@@ -8,8 +8,8 @@ use Symfony\Contracts\Cache\CacheInterface;
 
 class FeatureFlags implements FeatureFlagsInterface
 {
-  private const CACHE_KEY_MTIME  = 'drenso.feature_flags.mtime';
-  private const CACHE_KEY_CONFIG = 'drenso.feature_flags.configuration';
+  private const string CACHE_KEY_MTIME  = 'drenso.feature_flags.mtime';
+  private const string CACHE_KEY_CONFIG = 'drenso.feature_flags.configuration';
 
   /** @var array<string, mixed>|null */
   private ?array $resolvedConfiguration = null;

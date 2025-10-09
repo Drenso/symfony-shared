@@ -20,9 +20,9 @@ use Zenstruck\Messenger\Monitor\Transports;
 class CheckMessengerQueuesCommand extends Command
 {
   // Icinga constants
-  private const OK       = 0;
-  private const WARNING  = 1;
-  private const CRITICAL = 2;
+  private const int OK       = 0;
+  private const int WARNING  = 1;
+  private const int CRITICAL = 2;
 
   /** @param string[] $disabledQueues */
   public function __construct(

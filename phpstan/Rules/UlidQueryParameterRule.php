@@ -6,6 +6,11 @@ use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\ORM\QueryBuilder;
 use Drenso\Shared\Interfaces\UlidInterface;
 use PhpParser\Node;
+use PhpParser\Node\Expr\ClassConstFetch;
+use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Identifier;
+use PhpParser\Node\Name;
+use PhpParser\Node\Scalar\String_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
@@ -14,7 +19,7 @@ use Symfony\Bridge\Doctrine\Types\UlidType;
 use Symfony\Component\Uid\Ulid;
 
 /**
- * @implements Rule<Node\Expr\MethodCall>
+ * @implements Rule<MethodCall>
  */
 class UlidQueryParameterRule implements Rule
 {
@@ -23,16 +28,17 @@ class UlidQueryParameterRule implements Rule
 
   public function getNodeType(): string
   {
-    return Node\Expr\MethodCall::class;
+    return MethodCall::class;
   }
 
   public function processNode(Node $node, Scope $scope): array
   {
-    if (!$node instanceof Node\Expr\MethodCall) {
+    /** @phpstan-ignore instanceof.alwaysTrue */
+    if (!$node instanceof MethodCall) {
       return [];
     }
 
-    if (!$node->name instanceof Node\Identifier) {
+    if (!$node->name instanceof Identifier) {
       return [];
     }
 
@@ -107,10 +113,10 @@ class UlidQueryParameterRule implements Rule
     $arg2Value = $arg2->value;
 
     if ($isArray) {
-      if ($arg2Value instanceof Node\Expr\ClassConstFetch
-        && $arg2Value->class instanceof Node\Name
+      if ($arg2Value instanceof ClassConstFetch
+        && $arg2Value->class instanceof Name
         && $arg2Value->class->toString() === ArrayParameterType::class
-        && $arg2Value->name instanceof Node\Identifier
+        && $arg2Value->name instanceof Identifier
         && $arg2Value->name->name === 'BINARY') {
         return [
           RuleErrorBuilder::message("An Ulid array type parameter is set with $method with the required type hint $arrayHint, but the ULID needs to be converted to binary")
@@ -129,14 +135,14 @@ class UlidQueryParameterRule implements Rule
       ];
     }
 
-    if ($arg2Value instanceof Node\Scalar\String_ && $arg2Value->value === self::EXPECTED_HINT) {
+    if ($arg2Value instanceof String_ && $arg2Value->value === self::EXPECTED_HINT) {
       return [];
     }
 
-    if ($arg2Value instanceof Node\Expr\ClassConstFetch
-      && $arg2Value->class instanceof Node\Name
+    if ($arg2Value instanceof ClassConstFetch
+      && $arg2Value->class instanceof Name
       && $arg2Value->class->toString() === UlidType::class
-      && $arg2Value->name instanceof Node\Identifier
+      && $arg2Value->name instanceof Identifier
       && $arg2Value->name->name === 'NAME') {
       return [];
     }

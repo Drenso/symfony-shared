@@ -4,9 +4,11 @@ namespace Drenso\Shared\Logging\FilterHandler;
 
 use Monolog\Handler\AbstractHandler;
 use Monolog\LogRecord;
+use Override;
 
 class ZenstruckCacheLoggingFilterHandler extends AbstractHandler
 {
+  #[Override]
   public function isHandling(LogRecord $record): bool
   {
     return true;

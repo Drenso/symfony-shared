@@ -6,12 +6,14 @@ use Decimal\Decimal;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Exception\InvalidType;
 use Doctrine\DBAL\Types\StringType;
+use Override;
 
 class PhpDecimalType extends StringType
 {
-  final public const NAME = 'php_decimal';
+  final public const string NAME = 'php_decimal';
 
   /** @throws InvalidType */
+  #[Override]
   public function convertToDatabaseValue(mixed $value, AbstractPlatform $platform): ?string
   {
     if ($value === null) {
@@ -26,6 +28,7 @@ class PhpDecimalType extends StringType
   }
 
   /** @throws InvalidType */
+  #[Override]
   public function convertToPHPValue(mixed $value, AbstractPlatform $platform): ?Decimal
   {
     if ($value === null || $value === '') {

@@ -10,10 +10,12 @@ use Doctrine\DBAL\Types\Exception\InvalidFormat;
 use Doctrine\DBAL\Types\Exception\InvalidType;
 use Drenso\Shared\Helper\DateTimeHelper;
 use Exception;
+use Override;
 
 class UTCDateImmutableType extends DateImmutableType
 {
   /** @throws Exception */
+  #[Override]
   public function convertToDatabaseValue(mixed $value, AbstractPlatform $platform): ?string
   {
     if ($value instanceof DateTimeImmutable) {
@@ -27,6 +29,7 @@ class UTCDateImmutableType extends DateImmutableType
    * @throws InvalidType
    * @throws InvalidFormat
    */
+  #[Override]
   public function convertToPHPValue(mixed $value, AbstractPlatform $platform): ?DateTimeImmutable
   {
     if (null === $value || $value instanceof DateTimeImmutable) {

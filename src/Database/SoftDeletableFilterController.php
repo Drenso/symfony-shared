@@ -8,7 +8,7 @@ use RuntimeException;
 
 class SoftDeletableFilterController
 {
-  final public const SOFT_DELETE_FILTER = 'softdeleteable'; // This is case-sensitive
+  final public const string SOFT_DELETE_FILTER = 'softdeleteable'; // This is case-sensitive
 
   public function __construct(private readonly EntityManagerInterface $entityManager)
   {

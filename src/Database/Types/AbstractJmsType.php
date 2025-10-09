@@ -8,10 +8,12 @@ use Doctrine\DBAL\Types\Exception\ValueNotConvertible;
 use Doctrine\DBAL\Types\JsonType;
 use Drenso\Shared\Serializer\StaticSerializer;
 use JMS\Serializer\Exception\Exception;
+use Override;
 
 abstract class AbstractJmsType extends JsonType
 {
   /** @throws SerializationFailed */
+  #[Override]
   public function convertToDatabaseValue(mixed $value, AbstractPlatform $platform): ?string
   {
     if ($value === null || $value === '') {
@@ -31,6 +33,7 @@ abstract class AbstractJmsType extends JsonType
   }
 
   /** @throws ValueNotConvertible|\Doctrine\DBAL\Exception */
+  #[Override]
   public function convertToPHPValue(mixed $value, AbstractPlatform $platform): mixed
   {
     if ($value === null || $value === '') {

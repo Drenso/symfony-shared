@@ -11,7 +11,7 @@ use Rector\Symfony\Symfony61\Rector\Class_\CommandConfigureToAttributeRector;
 
 return RectorConfig::configure()
   ->withCache('./var/cache/rector', FileCacheStorage::class)
-  ->withPaths([__DIR__ . '/src'])
+  ->withPaths(['./phpstan', './phpunit', './src'])
   ->withParallel(timeoutSeconds: 180, jobSize: 10)
   ->withImportNames()
   ->withSkip([

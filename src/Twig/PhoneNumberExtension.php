@@ -5,6 +5,7 @@ namespace Drenso\Shared\Twig;
 use libphonenumber\PhoneNumber;
 use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
+use Override;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigTest;
@@ -18,6 +19,7 @@ class PhoneNumberExtension extends AbstractExtension
   }
 
   /** @return TwigFilter[] */
+  #[Override]
   public function getFilters(): array
   {
     return [
@@ -27,6 +29,7 @@ class PhoneNumberExtension extends AbstractExtension
   }
 
   /** @return TwigTest[] */
+  #[Override]
   public function getTests(): array
   {
     return [

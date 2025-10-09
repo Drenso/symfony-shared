@@ -9,6 +9,7 @@ use Doctrine\DBAL\Types\DateTimeImmutableType;
 use Doctrine\DBAL\Types\Exception\InvalidFormat;
 use Doctrine\DBAL\Types\Exception\InvalidType;
 use Drenso\Shared\Helper\DateTimeHelper;
+use Override;
 
 /**
  * Store all datetime immutable types as UTC in the database
@@ -17,6 +18,7 @@ use Drenso\Shared\Helper\DateTimeHelper;
 class UTCDateTimeImmutableType extends DateTimeImmutableType
 {
   /** @throws InvalidType */
+  #[Override]
   public function convertToDatabaseValue(mixed $value, AbstractPlatform $platform): ?string
   {
     if ($this->shouldConvertToImmutable() && $value instanceof DateTime) {
@@ -43,6 +45,7 @@ class UTCDateTimeImmutableType extends DateTimeImmutableType
    * @throws InvalidType
    * @throws InvalidFormat
    */
+  #[Override]
   public function convertToPHPValue(mixed $value, AbstractPlatform $platform): ?DateTimeImmutable
   {
     if (null === $value || $value instanceof DateTimeImmutable) {

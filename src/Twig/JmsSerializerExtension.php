@@ -4,6 +4,7 @@ namespace Drenso\Shared\Twig;
 
 use JMS\Serializer\ContextFactory\SerializationContextFactoryInterface;
 use JMS\Serializer\SerializerInterface;
+use Override;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
@@ -15,6 +16,7 @@ class JmsSerializerExtension extends AbstractExtension
   {
   }
 
+  #[Override]
   public function getFilters(): array
   {
     return [

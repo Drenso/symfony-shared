@@ -2,6 +2,7 @@
 
 namespace Drenso\Shared\Form\Type;
 
+use Override;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\FormInterface;
@@ -26,6 +27,7 @@ class ButtonUrlType extends AbstractType
     $resolver->setAllowedTypes('route_params', 'array');
   }
 
+  #[Override]
   public function getParent(): string
   {
     return ButtonType::class;

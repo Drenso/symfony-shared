@@ -10,7 +10,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 class SoftDeletableListener
 {
   /** Field name for deleted by. */
-  final public const FIELD_NAME = 'deletedBy';
+  final public const string FIELD_NAME = 'deletedBy';
 
   public function __construct(private readonly TokenStorageInterface $tokenStorage)
   {

@@ -3,6 +3,7 @@
 namespace Drenso\Shared\Twig;
 
 use Drenso\Shared\Helper\GravatarHelper;
+use Override;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
@@ -15,6 +16,7 @@ class GravatarExtension extends AbstractExtension
   {
   }
 
+  #[Override]
   public function getFilters(): array
   {
     return [

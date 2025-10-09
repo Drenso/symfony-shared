@@ -17,7 +17,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class SentryTunnelController extends AbstractController
 {
-  private const CACHE_KEY = 'drenso.sentry_tunnel.available';
+  private const string CACHE_KEY = 'drenso.sentry_tunnel.available';
 
   /** @param string[] $allowedDsn */
   public function __construct(

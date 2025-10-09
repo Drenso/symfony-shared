@@ -9,7 +9,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class DisablePostFlushDetachCompilerPass implements CompilerPassInterface
 {
-  private const TAG_NAME = 'doctrine.event_listener';
+  private const string TAG_NAME = 'doctrine.event_listener';
 
   public function process(ContainerBuilder $container): void
   {

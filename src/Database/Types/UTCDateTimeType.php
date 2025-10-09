@@ -9,6 +9,7 @@ use Doctrine\DBAL\Types\DateTimeType;
 use Doctrine\DBAL\Types\Exception\InvalidFormat;
 use Doctrine\DBAL\Types\Exception\InvalidType;
 use Drenso\Shared\Helper\DateTimeHelper;
+use Override;
 
 /**
  * Store all datetime types as UTC in the database
@@ -17,6 +18,7 @@ use Drenso\Shared\Helper\DateTimeHelper;
 class UTCDateTimeType extends DateTimeType
 {
   /** @throws InvalidType */
+  #[Override]
   public function convertToDatabaseValue(mixed $value, AbstractPlatform $platform): ?string
   {
     if ($value instanceof DateTime) {
@@ -30,6 +32,7 @@ class UTCDateTimeType extends DateTimeType
    * @throws InvalidType
    * @throws InvalidFormat
    */
+  #[Override]
   public function convertToPHPValue(mixed $value, AbstractPlatform $platform): ?DateTime
   {
     if (null === $value || $value instanceof DateTime) {
