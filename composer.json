@@ -20,7 +20,7 @@
   ],
   "minimum-stability": "stable",
   "require": {
-    "php": "^8.1",
+    "php": "^8.3",
     "ext-iconv": "*",
     "ext-json": "*",
     "ext-mbstring": "*",
@@ -108,7 +108,8 @@
   "autoload": {
     "psr-4": {
       "Drenso\\Shared\\": "src/",
-      "Drenso\\Shared\\Tests\\": "phpunit/"
+      "Drenso\\Shared\\Tests\\": "phpunit/",
+      "Drenso\\Shared\\PhpStan\\": "phpstan/"
     }
   },
   "extra": {
