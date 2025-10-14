@@ -79,7 +79,7 @@ class UlidQueryParameterRule implements Rule
         RuleErrorBuilder::message("An object implementing $ulidInterfaceClass has been passed to $method, which will never yield any results")
           ->line($line)
           ->addTip('Add ->getUlid() to the parameter')
-          ->identifier('nis.doctrineInvalidUlidInterfaceUsage')
+          ->identifier('drensoShared.doctrineInvalidUlidInterfaceUsage')
           ->build(),
       ];
     }
@@ -96,7 +96,7 @@ class UlidQueryParameterRule implements Rule
         return [
           RuleErrorBuilder::message("An Ulid array type parameter is set with $method but the required $arrayHint type hint is missing")
             ->line($line)
-            ->identifier('nis.doctrineArrayUlidHintMissing')
+            ->identifier('drensoShared.doctrineArrayUlidHintMissing')
             ->build(),
         ];
       }
@@ -104,7 +104,7 @@ class UlidQueryParameterRule implements Rule
       return [
         RuleErrorBuilder::message("An Ulid type parameter is set with $method but the required 'ulid' or $hint type hint is missing")
           ->line($line)
-          ->identifier('nis.doctrineUlidHintMissing')
+          ->identifier('drensoShared.doctrineUlidHintMissing')
           ->build(),
       ];
     }
@@ -122,7 +122,7 @@ class UlidQueryParameterRule implements Rule
           RuleErrorBuilder::message("An Ulid array type parameter is set with $method with the required type hint $arrayHint, but the ULID needs to be converted to binary")
             ->line($line)
             ->addTip('Map the Ulids with ->toBinary()')
-            ->identifier('nis.doctrineArrayUlidDataIncorrect')
+            ->identifier('drensoShared.doctrineArrayUlidDataIncorrect')
             ->build(),
         ];
       }
@@ -130,7 +130,7 @@ class UlidQueryParameterRule implements Rule
       return [
         RuleErrorBuilder::message("An Ulid array type parameter is set with $method but the required type hint has not been set to $arrayHint")
           ->line($line)
-          ->identifier('nis.doctrineArrayUlidHintIncorrect')
+          ->identifier('drensoShared.doctrineArrayUlidHintIncorrect')
           ->build(),
       ];
     }
@@ -150,7 +150,7 @@ class UlidQueryParameterRule implements Rule
     return [
       RuleErrorBuilder::message("An Ulid type parameter is set with $method but the required type hint has not been set to 'ulid' or $hint")
         ->line($line)
-        ->identifier('nis.doctrineUlidHintIncorrect')
+        ->identifier('drensoShared.doctrineUlidHintIncorrect')
         ->build(),
     ];
   }
