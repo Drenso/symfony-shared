@@ -230,7 +230,7 @@ class Configuration implements ConfigurationInterface
               ->addDefaultsIfNotSet()
               ->children()
                 ->arrayNode('doctrine_transaction')
-                  ->canBeDisabled()
+                  ->canBeEnabled()
                 ->end() // doctrine_transaction
             ->end() // middleware
           ->end() // messenger children
