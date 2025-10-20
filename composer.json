@@ -33,7 +33,7 @@
     "twig/twig": "~3.7"
   },
   "require-dev": {
-    "doctrine/doctrine-bundle": "^2.13",
+    "doctrine/doctrine-bundle": "^2.13 || ^3.0",
     "doctrine/orm": "^3.0",
     "eluceo/ical": "^2.7",
     "friendsofphp/php-cs-fixer": "3.88.2",
