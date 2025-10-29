@@ -44,7 +44,7 @@ class Select2EntitySearchType extends AbstractType
             $normData = [$normData];
           }
 
-          $normData = array_map(fn ($item): array => [
+          $normData = array_map(fn (object|array $item): array => [
             'value' => $this->propertyAccessor->getValue($item, 'id'),
             'label' => $this->propertyAccessor->getValue($item, $options['choice_label']),
           ], $normData);
