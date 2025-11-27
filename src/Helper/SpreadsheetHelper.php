@@ -4,6 +4,7 @@ namespace Drenso\Shared\Helper;
 
 use DateTimeInterface;
 use PhpOffice\PhpSpreadsheet\Cell\CellAddress;
+use PhpOffice\PhpSpreadsheet\Cell\CellRange;
 use PhpOffice\PhpSpreadsheet\Cell\DataType;
 use PhpOffice\PhpSpreadsheet\Cell\RowRange;
 use PhpOffice\PhpSpreadsheet\Exception;
@@ -22,10 +23,21 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use ZipStream\CompressionMethod;
 use ZipStream\ZipStream;
 
-class SpreadsheetHelper
+readonly class SpreadsheetHelper
 {
-  public function __construct(private readonly ?TranslatorInterface $translator)
+  public function __construct(private ?TranslatorInterface $translator)
   {
+  }
+
+  public function createResponse(
+    Spreadsheet $spreadsheet,
+    string $filename,
+    SpreadsheetExportTypeEnum $exportType,
+  ): StreamedResponse {
+    return match ($exportType) {
+      SpreadsheetExportTypeEnum::CSV  => $this->createCsvResponse($spreadsheet, $filename, true),
+      SpreadsheetExportTypeEnum::XLSX => $this->createExcelResponse($spreadsheet, $filename),
+    };
   }
 
   /** Create an Excel response from a spreadsheet. */
@@ -141,6 +153,38 @@ class SpreadsheetHelper
   public function createXlsxWriter(Spreadsheet $spreadsheet): Xlsx
   {
     return new Xlsx($spreadsheet);
+  }
+
+  /** Adds some excel only features to the spreadsheet. */
+  public function autoFormatSheet(
+    Worksheet $sheet,
+    SpreadsheetExportTypeEnum $exportType,
+    int $totalColumns,
+    int $autoFilterRow = 1,
+    ?string $freezeCell = 'A2',
+  ): void {
+    if ($exportType === SpreadsheetExportTypeEnum::CSV) {
+      // In case of CSV,
+      return;
+    }
+
+    // Autosize columns
+    for ($column = 1; $column <= $totalColumns; $column++) {
+      $sheet->getColumnDimensionByColumn($column)->setAutoSize(true);
+    }
+
+    // Autofilter columns
+    if ($totalColumns !== 1) {
+      $sheet->setAutoFilter(new CellRange(
+        CellAddress::fromColumnAndRow(1, $autoFilterRow),
+        CellAddress::fromColumnAndRow($totalColumns, $autoFilterRow),
+      ));
+    }
+
+    // Freeze pane
+    if ($freezeCell) {
+      $sheet->freezePane($freezeCell);
+    }
   }
 
   /**

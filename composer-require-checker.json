@@ -89,6 +89,7 @@
     "libphonenumber\\PhoneNumberFormat",
     "libphonenumber\\PhoneNumberUtil",
     "PhpOffice\\PhpSpreadsheet\\Cell\\CellAddress",
+    "PhpOffice\\PhpSpreadsheet\\Cell\\CellRange",
     "PhpOffice\\PhpSpreadsheet\\Cell\\DataType",
     "PhpOffice\\PhpSpreadsheet\\Cell\\RowRange",
     "PhpOffice\\PhpSpreadsheet\\Shared\\Date",
