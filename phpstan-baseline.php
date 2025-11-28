@@ -2,6 +2,12 @@
 
 $ignoreErrors = [];
 $ignoreErrors[] = [
+	'message' => '#^Class Symfony\\\\Component\\\\Routing\\\\Annotation\\\\Route not found\\.$#',
+	'identifier' => 'class.notFound',
+	'count' => 2,
+	'path' => __DIR__ . '/src/Command/CheckActionSecurityCommand.php',
+];
+$ignoreErrors[] = [
 	'message' => '#^Parameter \\#1 \\$objectOrClass of class ReflectionClass constructor expects class\\-string\\<T of object\\>\\|T of object, object\\|string given\\.$#',
 	'identifier' => 'argument.type',
 	'count' => 2,
@@ -14,98 +20,68 @@ $ignoreErrors[] = [
 	'path' => __DIR__ . '/src/Database/Types/AbstractJmsType.php',
 ];
 $ignoreErrors[] = [
-	'message' => '#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#',
-	'identifier' => 'method.notFound',
+	'message' => '#^Method Drenso\\\\Shared\\\\DependencyInjection\\\\Configuration\\:\\:configureApiServices\\(\\) has parameter \\$node with generic class Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\ArrayNodeDefinition but does not specify its types\\: TParent$#',
+	'identifier' => 'missingType.generics',
 	'count' => 1,
 	'path' => __DIR__ . '/src/DependencyInjection/Configuration.php',
 ];
 $ignoreErrors[] = [
-	'message' => '#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeParentInterface\\:\\:arrayNode\\(\\)\\.$#',
-	'identifier' => 'method.notFound',
-	'count' => 3,
-	'path' => __DIR__ . '/src/DependencyInjection/Configuration.php',
-];
-$ignoreErrors[] = [
-	'message' => '#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeParentInterface\\:\\:beforeNormalization\\(\\)\\.$#',
-	'identifier' => 'method.notFound',
+	'message' => '#^Method Drenso\\\\Shared\\\\DependencyInjection\\\\Configuration\\:\\:configureCommands\\(\\) has parameter \\$node with generic class Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\ArrayNodeDefinition but does not specify its types\\: TParent$#',
+	'identifier' => 'missingType.generics',
 	'count' => 1,
 	'path' => __DIR__ . '/src/DependencyInjection/Configuration.php',
 ];
 $ignoreErrors[] = [
-	'message' => '#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeParentInterface\\:\\:end\\(\\)\\.$#',
-	'identifier' => 'method.notFound',
-	'count' => 5,
-	'path' => __DIR__ . '/src/DependencyInjection/Configuration.php',
-];
-$ignoreErrors[] = [
-	'message' => '#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeParentInterface\\:\\:scalarNode\\(\\)\\.$#',
-	'identifier' => 'method.notFound',
-	'count' => 2,
-	'path' => __DIR__ . '/src/DependencyInjection/Configuration.php',
-];
-$ignoreErrors[] = [
-	'message' => '#^Parameter \\#1 \\$node of method Drenso\\\\Shared\\\\DependencyInjection\\\\Configuration\\:\\:configureApiServices\\(\\) expects Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\ArrayNodeDefinition, Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition given\\.$#',
-	'identifier' => 'argument.type',
+	'message' => '#^Method Drenso\\\\Shared\\\\DependencyInjection\\\\Configuration\\:\\:configureDatabase\\(\\) has parameter \\$node with generic class Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\ArrayNodeDefinition but does not specify its types\\: TParent$#',
+	'identifier' => 'missingType.generics',
 	'count' => 1,
 	'path' => __DIR__ . '/src/DependencyInjection/Configuration.php',
 ];
 $ignoreErrors[] = [
-	'message' => '#^Parameter \\#1 \\$node of method Drenso\\\\Shared\\\\DependencyInjection\\\\Configuration\\:\\:configureCommands\\(\\) expects Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\ArrayNodeDefinition, Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition given\\.$#',
-	'identifier' => 'argument.type',
+	'message' => '#^Method Drenso\\\\Shared\\\\DependencyInjection\\\\Configuration\\:\\:configureEmailService\\(\\) has parameter \\$node with generic class Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\ArrayNodeDefinition but does not specify its types\\: TParent$#',
+	'identifier' => 'missingType.generics',
 	'count' => 1,
 	'path' => __DIR__ . '/src/DependencyInjection/Configuration.php',
 ];
 $ignoreErrors[] = [
-	'message' => '#^Parameter \\#1 \\$node of method Drenso\\\\Shared\\\\DependencyInjection\\\\Configuration\\:\\:configureDatabase\\(\\) expects Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\ArrayNodeDefinition, Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition given\\.$#',
-	'identifier' => 'argument.type',
+	'message' => '#^Method Drenso\\\\Shared\\\\DependencyInjection\\\\Configuration\\:\\:configureEnv\\(\\) has parameter \\$node with generic class Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\ArrayNodeDefinition but does not specify its types\\: TParent$#',
+	'identifier' => 'missingType.generics',
 	'count' => 1,
 	'path' => __DIR__ . '/src/DependencyInjection/Configuration.php',
 ];
 $ignoreErrors[] = [
-	'message' => '#^Parameter \\#1 \\$node of method Drenso\\\\Shared\\\\DependencyInjection\\\\Configuration\\:\\:configureEmailService\\(\\) expects Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\ArrayNodeDefinition, Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition given\\.$#',
-	'identifier' => 'argument.type',
+	'message' => '#^Method Drenso\\\\Shared\\\\DependencyInjection\\\\Configuration\\:\\:configureFormExtensions\\(\\) has parameter \\$node with generic class Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\ArrayNodeDefinition but does not specify its types\\: TParent$#',
+	'identifier' => 'missingType.generics',
 	'count' => 1,
 	'path' => __DIR__ . '/src/DependencyInjection/Configuration.php',
 ];
 $ignoreErrors[] = [
-	'message' => '#^Parameter \\#1 \\$node of method Drenso\\\\Shared\\\\DependencyInjection\\\\Configuration\\:\\:configureEnv\\(\\) expects Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\ArrayNodeDefinition, Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition given\\.$#',
-	'identifier' => 'argument.type',
+	'message' => '#^Method Drenso\\\\Shared\\\\DependencyInjection\\\\Configuration\\:\\:configureLogging\\(\\) has parameter \\$node with generic class Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\ArrayNodeDefinition but does not specify its types\\: TParent$#',
+	'identifier' => 'missingType.generics',
 	'count' => 1,
 	'path' => __DIR__ . '/src/DependencyInjection/Configuration.php',
 ];
 $ignoreErrors[] = [
-	'message' => '#^Parameter \\#1 \\$node of method Drenso\\\\Shared\\\\DependencyInjection\\\\Configuration\\:\\:configureFormExtensions\\(\\) expects Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\ArrayNodeDefinition, Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition given\\.$#',
-	'identifier' => 'argument.type',
+	'message' => '#^Method Drenso\\\\Shared\\\\DependencyInjection\\\\Configuration\\:\\:configureMessenger\\(\\) has parameter \\$node with generic class Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\ArrayNodeDefinition but does not specify its types\\: TParent$#',
+	'identifier' => 'missingType.generics',
 	'count' => 1,
 	'path' => __DIR__ . '/src/DependencyInjection/Configuration.php',
 ];
 $ignoreErrors[] = [
-	'message' => '#^Parameter \\#1 \\$node of method Drenso\\\\Shared\\\\DependencyInjection\\\\Configuration\\:\\:configureLogging\\(\\) expects Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\ArrayNodeDefinition, Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition given\\.$#',
-	'identifier' => 'argument.type',
+	'message' => '#^Method Drenso\\\\Shared\\\\DependencyInjection\\\\Configuration\\:\\:configureSentryTunnel\\(\\) has parameter \\$node with generic class Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\ArrayNodeDefinition but does not specify its types\\: TParent$#',
+	'identifier' => 'missingType.generics',
 	'count' => 1,
 	'path' => __DIR__ . '/src/DependencyInjection/Configuration.php',
 ];
 $ignoreErrors[] = [
-	'message' => '#^Parameter \\#1 \\$node of method Drenso\\\\Shared\\\\DependencyInjection\\\\Configuration\\:\\:configureMessenger\\(\\) expects Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\ArrayNodeDefinition, Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition given\\.$#',
-	'identifier' => 'argument.type',
+	'message' => '#^Method Drenso\\\\Shared\\\\DependencyInjection\\\\Configuration\\:\\:configureSerializer\\(\\) has parameter \\$node with generic class Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\ArrayNodeDefinition but does not specify its types\\: TParent$#',
+	'identifier' => 'missingType.generics',
 	'count' => 1,
 	'path' => __DIR__ . '/src/DependencyInjection/Configuration.php',
 ];
 $ignoreErrors[] = [
-	'message' => '#^Parameter \\#1 \\$node of method Drenso\\\\Shared\\\\DependencyInjection\\\\Configuration\\:\\:configureSentryTunnel\\(\\) expects Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\ArrayNodeDefinition, Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition given\\.$#',
-	'identifier' => 'argument.type',
-	'count' => 1,
-	'path' => __DIR__ . '/src/DependencyInjection/Configuration.php',
-];
-$ignoreErrors[] = [
-	'message' => '#^Parameter \\#1 \\$node of method Drenso\\\\Shared\\\\DependencyInjection\\\\Configuration\\:\\:configureSerializer\\(\\) expects Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\ArrayNodeDefinition, Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition given\\.$#',
-	'identifier' => 'argument.type',
-	'count' => 1,
-	'path' => __DIR__ . '/src/DependencyInjection/Configuration.php',
-];
-$ignoreErrors[] = [
-	'message' => '#^Parameter \\#1 \\$node of method Drenso\\\\Shared\\\\DependencyInjection\\\\Configuration\\:\\:configureServices\\(\\) expects Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\ArrayNodeDefinition, Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition given\\.$#',
-	'identifier' => 'argument.type',
+	'message' => '#^Method Drenso\\\\Shared\\\\DependencyInjection\\\\Configuration\\:\\:configureServices\\(\\) has parameter \\$node with generic class Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\ArrayNodeDefinition but does not specify its types\\: TParent$#',
+	'identifier' => 'missingType.generics',
 	'count' => 1,
 	'path' => __DIR__ . '/src/DependencyInjection/Configuration.php',
 ];

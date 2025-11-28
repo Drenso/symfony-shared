@@ -8,6 +8,7 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 class Configuration implements ConfigurationInterface
 {
+  /** @return TreeBuilder<'array'> */
   public function getConfigTreeBuilder(): TreeBuilder
   {
     $treeBuilder = new TreeBuilder('drenso_shared');
