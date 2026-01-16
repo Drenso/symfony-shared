@@ -36,7 +36,7 @@
     "doctrine/doctrine-bundle": "^2.13 || ^3.0",
     "doctrine/orm": "^3.0",
     "eluceo/ical": "^2.7",
-    "friendsofphp/php-cs-fixer": "3.92.4",
+    "friendsofphp/php-cs-fixer": "3.92.5",
     "giggsey/libphonenumber-for-php": "^9.0",
     "jms/serializer-bundle": "^5.0",
     "maennchen/zipstream-php": "^3.0",
