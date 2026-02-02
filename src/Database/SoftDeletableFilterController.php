@@ -44,7 +44,7 @@ class SoftDeletableFilterController
   private function getSoftDeleteFilter(): SoftDeleteableFilter
   {
     $filter = $this->entityManager->getFilters()->getFilter(self::SOFT_DELETE_FILTER);
-    if (!($filter instanceof SoftDeleteableFilter)) {
+    if (!$filter instanceof SoftDeleteableFilter) {
       throw new RuntimeException(sprintf('SoftDeleteableFilter filter expected to be of type %s, but was %s',
         SoftDeleteableFilter::class, $filter::class));
     }
