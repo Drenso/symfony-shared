@@ -7,6 +7,7 @@ use JMS\Serializer\EventDispatcher\ObjectEvent;
 use JMS\Serializer\Metadata\PropertyMetadata;
 use JMS\Serializer\Metadata\StaticPropertyMetadata;
 use JMS\Serializer\Visitor\SerializationVisitorInterface;
+use Metadata\ClassMetadata;
 use RuntimeException;
 
 /**
@@ -112,19 +113,21 @@ abstract class AbstractObjectSerializer
     ?string $prop = null,
     bool $insertUnderscore = true): void
   {
-    $metadata = $event->getContext()
+    /** @var ClassMetadata|null $classMetadata */
+    $classMetadata = $event->getContext()
       ->getMetadataFactory()
-      ->getMetadataForClass($objectClass)
-      ?->propertyMetadata[$objectProperty] ?? null;
-    if (!$metadata instanceof PropertyMetadata) {
+      ->getMetadataForClass($objectClass);
+
+    $propertyMetadata = $classMetadata?->propertyMetadata[$objectProperty] ?? null;
+    if (!$propertyMetadata instanceof PropertyMetadata) {
       throw new RuntimeException('Invalid property metadata!');
     }
 
     if ($prop) {
-      $metadata->serializedName = $this->propertyName($prop, $insertUnderscore);
+      $propertyMetadata->serializedName = $this->propertyName($prop, $insertUnderscore);
     }
 
-    $visitor->visitProperty($metadata, $value);
+    $visitor->visitProperty($propertyMetadata, $value);
   }
 
   abstract protected function doSerialize(
