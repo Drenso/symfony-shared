@@ -18,9 +18,7 @@ use PHPStan\Type\ObjectType;
 use Symfony\Bridge\Doctrine\Types\UlidType;
 use Symfony\Component\Uid\Ulid;
 
-/**
- * @implements Rule<MethodCall>
- */
+/** @implements Rule<MethodCall> */
 class UlidQueryParameterRule implements Rule
 {
   private const string METHOD_NAME   = 'setParameter';

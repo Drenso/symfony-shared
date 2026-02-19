@@ -5,9 +5,7 @@ namespace Drenso\Shared\FeatureFlags;
 use Symfony\Component\HttpKernel\Event\ControllerArgumentsEvent;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-/**
- * Handles the RequireFeature attribute on controllers.
- */
+/** Handles the RequireFeature attribute on controllers. */
 class RequireFeatureListener
 {
   public function __construct(private readonly FeatureFlagsInterface $featureFlags)

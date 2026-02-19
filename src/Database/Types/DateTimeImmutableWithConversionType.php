@@ -10,9 +10,7 @@ use Doctrine\DBAL\Types\Exception\InvalidFormat;
 use Doctrine\DBAL\Types\Exception\InvalidType;
 use Override;
 
-/**
- * Same as DateTimeImmutableType, but convert application values to immutable equivalents.
- */
+/** Same as DateTimeImmutableType, but convert application values to immutable equivalents. */
 class DateTimeImmutableWithConversionType extends DateTimeImmutableType
 {
   final public const string DATETIME_IMMUTABLE_WITH_CONVERSION = 'datetime_immutable_with_conversion';

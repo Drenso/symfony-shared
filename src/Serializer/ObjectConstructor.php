@@ -8,9 +8,7 @@ use JMS\Serializer\Metadata\ClassMetadata;
 use JMS\Serializer\Visitor\DeserializationVisitorInterface;
 use Throwable;
 
-/**
- * See https://stackoverflow.com/questions/31948118/jms-serializer-why-are-new-objects-not-being-instantiated-through-constructor.
- */
+/** See https://stackoverflow.com/questions/31948118/jms-serializer-why-are-new-objects-not-being-instantiated-through-constructor. */
 class ObjectConstructor implements ObjectConstructorInterface
 {
   public function __construct(private readonly ObjectConstructorInterface $inner)

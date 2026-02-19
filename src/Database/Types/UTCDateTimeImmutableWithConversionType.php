@@ -4,9 +4,7 @@ namespace Drenso\Shared\Database\Types;
 
 use Override;
 
-/**
- * Same as UTCDateTimeImmutableType, but convert application values to immutable equivalents.
- */
+/** Same as UTCDateTimeImmutableType, but convert application values to immutable equivalents. */
 class UTCDateTimeImmutableWithConversionType extends UTCDateTimeImmutableType
 {
   final public const string DATETIME_IMMUTABLE_WITH_CONVERSION

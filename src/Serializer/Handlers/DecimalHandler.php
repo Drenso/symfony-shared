@@ -9,9 +9,7 @@ use JMS\Serializer\Handler\SubscribingHandlerInterface;
 use JMS\Serializer\Visitor\DeserializationVisitorInterface;
 use JMS\Serializer\Visitor\SerializationVisitorInterface;
 
-/**
- * Custom serializer for the decimal type.
- */
+/** Custom serializer for the decimal type. */
 class DecimalHandler implements SubscribingHandlerInterface
 {
   public static function getSubscribingMethods(): array
