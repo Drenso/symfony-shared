@@ -8,7 +8,7 @@ $ignoreErrors[] = [
 	'path' => __DIR__ . '/src/Command/CheckActionSecurityCommand.php',
 ];
 $ignoreErrors[] = [
-	'message' => '#^Parameter \\#1 \\$objectOrClass of class ReflectionClass constructor expects class\\-string\\<T of object\\>\\|T of object, object\\|string given\\.$#',
+	'message' => '#^Parameter \\#1 \\$objectOrClass of class ReflectionClass constructor expects class\\-string\\<object\\>\\|object, object\\|string given\\.$#',
 	'identifier' => 'argument.type',
 	'count' => 2,
 	'path' => __DIR__ . '/src/Command/CheckActionSecurityCommand.php',
