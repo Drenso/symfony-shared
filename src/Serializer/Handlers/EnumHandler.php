@@ -19,8 +19,8 @@ class EnumHandler
     SerializationVisitorInterface $visitor,
     BackedEnum $enum,
     array $type,
-    SerializationContext $context): string
-  {
+    SerializationContext $context,
+  ): string {
     $value = $enum->value;
     if (is_int($value)) {
       return $visitor->visitInteger($value, $type);
@@ -38,8 +38,8 @@ class EnumHandler
     DeserializationVisitorInterface $visitor,
     string|int|null $data,
     array $type,
-    DeserializationContext $context): ?BackedEnum
-  {
+    DeserializationContext $context,
+  ): ?BackedEnum {
     if ($data === null) {
       return null;
     }
