@@ -6,17 +6,13 @@ use Drenso\Shared\Interfaces\IdInterface;
 use InvalidArgumentException;
 
 /**
- * @template T
+ * @template T of IdInterface
  *
  * @template-extends AbstractIdMap<int, T>
  */
 class IdMap extends AbstractIdMap
 {
-  /**
-   * @template TConstructor of T&IdInterface
-   *
-   * @param TConstructor[] $objects
-   */
+  /** @param T[] $objects */
   public function __construct(array $objects = [])
   {
     foreach ($objects as $object) {
