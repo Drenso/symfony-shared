@@ -21,12 +21,12 @@ class ArrayHelper
   public static function assertType(array $variables, string $type): void
   {
     match ($type) {
-      'int', 'integer' => self::assertInt($variables),
-      'string' => self::assertString($variables),
-      'float'  => self::assertFloat($variables),
+      'int', 'integer'  => self::assertInt($variables),
+      'string'          => self::assertString($variables),
+      'float'           => self::assertFloat($variables),
       'bool', 'boolean' => self::assertBool($variables),
-      'array' => self::assertArray($variables),
-      default => self::assertClass($variables, $type),
+      'array'           => self::assertArray($variables),
+      default           => self::assertClass($variables, $type),
     };
   }
 
