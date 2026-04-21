@@ -16,7 +16,7 @@ class ArrayHelper
    *
    * @param 'int'|'integer'|'string'|'float'|'bool'|'boolean'|'array'|class-string<T> $type
    *
-   * @phpstan-assert T[] $variables
+   * @phpstan-assert T[]                                                              $variables
    */
   public static function assertType(array $variables, string $type): void
   {
@@ -93,9 +93,11 @@ class ArrayHelper
   /**
    * Verify that all array elements are arrays.
    *
+   * @param array<mixed> $variables
+   *
    * @phpstan-assert array<array> $variables
    *
-   * @phpstan-ignore missingType.iterableValue
+   * @noinspection PhpPluralMixedCanBeReplacedWithArrayInspection
    */
   public static function assertArray(array $variables): void
   {
@@ -114,7 +116,7 @@ class ArrayHelper
    *
    * @param class-string<T> $class
    *
-   * @phpstan-assert T[] $objects
+   * @phpstan-assert T[]    $objects
    */
   public static function assertClass(array $objects, string $class): void
   {
@@ -157,7 +159,7 @@ class ArrayHelper
   {
     return array_values(array_map(
       fn (IdInterface $object): int => $object->getId() ?? throw new IdRequiredException(),
-      $objects
+      $objects,
     ));
   }
 
