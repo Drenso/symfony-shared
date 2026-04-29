@@ -7,7 +7,7 @@ use Drenso\Shared\Exception\NullGuard\IdRequiredException;
 use Drenso\Shared\Interfaces\IdInterface;
 use InvalidArgumentException;
 
-class ArrayHelper
+final class ArrayHelper
 {
   /**
    * Verify that all array elements are of the supplied type.

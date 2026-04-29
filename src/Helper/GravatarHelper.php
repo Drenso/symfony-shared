@@ -3,9 +3,9 @@
 namespace Drenso\Shared\Helper;
 
 /** This helper generates a gravatar url for any email address. */
-class GravatarHelper
+final readonly class GravatarHelper
 {
-  public function __construct(private readonly string $fallbackStyle)
+  public function __construct(private string $fallbackStyle)
   {
   }
 

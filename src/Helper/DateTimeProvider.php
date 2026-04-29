@@ -6,9 +6,9 @@ use DateTime;
 use DateTimeImmutable;
 use Psr\Clock\ClockInterface;
 
-class DateTimeProvider implements ClockInterface
+final readonly class DateTimeProvider implements ClockInterface
 {
-  public function __construct(private readonly string $now = 'now')
+  public function __construct(private string $now = 'now')
   {
   }
 

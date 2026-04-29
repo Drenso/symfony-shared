@@ -7,7 +7,7 @@ use DateTimeImmutable;
 use DateTimeInterface;
 use DateTimeZone;
 
-class DateTimeHelper
+final class DateTimeHelper
 {
   private static ?DateTimeZone $utc = null;
 

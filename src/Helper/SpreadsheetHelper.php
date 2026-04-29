@@ -23,7 +23,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use ZipStream\CompressionMethod;
 use ZipStream\ZipStream;
 
-readonly class SpreadsheetHelper
+final readonly class SpreadsheetHelper
 {
   public function __construct(private ?TranslatorInterface $translator)
   {
