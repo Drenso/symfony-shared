@@ -1,10 +1,10 @@
 <?php
 
-namespace Drenso\Shared;
+namespace Drenso\Shared\Helper;
 
 use BackedEnum;
 
-class EnumHelper
+final class EnumHelper
 {
   /**
    * @template T of BackedEnum

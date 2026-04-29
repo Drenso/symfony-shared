@@ -1,11 +1,11 @@
 <?php
 
-namespace Drenso\Shared;
+namespace Drenso\Shared\Helper;
 
 use Drenso\Shared\Interfaces\UlidInterface;
 use Symfony\Component\Uid\Ulid;
 
-class UlidHelper
+final class UlidHelper
 {
   public static function refreshUlid(Ulid $source): Ulid
   {
