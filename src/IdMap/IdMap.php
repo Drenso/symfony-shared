@@ -8,9 +8,9 @@ use InvalidArgumentException;
 /**
  * @template T of IdInterface
  *
- * @template-extends AbstractIdMap<int, T>
+ * @template-extends AbstractIdentityMap<int, T>
  */
-class IdMap extends AbstractIdMap
+class IdMap extends AbstractIdentityMap
 {
   /** @param T[] $objects */
   public function __construct(array $objects = [])

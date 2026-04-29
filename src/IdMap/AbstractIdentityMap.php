@@ -16,7 +16,7 @@ use Traversable;
  * @template-implements ArrayAccess<TKey, TItem>
  * @template-implements IteratorAggregate<TKey, TItem>
  */
-abstract class AbstractIdMap implements ArrayAccess, Countable, IteratorAggregate, Stringable
+abstract class AbstractIdentityMap implements ArrayAccess, Countable, IteratorAggregate, Stringable
 {
   /** @var array<TKey, TItem> */
   protected array $elements = [];

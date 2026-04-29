@@ -8,9 +8,9 @@ use InvalidArgumentException;
 /**
  * @template T of UlidInterface
  *
- * @template-extends AbstractIdMap<string, T>
+ * @template-extends AbstractIdentityMap<string, T>
  */
-class UlidMap extends AbstractIdMap
+class UlidMap extends AbstractIdentityMap
 {
   /** @param T[] $objects */
   public function __construct(array $objects = [])

@@ -2,8 +2,9 @@
 
 namespace Drenso\Shared\Serializer\Handlers;
 
-use Drenso\Shared\IdMap\AbstractIdMap;
+use Drenso\Shared\IdMap\AbstractIdentityMap;
 use Drenso\Shared\IdMap\IdMap;
+use Drenso\Shared\IdMap\LooseIdentityMap;
 use Drenso\Shared\IdMap\UlidMap;
 use JMS\Serializer\DeserializationContext;
 use JMS\Serializer\GraphNavigatorInterface;
@@ -19,7 +20,7 @@ class IdMapHandler implements SubscribingHandlerInterface
   public static function getSubscribingMethods(): array
   {
     $result = [];
-    foreach ([IdMap::class, UlidMap::class] as $type) {
+    foreach ([IdMap::class, LooseIdentityMap::class,  UlidMap::class] as $type) {
       $result[] = [
         'direction' => GraphNavigatorInterface::DIRECTION_SERIALIZATION,
         'type'      => $type,
@@ -44,7 +45,7 @@ class IdMapHandler implements SubscribingHandlerInterface
    */
   public function serializeJson(
     SerializationVisitorInterface $visitor,
-    AbstractIdMap $data,
+    AbstractIdentityMap $data,
     array $type,
     SerializationContext $context): mixed
   {
@@ -69,8 +70,8 @@ class IdMapHandler implements SubscribingHandlerInterface
     DeserializationVisitorInterface $visitor,
     mixed $data,
     array $type,
-    DeserializationContext $context): AbstractIdMap
-  {
+    DeserializationContext $context,
+  ): AbstractIdentityMap {
     $mapType      = $type['name'];
     $type['name'] = 'array';
     $deserialized = $visitor->visitArray($data, $type);
