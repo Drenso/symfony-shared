@@ -105,6 +105,7 @@
     "PhpParser\\Node\\Expr\\MethodCall",
     "PhpParser\\Node\\Identifier",
     "PhpParser\\Node\\Name",
+    "PhpParser\\Node\\Stmt\\Property",
     "PhpParser\\Node\\Scalar\\String_",
     "PHPStan\\Analyser\\Scope",
     "PHPStan\\Rules\\Rule",
