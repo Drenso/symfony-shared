@@ -4,31 +4,16 @@ namespace Drenso\Shared\PhpStan\Rules;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping\Column;
-use PhpParser\Node;
-use PhpParser\Node\Stmt\Property;
-use PHPStan\Analyser\Scope;
-use PHPStan\Rules\Rule;
+use PHPStan\Reflection\ClassReflection;
+use PHPStan\Rules\IdentifierRuleError;
 use PHPStan\Rules\RuleErrorBuilder;
 use ReflectionEnum;
-use StringBackedEnum;
 
-/** @implements Rule<Property> */
-class EnforceEnumDatabaseTypeRule implements Rule
+abstract class AbstractEnforceEnumDatabasePropertyRule
 {
-  public function getNodeType(): string
+  /** @return list<IdentifierRuleError> */
+  public function checkProperty(ClassReflection $classReflection, string $propertyName): array
   {
-    return Property::class;
-  }
-
-  public function processNode(Node $node, Scope $scope): array
-  {
-    if (!$scope->isInClass()) {
-      return [];
-    }
-
-    $classReflection = $scope->getClassReflection();
-    $propertyName    = $node->props[0]->name->toString();
-
     if (!$classReflection->hasNativeProperty($propertyName)) {
       return [];
     }
@@ -43,7 +28,7 @@ class EnforceEnumDatabaseTypeRule implements Rule
         continue;
       }
 
-      if ((new ReflectionEnum($className))->getBackingType()->getName() !== 'string') {
+      if ((new ReflectionEnum($className))->getBackingType()?->getName() !== 'string') {
         continue;
       }
 
@@ -92,23 +77,21 @@ class EnforceEnumDatabaseTypeRule implements Rule
 
     if (!$hasCorrectColumnType) {
       return [
-        RuleErrorBuilder
-          ::message(sprintf(
-            'Property %s::$%s uses enum type but the #[Column] attribute does not specify type: Types::ENUM.',
-            $classReflection->getDisplayName(),
-            $propertyName,
-          ))
+        RuleErrorBuilder::message(sprintf(
+          'Property %s::$%s uses enum type but the #[Column] attribute does not specify type: Types::ENUM.',
+          $classReflection->getDisplayName(),
+          $propertyName,
+        ))
           ->identifier('drensoShared.doctrineEnumColumnMissingEnumType')
           ->build(),
       ];
     } elseif ($hasLengthSpecified) {
       return [
-        RuleErrorBuilder
-          ::message(sprintf(
-            'Property %s::$%s uses enum type but the #[Column] attribute specifies a length.',
-            $classReflection->getDisplayName(),
-            $propertyName,
-          ))
+        RuleErrorBuilder::message(sprintf(
+          'Property %s::$%s uses enum type but the #[Column] attribute specifies a length.',
+          $classReflection->getDisplayName(),
+          $propertyName,
+        ))
           ->identifier('drensoShared.doctrineEnumColumnLengthSpecified')
           ->build(),
       ];
