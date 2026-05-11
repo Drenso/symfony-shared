@@ -114,6 +114,7 @@
     "PHPStan\\Rules\\Rule",
     "PHPStan\\Rules\\RuleErrorBuilder",
     "PHPStan\\Type\\ObjectType",
+    "PHPStan\\Type\\VerbosityLevel",
     "Monolog\\Handler\\AbstractHandler",
     "Monolog\\LogRecord",
     "SebastianBergmann\\Comparator\\Comparator",

@@ -15,6 +15,7 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\ObjectType;
+use PHPStan\Type\VerbosityLevel;
 use Symfony\Bridge\Doctrine\Types\UlidType;
 use Symfony\Component\Uid\Ulid;
 
@@ -70,11 +71,15 @@ class UlidQueryParameterRule implements Rule
       $passedType = $passedType->getIterableValueType();
     }
 
+    if ($passedType->isObject()->no()) {
+      return [];
+    }
+
     $isHasUlid = (new ObjectType($ulidInterfaceClass))->isSuperTypeOf($passedType);
     if ($isHasUlid->yes()) {
       // When it implements the HasUlidInterface, it is required to use the ->isUlid() method.
       return [
-        RuleErrorBuilder::message("An object implementing $ulidInterfaceClass has been passed to $method, which will never yield any results")
+        RuleErrorBuilder::message("An object ({$passedType->describe(VerbosityLevel::typeOnly())}) implementing $ulidInterfaceClass has been passed to $method, which will never yield any results")
           ->line($line)
           ->addTip('Add ->getUlid() to the parameter')
           ->identifier('drensoShared.doctrineInvalidUlidInterfaceUsage')
