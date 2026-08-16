@@ -119,6 +119,7 @@
     "Monolog\\LogRecord",
     "SebastianBergmann\\Comparator\\Comparator",
     "SebastianBergmann\\Comparator\\ComparisonFailure",
+    "Sentry\\SentryBundle\\Tracing\\Doctrine\\DBAL\\TracingDriverMiddleware",
     "Symfony\\Bridge\\Doctrine\\Form\\Type\\EntityType",
     "Symfony\\Bridge\\Doctrine\\Types\\UlidType",
     "Symfony\\Bridge\\Twig\\Mime\\TemplatedEmail",
