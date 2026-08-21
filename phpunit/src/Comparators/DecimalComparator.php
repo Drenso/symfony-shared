@@ -1,6 +1,6 @@
 <?php
 
-namespace Drenso\Shared\Tests\Comparators;
+namespace Drenso\Shared\PhpUnit\Comparators;
 
 use Decimal\Decimal;
 use SebastianBergmann\Comparator\Comparator;

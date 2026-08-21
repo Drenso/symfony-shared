@@ -6,7 +6,6 @@
     "shared",
     "drenso"
   ],
-  "type": "symfony-bundle",
   "license": "MIT",
   "authors": [
     {
@@ -108,9 +107,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Drenso\\Shared\\": "src/",
-      "Drenso\\Shared\\Tests\\": "phpunit/",
-      "Drenso\\Shared\\PhpStan\\": "phpstan/"
+      "Drenso\\Shared\\": "src/"
     }
   },
   "extra": {

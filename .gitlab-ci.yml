@@ -10,7 +10,7 @@ workflow:
 
 variables:
   COMPOSER_MEMORY_LIMIT: -1
-  YAMLLINT_DIRECTORIES: config/packages
+  YAMLLINT_DIRECTORIES: main/config/packages
     
 include:
   - project: 'intern/runner-templates'

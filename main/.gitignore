@@ -1,0 +1,14 @@
+# Composer
+/composer.lock
+
+# Vendor
+/vendor
+
+# PHP-CS-Fixer cache
+.php-cs-fixer.cache
+
+# Rector cache
+/var/cache/rector
+
+# PHPStan cache
+/var/cache/phpstan

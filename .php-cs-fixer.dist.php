@@ -52,7 +52,5 @@ return (new PhpCsFixer\Config())
     'yoda_style'                  => false,
   ])
   ->setFinder(
-    PhpCsFixer\Finder::create()
-      ->in(['./phpstan', './phpunit', './src'])
-      ->files()->notName('Configuration.php')
+    PhpCsFixer\Finder::create()->in(['./src'])
   );
