@@ -17,13 +17,12 @@ use Webmozart\Assert\Assert;
 
 /**
  * @api used in rector-doctrine
+ *
  * @see \Drenso\Shared\Rector\AddInterfaceByTraitRector\AddInterfaceByTraitRectorTest
  */
 final class AddInterfaceByTraitRector extends AbstractRector implements ConfigurableRectorInterface
 {
-  /**
-   * @var array<string, string>
-   */
+  /** @var array<string, string> */
   private array $interfaceByTrait = [];
 
   public function getRuleDefinition(): RuleDefinition
@@ -35,15 +34,13 @@ class SomeClass
 {
     use SomeTrait;
 }
-CODE_SAMPLE
-        ,
+CODE_SAMPLE,
         <<<'CODE_SAMPLE'
 class SomeClass implements SomeInterface
 {
     use SomeTrait;
 }
-CODE_SAMPLE
-        ,
+CODE_SAMPLE,
         [
           'SomeTrait' => 'SomeInterface',
         ]
@@ -51,28 +48,24 @@ CODE_SAMPLE
     ]);
   }
 
-  /**
-   * @return array<class-string<Node>>
-   */
+  /** @return array<class-string<Node>> */
   public function getNodeTypes(): array
   {
     return [Class_::class];
   }
 
-  /**
-   * @param Class_ $node
-   */
+  /** @param Class_ $node */
   public function refactor(Node $node): ?Node
   {
-    $scope = ScopeFetcher::fetch($node);
+    $scope           = ScopeFetcher::fetch($node);
     $classReflection = $scope->getClassReflection();
-    if (! $classReflection instanceof ClassReflection) {
+    if (!$classReflection instanceof ClassReflection) {
       return null;
     }
 
     $hasChanged = false;
     foreach ($this->interfaceByTrait as $traitName => $interfaceName) {
-      if (! $classReflection->hasTraitUse($traitName)) {
+      if (!$classReflection->hasTraitUse($traitName)) {
         continue;
       }
 
@@ -81,19 +74,17 @@ CODE_SAMPLE
       }
 
       $node->implements[] = new FullyQualified($interfaceName);
-      $hasChanged = true;
+      $hasChanged         = true;
     }
 
-    if (! $hasChanged) {
+    if (!$hasChanged) {
       return null;
     }
 
     return $node;
   }
 
-  /**
-   * @param mixed[] $configuration
-   */
+  /** @param mixed[] $configuration */
   public function configure(array $configuration): void
   {
     Assert::allString(array_keys($configuration));
