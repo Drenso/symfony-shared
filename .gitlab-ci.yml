@@ -29,6 +29,9 @@ include:
     file: '/php/composer-unused.yml'
     ref: "17.5"
   - project: 'intern/runner-templates'
+    file: '/php/phpunit.yml'
+    ref: "17.5"
+  - project: 'intern/runner-templates'
     file: '/yaml/yamllint.yml'
     ref: "17.5"
   - project: 'intern/runner-templates'
@@ -38,9 +41,10 @@ include:
 .package-matrix: &package-matrix
   matrix:
     - PACKAGE:
-        - main
-        - phpstan
-        - phpunit
+      - main
+      - phpstan
+      - phpunit
+      - rector
 
 .package-cache: &package-cache
   key:
@@ -117,6 +121,14 @@ phpstan:
         - ${PACKAGE}/var/cache/phpstan
   before_script:
     - cd ${PACKAGE}
+
+phpunit:
+  before_script:
+    - cd rector
+  except:
+    - schedules
+    - tags
+    - main
 
 yaml-analysis:
   before_script:
