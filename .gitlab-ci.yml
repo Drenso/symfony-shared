@@ -124,6 +124,14 @@ phpstan:
     - cd ${PACKAGE}
 
 phpunit:
+  cache:
+    key:
+      files:
+        - ${PACKAGE}/composer.lock
+      prefix: ${CI_PROJECT_PATH_SLUG}_composer_${PACKAGE}
+    paths:
+      - ${PACKAGE}/vendor/
+    policy: pull
   before_script:
     - cd rector
   except:
