@@ -23,7 +23,10 @@
     "sebastian/comparator": "^8"
   },
   "require-dev": {
-    "php-decimal/php-decimal": "^1.1"
+    "php-decimal/php-decimal": "^1.1",
+    "friendsofphp/php-cs-fixer": "3.95.18",
+    "phpstan/phpstan": "2.2.8",
+    "rector/rector": "2.6.1"
   },
   "suggest": {
     "php-decimal/php-decimal": "Needed to use the Decimal comparator"

@@ -10,7 +10,7 @@ workflow:
 
 variables:
   COMPOSER_MEMORY_LIMIT: -1
-  YAMLLINT_DIRECTORIES: main/config/packages
+  YAMLLINT_DIRECTORIES: config/packages
     
 include:
   - project: 'intern/runner-templates'
@@ -35,26 +35,112 @@ include:
     file: '/deploy/deploy.yml'
     ref: "17.5"
 
+.package-matrix: &package-matrix
+  matrix:
+    - PACKAGE:
+        - main
+        - phpstan
+        - phpunit
+
+.package-cache: &package-cache
+  key:
+    files:
+      - ${PACKAGE}/composer.lock
+    prefix: ${CI_PROJECT_PATH_SLUG}_composer_${PACKAGE}
+  paths:
+    - ${PACKAGE}/vendor/
+  policy: pull
+
 install-dependencies:
+  parallel: *package-matrix
+  cache:
+    <<: *package-cache
+    policy: pull-push
   before_script:
-    - /bin/true
+    - cd ${PACKAGE}
+  after_script:
+    - find ${PACKAGE}/vendor/ -name .git -type d -exec rm -rf {} \+
   except:
     - main
     - tags
 
+code-style-fixer:
+  parallel: *package-matrix
+  cache:
+    - key:
+        files:
+          - ${PACKAGE}/composer.lock
+        prefix: ${CI_PROJECT_PATH_SLUG}_composer_${PACKAGE}
+      paths:
+        - ${PACKAGE}/vendor/
+      policy: pull
+    - key: # See https://getrector.com/documentation/cache-in-ci
+        files:
+          - ${PACKAGE}/composer.lock
+          - ${PACKAGE}/rector.php
+        prefix: ${CI_PROJECT_PATH_SLUG}_rector_${PACKAGE}
+      paths:
+        - ${PACKAGE}/var/cache/rector
+    - key:
+        files:
+          - ${PACKAGE}/composer.lock
+          - ${PACKAGE}/.php-cs-fixer.dist.php
+        prefix: ${CI_PROJECT_PATH_SLUG}_phpcsfixer_${PACKAGE}
+      paths:
+        - ${PACKAGE}/.php-cs-fixer.cache
+    - key:
+        files:
+          - ${PACKAGE}/composer.lock
+          - ${PACKAGE}/.twig-cs-fixer.dist.php
+        prefix: ${CI_PROJECT_PATH_SLUG}_twigcsfixer_${PACKAGE}
+      paths:
+        - ${PACKAGE}/.twig-cs-fixer.cache
+  before_script:
+    - cd ${PACKAGE}
+
+phpstan:
+  parallel: *package-matrix
+  cache:
+    - key:
+        files:
+          - ${PACKAGE}/composer.lock
+        prefix: ${CI_PROJECT_PATH_SLUG}_composer_${PACKAGE}
+      paths:
+        - ${PACKAGE}/vendor/
+      policy: pull
+    - key:
+        files:
+          - ${PACKAGE}/composer.lock
+          - ${PACKAGE}/phpstan.dist.neon
+        prefix: ${CI_PROJECT_PATH_SLUG}_phpstan_${PACKAGE}
+      paths:
+        - ${PACKAGE}/var/cache/phpstan
+  before_script:
+    - cd ${PACKAGE}
+
 yaml-analysis:
+  before_script:
+    - cd main
   except:
     - schedules
     - tags
     - main
 
 composer-require-checker:
+  parallel: *package-matrix
+  cache: *package-cache
+  before_script:
+    - cd ${PACKAGE}
   except:
     - schedules
     - tags
     - main
 
 composer-unused:
+  parallel: *package-matrix
+  cache: *package-cache
+  before_script:
+    - cd ${PACKAGE}
   except:
     - schedules
     - tags
