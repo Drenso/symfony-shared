@@ -1,8 +1,8 @@
 <?php
 
-namespace Drenso\Shared\Rector\AddInterfaceByTraitRector\Tests\Fixture;
+namespace Drenso\Shared\Rector\Tests\Rector\AddInterfaceByTraitRector\Fixture;
 
-use Drenso\Shared\Rector\AddInterfaceByTraitRector\Tests\Source\SomeTrait;
+use Drenso\Shared\Rector\Tests\Rector\AddInterfaceByTraitRector\Source\SomeTrait;
 
 class SomeClass
 {
@@ -13,11 +13,11 @@ class SomeClass
 -----
 <?php
 
-namespace Drenso\Shared\Rector\AddInterfaceByTraitRector\Tests\Fixture;
+namespace Drenso\Shared\Rector\Tests\Rector\AddInterfaceByTraitRector\Fixture;
 
-use Drenso\Shared\Rector\AddInterfaceByTraitRector\Tests\Source\SomeTrait;
+use Drenso\Shared\Rector\Tests\Rector\AddInterfaceByTraitRector\Source\SomeTrait;
 
-class SomeClass implements \Drenso\Shared\Rector\AddInterfaceByTraitRector\Tests\Source\SomeInterface
+class SomeClass implements \Drenso\Shared\Rector\Tests\Rector\AddInterfaceByTraitRector\Source\SomeInterface
 {
     use SomeTrait;
 }

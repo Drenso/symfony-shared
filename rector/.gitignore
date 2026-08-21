@@ -4,6 +4,9 @@
 # Vendor
 /vendor
 
+# PHPUnit cache
+.phpunit.result.cache
+
 # PHP-CS-Fixer cache
 .php-cs-fixer.cache
 

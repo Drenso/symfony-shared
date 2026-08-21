@@ -122,6 +122,8 @@ phpstan:
         - ${PACKAGE}/var/cache/phpstan
   before_script:
     - cd ${PACKAGE}
+  after_script:
+    - if [[ -f ${PACKAGE}/phpstan.json ]]; then cat ${PACKAGE}/phpstan.json; fi
 
 phpunit:
   cache:
