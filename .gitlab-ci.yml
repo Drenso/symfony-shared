@@ -2,6 +2,7 @@ stages:
   - prepare
   - cs-fix
   - lint
+  - tests
   - deploy
 
 workflow:
