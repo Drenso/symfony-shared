@@ -141,6 +141,8 @@ composer-unused:
   cache: *package-cache
   before_script:
     - cd ${PACKAGE}
+  after_script:
+    - if [[ -f ${PACKAGE}/composer-unused.json ]]; then cat ${PACKAGE}/composer-unused.json; fi
   except:
     - schedules
     - tags
