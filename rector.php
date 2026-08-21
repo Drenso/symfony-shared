@@ -8,6 +8,7 @@ use Rector\Doctrine\Set\DoctrineSetList;
 use Rector\Php81\Rector\Property\ReadOnlyPropertyRector;
 use Rector\Symfony\Set\SymfonySetList;
 use Rector\Symfony\Symfony61\Rector\Class_\CommandConfigureToAttributeRector;
+use Rector\Symfony\Symfony73\Rector\Class_\GetFiltersAndFunctionsToAsTwigAttributeRector;
 
 return RectorConfig::configure()
   ->withCache('./var/cache/rector', FileCacheStorage::class)
@@ -16,23 +17,15 @@ return RectorConfig::configure()
   ->withImportNames()
   ->withSkip([
     ReadOnlyPropertyRector::class,
-    CommandConfigureToAttributeRector::class,
+    GetFiltersAndFunctionsToAsTwigAttributeRector::class, // Symfony 7.3
   ])
   ->withPhpSets()
   ->withPreparedSets(
     typeDeclarations: true,
   )
-  ->withSets([
-    DoctrineSetList::DOCTRINE_CODE_QUALITY,
-    SymfonySetList::SYMFONY_61,
-    SymfonySetList::SYMFONY_62,
-    SymfonySetList::SYMFONY_63,
-    SymfonySetList::SYMFONY_64,
-  ])
-  ->withSkip([
-    ReadOnlyPropertyRector::class,
-    CommandConfigureToAttributeRector::class,
-  ])
+  ->withComposerBased(
+    symfony: true, // Currently fundamentally broken for libraries, see https://github.com/rectorphp/rector/issues/9858
+  )
   ->withSets([
     DoctrineSetList::DOCTRINE_CODE_QUALITY,
   ]);
