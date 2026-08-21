@@ -28,7 +28,7 @@
   "require-dev": {
     "doctrine/orm": "^3",
     "doctrine/dbal": "^4",
-    "drenso/symfony-shared" : "^6",
+    "drenso/symfony-shared" : "~7 || ~8",
     "friendsofphp/php-cs-fixer": "3.95.18",
     "phpstan/phpstan": "2.2.8",
     "rector/rector": "2.6.1"
@@ -44,7 +44,7 @@
   },
   "extra": {
     "branch-alias": {
-      "dev-main": "6.x-dev"
+      "dev-main": "8.x-dev"
     }
   }
 }
