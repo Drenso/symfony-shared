@@ -126,6 +126,10 @@ phpstan:
     - if [[ -f ${PACKAGE}/phpstan.json ]]; then cat ${PACKAGE}/phpstan.json; fi
 
 phpunit:
+  parallel:
+    matrix:
+      - PACKAGE:
+        - rector
   cache:
     key:
       files:
@@ -135,7 +139,7 @@ phpunit:
       - ${PACKAGE}/vendor/
     policy: pull
   before_script:
-    - cd rector
+    - cd ${PACKAGE}
   except:
     - schedules
     - tags
