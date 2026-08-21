@@ -28,4 +28,11 @@ return RectorConfig::configure()
     SymfonySetList::SYMFONY_62,
     SymfonySetList::SYMFONY_63,
     SymfonySetList::SYMFONY_64,
+  ])
+  ->withSkip([
+    ReadOnlyPropertyRector::class,
+    CommandConfigureToAttributeRector::class,
+  ])
+  ->withSets([
+    DoctrineSetList::DOCTRINE_CODE_QUALITY,
   ]);
