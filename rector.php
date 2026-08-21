@@ -22,9 +22,10 @@ return RectorConfig::configure()
   ->withPreparedSets(
     typeDeclarations: true,
   )
-  ->withComposerBased(
-    symfony: true,
-  )
   ->withSets([
     DoctrineSetList::DOCTRINE_CODE_QUALITY,
+    SymfonySetList::SYMFONY_61,
+    SymfonySetList::SYMFONY_62,
+    SymfonySetList::SYMFONY_63,
+    SymfonySetList::SYMFONY_64,
   ]);
