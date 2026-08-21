@@ -1,0 +1,30 @@
+{
+  "symbol-whitelist" : [
+    "null", "true", "false",
+    "static", "self", "parent",
+    "array", "string", "int", "float", "bool", "iterable", "callable", "void", "object", "mixed",
+    "trigger_deprecation",
+    "Doctrine\\DBAL\\ArrayParameterType",
+    "Doctrine\\DBAL\\Types\\Types",
+    "Doctrine\\ORM\\Mapping\\Column",
+    "Doctrine\\ORM\\QueryBuilder",
+    "Drenso\\Shared\\Interfaces\\UlidInterface",
+    "PHPStan\\Analyser\\Scope",
+    "PHPStan\\Reflection\\ClassReflection",
+    "PHPStan\\Rules\\Rule",
+    "PHPStan\\Rules\\RuleErrorBuilder",
+    "PHPStan\\Type\\ObjectType",
+    "PHPStan\\Type\\VerbosityLevel"
+  ],
+  "php-core-extensions" : [
+    "Core",
+    "date",
+    "pcre",
+    "Phar",
+    "Reflection",
+    "SPL",
+    "standard",
+    "decimal"
+  ],
+  "scan-files" : []
+}
