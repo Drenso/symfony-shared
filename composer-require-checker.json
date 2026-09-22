@@ -163,6 +163,8 @@
     "Symfony\\Component\\Uid\\NilUlid",
     "Symfony\\Component\\Validator\\Constraints\\NotNull",
     "Symfony\\Component\\Validator\\Constraints\\Type",
+    "Symfony\\Component\\Validator\\ConstraintViolation",
+    "Symfony\\Component\\Validator\\ConstraintViolationList",
     "Symfony\\Component\\Validator\\ConstraintViolationInterface",
     "Symfony\\Contracts\\Cache\\CacheInterface",
     "Symfony\\Contracts\\HttpClient\\Exception\\ClientExceptionInterface",
