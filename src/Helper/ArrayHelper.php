@@ -2,6 +2,8 @@
 
 namespace Drenso\Shared\Helper;
 
+use BackedEnum;
+use Closure;
 use Doctrine\Common\Collections\ReadableCollection;
 use Drenso\Shared\Exception\NullGuard\IdRequiredException;
 use Drenso\Shared\Interfaces\IdInterface;
@@ -187,6 +189,23 @@ final class ArrayHelper
   public static function filterEmptyValuesFromStringArray(array $data): array
   {
     return array_values(array_filter($data, fn (string $item): bool => trim($item) !== ''));
+  }
+
+  /**
+   * @template TEnum
+   * @template TOut
+   *
+   * @param list<TEnum&BackedEnum> $cases
+   * @param Closure(TEnum): TOut   $mapper
+   *
+   * @return array<value-of<TEnum>, TOut>
+   */
+  public static function mapCases(array $cases, Closure $mapper): array
+  {
+    return array_combine(
+      array_map(static fn (BackedEnum $case): int|string => $case->value, $cases),
+      array_map($mapper, $cases),
+    );
   }
 
   /**
