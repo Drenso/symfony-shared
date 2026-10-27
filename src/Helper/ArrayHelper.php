@@ -5,7 +5,6 @@ namespace Drenso\Shared\Helper;
 use BackedEnum;
 use Closure;
 use Doctrine\Common\Collections\ReadableCollection;
-use Drenso\Shared\Exception\NullGuard\IdRequiredException;
 use Drenso\Shared\Interfaces\IdInterface;
 use InvalidArgumentException;
 
@@ -144,7 +143,7 @@ final class ArrayHelper
   {
     $result = [];
     foreach ($objects as $object) {
-      $result[$object->getId() ?? throw new IdRequiredException()] = $object;
+      $result[$object->getNonNullId()] = $object;
     }
 
     return $result;
@@ -160,7 +159,7 @@ final class ArrayHelper
   public static function mapToId(array $objects): array
   {
     return array_values(array_map(
-      fn (IdInterface $object): int => $object->getId() ?? throw new IdRequiredException(),
+      static fn (IdInterface $object): int => $object->getNonNullId(),
       $objects,
     ));
   }
