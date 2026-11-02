@@ -7,7 +7,6 @@ use Rector\Config\RectorConfig;
 use Rector\Doctrine\Set\DoctrineSetList;
 use Rector\Php81\Rector\Property\ReadOnlyPropertyRector;
 use Rector\Symfony\Symfony73\Rector\Class_\GetFiltersAndFunctionsToAsTwigAttributeRector;
-use Rector\TypeDeclaration\Rector\BooleanAnd\BinaryOpNullableToInstanceofRector;
 
 return RectorConfig::configure()
   ->withCache('./var/cache/rector', FileCacheStorage::class)
@@ -17,7 +16,6 @@ return RectorConfig::configure()
   ->withSkip([
     ReadOnlyPropertyRector::class,
     GetFiltersAndFunctionsToAsTwigAttributeRector::class, // Symfony 7.3
-    BinaryOpNullableToInstanceofRector::class, // Makes code unreadable
   ])
   ->withPhpSets()
   ->withPreparedSets(
