@@ -6,6 +6,7 @@ use Rector\Caching\ValueObject\Storage\FileCacheStorage;
 use Rector\Config\RectorConfig;
 use Rector\Doctrine\Set\DoctrineSetList;
 use Rector\Php81\Rector\Property\ReadOnlyPropertyRector;
+use Rector\Symfony\CodeQuality\Rector\Class_\EventSubscriberToAttributeRector;
 use Rector\Symfony\Symfony73\Rector\Class_\GetFiltersAndFunctionsToAsTwigAttributeRector;
 
 return RectorConfig::configure()
@@ -15,7 +16,9 @@ return RectorConfig::configure()
   ->withImportNames()
   ->withSkip([
     ReadOnlyPropertyRector::class,
-    GetFiltersAndFunctionsToAsTwigAttributeRector::class, // Symfony 7.3
+    // Attributes do not make sense for libraries
+    GetFiltersAndFunctionsToAsTwigAttributeRector::class,
+    EventSubscriberToAttributeRector::class,
   ])
   ->withPhpSets()
   ->withPreparedSets(
